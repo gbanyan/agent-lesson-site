@@ -50,6 +50,15 @@ test('keyboard focus and 200% zoom preserve access', async ({page}) => {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBeTruthy();
 });
 
+test('dark mode follows the system preference and keeps AA contrast', async ({page}) => {
+  await page.emulateMedia({colorScheme: 'dark'});
+  await page.goto('/lessons/permission/');
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toContain('dark');
+  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(17, 24, 21)');
+  const results = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
+  expect(results.violations).toEqual([]);
+});
+
 test('all rendered internal links resolve', async ({page, request}) => {
   await page.goto('/');
   const visited = new Set<string>(); const queue = ['/'];

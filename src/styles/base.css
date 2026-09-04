@@ -1,7 +1,7 @@
 @import './tokens.css';
 
 *, *::before, *::after { box-sizing: border-box; }
-html { color-scheme: light; background: var(--paper); scroll-behavior: smooth; }
+html { color-scheme: light dark; background: var(--paper); scroll-behavior: smooth; }
 body {
   margin: 0;
   color: var(--ink);
@@ -20,7 +20,7 @@ img, svg { max-width: 100%; }
 button, input { font: inherit; }
 .skip-link {
   position: fixed; z-index: 20; left: 1rem; top: 1rem; transform: translateY(-200%);
-  padding: .7rem 1rem; background: var(--ink); color: white; border-radius: .5rem;
+  padding: .7rem 1rem; background: var(--ink); color: var(--paper); border-radius: .5rem;
 }
 .skip-link:focus { transform: none; }
 .shell { width: min(calc(100% - 2rem), var(--content)); margin-inline: auto; }
@@ -33,9 +33,9 @@ p { text-wrap: pretty; }
 .button {
   display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; gap: .5rem;
   padding: .65rem 1.05rem; border: 1px solid var(--leaf); border-radius: 999px;
-  background: var(--leaf); color: white; font-weight: 700; text-decoration: none;
+  background: var(--leaf); color: var(--paper); font-weight: 700; text-decoration: none;
 }
-.button:hover { background: var(--leaf-dark); color: white; }
+.button:hover { background: var(--leaf-dark); color: var(--paper); }
 .button.secondary { background: transparent; color: var(--leaf-dark); }
 .button.secondary:hover { background: var(--leaf-pale); }
 .muted { color: var(--ink-soft); }

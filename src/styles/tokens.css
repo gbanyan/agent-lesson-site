@@ -23,3 +23,21 @@
   --step-2: clamp(1.6rem, 1.35rem + 0.9vw, 2.15rem);
   --step-3: clamp(2.15rem, 1.7rem + 1.8vw, 3.45rem);
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e6eee9;
+    --ink-soft: #b7c4bd;
+    --paper: #111815;
+    --surface: #18221e;
+    --surface-soft: #222d28;
+    --line: #435149;
+    --leaf: #83caa7;
+    --leaf-dark: #afe2c7;
+    --leaf-pale: #244035;
+    --amber: #e3a563;
+    --blue: #7bbbd4;
+    --focus: #ffb590;
+    --shadow: 0 18px 50px rgb(0 0 0 / 28%);
+  }
+}

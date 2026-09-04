@@ -1,4 +1,4 @@
-.site-header { border-bottom: 1px solid var(--line); background: rgb(247 245 238 / 92%); }
+.site-header { border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--paper) 92%, transparent); }
 .nav { min-height: 4.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .brand { color: var(--ink); font-weight: 850; text-decoration: none; letter-spacing: -.02em; }
 .nav-links { display: flex; align-items: center; gap: clamp(.75rem, 3vw, 1.75rem); }

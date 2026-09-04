@@ -22,3 +22,7 @@ Educational editorial illustration. Low visual density. Friendly but not childis
 3. 生活化情境：GeneratedIllustration。
 
 沒有降低理解成本的圖就不放。V1 illustration pilot 經評估後不採用生成圖：vertical slice 的概念都以語意化 diagram 或操作元件表達得更精確，也避免裝飾噪音。Manifest 保留為未來經審查的圖像使用。
+
+## Color scheme
+
+Light 與 dark mode 共用相同資訊階層。Dark mode 由系統 `prefers-color-scheme` 自動選擇，不需要 JavaScript；兩種模式都必須通過對比檢查，且顏色不是唯一資訊來源。

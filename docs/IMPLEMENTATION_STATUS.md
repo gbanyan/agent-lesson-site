@@ -24,7 +24,7 @@ Status: passed editorial self-review. Each representative lesson has one questio
 
 ## Phase 5 — Browser visual inspection
 
-Status: complete. Production Chromium screenshots inspected at 1440px, 1200px, 768px-equivalent responsive rules, and 390px. Mobile edge spacing and three-node diagram flow were corrected. Automated coverage also exercises desktop and Pixel 7 viewports.
+Status: complete. Production Chromium screenshots inspected at 1440px, 1200px, 768px, and 390px in light mode, plus desktop/mobile dark mode. Mobile edge spacing, three-node diagram flow, and dark-theme button contrast were corrected. Automated coverage exercises desktop and Pixel 7 viewports.
 
 ## Phase 6 — Illustration pilot
 
@@ -44,7 +44,7 @@ Status: implemented. Codex and Claude Code bridges use official documentation li
 
 ## Phase 10 — Final audit
 
-Status: complete locally. `npm run verify` passes: 35-lesson content lint, link/visual validation, Astro check with zero diagnostics, 24/24 Playwright tests across desktop/mobile including axe, Pagefind search, accessibility-tree meaning, keyboard/zoom/reflow, zero-JS lesson assertion, and all-route crawl. Production build emits 46 static pages and indexes all 35 lessons. GitHub/public verification is tracked in Phase 11.
+Status: complete locally. `npm run verify` passes: 35-lesson content lint, link/visual validation, Astro check with zero diagnostics, 26/26 Playwright tests across desktop/mobile including light/dark axe, Pagefind search, accessibility-tree meaning, keyboard/zoom/reflow, zero-JS lesson assertion, and all-route crawl. Production build emits 46 static pages and indexes all 35 lessons. GitHub/public verification is tracked in Phase 11.
 
 ## Phase 11 — GitHub & production deployment
 

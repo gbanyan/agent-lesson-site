@@ -19,15 +19,15 @@
 .flow-step.result { border-left-color: var(--leaf); }
 .flow-arrow { padding-left: 1rem; color: var(--ink-soft); }
 .tree { padding: 1rem; border-radius: var(--radius); background: var(--surface-soft); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; line-height: 1.9; }
-.permission-box { max-width: 32rem; margin-inline: auto; padding: 1.35rem; border: 1px solid var(--line); border-radius: var(--radius); background: white; }
+.permission-box { max-width: 32rem; margin-inline: auto; padding: 1.35rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
 .permission-box h3 { margin-top: 0; }
 .permission-files { padding: .75rem 1rem; background: var(--surface-soft); border-radius: .6rem; }
 .permission-actions { display: flex; justify-content: flex-end; gap: .65rem; margin-top: 1rem; }
-.mock-button { min-height: 2.75rem; padding: .55rem 1rem; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--ink); }
-.mock-button.primary { border-color: var(--leaf); background: var(--leaf); color: white; }
+.mock-button { min-height: 2.75rem; padding: .55rem 1rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); }
+.mock-button.primary { border-color: var(--leaf); background: var(--leaf); color: var(--paper); }
 .takeaway { margin-block: 2rem; padding: 1.35rem 1.5rem; border-left: 5px solid var(--leaf); border-radius: 0 var(--radius) var(--radius) 0; background: var(--leaf-pale); }
 .takeaway p { margin: .2rem 0 0; font-weight: 700; }
-.safety-gate { padding: 1.5rem; border: 1px solid #ddb989; border-radius: var(--radius); background: #fff8e9; }
+.safety-gate { padding: 1.5rem; border: 1px solid color-mix(in srgb, var(--amber) 65%, var(--line)); border-radius: var(--radius); background: color-mix(in srgb, var(--amber) 10%, var(--surface)); }
 .safety-gate ul { padding-left: 1.4rem; }
 .official-notice { padding: 1.4rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-soft); }
 .official-notice h2 { margin-top: 0; font-size: var(--step-1); }
