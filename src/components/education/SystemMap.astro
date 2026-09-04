@@ -1,0 +1,29 @@
+---
+interface Step { place: string; title: string; detail: string; tone?: 'local' | 'agent' | 'remote' | 'result'; }
+interface Lane { title: string; steps: Step[]; }
+interface Props { label: string; lanes: Lane[]; summary: string; }
+const { label, lanes, summary } = Astro.props;
+---
+<figure class="visual system-map">
+  <figcaption class="visual-label">流程圖解｜{label}</figcaption>
+  <div class="system-lanes" aria-hidden="true">
+    {lanes.map((lane) => (
+      <div class="system-lane">
+        <strong class="lane-title">{lane.title}</strong>
+        <div class="lane-flow">
+          {lane.steps.map((step, index) => (
+            <>
+              <div class:list={['system-node', step.tone]}>
+                <small>{step.place}</small>
+                <strong>{step.title}</strong>
+                <span>{step.detail}</span>
+              </div>
+              {index < lane.steps.length - 1 && <span class="system-arrow">→</span>}
+            </>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+  <p class="visually-equivalent">{summary}</p>
+</figure>

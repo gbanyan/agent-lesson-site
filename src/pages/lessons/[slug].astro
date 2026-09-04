@@ -19,7 +19,7 @@ const next = nextEntry ? { href:url(`/lessons/${nextEntry.data.slug}/`), label:n
 ---
 <BaseLayout title={entry.data.question} description={entry.data.answer}>
   <div class="shell">
-    <Lesson id={entry.data.id} question={entry.data.question} answer={entry.data.answer} takeaway={entry.data.takeaway} newTerms={entry.data.newTerms} searchTerms={entry.data.searchTerms} scenario={entry.data.scenario} previous={previous} next={next}>
+    <Lesson id={entry.data.id} question={entry.data.question} answer={entry.data.answer} takeaway={entry.data.takeaway} followUp={entry.data.followUp} newTerms={entry.data.newTerms} searchTerms={entry.data.searchTerms} scenario={entry.data.scenario} previous={previous} next={next}>
       {entry.data.visual && <LessonVisual slot="visual" lessonId={entry.data.id} type={entry.data.visual.type} preset={entry.data.visual.preset} />}
       <Content />
     </Lesson>

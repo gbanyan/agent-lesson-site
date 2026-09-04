@@ -6,6 +6,7 @@ order: 4
 question: Version history 是什麼？
 answer: 版本歷史（Version history）是一串過去的存檔，讓你查看舊內容，並在服務支援時恢復。
 takeaway: 找得到歷史紀錄還不夠；也要知道它記了哪些內容、會保留多久，以及如何恢復。
+followUp: "請查清楚＿＿＿＿的版本歷史會記錄哪些內容、保留多久，以及恢復舊版會覆蓋目前內容還是建立副本。不要先執行恢復。"
 newTerms: [Version history]
 searchTerms: [Git]
 prerequisites: [E1]

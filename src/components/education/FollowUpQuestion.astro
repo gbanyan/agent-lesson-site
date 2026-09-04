@@ -1,0 +1,13 @@
+---
+interface Props { text: string; }
+const { text } = Astro.props;
+---
+<aside class="follow-up" aria-labelledby="follow-up-title">
+  <p class="scenario-kicker">換成你的情況</p>
+  <div class="follow-up-heading">
+    <h2 id="follow-up-title">還可以這樣問</h2>
+    <button type="button" class="copy-prompt" data-copy-prompt aria-label="複製延伸問題">複製問題</button>
+  </div>
+  <blockquote><code>{text}</code></blockquote>
+  <p class="copy-status" role="status" aria-live="polite"></p>
+</aside>

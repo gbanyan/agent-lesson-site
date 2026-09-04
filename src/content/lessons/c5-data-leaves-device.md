@@ -6,9 +6,10 @@ order: 5
 question: 資料什麼時候會離開我的電腦？
 answer: 當工具透過網路把內容傳給外部服務時，資料就離開本機。
 takeaway: 看到網路或外部服務操作時，確認會傳送什麼資料、送到哪裡。
+followUp: "完成＿＿＿＿時，你會把哪些內容送出我的裝置？請列出檔案片段、對話、系統紀錄與工具結果的去向；先不要傳送。"
 newTerms: [外部服務]
 prerequisites: [C1, D2]
-visual: { type: concept, preset: data-movement }
+visual: { type: system-map, preset: data-movement }
 scenario:
   request: "把錯誤紀錄貼到線上 issue，請團隊幫忙。"
   actions:

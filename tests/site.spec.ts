@@ -22,10 +22,25 @@ test('lesson page only ships the small shared theme scripts', async ({page}) => 
 test('diagram meaning remains in the accessibility tree', async ({page}) => {
   await page.goto('/lessons/where-model-runs/');
   const equivalent = page.locator('.visually-equivalent');
-  await expect(equivalent).toContainText('檔案存在哪裡、程式在哪裡執行、AI 模型在哪裡運算，是三件不同的事');
+  await expect(equivalent).toContainText('資料存放、Agent 執行工具與 AI 模型運算可能發生在三個不同位置');
+  await expect(page.locator('.system-lane')).toHaveCount(3);
   const snapshot = await page.locator('main').ariaSnapshot();
   expect(snapshot).toContain('AI 模型在哪裡運算？');
-  expect(snapshot).toContain('檔案存在哪裡、程式在哪裡執行、AI 模型在哪裡運算，是三件不同的事');
+  expect(snapshot).toContain('資料存放、Agent 執行工具與 AI 模型運算可能發生在三個不同位置');
+});
+
+test('role, location, and data-flow lessons use concrete system maps', async ({page}) => {
+  const routes = [
+    '/lessons/agent-vs-chat/', '/lessons/working-scope/', '/lessons/local-and-remote/',
+    '/lessons/where-is-my-data/', '/lessons/where-program-runs/', '/lessons/where-model-runs/',
+    '/lessons/data-leaves-device/', '/lessons/local-vs-published/', '/lessons/tool/',
+    '/lessons/agent-work-loop/', '/lessons/beyond-files/', '/lessons/internet-access/',
+  ];
+  for (const route of routes) {
+    await page.goto(route);
+    await expect(page.locator('.system-map'), route).toBeVisible();
+    await expect(page.locator('.system-map .visually-equivalent'), route).not.toBeEmpty();
+  }
 });
 
 test('situation path links to the expected minimum lessons', async ({page}) => {
@@ -89,7 +104,18 @@ test('all 35 lessons render a concrete scenario and boundary', async ({page}) =>
     await expect(page.locator('.scenario blockquote')).not.toBeEmpty();
     expect(await page.locator('.scenario ol li').count(), href).toBeGreaterThanOrEqual(2);
     await expect(page.locator('.scenario-boundary')).toContainText('這個例子的邊界');
+    await expect(page.locator('.follow-up')).toContainText('還可以這樣問');
+    await expect(page.locator('.follow-up code')).toContainText('＿＿');
   }
+});
+
+test('lesson follow-up question can be copied', async ({page, context}) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write'], {origin: 'http://127.0.0.1:4321'});
+  await page.goto('/lessons/where-is-my-data/');
+  const expectedPrompt = await page.locator('.follow-up code').textContent();
+  await page.locator('.follow-up [data-copy-prompt]').click();
+  await expect(page.locator('.follow-up .copy-status')).toHaveText('問題已複製到剪貼簿。');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(expectedPrompt);
 });
 
 test('four preflight guides provide reusable prompts and explicit privacy framing', async ({page, context}) => {
@@ -99,6 +125,7 @@ test('four preflight guides provide reusable prompts and explicit privacy framin
   for (const href of links) {
     await page.goto(href);
     await expect(page.locator('.guide-principle')).toBeVisible();
+    await expect(page.locator('.system-map')).toBeVisible();
     await expect(page.locator('.prompt-shelf')).toContainText('方案、產品和規則改得很快');
     await expect(page.locator('.prompt-card')).toHaveCount(3);
     await expect(page.locator('.prompt-card code').first()).toContainText('＿＿');

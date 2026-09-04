@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PromptShelf from '../../components/education/PromptShelf.astro';
+import PreflightVisual from '../../components/education/PreflightVisual.astro';
 import { url } from '../../lib/urls';
 
 export async function getStaticPaths() {
@@ -24,6 +25,7 @@ const next = guides[index + 1];
       <p class="lesson-answer">{entry.data.summary}</p>
     </header>
     <aside class="guide-principle"><strong>先抓住這個原則：</strong>{entry.data.principle}</aside>
+    <PreflightVisual guideId={entry.data.id} />
     <div class="guide-body"><Content /></div>
     <PromptShelf prompts={entry.data.prompts} />
     <nav class="lesson-next" aria-label="前置說明前後導覽">

@@ -1,9 +1,21 @@
 ---
-interface Props { root?: string; summary?: string; }
-const { root = 'website', summary = 'website 資料夾裡有 images 資料夾、index.html 與 notes.txt 兩個檔案。' } = Astro.props;
+interface Entry { kind: 'folder' | 'file'; name: string; }
+interface Props { root?: string; entries?: Entry[]; summary?: string; }
+const {
+  root = '家庭支出',
+  entries = [
+    { kind: 'folder', name: '2025' },
+    { kind: 'folder', name: '2026' },
+    { kind: 'file', name: 'notes.txt' },
+  ],
+  summary = '家庭支出資料夾裡有 2025、2026 兩個資料夾，以及一份 notes.txt。',
+} = Astro.props;
 ---
 <figure class="visual">
   <figcaption class="visual-label">檔案結構示意</figcaption>
-  <div class="tree" aria-hidden="true">📁 {root}<br />　├── 📁 images<br />　├── 📄 index.html<br />　└── 📄 notes.txt</div>
+  <div class="tree" aria-hidden="true">
+    <div>📁 {root}</div>
+    {entries.map((entry, index) => <div>　{index === entries.length - 1 ? '└──' : '├──'} {entry.kind === 'folder' ? '📁' : '📄'} {entry.name}</div>)}
+  </div>
   <p class="muted">{summary}</p>
 </figure>

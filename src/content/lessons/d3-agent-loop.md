@@ -6,16 +6,17 @@ order: 3
 question: Agent 是一次把所有事情想完嗎？
 answer: 通常不是。它會取得資訊、採取行動、查看結果，再根據結果繼續。
 takeaway: Agent 多半會反覆查看資訊、採取行動、讀取結果，再決定下一步。
+followUp: "處理＿＿＿＿時，請在每一輪說明：剛取得什麼結果、接下來要用哪個工具，以及什麼條件下會停下來問我。"
 newTerms: [操作意圖]
 prerequisites: [D1, D2]
-visual: { type: agent-action, preset: inspect-folder }
+visual: { type: system-map, preset: inspect-folder }
 scenario:
-  request: "找出為什麼首頁打不開，能修就修。"
+  request: "比較企劃書的『主管修訂版』和『客戶回覆版』，整理差異後合併成新檔。"
   actions:
-    - "Agent 先開啟頁面或執行測試，收集錯誤。"
-    - "它讀取相關檔案、提出一個可能原因並修改。"
-    - "它再次開頁或跑測試；若仍失敗，就根據新結果繼續。"
-  result: "你會看到它檢查、行動，再次檢查，最後提出通過證據或說明卡在哪裡。"
+    - "Agent 先讀取兩份文件，找出段落與修訂標記的差異。"
+    - "它整理衝突，能確定的內容先合併，無法判斷的地方列出來詢問。"
+    - "它重新檢查合併檔，確認沒有漏掉章節或未處理的衝突。"
+  result: "你會看到差異清單、需要決定的衝突，以及一份可供檢查的新檔。"
   boundary: "循環不保證一定成功。若每次只重試同一件事卻沒有新證據，應停下重新判斷。"
 notTeach: [private chain-of-thought, agent framework]
 ---

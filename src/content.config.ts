@@ -3,7 +3,7 @@ import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
 const visualSchema = z.object({
-  type: z.enum(['concept', 'terminal', 'agent-action', 'file-explorer', 'permission', 'illustration']),
+  type: z.enum(['concept', 'system-map', 'terminal', 'agent-action', 'file-explorer', 'permission', 'illustration']),
   preset: z.string().min(1),
 }).nullable();
 
@@ -17,6 +17,7 @@ const lessons = defineCollection({
     question: z.string().min(1),
     answer: z.string().min(1),
     takeaway: z.string().min(1),
+    followUp: z.string().min(1),
     newTerms: z.array(z.string()).max(3),
     searchTerms: z.array(z.string()).max(4).optional(),
     prerequisites: z.array(z.string().regex(/^[A-F][1-9]$/)),

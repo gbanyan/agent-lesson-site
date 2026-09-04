@@ -6,6 +6,7 @@ order: 3
 question: Sync 就是 Backup 嗎？
 answer: 不是。Sync 主要讓各處保持一致；Backup 主要讓你在出事後恢復。
 takeaway: 同步會把各處變得一樣，連誤刪也可能一起傳過去；另外留一份可恢復的備份才安心。
+followUp: "請幫我判斷＿＿＿＿目前使用的是同步、備份，還是兩者都有。若我誤刪一個檔案，說明各副本會怎麼變，以及能從哪裡恢復。"
 newTerms: [Sync, Backup]
 prerequisites: [E2, C1]
 visual: { type: concept, preset: sync-backup }

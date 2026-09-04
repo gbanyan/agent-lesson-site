@@ -6,13 +6,14 @@ order: 2
 question: 我的資料在哪裡？
 answer: 資料可能存在你的裝置，也可能存在遠端系統；光看畫面通常不能確定。
 takeaway: 要知道資料在哪裡，得確認實際儲存位置。從哪個畫面開啟，不能當作判斷依據。
+followUp: "請幫我確認＿＿＿＿目前存在哪裡：只有本機、只有遠端，還是兩邊都有。也請說明離線時能否開啟，以及哪一份是最新版本。"
 newTerms: [資料位置]
 prerequisites: [C1]
-visual: { type: concept, preset: data-location }
+visual: { type: system-map, preset: data-location }
 scenario:
   request: "幫我找出剛才在網頁上編輯的企劃書存在哪裡。"
   actions:
-    - "Agent 檢查專案與下載資料夾，看看是否有對應檔案。"
+    - "Agent 檢查目前工作範圍與下載資料夾，看看是否有對應檔案。"
     - "如果本機找不到，它會辨認那是否只是瀏覽器裡的遠端文件，並請你確認服務的儲存位置。"
   result: "你會知道它是本機檔案、遠端文件，或兩邊各有一份。"
   boundary: "畫面上看得到文字，不代表它已存成硬碟裡的檔案。關掉網頁後，尚未儲存的內容可能就不見了。"

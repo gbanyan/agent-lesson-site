@@ -2,7 +2,7 @@
 
 ## Product boundary
 
-本站是繁體中文、低認知負擔的 AI Coding Agent mental-model micro-learning site。V1 固定 35 張核心 lesson，不是產品手冊、程式課程或線上課程平台。
+本站是繁體中文、低認知負擔的 AI Agent mental-model micro-learning site。V1 固定 35 張核心 lesson，不是產品手冊、程式課程或線上課程平台。
 
 ## Technical choices
 

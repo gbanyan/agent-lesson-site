@@ -6,6 +6,7 @@ order: 1
 question: 修改是不是一定能復原？
 answer: 不一定。能否復原取決於是否保留了可用的舊狀態或獨立副本。
 takeaway: 電腦裡不是每個動作都能按復原。大改之前，先想好要從哪裡找回舊版本。
+followUp: "你準備對＿＿＿＿做哪些修改？請把動作分成可直接復原、需要備份才能恢復，以及可能無法恢復三類。先不要動手。"
 newTerms: [復原]
 prerequisites: [B6]
 visual: { type: concept, preset: reversibility }

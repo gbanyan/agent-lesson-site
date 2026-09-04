@@ -7,7 +7,7 @@ import '../styles/components.css';
 import '../styles/lesson.css';
 
 interface Props { title: string; description?: string; }
-const { title, description = '用很小的概念，看懂 AI Coding Agent 正在對你的電腦做什麼。' } = Astro.props;
+const { title, description = '用很小的概念，看懂 AI Agent 正在對你的電腦做什麼。' } = Astro.props;
 const fullTitle = title === '看懂 Agent' ? title : `${title}｜看懂 Agent`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -73,6 +73,25 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         });
         systemDark.addEventListener('change', paint);
         paint();
+      })();
+      (() => {
+        document.querySelectorAll('[data-copy-prompt]').forEach((candidate) => {
+          if (!(candidate instanceof HTMLButtonElement)) return;
+          candidate.addEventListener('click', async () => {
+            const container = candidate.closest('.prompt-card, .follow-up');
+            const text = container?.querySelector('code')?.textContent ?? '';
+            const status = container?.querySelector('.copy-status');
+            try {
+              if (!navigator.clipboard) throw new Error('clipboard unavailable');
+              await navigator.clipboard.writeText(text);
+              candidate.textContent = '已複製';
+              if (status) status.textContent = '問題已複製到剪貼簿。';
+              window.setTimeout(() => { candidate.textContent = '複製問題'; }, 1800);
+            } catch {
+              if (status) status.textContent = '無法自動複製，請選取文字後手動複製。';
+            }
+          });
+        });
       })();
     </script>
   </body>

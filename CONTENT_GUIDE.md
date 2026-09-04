@@ -4,9 +4,11 @@
 
 每張 lesson 固定為：一個 question、一個 short answer、至多一個 visual、極短 explanation、一個具體 scenario、takeaway、next。不可加入 FAQ、頁內目錄或延伸閱讀牆。
 
-Frontmatter 必填：`id`、`slug`、`section`、`order`、`question`、`answer`、`takeaway`、`newTerms`、`prerequisites`、`visual`、`scenario`、`notTeach`。
+Frontmatter 必填：`id`、`slug`、`section`、`order`、`question`、`answer`、`takeaway`、`followUp`、`newTerms`、`prerequisites`、`visual`、`scenario`、`notTeach`。
 
 `scenario` 必須包含讀者可能說出的 `request`、Agent 可能採取的 2–5 個 `actions`、讀者會看到的 `result`，以及不應從例子過度推論的 `boundary`。動作要具體到能看出讀取、寫入、執行程式或連接外部服務的差別；但不能把 Agent 的理想行為寫成必然。
+
+`followUp` 是可直接貼進模型聊天視窗的延伸問題，必須保留 `＿＿` 替換欄位。問題要幫讀者把當頁概念套進自己的情況，例如查清楚資料位置、權限範圍或驗證方式；不要只把 lesson 問句換個說法。
 
 ## Length thresholds
 
@@ -21,6 +23,7 @@ Frontmatter 必填：`id`、`slug`、`section`、`order`、`question`、`answer`
 ## Hard rules
 
 - `question`、`answer`、`takeaway` 各只能有一個非空值。
+- `followUp` 必須是一個非空字串，並包含 `＿＿` 替換欄位。
 - `question` 必須只含一個問句結尾。
 - `newTerms` 最多三個；`notTeach` 必填且至少一項。
 - `visual` 為一個物件或 `null`，不得為陣列。
@@ -30,7 +33,7 @@ Frontmatter 必填：`id`、`slug`、`section`、`order`、`question`、`answer`
 
 ## Voice
 
-採台灣繁體中文。平靜、清楚、直接，不居高臨下、不炫技、不製造恐慌。常見英文術語第一次出現時用一句簡單中文說明。保留必要的技術名稱、數字、風險揭露與不確定語氣；不要改寫成更確定的說法。避免連續套用「A 不等於 B」與「不是……而是……」句型，也避開口號式結論、硬湊的三段列舉、模糊權威與過多破折號。不要把工程內部用語或版本代號留給讀者。
+採台灣繁體中文。全站以「Agent」稱呼可使用工具採取行動的 AI；只有官方產品名稱或逐字引用才保留 Coding。語氣平靜、清楚、直接，不居高臨下、不炫技、不製造恐慌。常見英文術語第一次出現時用一句簡單中文說明。保留必要的技術名稱、數字、風險揭露與不確定語氣；不要改寫成更確定的說法。避免連續套用「A 不等於 B」與「不是……而是……」句型，也避開口號式結論、硬湊的三段列舉、模糊權威與過多破折號。不要把工程內部用語或版本代號留給讀者。
 
 ## Review questions
 

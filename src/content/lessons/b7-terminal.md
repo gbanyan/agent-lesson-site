@@ -6,6 +6,7 @@ order: 7
 question: Terminal 是什麼？
 answer: 終端機（Terminal）是用文字和電腦一問一答的操作介面。
 takeaway: 把終端機想成跟電腦傳文字訊息：送出一行指令，再讀它回傳的結果。
+followUp: "請逐段解釋指令＿＿＿＿：它會啟動哪個程式、讀寫哪個位置、是否連上網路，以及成功後我會看到什麼。先不要執行。"
 newTerms: [Terminal]
 prerequisites: [B3]
 visual: { type: terminal, preset: pwd }

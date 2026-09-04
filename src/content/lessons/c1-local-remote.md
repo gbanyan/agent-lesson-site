@@ -6,9 +6,10 @@ order: 1
 question: Local 和 Remote 是什麼？
 answer: Local 是你正在使用的裝置這一端；Remote 是透過網路接觸的另一端。
 takeaway: 先分清資料留在自己的裝置，還是送到遠端，才能繼續判斷權限與風險。
+followUp: "處理＿＿＿＿時，請畫出資料從哪裡出發、經過哪些服務、最後存在哪裡。每一步標示 Local 或 Remote，並說明誰可能存取。"
 newTerms: [Local, Remote]
 prerequisites: []
-visual: { type: concept, preset: local-remote }
+visual: { type: system-map, preset: local-remote }
 scenario:
   request: "把本機的 notes.md 上傳到團隊空間。"
   actions:

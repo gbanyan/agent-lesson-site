@@ -1,0 +1,30 @@
+---
+import SystemMap from './SystemMap.astro';
+
+interface Props { guideId: string; }
+const { guideId } = Astro.props;
+type Step = { place:string; title:string; detail:string; tone?:'local'|'agent'|'remote'|'result' };
+type Lane = { title:string; steps:Step[] };
+const maps: Record<string, {label:string;lanes:Lane[];summary:string}> = {
+  P1: { label:'兩張帳單可能分開計算', lanes:[
+    { title:'App', steps:[{place:'你的帳號',title:'固定訂閱',detail:'可能含每月額度',tone:'agent'},{place:'超過限制',title:'停用或另計',detail:'依目前方案規則',tone:'result'}]},
+    { title:'API', steps:[{place:'開發者帳戶',title:'用量計費',detail:'依輸入、輸出或工具使用',tone:'remote'},{place:'帳單',title:'另外結算',detail:'不一定包含在 App 訂閱',tone:'result'}]},
+  ], summary:'同一家公司的 App 訂閱與 API 用量可能分開計費，需要各自查看帳單與限制。' },
+  P2: { label:'介面相同，位置與能力未必相同', lanes:[
+    { title:'桌面版', steps:[{place:'你的裝置',title:'應用程式視窗',detail:'用按鈕選資料夾',tone:'local'},{place:'權限提示',title:'開放檔案或網路',detail:'依系統與產品設定',tone:'agent'}]},
+    { title:'CLI', steps:[{place:'終端機',title:'輸入文字指令',detail:'從目前資料夾開始',tone:'local'},{place:'執行環境',title:'使用工具',detail:'可用範圍要另外確認',tone:'agent'}]},
+    { title:'網頁版', steps:[{place:'瀏覽器',title:'開啟服務',detail:'本機只顯示介面'},{place:'遠端系統',title:'保存或處理資料',detail:'依服務規則',tone:'remote'}]},
+  ], summary:'桌面版、CLI 與網頁版可能登入同一帳號，但工作位置、工具與權限不一定相同。' },
+  P3: { label:'別把公司、模型與 Agent 當成同一件事', lanes:[
+    { title:'供應商', steps:[{place:'公司',title:'提供模型與服務',detail:'決定方案和資料規則',tone:'remote'}]},
+    { title:'模型', steps:[{place:'AI 模型',title:'處理輸入',detail:'能力會隨版本改變',tone:'agent'}]},
+    { title:'Agent 產品', steps:[{place:'你使用的介面',title:'組合模型與工具',detail:'實際體驗還受權限影響',tone:'result'}]},
+  ], summary:'供應商、AI 模型與 Agent 產品是三個不同層次；評估時要分開看。' },
+  P4: { label:'送給遠端模型的資料路徑', lanes:[
+    { title:'模型處理', steps:[{place:'你的裝置',title:'對話與檔案',detail:'可能還包含工具結果',tone:'local'},{place:'網路',title:'上傳內容',detail:'資料離開裝置'},{place:'模型供應商',title:'處理與保存',detail:'依帳號和服務規則',tone:'remote'}]},
+    { title:'其他工具', steps:[{place:'Agent',title:'搜尋或外掛',detail:'啟動其他服務',tone:'agent'},{place:'外部系統',title:'收到部分內容',detail:'可能有不同資料規則',tone:'remote'}]},
+  ], summary:'送出的內容可能經模型供應商處理，也可能因搜尋、外掛或其他工具流向不同服務。' },
+};
+const map = maps[guideId];
+---
+{map && <SystemMap {...map} />}

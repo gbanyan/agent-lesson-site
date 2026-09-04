@@ -6,9 +6,10 @@ order: 7
 question: Agent 除了檔案，還可能改到什麼？
 answer: 它也可能影響資料庫、遠端系統、已發布內容或外部服務。
 takeaway: 審核動作時也要往電腦外面看：別人的系統、通知、公開內容或帳單都可能跟著改變。
+followUp: "完成＿＿＿＿時，除了本機檔案，還會改到哪些共享服務、通知、公開內容或付費項目？請先列出外部影響，不要送出。"
 newTerms: [外部狀態]
 prerequisites: [D2, C7]
-visual: { type: concept, preset: external-effects }
+visual: { type: system-map, preset: external-effects }
 scenario:
   request: "把測試活動建立到公司的正式行事曆。"
   actions:
