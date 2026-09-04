@@ -3,15 +3,16 @@ id: B6
 slug: read-vs-write
 section: B
 order: 9
+archetype: contrast
 question: 讀取和修改有什麼不同？
 context: Command 有的只讀資料，有的會修改內容。
 answer: 讀取是取得資訊；修改會讓檔案或系統的狀態改變。
 takeaway: 讀取讓 Agent 看見現況；修改會讓現況改變。審核動作時，別把兩者混在一起。
-followUp: "處理＿＿＿＿以前，請把預計動作分成『只讀取』與『會修改』兩組。先完成只讀檢查，等我確認後再執行修改。"
 newTerms: [Read, Write]
 prerequisites: [B1, B8]
 visual: { type: concept, preset: read-write }
 scenario:
+  appliesBeyondCodingAgent: true
   request: "讀一下 report.docx，告訴我第二章在說什麼；先不要修改。"
   actions:
     - "Agent 確認檔案存在與格式；對純文字可能直接讀取，對 DOCX 則可能執行 unzip、pandoc 或文件解析程式，把封裝內容轉成可讀文字。"

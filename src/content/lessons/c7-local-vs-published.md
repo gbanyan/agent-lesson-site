@@ -3,11 +3,11 @@ id: C7
 slug: local-vs-published
 section: C
 order: 7
+archetype: contrast
 question: 我在本機改了，別人會立刻看到嗎？
 context: Agent 已經改好網站，但手機打開原本網址仍是舊內容。本機版本與公開版本還沒有一致。
 answer: 不一定。本機修改通常只改變你的裝置；發布或送到共享位置後，其他人才可能看到。
 takeaway: 在自己的電腦改好後，還要完成發布，其他人才看得到新版。
-followUp: "我剛修改＿＿＿＿。請分開檢查本機副本和共享版本，告訴我其他人現在看得到哪一版；先不要發布或同步。"
 newTerms: [本機狀態, 已發布狀態]
 prerequisites: [C1, B6]
 visual: { type: system-map, preset: local-published }

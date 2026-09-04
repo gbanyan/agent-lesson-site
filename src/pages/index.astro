@@ -3,31 +3,35 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { url } from '../lib/urls';
 const paths = (await getCollection('paths')).sort((a, b) => a.data.id.localeCompare(b.data.id));
+const firstPath = paths.find((path) => path.data.slug === 'first-coding-agent');
+const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-agent');
 ---
 <BaseLayout title="看懂 Agent">
   <section class="hero shell">
     <p class="eyebrow">AI Agent 入門</p>
     <h1>AI Agent 動手時，電腦發生了什麼？</h1>
     <p>Agent 會讀取檔案、執行指令，也可能修改資料。這裡把相關的電腦概念拆成短短幾頁。</p>
-    <a class="button" href={url('/start/')}>依情境閱讀</a>
+    <a class="button" href={url('/paths/first-coding-agent/')}>第一次使用 Agent</a>
   </section>
   <section class="section">
-    <div class="shell section-heading">
-      <p class="eyebrow">第一次使用以前</p>
-      <h2>費用、安裝、模型與資料隱私</h2>
-      <p>規格與價格會變，判斷方法較少變。選定服務後，再向官方查核目前的方案與限制。</p>
-      <a class="button secondary" href={url('/prepare/')}>閱讀使用前說明</a>
+    <div class="shell">
+      <div class="section-heading"><p class="eyebrow">第一次使用 Agent</p><h2>先看懂它怎麼工作</h2><p>從聊天介面、檔案和工作範圍開始，再認識 Context、Tool 與 Agent 的工作過程。</p></div>
+      {firstPath && <a class="card featured-card" href={url(`/paths/${firstPath.data.slug}/`)}><h3>{firstPath.data.title}</h3><p>{firstPath.data.description}</p></a>}
     </div>
   </section>
   <section class="section">
     <div class="shell">
       <div class="section-heading"><p class="eyebrow">依情境閱讀</p><h2>目前遇到哪種狀況？</h2></div>
       <div class="card-grid">
-        {paths.slice(0, 4).map((path) => <a class="card" href={url(`/paths/${path.data.slug}/`)}><span class="eyebrow">{path.data.id.toUpperCase()}</span><h3>{path.data.title}</h3><p>{path.data.description}</p></a>)}
+        {situationPaths.map((path) => <a class="card" href={url(`/paths/${path.data.slug}/`)}><h3>{path.data.title}</h3><p>{path.data.description}</p></a>)}
       </div>
     </div>
   </section>
   <section class="section">
-    <div class="shell section-heading"><p class="eyebrow">快速查找</p><h2>直接查一個詞</h2><p>搜尋 Git、權限或終端機指令，查看它的用途與影響。</p><a class="button secondary" href={url('/concepts/')}>找概念</a></div>
+    <div class="shell section-heading"><p class="eyebrow">找一個概念</p><h2>直接查不熟的詞</h2><p>搜尋 Git、Permission、Terminal、Command 等概念。</p><a class="button secondary" href={url('/concepts/')}>找概念</a></div>
+  </section>
+  <section class="section buyer-section">
+    <div class="shell section-heading"><p class="eyebrow">選擇產品或方案</p><h2>購買前需要確認什麼？</h2><p>費用、安裝方式與資料規則會變。需要選工具時，再查目前官方資訊。</p><a href={url('/prepare/')}>查看選工具前的參考資料 →</a></div>
   </section>
 </BaseLayout>
+<style>.featured-card{max-width:38rem}.buyer-section{padding-block:3rem}</style>

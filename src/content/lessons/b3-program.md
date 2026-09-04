@@ -3,11 +3,11 @@ id: B3
 slug: program
 section: B
 order: 4
+archetype: definition
 question: Agent 靠什麼實際完成工作？
 context: 請 Agent 縮小網站圖片時，實際處理圖片的是電腦執行的程式。Agent 會安排要使用哪個程式與如何執行。
 answer: Agent 會安排電腦執行程式；程式可能原本就存在、後來安裝，或由 Agent 為這次工作產生。
 takeaway: Agent 負責安排操作；實際改檔、縮圖或檢查網站時，電腦仍要執行某個程式。
-followUp: "完成＿＿＿＿會執行哪個程式？請說明它原本就存在、需要安裝，還是會為這次工作產生；也請列出它會讀取與修改的資料。"
 newTerms: [程式]
 prerequisites: []
 visual: { type: system-map, preset: program-sources }

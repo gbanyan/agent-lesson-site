@@ -3,11 +3,11 @@ id: B1
 slug: files-and-folders
 section: B
 order: 1
+archetype: definition
 question: 什麼是檔案和資料夾？
 context: Agent 打開一個網站專案時，通常會列出 index.html、images 等名稱。前者是檔案，後者是資料夾。
 answer: 檔案保存一份內容；資料夾把檔案和其他資料夾整理在一起。
 takeaway: Agent 說要讀或改某個檔案時，可從資料夾結構確認它的位置。
-followUp: "請只查看＿＿＿＿資料夾，畫出兩層以內的檔案結構，並用一句話說明你認為哪個檔案最可能是我要找的＿＿＿＿。先不要修改或移動任何東西。"
 newTerms: [檔案, 資料夾]
 prerequisites: []
 visual: { type: file-explorer, preset: simple-tree }

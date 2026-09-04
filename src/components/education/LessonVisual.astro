@@ -12,10 +12,10 @@ const { lessonId, type } = Astro.props;
 type SystemStep = { place:string; title:string; detail:string; tone?:'local'|'agent'|'remote'|'result' };
 type SystemLane = { title:string; steps:SystemStep[] };
 const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string}> = {
-  A1: { label:'聊天與行動的差別', lanes:[
-    { title:'聊天 AI', steps:[{place:'你',title:'提出問題',detail:'請它說明做法'},{place:'模型',title:'產生回答',detail:'回傳文字'},{place:'你',title:'自己操作',detail:'檔案不會自動改變',tone:'result'}]},
-    { title:'Agent', steps:[{place:'你',title:'交代任務',detail:'說明範圍與要求'},{place:'Agent',title:'選擇工具',detail:'依權限採取行動',tone:'agent'},{place:'檔案或服務',title:'狀態改變',detail:'留下可檢查的結果',tone:'result'}]},
-  ], summary:'聊天 AI 通常回傳文字，由你自己操作。Agent 可以使用工具，讓檔案或外部服務產生變化。' },
+  A1: { label:'同一種聊天介面，可能有不同能力', lanes:[
+    { title:'主要回覆內容', steps:[{place:'你',title:'在聊天視窗提出要求',detail:'詢問做法'},{place:'AI',title:'回覆內容',detail:'由你決定後續操作',tone:'result'}]},
+    { title:'Agent 工作方式', steps:[{place:'你',title:'在聊天視窗提出目標',detail:'說明範圍'},{place:'Agent',title:'使用可用 Tool',detail:'取得資訊或採取行動',tone:'agent'},{place:'結果',title:'回到聊天介面',detail:'供你檢查',tone:'result'}]},
+  ], summary:'聊天視窗只是一種互動介面。Agent 會在指定環境中使用可用的 Tool 完成任務，再把結果帶回介面。' },
   B3: { label:'程式從哪裡來', lanes:[
     { title:'原本就有', steps:[{place:'Agent',title:'選擇現有程式',detail:'使用電腦已有的工具',tone:'agent'},{place:'電腦',title:'執行程式',detail:'開始實際工作',tone:'result'}]},
     { title:'需要安裝', steps:[{place:'Agent',title:'提出安裝',detail:'說明來源與影響',tone:'agent'},{place:'電腦',title:'執行新程式',detail:'安裝後另行啟動',tone:'result'}]},
@@ -26,9 +26,9 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
     { title:'未開放', steps:[{place:'其他位置',title:'相簿與郵件',detail:'不在目前工作範圍'},{place:'需要時',title:'另行確認',detail:'不能自行擴大範圍',tone:'remote'}]},
   ], summary:'Agent 只應在目前開放的工作範圍內處理資料；其他位置要另外確認。' },
   C1: { label:'本機與遠端', lanes:[
-    { title:'Local', steps:[{place:'你的裝置',title:'notes.md',detail:'資料留在這台電腦',tone:'local'}]},
-    { title:'Remote', steps:[{place:'你的裝置',title:'上傳檔案',detail:'開始傳送',tone:'local'},{place:'網路',title:'資料移動',detail:'離開裝置'},{place:'另一端',title:'團隊空間',detail:'其他人可能看見',tone:'remote'}]},
-  ], summary:'Local 是你的裝置這一端。資料經網路送到另一個系統後，就有了 Remote 副本。' },
+    { title:'Local', steps:[{place:'目前環境',title:'這台裝置',detail:'你正在使用的一端',tone:'local'}]},
+    { title:'Remote', steps:[{place:'網路另一端',title:'另一台電腦或服務',detail:'透過網路接觸',tone:'remote'}]},
+  ], summary:'Local 是目前使用的這台裝置或環境；Remote 是透過網路接觸的另一台電腦或服務。這兩個詞本身不表示資料已經傳送或保存。' },
   C2: { label:'畫面與儲存位置', lanes:[
     { title:'本機檔案', steps:[{place:'瀏覽器或應用程式',title:'畫面顯示內容',detail:'從硬碟讀取'},{place:'你的裝置',title:'企劃書.docx',detail:'實際存放位置',tone:'local'}]},
     { title:'遠端文件', steps:[{place:'瀏覽器或應用程式',title:'畫面顯示內容',detail:'看起來可能相同'},{place:'服務商系統',title:'線上企劃書',detail:'實際存放位置',tone:'remote'}]},
@@ -71,7 +71,7 @@ const concepts: Record<string, {label:string;items:{title:string;detail:string}[
   B5: { label:'安裝不等於執行', items:[{title:'安裝',detail:'把需要的內容準備好'},{title:'執行',detail:'讓程式開始工作'}], relation:'≠', summary:'安裝是把程式準備在環境裡；執行才是讓它開始工作。' },
   B6: { label:'兩種影響', items:[{title:'讀取',detail:'取得資訊'},{title:'修改',detail:'改變狀態'}], relation:'≠', summary:'讀取只取得資訊；修改會讓檔案或系統狀態發生變化。' },
   C6: { label:'本機工具用到的資源', items:[{title:'CPU',detail:'進行計算'},{title:'記憶體',detail:'暫放工作內容'},{title:'儲存空間',detail:'保存程式與產出'}], relation:'／', summary:'本機工具會用 CPU 計算、用記憶體暫放工作內容，並用儲存空間保存程式與產出。' },
-  D1: { label:'工作記憶', items:[{title:'眼前資訊',detail:'能拿來工作'},{title:'沒有提供',detail:'不一定知道'}], relation:'≠', summary:'Agent 只能根據眼前的工作記憶做事，不一定還記得之前看過的內容。' },
+  D1: { label:'目前可用資訊', items:[{title:'這次 Context',detail:'對話、檔案與工具結果'},{title:'未提供的資訊',detail:'不能當作已知'}], relation:'≠', summary:'Agent 依這次工作目前可用的資訊做事；這不表示它具有和人一樣的持續長期記憶。' },
   D5: { label:'影響範圍', items:[{title:'一般權限',detail:'較有限的範圍'},{title:'管理員權限',detail:'可能影響更多系統區域'}], summary:'管理員權限可能讓同一個動作影響更大的系統範圍。' },
   D6: { label:'限制機制', items:[{title:'Sandbox 內',detail:'允許的行動範圍'},{title:'Sandbox 外',detail:'受到限制或需另行允許'}], relation:'｜', summary:'Sandbox 用邊界限制可採取的行動，但它不是絕對安全的保證。' },
   E1: { label:'能否復原', items:[{title:'修改',detail:'狀態已改變'},{title:'恢復來源',detail:'不一定存在'}], relation:'需要確認', summary:'修改發生後，是否能復原取決於是否有可用的舊狀態或獨立副本。' },
@@ -100,7 +100,7 @@ const concepts: Record<string, {label:string;items:{title:string;detail:string}[
     ? <FileExplorer root="website" entries={[{kind:'file',name:'index.html'},{kind:'folder',name:'images'}]} summary="website 資料夾裡有首頁檔案 index.html，以及存放圖片的 images 資料夾。" />
     : <FileExplorer root="website" entries={[{kind:'folder',name:'images'},{kind:'file',name:'logo.png',depth:1}]} summary="路徑 website/images/logo.png 指向 images 資料夾裡的 logo.png。" />
 ) : type === 'permission' ? (
-  <PermissionPrompt files={['Downloads/收據-01.jpg', '差旅報帳/收據-01.jpg']} consequence="允許後，Agent 會讀取下載的圖片，並在差旅報帳資料夾建立副本。" />
+  <PermissionPrompt files={['website/index.html', 'website/styles.css']} consequence="允許後，Agent 會修改首頁內容與樣式。" />
 ) : concepts[lessonId] ? (
   <ConceptDiagram {...concepts[lessonId]} />
 ) : null}

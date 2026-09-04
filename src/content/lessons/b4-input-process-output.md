@@ -3,11 +3,11 @@ id: B4
 slug: input-process-output
 section: B
 order: 6
+archetype: definition
 question: 一個電腦工作，可以怎麼拆開看？
 context: 幾張原始照片交給 Agent 後，程式縮小尺寸，資料夾裡多出一批新照片。這項工作可以拆成三段查看。
 answer: Input 是收到的內容，Process 是處理，Output 是產生的結果。
 takeaway: 檢查一項工作時，分別找出它拿到的內容、進行的處理，以及留下的結果。
-followUp: "請把『＿＿＿＿』這項工作拆成 Input、Process、Output，另外指出哪一步會讀取資料，哪一步會寫入或傳送資料。"
 newTerms: [Input, Process, Output]
 prerequisites: [B3]
 visual: { type: concept, preset: ipo }

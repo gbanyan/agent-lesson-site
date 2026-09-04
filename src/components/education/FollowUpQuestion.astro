@@ -1,13 +1,34 @@
 ---
-interface Props { text: string; }
-const { text } = Astro.props;
+interface Prompt {
+  audience: 'research_chat' | 'active_agent' | 'human';
+  mode: 'ask_only' | 'explain_before_action' | 'execute_after_confirmation';
+  capability: 'requires_web' | 'requires_workspace_access' | 'no_special_access';
+  text: string;
+}
+interface Props { prompt: Prompt; }
+const { prompt } = Astro.props;
+const isResearch = prompt.audience === 'research_chat';
+const isTask = prompt.mode === 'execute_after_confirmation';
+const title = isResearch ? '問能查官方資料的 AI' : isTask ? '加入任務要求' : '問目前正在工作的 Agent';
+const description = isResearch
+  ? '適合查價格、方案、安裝方式、產品支援與官方文件。它不一定能檢查你目前電腦裡的實際狀態。'
+  : isTask
+    ? '送出後，Agent 可能依內容開始檢查或修改。確認工作範圍後再使用。'
+    : '適合詢問已開啟目前 workspace 或 project 的 Agent。它可以根據眼前的檔案與權限回答。';
+const action = isTask ? '複製任務限制' : isResearch ? '複製查詢' : '複製問題';
+const capability = {
+  requires_web: '需要網路查詢',
+  requires_workspace_access: '需要目前工作區',
+  no_special_access: '不需特殊存取',
+}[prompt.capability];
 ---
-<aside class="follow-up" aria-labelledby="follow-up-title">
-  <p class="scenario-kicker">延伸查核</p>
+<aside class:list={['follow-up', `prompt-${isResearch ? 'research' : isTask ? 'task' : 'agent'}`]} aria-labelledby="follow-up-title">
+  <p class="prompt-audience">{capability}</p>
   <div class="follow-up-heading">
-    <h2 id="follow-up-title">套用到自己的情況</h2>
-    <button type="button" class="copy-prompt" data-copy-prompt aria-label="複製延伸問題">複製問題</button>
+    <h2 id="follow-up-title">{title}</h2>
+    <button type="button" class="copy-prompt" data-copy-prompt data-copy-label={action} aria-label={action}>{action}</button>
   </div>
-  <blockquote><code>{text}</code></blockquote>
+  <p class="prompt-description">{description}</p>
+  <blockquote><code>{prompt.text}</code></blockquote>
   <p class="copy-status" role="status" aria-live="polite"></p>
 </aside>

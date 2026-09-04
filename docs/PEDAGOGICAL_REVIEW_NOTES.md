@@ -31,3 +31,19 @@ Existing DOCX-specific text is intentionally unchanged. It remains in:
 - `src/components/education/LessonVisual.astro`: the `企劃書.docx` data-location node and the `摘要.docx` Terminal output.
 
 This creates one deliberate scenario break between the website-oriented Command sequence and the Read / Write lesson. The break is recorded rather than hidden by rewriting or relocating protected content.
+
+## Full-site correction pass
+
+The lesson schema now has three explicit archetypes:
+
+- Definition: context, one definition, a diagram or example, and a short point.
+- Contrast: one confusing pair followed by a shared case; no repeated takeaway panel.
+- Safety action: consequence, confirmation point and an optional task requirement; no repeated takeaway panel.
+
+Copyable text is no longer mandatory. Eight lessons retain it, with machine-checked audience, mode and capability metadata. The other 27 lessons end when the concept is complete.
+
+A1 now treats chat as an interface and Agent as a tool-using work pattern. It separately identifies Coding Agent, Research Agent and Actionable Agent without introducing frameworks. Terminal is defined as one human-facing command interface and no longer claims that every graphical Agent hides a Terminal. Tool is a provided capability, not necessarily a standalone program. Context refers only to information available in the current task and is not described as human-like long-term memory.
+
+C1 now defines only the Local and Remote locations. Upload, retention and visibility remain in C2 and C5. E5 no longer shows Git commands, tracked-state details, remote-copy behavior or repository operations; it retains the conceptual boundary that Git manages included project content and is not a Backup.
+
+The first-use path begins with A1 and Files before Working Scope; A2 is an optional branch. All path links preserve path name, step count, previous/next step and return navigation through client-side metadata on the single canonical lesson route. The Command path includes a low-density relationship diagram for Agent, model, Tool, Command, Program and Terminal.

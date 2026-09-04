@@ -1,33 +1,31 @@
-# Recurring Scenario Map
+# Scenario Map
 
-This file is an editorial reference. Scenario names and lesson IDs are not shown to readers.
+The site is Coding-Agent-first. Scenario labels and lesson IDs are editorial metadata, not the public lesson taxonomy.
 
-## Scenario A — Simple website project
+## Primary scenario — simple website
 
-A small `website/` folder containing `index.html`, `images/`, and ordinary page assets. It gives adjacent lessons one shared setting for locating files, understanding scope, running tools, modifying content, and publishing.
+`website/` contains `index.html`, `styles.css` and `images/`.
 
-Used by: B1, B2, B9, B3, B5, B7, C7.
+Used by A1, B1, B2, B7, B9, C7, D2, D4, E1, F1 and F2. Visual, example and copyable task text use the same website scope where present. D4's permission visual now names the same two website files as its example.
 
-B8 continues the Terminal sequence but keeps its existing report-folder visual because that visual contains protected DOCX-specific content. B6 also keeps its existing DOCX example unchanged.
+## Secondary scenario — image processing
 
-## Scenario B — Image processing
+The Agent makes smaller copies of website images while preserving the originals.
 
-The Agent makes smaller copies of images while preserving the originals. It provides a concrete Input / Process / Output flow and shows how execution location affects local resource use.
+Used by B3, B4, B5, C3 and C6. This sequence covers program source, install versus run, Input / Process / Output, execution location and local resources.
 
-Used by: B3, B5, B4, C3, C6.
+## Safety scenario — large project change
 
-## Scenario C — Large website modification
+The Agent is preparing to modify many files in `website/`.
 
-The Agent is preparing to change several files in a website project. This scenario connects authorization, reversibility, recovery, and review without introducing deployment internals.
+Used by E1, E2, E4, E5, E6, F1 and F2. The sequence moves from reversibility and backup to version history, Git, a recoverable state and verification.
 
-Used by: D4, E1, E6, F1.
+## Explicit other-Agent examples
 
-## Scenario D — External services and sensitive data
+B6, C2, C4, D3, E7 and F3 retain document, model-location, calendar or external-service examples. Their rendered case includes the note “同樣的概念也適用於其他 Agent。”
 
-Calendar invitations, online issues, API keys, and current web information remain separate scenarios where a website example would hide the real external consequence.
+B6 and the B8 terminal visual contain protected DOCX-specific copy and remain unchanged. B8's visual and example both stay in the same report-folder scenario; B6 remains a deliberate transition away from the website sequence.
 
-Used by: C5, E7, F3, F4.
+## Page-level review rule
 
-## Editorial rule
-
-Reuse a scenario when it removes setup work for the reader. Use a different one when the concept depends on a consequence the recurring scenario cannot show clearly.
+For each lesson, review the context, visual, case, prompt and displayed takeaway together. A secondary scenario is acceptable only when it exposes a consequence that the website or image example cannot show, and it must be identified to the reader.

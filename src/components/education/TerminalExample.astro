@@ -5,11 +5,11 @@ const labels = { read: '查看資訊', modify: '造成修改', external: '影響
 ---
 <figure class="visual">
   <figcaption class="visual-label">終端機操作示意</figcaption>
-  <div class="terminal" aria-label={`${purpose}。指令 ${command}。結果：${output}`}>
+  <div class="terminal" aria-hidden="true">
     <div class="terminal-purpose">{purpose}</div>
     <pre><code>$ {command}
 {output}</code></pre>
   </div>
-  <span class="impact">{labels[impact]}</span>
-  <p class="muted">{summary}</p>
+  <span class="impact" aria-hidden="true">{labels[impact]}</span>
+  <p class="visually-equivalent">{purpose}。Command 是「{command}」，執行結果為「{output}」。{summary}</p>
 </figure>

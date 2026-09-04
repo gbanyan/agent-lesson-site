@@ -34,23 +34,23 @@ Status: complete. No generated raster selected: operational and relational visua
 
 ## Phase 7 — All lessons
 
-Status: complete. Exactly 35 lessons across A–F; every lesson includes a concrete request, 2–5 possible Agent actions, an observable result, and a boundary. Content lint enforces this contract and reports zero warnings. Cross-reference and visual metadata validation pass.
+Status: complete. Exactly 35 lessons across A–F. Each lesson declares one of three archetypes: Definition, Contrast, or Safety Action. The shared renderer gives each archetype a different structure instead of forcing all lessons through the same sequence of headings. Content lint enforces the contract and reports zero warnings.
 
-Each lesson also includes one context-specific, copyable follow-up question with a replaceable `＿＿` field. The prompts ask readers to apply the current concept to their own files, permissions, tools, data path, recovery plan, or verification evidence. The content linter requires the field and placeholder on all 35 lessons.
+Copyable text is optional. Eight lessons retain prompts: three ask the active Agent to explain current state, and five are explicitly labeled task requirements that may lead to action. The other 27 lessons have no prompt. All retained prompts declare `audience`, `mode`, and `capability`; buyer-guide prompts are separately marked for research chat.
 
-Examples that centered on website and source-code work were rewritten around Excel reports, PDF merging, document-version comparison, receipt extraction, travel notes, shared announcements, photos, and ordinary folders. User-facing copy now uses “Agent” consistently; “Coding” remains only when it is part of an official name or literal source.
+The primary examples now use a small website, image processing, or a large project change. Other-Agent examples are explicitly labeled in the rendered lesson. Protected DOCX content remains unchanged and is documented as a deliberate scenario transition.
 
 ## Phase 8 — Situation paths
 
-Status: implemented. Five paths, each 4–6 references, no duplicated lesson body.
+Status: implemented. Five paths, each 4–6 core references, no duplicated lesson body. Path entry links add context metadata to the canonical lesson URL; lesson pages then show path name, step count, previous/next step and return navigation. The first-use path starts with Files before Working Scope and keeps A2 as an optional branch. The Command path has a cross-concept relationship diagram in its introduction.
 
 ## Phase 9 — Product bridges
 
-Status: implemented. Codex and Claude Code bridges use official documentation links and stable concepts only.
+Status: implemented. Codex and Claude Code bridges use official documentation links and stable concepts only. The official destinations were checked again on 2026-09-04; no price, model version or installation command is copied into the site.
 
 ## Phase 10 — Final audit
 
-Status: complete locally. `npm run verify` passes: 35-lesson content lint, link/visual validation, Astro check with zero diagnostics, and 50/50 Playwright checks across desktop/mobile. Coverage includes light/dark axe, a persistent three-state theme control, live system-theme changes, all 35 rendered scenarios and follow-up prompts, canonical lesson and situation-path order, Pagefind search, system-map accessibility equivalents, keyboard/zoom/reflow, copy controls, desktop diagram width, and all-route crawling. Production build emits 51 static pages and indexes all 35 lessons. GitHub/public verification is tracked in Phase 11.
+Status: complete. Content lint, link/visual validation and Astro check pass with zero diagnostics. All 64 Playwright checks pass across desktop and mobile. Coverage includes all three lesson archetypes, the reduced eight-prompt set, prompt responsibility labels, path-aware navigation, 320px reflow, 200% zoom, the six-group concept index, dark/light/system appearance, axe, Pagefind, diagram equivalents and all-route crawling. GitHub/public verification is tracked in Phase 11.
 
 All user-facing copy was reviewed after the scenario expansion with `agy` using `gemini-3.8-flash-high` at high effort. The first pass identified formulaic contrast sentences, developer-facing jargon, terminology drift, and an over-idealized secret-handling example. Those issues were revised; a second full-tree review found no release-blocking editorial issues, and its remaining terminology suggestions were also applied.
 

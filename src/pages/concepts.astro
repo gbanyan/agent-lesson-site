@@ -4,6 +4,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { url } from '../lib/urls';
 const lessons = (await getCollection('lessons')).sort((a,b) => a.data.section.localeCompare(b.data.section) || a.data.order - b.data.order);
 const base = import.meta.env.BASE_URL;
+const byId = new Map(lessons.map((lesson) => [lesson.data.id, lesson]));
+const groups = [
+  { title:'Agent 在做什麼？', ids:['A1','D1','D2','D3'] },
+  { title:'電腦裡有哪些東西？', ids:['B1','B2','B3','B4','B5','B6','B7','B8','C6'] },
+  { title:'工作發生在哪裡？', ids:['B9','C1','C2','C3','C4','C5','C7'] },
+  { title:'Agent 怎麼採取行動？', ids:['A2','D4','D5','D6','E7','F3','F4'] },
+  { title:'怎麼避免改壞？', ids:['E1','E2','E3','E4','E5','E6'] },
+  { title:'怎麼確認結果？', ids:['F1','F2'] },
+];
 ---
 <BaseLayout title="找概念">
   <header class="page-header shell"><p class="eyebrow">概念索引</p><h1>要查哪個概念？</h1><p>輸入一個詞，或從下方清單選擇。各頁都能獨立閱讀。</p></header>
@@ -13,9 +22,8 @@ const base = import.meta.env.BASE_URL;
     <p id="search-status" class="muted" role="status" aria-live="polite"></p>
     <ol id="search-results" class="search-results"></ol>
   </section>
-  <section class="shell concept-list" data-pagefind-ignore>
-    <h2>全部概念</h2>
-    <ul>{lessons.map((lesson) => <li><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></li>)}</ul>
+  <section class="shell concept-groups" data-pagefind-ignore>
+    {groups.map((group) => <section class="concept-group"><h2>{group.title}</h2><ul>{group.ids.map((id) => byId.get(id)).map((lesson) => lesson && <li><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></li>)}</ul></section>)}
   </section>
   <script is:inline>
     const input = document.querySelector('#search');
@@ -53,8 +61,10 @@ const base = import.meta.env.BASE_URL;
   .search-results li { padding:1rem 0; border-bottom:1px solid var(--line); }
   .search-results a { font-weight:750; }
   .search-results p { margin:.3rem 0; color:var(--ink-soft); }
-  .concept-list { padding-block:2rem 5rem; }
-  .concept-list ul { padding:0; list-style:none; columns:2; column-gap:2rem; }
-  .concept-list li { break-inside:avoid; padding:.55rem 0; }
-  @media(max-width:44rem){.concept-list ul{columns:1}}
+  .concept-groups { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.25rem; padding-block:2rem 5rem; }
+  .concept-group { padding:1.25rem; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); }
+  .concept-group h2 { margin-top:0; font-size:var(--step-1); }
+  .concept-group ul { margin:0; padding-left:1.2rem; }
+  .concept-group li + li { margin-top:.55rem; }
+  @media(max-width:44rem){.concept-groups{grid-template-columns:1fr}}
 </style>

@@ -21,7 +21,12 @@ for (const file of files) {
   } else {
     for (const [index, prompt] of data.prompts.entries()) {
       if (!prompt || typeof prompt.label !== 'string' || typeof prompt.text !== 'string') fail(`prompt ${index + 1} 必須包含 label 與 text`);
-      else if (!prompt.text.includes('＿＿')) fail(`prompt ${index + 1} 必須保留可替換欄位 ＿＿`);
+      else {
+        if (!prompt.text.includes('＿＿')) fail(`prompt ${index + 1} 必須保留可替換欄位 ＿＿`);
+        if (prompt.audience !== 'research_chat') fail(`prompt ${index + 1} audience 必須是 research_chat`);
+        if (prompt.mode !== 'ask_only') fail(`prompt ${index + 1} mode 必須是 ask_only`);
+        if (!['requires_web', 'no_special_access'].includes(prompt.capability)) fail(`prompt ${index + 1} capability 不適合 buyer guide`);
+      }
     }
   }
   if (!content.trim()) fail('正文不得為空');

@@ -3,21 +3,21 @@ id: D2
 slug: tool
 section: D
 order: 2
+archetype: definition
 question: Tool 是什麼？
-context: Agent 能否開網頁、辨認圖片或修改試算表，取決於目前環境提供了哪些可操作的工具。
-answer: 工具（Tool）讓 Agent 能開網頁、查資料、改檔案或執行程式。
-takeaway: 可用工具大致界定了 Agent 能對電腦與外部服務採取哪些行動。
-followUp: "要完成＿＿＿＿，你打算使用哪些工具？請逐一說明每個工具會讀取、修改或傳送什麼，並指出哪些動作需要我先確認。"
+context: Agent 要修改網站時，會先讀取 index.html，變更內容，再用瀏覽器或測試工具查看結果。
+answer: Tool 是 Agent 被提供、可以用來取得資訊或採取行動的能力。
+takeaway: Tool 描述 Agent 能使用的能力，不一定是一個獨立程式。
 newTerms: [Tool]
 prerequisites: [A1]
 visual: { type: system-map, preset: tool-loop }
 scenario:
-  request: "把這張掃描收據上的日期與金額填進支出表。"
+  request: "把 website 首頁標題改成新的活動名稱，再確認頁面仍能開啟。"
   actions:
-    - "Agent 可能用圖片辨識工具讀出收據上的日期、幣別與金額。"
-    - "接著使用試算表工具找到對應欄位，填入資料並保存副本。"
-  result: "支出表多出一筆資料，你也能對照收據檢查。"
-  boundary: "沒有圖片辨識或試算表工具時，Agent 不能假裝已完成；辨識出的數字也可能有誤，仍要核對原圖。"
+    - "Agent 使用檔案工具讀取 index.html，再用修改工具變更標題。"
+    - "完成後，它使用瀏覽器或測試工具重新開啟頁面。"
+  result: "檔案工具、修改工具與測試工具分別提供不同能力，結果會回到 Agent。"
+  boundary: "環境沒有提供某項 Tool 時，Agent 不能假裝已使用它完成工作。"
 notTeach: [JSON schema, RPC, MCP internals]
 ---
-不同環境提供的工具不同。工具清單能說明 Agent 可能採取哪些行動。
+不同環境提供的 Tool 不同。查看可用能力，比只看 Agent 名稱更能判斷它可以做什麼。

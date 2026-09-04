@@ -3,11 +3,16 @@ id: B8
 slug: command
 section: B
 order: 8
+archetype: definition
 question: Command 是什麼？
 context: 畫面顯示「run a command」時，Agent 準備把一段文字形式的操作交給電腦。
 answer: 指令（Command）是交給電腦的文字操作要求。
 takeaway: Agent 說要執行 Command，表示它準備要求電腦採取一項文字描述的操作。
-followUp: "不要執行這行指令：＿＿＿＿。請用白話說明每一段的用途，標出可能刪除、覆寫、上傳或安裝內容的部分。"
+prompt:
+  audience: active_agent
+  mode: explain_before_action
+  capability: requires_workspace_access
+  text: "不要執行這行 Command：＿＿＿＿。請用白話說明它要求電腦做什麼、會讀寫哪個位置，以及是否會連上網路。"
 newTerms: [Command]
 prerequisites: [B7]
 visual: { type: terminal, preset: pwd }

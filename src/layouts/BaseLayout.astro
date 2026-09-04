@@ -57,7 +57,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           button.dataset.choice = choice;
           button.setAttribute('aria-label', `外觀：${labels[choice]}；目前為${labels[actual]}模式。按下可切換。`);
           const label = button.querySelector('[data-theme-label]');
-          if (label) label.textContent = labels[choice];
+          if (label) label.textContent = `外觀：${labels[choice]}`;
           document.querySelector('#theme-color')?.setAttribute('content', actual === 'dark' ? '#111815' : '#f7f5ee');
         };
         button.addEventListener('click', () => {
@@ -85,8 +85,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
               if (!navigator.clipboard) throw new Error('clipboard unavailable');
               await navigator.clipboard.writeText(text);
               candidate.textContent = '已複製';
-              if (status) status.textContent = '問題已複製到剪貼簿。';
-              window.setTimeout(() => { candidate.textContent = '複製問題'; }, 1800);
+              if (status) status.textContent = '文字已複製到剪貼簿。';
+              window.setTimeout(() => { candidate.textContent = candidate.dataset.copyLabel ?? '複製'; }, 1800);
             } catch {
               if (status) status.textContent = '無法自動複製，請選取文字後手動複製。';
             }

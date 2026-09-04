@@ -3,15 +3,16 @@ id: C2
 slug: where-is-my-data
 section: C
 order: 2
+archetype: definition
 question: 我的資料在哪裡？
 context: 瀏覽器裡看得到一份文件，不表示硬碟裡一定有同一份檔案。畫面和儲存位置是兩回事。
 answer: 資料可能存在你的裝置，也可能存在遠端系統；光看畫面通常不能確定。
 takeaway: 要知道資料在哪裡，得確認實際儲存位置。從哪個畫面開啟，不能當作判斷依據。
-followUp: "請幫我確認＿＿＿＿目前存在哪裡：只有本機、只有遠端，還是兩邊都有。也請說明離線時能否開啟，以及哪一份是最新版本。"
 newTerms: [資料位置]
 prerequisites: [C1]
 visual: { type: system-map, preset: data-location }
 scenario:
+  appliesBeyondCodingAgent: true
   request: "幫我找出剛才在網頁上編輯的企劃書存在哪裡。"
   actions:
     - "Agent 檢查目前工作範圍與下載資料夾，看看是否有對應檔案。"

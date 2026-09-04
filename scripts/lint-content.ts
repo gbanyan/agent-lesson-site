@@ -16,13 +16,22 @@ const ids = new Set(entries.map(({data}) => String(data.id)));
 const slugs = new Set<string>();
 for (const { file, data, body } of entries) {
   const fail = (message:string) => errors.push(`${file}: ${message}`);
-  for (const key of ['id','slug','section','order','question','context','answer','takeaway','followUp','newTerms','prerequisites','visual','scenario','notTeach']) {
+  for (const key of ['id','slug','section','order','archetype','question','context','answer','takeaway','newTerms','prerequisites','visual','scenario','notTeach']) {
     if (!(key in data)) fail(`缺少 ${key}`);
   }
-  for (const key of ['question','context','answer','takeaway','followUp']) {
+  for (const key of ['question','context','answer','takeaway']) {
     if (typeof data[key] !== 'string' || !String(data[key]).trim()) fail(`${key} 必須是單一非空字串`);
   }
-  if (typeof data.followUp === 'string' && !data.followUp.includes('＿＿')) fail('followUp 必須保留可替換的＿＿欄位');
+  if (!['definition','contrast','safety_action'].includes(String(data.archetype))) fail('archetype 必須是 definition、contrast 或 safety_action');
+  const prompt = data.prompt as Record<string, unknown> | undefined;
+  if (prompt) {
+    if (!['research_chat','active_agent','human'].includes(String(prompt.audience))) fail('prompt.audience 不合法');
+    if (!['ask_only','explain_before_action','execute_after_confirmation'].includes(String(prompt.mode))) fail('prompt.mode 不合法');
+    if (!['requires_web','requires_workspace_access','no_special_access'].includes(String(prompt.capability))) fail('prompt.capability 不合法');
+    if (typeof prompt.text !== 'string' || !prompt.text.includes('＿＿')) fail('prompt.text 必須包含可替換欄位 ＿＿');
+    if (prompt.audience === 'research_chat' && prompt.mode !== 'ask_only') fail('research_chat prompt 只能使用 ask_only');
+    if (prompt.mode === 'execute_after_confirmation' && prompt.audience !== 'active_agent') fail('可執行任務要求必須交給 active_agent');
+  }
   if (typeof data.context === 'string') {
     const context = String(data.context).trim();
     const sentences = (context.match(/[。！？!?]/g) ?? []).length;
@@ -56,7 +65,7 @@ for (const { file, data, body } of entries) {
     const commands = match[1]!.split('\n').filter((line) => /^\s*(\$|>|#)\s+\S/.test(line));
     if (commands.length > 1) fail('核心 Markdown 禁止大型 multi-command code block');
   }
-  const text = [data.question, data.context, data.answer, data.takeaway, data.followUp, scenario?.request ?? '', ...(Array.isArray(scenario?.actions) ? scenario.actions : []), scenario?.result ?? '', scenario?.boundary ?? '', body].join(' ');
+  const text = [data.question, data.context, data.answer, data.takeaway, prompt?.text ?? '', scenario?.request ?? '', ...(Array.isArray(scenario?.actions) ? scenario.actions : []), scenario?.result ?? '', scenario?.boundary ?? '', body].join(' ');
   const cjkCount = (text.match(/[\u3400-\u9fff]/g) ?? []).length;
   if (cjkCount > 700) fail(`中文字數 ${cjkCount} 超過 hard limit 700`);
   else if (cjkCount > 500) warnings.push(`${file}: 中文字數 ${cjkCount} 超過 soft target 500`);

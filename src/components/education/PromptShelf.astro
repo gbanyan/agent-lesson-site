@@ -1,20 +1,21 @@
 ---
-interface Prompt { label: string; text: string; }
+interface Prompt { label: string; text: string; audience: 'research_chat' | 'active_agent' | 'human'; mode: 'ask_only' | 'explain_before_action' | 'execute_after_confirmation'; capability: 'requires_web' | 'requires_workspace_access' | 'no_special_access'; }
 interface Props { prompts: Prompt[]; }
 const { prompts } = Astro.props;
 ---
 <section class="prompt-shelf" aria-labelledby="prompt-shelf-title">
-  <p class="eyebrow">繼續問清楚</p>
-  <h2 id="prompt-shelf-title">用自己的情況繼續查</h2>
-  <p>方案、產品和規則改得很快。把下面的問題貼進模型聊天視窗，將空格換成自己的情況，再查詢當下資訊。貼上前請檢查內容：不要附上密碼、金鑰、真實個資或公司機密。</p>
+  <p class="eyebrow">查詢目前資訊</p>
+  <h2 id="prompt-shelf-title">問能查官方資料的 AI</h2>
+  <p>這些查詢適合能瀏覽官方網頁或公開資訊的 AI。它不一定能看到你目前電腦裡的檔案、設定或權限。</p>
   <div class="prompt-list">
     {prompts.map((prompt) => (
       <article class="prompt-card">
         <div class="prompt-heading">
           <h3>{prompt.label}</h3>
-          <button type="button" class="copy-prompt" data-copy-prompt aria-label={`複製「${prompt.label}」問題`}>複製問題</button>
+          <button type="button" class="copy-prompt" data-copy-prompt data-copy-label="複製查詢" aria-label={`複製「${prompt.label}」查詢`}>複製查詢</button>
         </div>
         <pre><code>{prompt.text}</code></pre>
+        <p class="prompt-capability">{prompt.capability === 'requires_web' ? '需要網路查詢' : '不需特殊存取'}</p>
         <p class="copy-status" role="status" aria-live="polite"></p>
       </article>
     ))}
@@ -32,6 +33,7 @@ const { prompts } = Astro.props;
   .copy-prompt:hover { background: var(--leaf-pale); }
   .prompt-card pre { overflow-x: auto; margin: 1rem 0 0; padding: 1rem; border-radius: var(--radius-sm); background: var(--surface-soft); white-space: pre-wrap; overflow-wrap: anywhere; }
   .prompt-card code { font: 500 .94rem/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .prompt-capability { margin: .7rem 0 0; color: var(--ink-soft); font-size: .85rem; }
   .copy-status { min-height: 1.5em; margin: .5rem 0 0; color: var(--ink-soft); font-size: .85rem; }
   @media (max-width: 34rem) { .prompt-heading { align-items: flex-start; flex-direction: column; } }
 </style>

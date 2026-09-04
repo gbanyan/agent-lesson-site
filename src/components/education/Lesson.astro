@@ -2,38 +2,73 @@
 import Takeaway from './Takeaway.astro';
 import FollowUpQuestion from './FollowUpQuestion.astro';
 interface Props {
-  id: string; question: string; context: string; answer: string; takeaway: string; newTerms: string[];
-  followUp?: string | undefined;
+  id: string; archetype: 'definition' | 'contrast' | 'safety_action'; question: string; context: string; answer: string; takeaway: string; newTerms: string[];
+  prompt?: { audience:'research_chat'|'active_agent'|'human'; mode:'ask_only'|'explain_before_action'|'execute_after_confirmation'; capability:'requires_web'|'requires_workspace_access'|'no_special_access'; text:string } | undefined;
   searchTerms?: string[] | undefined;
-  scenario: { request: string; actions: string[]; result: string; boundary: string };
+  scenario: { request: string; actions: string[]; result: string; boundary: string; appliesBeyondCodingAgent?: boolean | undefined };
+  pathContexts?: { slug:string; title:string; step:number; total:number; previous?:{href:string;label:string} | undefined; next?:{href:string;label:string} | undefined; returnHref:string }[] | undefined;
   next?: { href: string; label: string } | undefined; previous?: { href: string; label: string } | undefined;
 }
-const { id, question, context, answer, takeaway, followUp, newTerms, searchTerms = [], scenario, next, previous } = Astro.props;
+const { id, archetype, question, context, answer, takeaway, prompt, newTerms, searchTerms = [], scenario, pathContexts = [], next, previous } = Astro.props;
 ---
-<article class="lesson reading" data-pagefind-body>
+<article class:list={['lesson', 'reading', `lesson-${archetype}`]} data-pagefind-body>
+  <nav class="path-context" aria-label="目前情境路徑" hidden data-pagefind-ignore>
+    <p><a data-path-return></a></p>
+    <p class="path-progress"><strong data-path-title></strong><span data-path-count></span></p>
+    <div class="path-context-links"><span data-path-previous></span><span data-path-next></span></div>
+  </nav>
+  <div hidden data-path-options>
+    {pathContexts.map((item) => <span data-path-option data-slug={item.slug} data-title={item.title} data-step={item.step} data-total={item.total} data-return-href={item.returnHref} data-previous-href={item.previous?.href} data-previous-label={item.previous?.label} data-next-href={item.next?.href} data-next-label={item.next?.label}></span>)}
+  </div>
   <header>
     {searchTerms.length > 0 && <span class="search-alias" aria-hidden="true" data-pagefind-weight="0.5">{searchTerms.join(' ')}</span>}
-    <div class="lesson-meta"><span>概念短讀</span><span aria-hidden="true">·</span><span>約 1 分鐘</span></div>
+    <div class="lesson-meta"><span>概念短讀</span></div>
     <h1 data-pagefind-meta="title">{question}</h1>
     <p class="lesson-context">{context}</p>
     <p class="lesson-answer">{answer}</p>
   </header>
+  {newTerms.length > 0 && <ul class="term-list" aria-label="這頁的新名詞">{newTerms.map((term) => <li>{term}</li>)}</ul>}
   <slot name="visual" />
   <div class="lesson-body"><slot /></div>
   <section class="scenario" aria-labelledby={`scenario-${id}`}>
-    <p class="scenario-kicker">情境範例</p>
-    <h2 id={`scenario-${id}`}>這項要求會怎麼執行</h2>
+    <p class="scenario-kicker">{archetype === 'safety_action' ? '執行前確認' : archetype === 'contrast' ? '放進同一個案例比較' : '例子'}</p>
+    <h2 id={`scenario-${id}`}>{archetype === 'safety_action' ? '這次可能發生什麼' : '放到實際情況裡'}</h2>
+    {scenario.appliesBeyondCodingAgent && <p class="other-agent-note">同樣的概念也適用於其他 Agent。</p>}
     <blockquote>{scenario.request}</blockquote>
-    <h3>可能的執行過程</h3>
-    <ol>{scenario.actions.map((action) => <li>{action}</li>)}</ol>
-    <p><strong>結果：</strong>{scenario.result}</p>
-    <aside class="scenario-boundary"><strong>判斷邊界：</strong>{scenario.boundary}</aside>
+    {archetype === 'definition'
+      ? <div class="example-prose">{scenario.actions.map((action) => <p>{action}</p>)}</div>
+      : <ul>{scenario.actions.map((action) => <li>{action}</li>)}</ul>}
+    <p class="scenario-result">{scenario.result}</p>
+    {archetype === 'safety_action'
+      ? <aside class="scenario-boundary"><strong>要確認：</strong>{scenario.boundary}</aside>
+      : <p class="scenario-note">{scenario.boundary}</p>}
   </section>
-  {newTerms.length > 0 && <ul class="term-list" aria-label="這頁的新名詞">{newTerms.map((term) => <li>{term}</li>)}</ul>}
-  <Takeaway text={takeaway} />
-  {followUp && <FollowUpQuestion text={followUp} />}
+  {archetype === 'definition' && <Takeaway text={takeaway} />}
+  {prompt && <FollowUpQuestion prompt={prompt} />}
   <nav class="lesson-next" aria-label="課程前後導覽">
     <span>{previous && <a href={previous.href}>← {previous.label}</a>}</span>
     <span>{next && <a href={next.href}>{next.label} →</a>}</span>
   </nav>
+  <script is:inline>
+    (() => {
+      const article = document.currentScript?.closest('.lesson');
+      if (!(article instanceof HTMLElement)) return;
+      const slug = new URLSearchParams(location.search).get('path');
+      if (!slug) return;
+      const option = [...article.querySelectorAll('[data-path-option]')].find((item) => item instanceof HTMLElement && item.dataset.slug === slug);
+      const nav = article.querySelector('.path-context');
+      if (!(option instanceof HTMLElement) || !(nav instanceof HTMLElement)) return;
+      const setLink = (selector, href, label) => {
+        const host = nav.querySelector(selector); if (!host || !href || !label) return;
+        const link = document.createElement('a'); link.href = href; link.textContent = label; host.append(link);
+      };
+      const title = nav.querySelector('[data-path-title]'); if (title) title.textContent = option.dataset.title ?? '';
+      const count = nav.querySelector('[data-path-count]'); if (count) count.textContent = `第 ${option.dataset.step} / ${option.dataset.total} 步`;
+      const back = nav.querySelector('[data-path-return]');
+      if (back instanceof HTMLAnchorElement) { back.href = option.dataset.returnHref ?? ''; back.textContent = '返回這條路徑'; }
+      setLink('[data-path-previous]', option.dataset.previousHref, option.dataset.previousLabel ? `← 上一步：${option.dataset.previousLabel}` : '');
+      setLink('[data-path-next]', option.dataset.nextHref, option.dataset.nextLabel ? `下一步：${option.dataset.nextLabel} →` : '');
+      nav.hidden = false;
+    })();
+  </script>
 </article>

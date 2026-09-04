@@ -7,6 +7,13 @@ const visualSchema = z.object({
   preset: z.string().min(1),
 }).nullable();
 
+const promptSchema = z.object({
+  audience: z.enum(['research_chat', 'active_agent', 'human']),
+  mode: z.enum(['ask_only', 'explain_before_action', 'execute_after_confirmation']),
+  capability: z.enum(['requires_web', 'requires_workspace_access', 'no_special_access']),
+  text: z.string().min(1),
+});
+
 const lessons = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/lessons' }),
   schema: z.object({
@@ -14,11 +21,12 @@ const lessons = defineCollection({
     slug: z.string().regex(/^[a-z0-9-]+$/),
     section: z.enum(['A', 'B', 'C', 'D', 'E', 'F']),
     order: z.number().int().positive(),
+    archetype: z.enum(['definition', 'contrast', 'safety_action']),
     question: z.string().min(1),
     context: z.string().min(1),
     answer: z.string().min(1),
     takeaway: z.string().min(1),
-    followUp: z.string().min(1),
+    prompt: promptSchema.optional(),
     newTerms: z.array(z.string()).max(3),
     searchTerms: z.array(z.string()).max(4).optional(),
     prerequisites: z.array(z.string().regex(/^[A-F][1-9]$/)),
@@ -28,6 +36,7 @@ const lessons = defineCollection({
       actions: z.array(z.string().min(1)).min(2).max(5),
       result: z.string().min(1),
       boundary: z.string().min(1),
+      appliesBeyondCodingAgent: z.boolean().optional(),
     }),
     notTeach: z.array(z.string()).min(1),
   }),
@@ -41,6 +50,7 @@ const paths = defineCollection({
     title: z.string(),
     description: z.string(),
     lessons: z.array(z.string().regex(/^[A-F][1-9]$/)).min(4).max(6),
+    optionalLessons: z.array(z.string().regex(/^[A-F][1-9]$/)).max(2).optional(),
     safetyGate: z.boolean().default(false),
   }),
 });
@@ -69,7 +79,7 @@ const preflightGuides = defineCollection({
     principle: z.string().min(1),
     prompts: z.array(z.object({
       label: z.string().min(1),
-      text: z.string().min(1),
+      ...promptSchema.shape,
     })).min(2).max(3),
   }),
 });

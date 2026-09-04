@@ -3,11 +3,16 @@ id: B9
 slug: working-scope
 section: B
 order: 3
+archetype: safety_action
 question: Agent 現在在哪個範圍工作？
 context: 開啟 website 資料夾交給 Agent，不等於同時開放相簿、郵件或其他專案。
 answer: Agent 通常只在目前開啟的工作資料夾裡行動，不會自動翻找整台電腦。
 takeaway: 目前工作範圍決定 Agent 正在查看與修改哪些位置。
-followUp: "這次只允許你處理＿＿＿＿資料夾。開始前請回報目前工作位置、預計讀寫的檔案，以及任何會超出範圍的動作。"
+prompt:
+  audience: active_agent
+  mode: execute_after_confirmation
+  capability: requires_workspace_access
+  text: "這次只處理＿＿＿＿資料夾。開始前先回報目前工作位置、預計讀寫的檔案，以及任何會超出範圍的動作；等我確認後再繼續。"
 newTerms: [工作範圍]
 prerequisites: [B2, A2]
 visual: { type: system-map, preset: working-scope }

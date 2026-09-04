@@ -3,11 +3,11 @@ id: C3
 slug: where-program-runs
 section: C
 order: 3
+archetype: contrast
 question: 程式在哪裡執行？
 context: Agent 縮小一批圖片時，工作可能由這台電腦處理，也可能送到遠端環境完成。
 answer: 程式可能在你的裝置執行，也可能在遠端電腦執行；這和資料放哪裡是不同問題。
 takeaway: 分開確認「資料在哪裡」與「工作在哪裡執行」。
-followUp: "執行＿＿＿＿時，工作會在我的電腦還是遠端環境進行？請分別指出使用哪裡的檔案、CPU 與儲存空間，結果會留在哪裡。"
 newTerms: [執行位置]
 prerequisites: [B3, C1]
 visual: { type: system-map, preset: execution-location }

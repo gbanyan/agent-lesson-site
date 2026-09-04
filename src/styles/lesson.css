@@ -4,6 +4,12 @@
 .lesson-context { margin: 0 0 .8rem; color: var(--ink-soft); font-size: var(--step-0); }
 .search-alias { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .lesson-answer { margin: 0; padding-left: 1rem; border-left: 3px solid var(--leaf); color: var(--leaf-dark); font-size: var(--step-1); font-weight: 720; }
+.path-context { margin-bottom: 2rem; padding: 1rem 1.2rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-soft); }
+.path-context p { margin: 0; }
+.path-context > p:first-child { margin-bottom: .65rem; font-size: var(--step--1); }
+.path-progress { display: flex; justify-content: space-between; gap: 1rem; }
+.path-progress span { color: var(--ink-soft); }
+.path-context-links { display: flex; justify-content: space-between; gap: 1rem; margin-top: .8rem; padding-top: .8rem; border-top: 1px solid var(--line); }
 .lesson-body { margin-block: 2rem; color: var(--ink-soft); }
 .lesson-next { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
 .lesson-next a { max-width: 20rem; }
@@ -18,6 +24,17 @@
 .scenario h2 { margin: 0 0 1rem; font-size: var(--step-2); }
 .scenario h3 { margin-top: 1.5rem; font-size: var(--step-1); }
 .scenario blockquote { margin: 0; padding: 1rem 1.2rem; border-left: 4px solid var(--leaf); background: var(--surface-soft); font-weight: 650; }
-.scenario ol { padding-left: 1.4rem; }
-.scenario li + li { margin-top: .65rem; }
+.scenario ol, .scenario ul { padding-left: 1.4rem; }
+.scenario li + li, .example-prose p + p { margin-top: .65rem; }
+.scenario-result { font-weight: 700; }
+.scenario-note { color: var(--ink-soft); font-size: var(--step--1); }
+.visually-equivalent { margin: 1rem 0 0; color: var(--ink-soft); }
+.other-agent-note { color: var(--ink-soft); font-size: var(--step--1); font-weight:700; }
 .scenario-boundary { margin-top: 1.35rem; padding: 1rem 1.2rem; border-left: 4px solid var(--amber); background: color-mix(in srgb, var(--amber) 9%, var(--surface)); }
+.lesson-contrast .scenario { border-inline: 0; border-radius: 0; background: transparent; }
+.lesson-contrast .scenario blockquote { border-left-color: var(--blue); }
+.prompt-audience { margin: 0; color: var(--ink-soft); font-size: var(--step--1); }
+.prompt-description { color: var(--ink-soft); }
+.prompt-research { border-color: var(--blue); }
+.prompt-task { border-color: var(--amber); background: color-mix(in srgb, var(--amber) 5%, var(--surface)); }
+@media (max-width: 34rem) { .path-progress, .path-context-links { flex-direction: column; } }

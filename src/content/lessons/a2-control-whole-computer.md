@@ -3,11 +3,16 @@ id: A2
 slug: control-whole-computer
 section: A
 order: 2
+archetype: safety_action
 question: Agent 可以直接控制整台電腦嗎？
 context: Agent 要查看 Downloads 時，畫面可能跳出權限要求，也可能直接回報無法存取。
 answer: 不一定。Agent 能做什麼，取決於可用工具、目前工作範圍與被授予的權限。
 takeaway: Agent 一啟動，並不會自動看見整顆硬碟；工具、工作範圍與授權共同限制它的行動。
-followUp: "請根據我現在使用的＿＿＿＿，列出你能存取的位置、需要另外詢問的權限，以及完全無法操作的範圍。不要嘗試擴大權限。"
+prompt:
+  audience: active_agent
+  mode: ask_only
+  capability: requires_workspace_access
+  text: "請根據目前開啟的＿＿＿＿，列出你能存取的位置、需要另外詢問的權限，以及無法操作的範圍。只回報現況，不要嘗試擴大權限。"
 newTerms: [工作範圍, Permission]
 prerequisites: [A1]
 visual: { type: concept, preset: boundaries }

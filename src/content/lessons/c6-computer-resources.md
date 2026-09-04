@@ -3,11 +3,11 @@ id: C6
 slug: computer-resources
 section: C
 order: 5
+archetype: definition
 question: AI 在雲端，為什麼我的電腦還會變慢？
 context: AI 模型可能在雲端，Agent 執行測試、建立網站或處理圖片時，這台電腦仍可能變慢、發熱或占用更多空間。
 answer: Agent 使用的工具仍可能在本機執行，消耗 CPU 與記憶體，並把程式或產出寫入儲存空間。
 takeaway: AI 模型在遠端運算，不表示 Agent 使用的工具也在遠端執行。
-followUp: "執行＿＿＿＿時，主要會使用 CPU、記憶體還是儲存空間？請說明我會看到的現象、可能新增的檔案，以及如何安全停止。"
 newTerms: [CPU, 記憶體, 儲存空間]
 prerequisites: [B3, C3, C4]
 visual: { type: concept, preset: resources }

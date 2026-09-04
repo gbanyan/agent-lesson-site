@@ -3,11 +3,11 @@ id: B2
 slug: path
 section: B
 order: 2
+archetype: definition
 question: 什麼是路徑？
 context: Agent 回報「準備修改 website/images/logo.png」。這串文字指出 logo.png 放在哪裡。
 answer: 路徑就像檔案在電腦裡的門牌，一層一層標出它放在哪個資料夾。
 takeaway: 順著路徑的每一層名稱，就能找到 Agent 指的是哪個檔案或資料夾。
-followUp: "你提到的檔案路徑是＿＿＿＿。請把每一層資料夾分開解釋，確認最後指向檔案還是資料夾，並告訴我它是否位於這次允許的工作範圍內。"
 newTerms: [路徑]
 prerequisites: [B1]
 visual: { type: file-explorer, preset: path-tree }

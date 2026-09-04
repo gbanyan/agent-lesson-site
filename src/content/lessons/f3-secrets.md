@@ -3,15 +3,16 @@ id: F3
 slug: secrets
 section: F
 order: 3
+archetype: safety_action
 question: 密碼與 API Key 為什麼需要特別注意？
 context: 某個工具要求登入或連接外部服務，Agent 可能需要憑證。這類文字一旦外流，別人也可能用它取得存取權。
 answer: 它們是秘密資訊，取得的人或程式可能用它們存取你的帳號或服務。
 takeaway: 密碼或金鑰（secrets）不應出現在一般檔案、對話或外部系統中；只在必要的最小範圍提供。
-followUp: "完成＿＿＿＿需要哪些帳號或金鑰？請說明安全的提供方式、資料會送到哪裡，以及任務結束後如何撤銷。不要要求我把秘密貼進對話。"
 newTerms: [API Key, secrets]
 prerequisites: [C5]
 visual: { type: concept, preset: secrets }
 scenario:
+  appliesBeyondCodingAgent: true
   request: "把行事曆服務的 API key 寫進共享檔案，讓同事都能執行自動排程。"
   actions:
     - "Agent 可能照著要求，把金鑰寫進所有人都能開啟的共享檔案；不能假設它一定主動攔下來。"

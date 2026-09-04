@@ -4,7 +4,7 @@ const { files = ['index.html', 'styles.css', 'about.html'], consequence = '允�
 ---
 <figure class="visual">
   <figcaption class="visual-label">權限要求示意（不是特定產品畫面）</figcaption>
-  <div class="permission-box">
+  <div class="permission-box" aria-hidden="true">
     <h3>Agent 要求權限</h3>
     <p>Agent 想修改：</p>
     <div class="permission-files">{files.join('、')}</div>
@@ -13,4 +13,5 @@ const { files = ['index.html', 'styles.css', 'about.html'], consequence = '允�
       <span class="mock-button">取消</span><span class="mock-button primary">允許</span>
     </div>
   </div>
+  <p class="visually-equivalent">權限提示列出 Agent 想修改的 {files.join('、')}。{consequence}使用者可以允許或取消。</p>
 </figure>

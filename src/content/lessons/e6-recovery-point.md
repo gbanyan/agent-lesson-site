@@ -3,11 +3,16 @@ id: E6
 slug: recovery-before-change
 section: E
 order: 6
+archetype: safety_action
 question: 大修改以前為什麼要建立可恢復狀態？
 context: 網站專案即將重整許多檔案與設定。保留一個確認可用的起點，才有明確的恢復位置。
 answer: 因為結果若不理想，你需要知道能從哪個較早、可用的狀態回去。
 takeaway: 重大修改前應保留一個確認能正常運作的存檔點，結果不理想時才能恢復。
-followUp: "在重整＿＿＿＿以前，請建立一個可恢復點，列出包含與未包含的資料，實際驗證它能開啟，再告訴我恢復步驟。"
+prompt:
+  audience: active_agent
+  mode: execute_after_confirmation
+  capability: requires_workspace_access
+  text: "在重整＿＿＿＿以前，先建立可恢復點，列出包含與未包含的資料，並驗證恢復來源可以開啟。完成後停止，等我確認再開始修改。"
 newTerms: [可恢復狀態]
 prerequisites: [E1, E2]
 visual: { type: concept, preset: recovery-before-change }

@@ -3,11 +3,16 @@ id: D4
 slug: permission
 section: D
 order: 4
+archetype: safety_action
 question: Permission 是什麼？
 context: Agent 準備修改網站檔案時，系統可能要求允許它存取指定資料夾。
 answer: Permission 是允許某個人或程式執行特定動作的授權。
 takeaway: 權限提示應說清楚由誰執行、動作內容與影響範圍。
-followUp: "這個權限提示要求＿＿＿＿。請說明是哪個工具提出、允許後能碰哪些資料、拒絕會怎樣，以及是否有範圍更小的做法。"
+prompt:
+  audience: active_agent
+  mode: ask_only
+  capability: requires_workspace_access
+  text: "這個權限提示要求＿＿＿＿。請說明是哪個工具提出、允許後能碰哪些資料、拒絕會怎樣，以及是否有範圍更小的做法。不要執行或要求更多權限。"
 newTerms: [Permission]
 prerequisites: [B6, D2]
 visual: { type: permission, preset: modify-files }

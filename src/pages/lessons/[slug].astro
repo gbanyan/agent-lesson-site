@@ -12,14 +12,29 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const all = (await getCollection('lessons')).sort((a,b) => a.data.section.localeCompare(b.data.section) || a.data.order-b.data.order);
+const paths = await getCollection('paths');
 const index = all.findIndex((item) => item.data.id === entry.data.id);
 const previousEntry = all[index - 1]; const nextEntry = all[index + 1];
 const previous = previousEntry ? { href:url(`/lessons/${previousEntry.data.slug}/`), label:previousEntry.data.question } : undefined;
 const next = nextEntry ? { href:url(`/lessons/${nextEntry.data.slug}/`), label:nextEntry.data.question } : { href:url('/start/'), label:'選另一條路徑' };
+const byId = new Map(all.map((lesson) => [lesson.data.id, lesson]));
+const pathContexts = paths.flatMap((path) => {
+  const step = path.data.lessons.indexOf(entry.data.id);
+  if (step < 0) return [];
+  const previousLesson = step > 0 ? byId.get(path.data.lessons[step - 1]!) : undefined;
+  const nextLesson = step < path.data.lessons.length - 1 ? byId.get(path.data.lessons[step + 1]!) : undefined;
+  const withPath = (slug:string) => `${url(`/lessons/${slug}/`)}?path=${path.data.slug}`;
+  return [{
+    slug:path.data.slug, title:path.data.title, step:step + 1, total:path.data.lessons.length,
+    previous:previousLesson ? {href:withPath(previousLesson.data.slug),label:previousLesson.data.question} : undefined,
+    next:nextLesson ? {href:withPath(nextLesson.data.slug),label:nextLesson.data.question} : undefined,
+    returnHref:url(`/paths/${path.data.slug}/`),
+  }];
+});
 ---
 <BaseLayout title={entry.data.question} description={entry.data.answer}>
   <div class="shell">
-    <Lesson id={entry.data.id} question={entry.data.question} context={entry.data.context} answer={entry.data.answer} takeaway={entry.data.takeaway} followUp={entry.data.followUp} newTerms={entry.data.newTerms} searchTerms={entry.data.searchTerms} scenario={entry.data.scenario} previous={previous} next={next}>
+    <Lesson id={entry.data.id} archetype={entry.data.archetype} question={entry.data.question} context={entry.data.context} answer={entry.data.answer} takeaway={entry.data.takeaway} prompt={entry.data.prompt} newTerms={entry.data.newTerms} searchTerms={entry.data.searchTerms} scenario={entry.data.scenario} pathContexts={pathContexts} previous={previous} next={next}>
       {entry.data.visual && <LessonVisual slot="visual" lessonId={entry.data.id} type={entry.data.visual.type} preset={entry.data.visual.preset} />}
       <Content />
     </Lesson>

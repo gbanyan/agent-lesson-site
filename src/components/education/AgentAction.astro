@@ -4,11 +4,12 @@ const { request, intent, tool, result, next } = Astro.props;
 ---
 <figure class="visual">
   <figcaption class="visual-label">你能看見的 Agent 工作流程</figcaption>
-  <div class="flow">
+  <div class="flow" aria-hidden="true">
     <div class="flow-step"><strong>你：</strong>{request}</div><div class="flow-arrow" aria-hidden="true">↓</div>
     <div class="flow-step"><strong>Agent 的操作意圖：</strong>{intent}</div><div class="flow-arrow" aria-hidden="true">↓</div>
     <div class="flow-step tool"><strong>使用工具：</strong>{tool}</div><div class="flow-arrow" aria-hidden="true">↓</div>
     <div class="flow-step result"><strong>得到結果：</strong>{result}</div><div class="flow-arrow" aria-hidden="true">↓</div>
     <div class="flow-step"><strong>接著：</strong>{next}</div>
   </div>
+  <p class="visually-equivalent">你提出「{request}」後，Agent 準備{intent}，透過{tool}取得「{result}」，再{next}。</p>
 </figure>
