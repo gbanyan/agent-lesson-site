@@ -4,7 +4,7 @@ import YAML from 'yaml';
 import { access, readFile } from 'node:fs/promises';
 
 const allowed = new Set(['concept','system-map','terminal','agent-action','file-explorer','permission','illustration']);
-const systemMapLessons = new Set(['A1','B9','C1','C2','C3','C4','C5','C7','D2','D3','E7','F4']);
+const systemMapLessons = new Set(['A1','B3','B9','C1','C2','C3','C4','C5','C7','D2','D3','E7','F4']);
 const errors:string[]=[];
 for (const file of await fg('src/content/lessons/*.md')) {
   const {data}=matter(await readFile(file,'utf8'));

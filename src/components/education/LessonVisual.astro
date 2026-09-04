@@ -16,8 +16,13 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
     { title:'聊天 AI', steps:[{place:'你',title:'提出問題',detail:'請它說明做法'},{place:'模型',title:'產生回答',detail:'回傳文字'},{place:'你',title:'自己操作',detail:'檔案不會自動改變',tone:'result'}]},
     { title:'Agent', steps:[{place:'你',title:'交代任務',detail:'說明範圍與要求'},{place:'Agent',title:'選擇工具',detail:'依權限採取行動',tone:'agent'},{place:'檔案或服務',title:'狀態改變',detail:'留下可檢查的結果',tone:'result'}]},
   ], summary:'聊天 AI 通常回傳文字，由你自己操作。Agent 可以使用工具，讓檔案或外部服務產生變化。' },
+  B3: { label:'程式從哪裡來', lanes:[
+    { title:'原本就有', steps:[{place:'Agent',title:'選擇現有程式',detail:'使用電腦已有的工具',tone:'agent'},{place:'電腦',title:'執行程式',detail:'開始實際工作',tone:'result'}]},
+    { title:'需要安裝', steps:[{place:'Agent',title:'提出安裝',detail:'說明來源與影響',tone:'agent'},{place:'電腦',title:'執行新程式',detail:'安裝後另行啟動',tone:'result'}]},
+    { title:'這次產生', steps:[{place:'Agent',title:'建立程式內容',detail:'留下程式檔案',tone:'agent'},{place:'電腦',title:'執行程式',detail:'檔案不會自行工作',tone:'result'}]},
+  ], summary:'Agent 可能選擇既有程式、提出安裝，或建立這次需要的程式內容；電腦執行程式後才會開始實際工作。' },
   B9: { label:'工作範圍', lanes:[
-    { title:'已開放', steps:[{place:'目前資料夾',title:'報表工作區',detail:'Agent 可以查看與修改',tone:'agent'},{place:'範圍內',title:'第一季.xlsx',detail:'這次任務會處理',tone:'result'}]},
+    { title:'已開放', steps:[{place:'目前資料夾',title:'website',detail:'Agent 可以查看與修改',tone:'agent'},{place:'範圍內',title:'index.html',detail:'這次任務會處理',tone:'result'}]},
     { title:'未開放', steps:[{place:'其他位置',title:'相簿與郵件',detail:'不在目前工作範圍'},{place:'需要時',title:'另行確認',detail:'不能自行擴大範圍',tone:'remote'}]},
   ], summary:'Agent 只應在目前開放的工作範圍內處理資料；其他位置要另外確認。' },
   C1: { label:'本機與遠端', lanes:[
@@ -62,11 +67,10 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
 
 const concepts: Record<string, {label:string;items:{title:string;detail:string}[];relation?:string;summary:string}> = {
   A2: { label:'行動邊界', items:[{title:'工具',detail:'能用什麼'},{title:'工作範圍',detail:'能碰哪裡'},{title:'權限',detail:'能做到多少'}], relation:'＋', summary:'Agent 的行動由可用工具、目前工作範圍與被授予的權限共同限制。' },
-  B3: { label:'程式', items:[{title:'輸入',detail:'收到資料或要求'},{title:'程式',detail:'依規則處理'},{title:'輸出',detail:'產生結果'}], summary:'程式收到輸入，依預先寫好的規則處理，再產生輸出。' },
-  B4: { label:'基本運作', items:[{title:'Input',detail:'輸入'},{title:'Process',detail:'處理'},{title:'Output',detail:'輸出'}], summary:'電腦工作可以簡化成輸入、處理、輸出三個階段。' },
+  B4: { label:'縮小網站圖片', items:[{title:'原始照片',detail:'Input／收到的內容'},{title:'調整尺寸',detail:'Process／進行的處理'},{title:'縮小照片',detail:'Output／留下的結果'}], summary:'圖片工作收到原始照片，程式調整尺寸，再留下縮小後的新照片。' },
   B5: { label:'安裝不等於執行', items:[{title:'安裝',detail:'把需要的內容準備好'},{title:'執行',detail:'讓程式開始工作'}], relation:'≠', summary:'安裝是把程式準備在環境裡；執行才是讓它開始工作。' },
   B6: { label:'兩種影響', items:[{title:'讀取',detail:'取得資訊'},{title:'修改',detail:'改變狀態'}], relation:'≠', summary:'讀取只取得資訊；修改會讓檔案或系統狀態發生變化。' },
-  C6: { label:'三種資源', items:[{title:'CPU',detail:'做運算'},{title:'記憶體',detail:'暫時放工作中的內容'},{title:'儲存空間',detail:'較長期保存資料'}], relation:'／', summary:'CPU 負責運算、記憶體暫存工作中內容、儲存空間較長期保存資料。' },
+  C6: { label:'本機工具用到的資源', items:[{title:'CPU',detail:'進行計算'},{title:'記憶體',detail:'暫放工作內容'},{title:'儲存空間',detail:'保存程式與產出'}], relation:'／', summary:'本機工具會用 CPU 計算、用記憶體暫放工作內容，並用儲存空間保存程式與產出。' },
   D1: { label:'工作記憶', items:[{title:'眼前資訊',detail:'能拿來工作'},{title:'沒有提供',detail:'不一定知道'}], relation:'≠', summary:'Agent 只能根據眼前的工作記憶做事，不一定還記得之前看過的內容。' },
   D5: { label:'影響範圍', items:[{title:'一般權限',detail:'較有限的範圍'},{title:'管理員權限',detail:'可能影響更多系統區域'}], summary:'管理員權限可能讓同一個動作影響更大的系統範圍。' },
   D6: { label:'限制機制', items:[{title:'Sandbox 內',detail:'允許的行動範圍'},{title:'Sandbox 外',detail:'受到限制或需另行允許'}], relation:'｜', summary:'Sandbox 用邊界限制可採取的行動，但它不是絕對安全的保證。' },
@@ -88,9 +92,13 @@ const concepts: Record<string, {label:string;items:{title:string;detail:string}[
     ? <TerminalExample purpose="列出報表資料夾的檔案" command="ls 報表" output="一月.xlsx　二月.xlsx　摘要.docx" impact="read" summary="這行指令讀取資料夾目錄並列出檔名，不會修改檔案內容。" />
     : <TerminalExample purpose="查看目前的位置" command="pwd" output="/Users/you/工作" impact="read" summary="這行指令只讀取目前位置。指令的目的與影響是判斷重點。" />
 ) : type === 'agent-action' ? (
-  <AgentAction request="看看這個資料夾裡有什麼。" intent="查看資料夾內容" tool="終端機：ls" result="找到 報表、照片、notes.txt" next="根據結果決定是否還需要下一步" />
+  lessonId === 'B7'
+    ? <AgentAction request="看看 website 資料夾裡有什麼。" intent="查看資料夾內容" tool="Terminal：一行文字指令" result="找到 index.html 與 images" next="讀取結果，再決定下一步" />
+    : <AgentAction request="看看這個資料夾裡有什麼。" intent="查看資料夾內容" tool="終端機：ls" result="找到 報表、照片、notes.txt" next="根據結果決定是否還需要下一步" />
 ) : type === 'file-explorer' ? (
-  <FileExplorer root="家庭支出" summary="家庭支出資料夾裡有 2025、2026 兩個資料夾，以及一份 notes.txt。" />
+  lessonId === 'B1'
+    ? <FileExplorer root="website" entries={[{kind:'file',name:'index.html'},{kind:'folder',name:'images'}]} summary="website 資料夾裡有首頁檔案 index.html，以及存放圖片的 images 資料夾。" />
+    : <FileExplorer root="website" entries={[{kind:'folder',name:'images'},{kind:'file',name:'logo.png',depth:1}]} summary="路徑 website/images/logo.png 指向 images 資料夾裡的 logo.png。" />
 ) : type === 'permission' ? (
   <PermissionPrompt files={['Downloads/收據-01.jpg', '差旅報帳/收據-01.jpg']} consequence="允許後，Agent 會讀取下載的圖片，並在差旅報帳資料夾建立副本。" />
 ) : concepts[lessonId] ? (

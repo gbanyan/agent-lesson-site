@@ -15,6 +15,7 @@ const lessons = defineCollection({
     section: z.enum(['A', 'B', 'C', 'D', 'E', 'F']),
     order: z.number().int().positive(),
     question: z.string().min(1),
+    context: z.string().min(1),
     answer: z.string().min(1),
     takeaway: z.string().min(1),
     followUp: z.string().min(1),

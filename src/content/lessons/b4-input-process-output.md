@@ -2,22 +2,23 @@
 id: B4
 slug: input-process-output
 section: B
-order: 4
-question: 電腦的 Input → Process → Output 是什麼？
+order: 6
+question: 一個電腦工作，可以怎麼拆開看？
+context: 幾張原始照片交給 Agent 後，程式縮小尺寸，資料夾裡多出一批新照片。這項工作可以拆成三段查看。
 answer: Input 是收到的內容，Process 是處理，Output 是產生的結果。
-takeaway: 電腦動作可以拆成三個問題：收到什麼、做了什麼、產生什麼？
+takeaway: 檢查一項工作時，分別找出它拿到的內容、進行的處理，以及留下的結果。
 followUp: "請把『＿＿＿＿』這項工作拆成 Input、Process、Output，另外指出哪一步會讀取資料，哪一步會寫入或傳送資料。"
 newTerms: [Input, Process, Output]
 prerequisites: [B3]
 visual: { type: concept, preset: ipo }
 scenario:
-  request: "在三份會議記錄裡找出提到『交付日期』的段落。"
+  request: "把 website/images 裡的三張原始照片各自縮小一份。"
   actions:
-    - "Agent 收到關鍵字『交付日期』和三份文件；這些是 Input。"
-    - "它呼叫文字搜尋工具，逐一比對文件內容；這段處理是 Process。"
-    - "它把相符的檔名與段落整理成清單；這份清單是 Output。"
-  result: "你會看到哪些文件提到交付日期，以及相符段落的位置。"
-  boundary: "沒有結果只代表這次輸入和搜尋規則沒有找到，不足以證明內容一定不存在。"
+    - "三張原始照片是 Input，也就是這次收到的內容。"
+    - "圖片程式調整尺寸是 Process，也就是實際處理。"
+    - "三張縮小後的新照片是 Output，也就是留下的結果。"
+  result: "原始照片保持不動，輸出資料夾多出三張縮小版本。"
+  boundary: "看到 Output 只證明程式留下結果，尺寸與畫質是否符合要求仍要另外檢查。"
 notTeach: [作業系統程序, 演算法]
 ---
-這是簡化模型，不是所有內部細節。它的用途是把一個看似複雜的動作拆成三個可確認的部分。
+Input、Process、Output 是觀察工作的簡單框架，用來確認一項操作拿到什麼、做了什麼，以及留下什麼。

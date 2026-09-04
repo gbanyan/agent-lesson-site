@@ -15,7 +15,7 @@ const base = import.meta.env.BASE_URL;
   </section>
   <section class="shell concept-list" data-pagefind-ignore>
     <h2>全部概念</h2>
-    <ul>{lessons.map((lesson) => <li><span>{lesson.data.id}</span><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></li>)}</ul>
+    <ul>{lessons.map((lesson) => <li><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></li>)}</ul>
   </section>
   <script is:inline>
     const input = document.querySelector('#search');
@@ -55,7 +55,6 @@ const base = import.meta.env.BASE_URL;
   .search-results p { margin:.3rem 0; color:var(--ink-soft); }
   .concept-list { padding-block:2rem 5rem; }
   .concept-list ul { padding:0; list-style:none; columns:2; column-gap:2rem; }
-  .concept-list li { break-inside:avoid; display:grid; grid-template-columns:2.4rem 1fr; gap:.5rem; padding:.55rem 0; }
-  .concept-list span { color:var(--ink-soft); font-size:.85rem; }
+  .concept-list li { break-inside:avoid; padding:.55rem 0; }
   @media(max-width:44rem){.concept-list ul{columns:1}}
 </style>

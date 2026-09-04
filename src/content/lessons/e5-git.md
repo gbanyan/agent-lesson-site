@@ -4,6 +4,7 @@ slug: git
 section: E
 order: 5
 question: Git 是什麼？
+context: Agent 修改一批專案檔案後，常會用 Git 列出哪些內容增加、刪除或改變。
 answer: Git 是版本管理工具，Agent 工作時常用它記錄一組檔案的變化。
 takeaway: Git 很適合記錄與查看一組檔案的變化；重要資料仍需要另一份獨立備份。
 followUp: "請用 Git 檢查＿＿＿＿目前有哪些未記錄的變更，分開列出新增、修改與刪除的檔案。只回報差異，不要提交或還原。"

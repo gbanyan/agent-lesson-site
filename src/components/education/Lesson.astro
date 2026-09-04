@@ -2,19 +2,20 @@
 import Takeaway from './Takeaway.astro';
 import FollowUpQuestion from './FollowUpQuestion.astro';
 interface Props {
-  id: string; question: string; answer: string; takeaway: string; newTerms: string[];
+  id: string; question: string; context: string; answer: string; takeaway: string; newTerms: string[];
   followUp?: string | undefined;
   searchTerms?: string[] | undefined;
   scenario: { request: string; actions: string[]; result: string; boundary: string };
   next?: { href: string; label: string } | undefined; previous?: { href: string; label: string } | undefined;
 }
-const { id, question, answer, takeaway, followUp, newTerms, searchTerms = [], scenario, next, previous } = Astro.props;
+const { id, question, context, answer, takeaway, followUp, newTerms, searchTerms = [], scenario, next, previous } = Astro.props;
 ---
 <article class="lesson reading" data-pagefind-body>
   <header>
     {searchTerms.length > 0 && <span class="search-alias" aria-hidden="true" data-pagefind-weight="0.5">{searchTerms.join(' ')}</span>}
-    <div class="lesson-meta"><span>微課程 {id}</span><span aria-hidden="true">·</span><span>約 1 分鐘</span></div>
+    <div class="lesson-meta"><span>概念短讀</span><span aria-hidden="true">·</span><span>約 1 分鐘</span></div>
     <h1 data-pagefind-meta="title">{question}</h1>
+    <p class="lesson-context">{context}</p>
     <p class="lesson-answer">{answer}</p>
   </header>
   <slot name="visual" />

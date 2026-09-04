@@ -4,6 +4,7 @@ slug: tool
 section: D
 order: 2
 question: Tool 是什麼？
+context: Agent 能否開網頁、辨認圖片或修改試算表，取決於目前環境提供了哪些可操作的工具。
 answer: 工具（Tool）讓 Agent 能開網頁、查資料、改檔案或執行程式。
 takeaway: 可用工具大致界定了 Agent 能對電腦與外部服務採取哪些行動。
 followUp: "要完成＿＿＿＿，你打算使用哪些工具？請逐一說明每個工具會讀取、修改或傳送什麼，並指出哪些動作需要我先確認。"

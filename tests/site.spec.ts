@@ -111,12 +111,88 @@ test('all 35 lessons render a concrete scenario and boundary', async ({page}) =>
   expect(links).toHaveLength(35);
   for (const href of links) {
     await page.goto(href);
+    await expect(page.locator('.lesson-context')).not.toBeEmpty();
     await expect(page.locator('.scenario blockquote')).not.toBeEmpty();
     expect(await page.locator('.scenario ol li').count(), href).toBeGreaterThanOrEqual(2);
     await expect(page.locator('.scenario-boundary')).toContainText('判斷邊界');
     await expect(page.locator('.follow-up')).toContainText('套用到自己的情況');
     await expect(page.locator('.follow-up code')).toContainText('＿＿');
   }
+});
+
+test('canonical beginner sequence ignores the numeric order of stable IDs', async ({page}) => {
+  await page.goto('/concepts/');
+  const hrefs = await page.locator('.concept-list a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')));
+  expect(hrefs.slice(0, 11)).toEqual([
+    '/lessons/agent-vs-chat/',
+    '/lessons/control-whole-computer/',
+    '/lessons/files-and-folders/',
+    '/lessons/path/',
+    '/lessons/working-scope/',
+    '/lessons/program/',
+    '/lessons/install-vs-run/',
+    '/lessons/input-process-output/',
+    '/lessons/terminal/',
+    '/lessons/command/',
+    '/lessons/read-vs-write/',
+  ]);
+  await page.goto('/lessons/path/');
+  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/lessons/working-scope/');
+  await page.goto('/lessons/where-model-runs/');
+  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/lessons/computer-resources/');
+});
+
+test('situation paths follow task-driven concept order', async ({page}) => {
+  await page.goto('/paths/agent-runs-command/');
+  expect(await page.locator('.path-steps a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')))).toEqual([
+    '/lessons/program/',
+    '/lessons/terminal/',
+    '/lessons/command/',
+    '/lessons/read-vs-write/',
+    '/lessons/permission/',
+    '/lessons/claim-vs-verification/',
+  ]);
+
+  await page.goto('/paths/local-cloud-confusion/');
+  expect(await page.locator('.path-steps a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')))).toEqual([
+    '/lessons/local-and-remote/',
+    '/lessons/where-is-my-data/',
+    '/lessons/where-program-runs/',
+    '/lessons/where-model-runs/',
+    '/lessons/computer-resources/',
+    '/lessons/data-leaves-device/',
+  ]);
+});
+
+test('core role pages keep one distinct mental model each', async ({page}) => {
+  await page.goto('/lessons/program/');
+  await expect(page.locator('h1')).toHaveText('Agent 靠什麼實際完成工作？');
+  await expect(page.locator('.system-lane')).toHaveCount(3);
+  await expect(page.locator('main')).toContainText('程式碼或程式檔案只是保存下來的指示');
+
+  await page.goto('/lessons/input-process-output/');
+  await expect(page.locator('h1')).toHaveText('一個電腦工作，可以怎麼拆開看？');
+  await expect(page.locator('.concept-node')).toHaveCount(3);
+  await expect(page.locator('.visual')).toContainText('原始照片');
+
+  await page.goto('/lessons/terminal/');
+  await expect(page.locator('.flow')).toBeVisible();
+  await expect(page.locator('.flow')).toContainText('Terminal：一行文字指令');
+
+  await page.goto('/lessons/command/');
+  await expect(page.locator('.scenario-boundary')).not.toContainText('&&');
+  await expect(page.locator('.scenario-boundary')).not.toContainText('|');
+});
+
+test('lesson IDs stay internal and protected DOCX copy remains intact', async ({page}) => {
+  await page.goto('/lessons/program/');
+  await expect(page.locator('.lesson-meta')).toHaveText(/概念短讀\s*·\s*約 1 分鐘/);
+  await expect(page.locator('.lesson-meta')).not.toContainText('B3');
+
+  await page.goto('/lessons/read-vs-write/');
+  await expect(page.locator('main')).toContainText('讀一下 report.docx，告訴我第二章在說什麼；先不要修改。');
+  await expect(page.locator('main')).toContainText('對 DOCX 則可能執行 unzip、pandoc 或文件解析程式');
+  await expect(page.locator('main')).toContainText('DOCX 裡其實打包了文字結構、格式和圖片');
 });
 
 test('lesson follow-up question can be copied', async ({page, context}) => {

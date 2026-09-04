@@ -4,6 +4,7 @@ slug: administrator-permission
 section: D
 order: 5
 question: 管理員權限有什麼不同？
+context: 一般權限無法修改某項系統設定時，Agent 可能要求管理員授權，讓同一個動作碰到更大的範圍。
 answer: 管理員權限能修改一般程式碰不到的系統設定與檔案。
 takeaway: Agent 要求更高權限時，需確認原因與影響範圍，不能當成一般確認。
 followUp: "你為什麼需要管理員權限來完成＿＿＿＿？請列出會改到的系統位置，並找一個不需要管理員權限的替代方式。"

@@ -4,6 +4,7 @@ slug: internet-access
 section: F
 order: 4
 question: Agent 可以上網代表什麼？
+context: Agent 上網查航空公司的現行規定，也可能把本機問題或檔案內容送到外部服務。
 answer: 它可能取得網路內容，也可能與外部系統交換資料。
 takeaway: Agent 能從網路取得內容，也能把資料送出去；它讀到的資料仍要判斷是否可信。
 followUp: "完成＿＿＿＿時，你準備連到哪些網站或服務？請分開列出會下載的內容、會上傳的資料與查核來源；先不要連線。"

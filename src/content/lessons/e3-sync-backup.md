@@ -4,6 +4,7 @@ slug: sync-vs-backup
 section: E
 order: 3
 question: Sync 就是 Backup 嗎？
+context: 雲端同步會把本機的刪除動作傳到其他裝置。各處都變得一樣，不表示仍有舊資料可救回。
 answer: 不是。Sync 主要讓各處保持一致；Backup 主要讓你在出事後恢復。
 takeaway: 同步會讓各處保持一致，誤刪也可能一起傳過去；可恢復的獨立備份需要另外保留。
 followUp: "請幫我判斷＿＿＿＿目前使用的是同步、備份，還是兩者都有。若我誤刪一個檔案，說明各副本會怎麼變，以及能從哪裡恢復。"

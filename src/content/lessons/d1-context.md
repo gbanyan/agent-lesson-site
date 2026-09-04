@@ -4,6 +4,7 @@ slug: context
 section: D
 order: 1
 question: Context 是什麼？
+context: Agent 突然不再沿用稍早的分類規則，常見原因是那段資訊已不在它目前能使用的工作記憶裡。
 answer: 工作記憶（Context）是 Agent 當下看得到、能拿來處理任務的資訊。
 takeaway: Agent 只能用眼前的工作記憶做事；重要背景需要再次說明，或明確指給它看。
 followUp: "開始＿＿＿＿以前，請列出你目前已知的背景、仍缺少的資料，以及你準備採用的參考版本。不要自行補上未提供的資訊。"

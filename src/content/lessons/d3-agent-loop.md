@@ -4,6 +4,7 @@ slug: agent-work-loop
 section: D
 order: 3
 question: Agent 是一次把所有事情想完嗎？
+context: 合併兩份修訂文件時，Agent 會讀取內容、處理能判斷的差異，再根據結果決定是否詢問。
 answer: 通常不是。它會取得資訊、採取行動、查看結果，再根據結果繼續。
 takeaway: Agent 多半會反覆查看資訊、採取行動、讀取結果，再決定下一步。
 followUp: "處理＿＿＿＿時，請在每一輪說明：剛取得什麼結果、接下來要用哪個工具，以及什麼條件下會停下來問我。"

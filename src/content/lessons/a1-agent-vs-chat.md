@@ -4,6 +4,7 @@ slug: agent-vs-chat
 section: A
 order: 1
 question: Agent 和聊天 AI 有什麼不同？
+context: 同樣是請 AI 修改資料，有的只會說明做法，有的能直接開啟工具並留下修改結果。
 answer: 聊天 AI 主要提供回答；Agent 還能透過工具，在允許的範圍內採取行動。
 takeaway: Agent 手上有工具；它除了回答，也可能真的讀檔、改檔或執行程式。
 followUp: "我正在使用＿＿＿＿。請告訴我它目前只是提供回答，還是能直接操作檔案或外部服務；列出可用工具、工作範圍，以及執行前會不會詢問我。"

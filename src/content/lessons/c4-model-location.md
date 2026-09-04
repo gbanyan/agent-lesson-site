@@ -4,6 +4,7 @@ slug: where-model-runs
 section: C
 order: 4
 question: AI 模型在哪裡運算？
+context: Agent 工具能在本機讀取檔案，但產生摘要的 AI 模型可能在供應商的電腦上運算。
 answer: 模型可能在本機或遠端運算；它的位置不必和你的資料或 Agent 工具相同。
 takeaway: 檔案存在哪、程式在哪裡跑、AI 模型在哪裡運算，是三件要分開確認的事。
 followUp: "我使用＿＿＿＿處理＿＿＿＿。請分開說明檔案存放位置、Agent 工具執行位置與 AI 模型運算位置；不確定的地方請直接標出。"

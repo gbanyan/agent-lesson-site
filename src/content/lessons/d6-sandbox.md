@@ -4,6 +4,7 @@ slug: sandbox
 section: D
 order: 6
 question: Sandbox 是什麼？
+context: 來源不明的檔案需要檢查，但不該接觸其他文件或任意連上網路。受限制的執行範圍可用來隔開這些動作。
 answer: 沙盒（Sandbox）把程式或 Agent 的行動限制在指定範圍內。
 takeaway: 沙盒能把影響圈小一點；仍要看清楚圍欄裡允許讀、寫、上網或執行哪些動作。
 followUp: "目前 sandbox 允許你讀寫哪些位置、能否上網、可以執行哪些程式？請用這次的＿＿＿＿任務說明仍然存在的風險。"

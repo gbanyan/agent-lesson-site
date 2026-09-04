@@ -1,5 +1,5 @@
 ---
-interface Entry { kind: 'folder' | 'file'; name: string; }
+interface Entry { kind: 'folder' | 'file'; name: string; depth?: number; }
 interface Props { root?: string; entries?: Entry[]; summary?: string; }
 const {
   root = '家庭支出',
@@ -15,7 +15,8 @@ const {
   <figcaption class="visual-label">檔案結構示意</figcaption>
   <div class="tree" aria-hidden="true">
     <div>📁 {root}</div>
-    {entries.map((entry, index) => <div>　{index === entries.length - 1 ? '└──' : '├──'} {entry.kind === 'folder' ? '📁' : '📄'} {entry.name}</div>)}
+    {entries.map((entry, index) => <div class:list={['tree-entry', { nested: entry.depth === 1 }]}>　{index === entries.length - 1 ? '└──' : '├──'} {entry.kind === 'folder' ? '📁' : '📄'} {entry.name}</div>)}
   </div>
   <p class="muted">{summary}</p>
 </figure>
+<style>.tree-entry.nested { padding-left: 1.5rem; }</style>
