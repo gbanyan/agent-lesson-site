@@ -18,6 +18,15 @@ test('lesson page has no authored client JavaScript', async ({page}) => {
   await expect(page.locator('script')).toHaveCount(0);
 });
 
+test('diagram meaning remains in the accessibility tree', async ({page}) => {
+  await page.goto('/lessons/where-model-runs/');
+  const equivalent = page.locator('.visually-equivalent');
+  await expect(equivalent).toContainText('資料位置、程式執行位置與 AI 模型推理位置彼此不同');
+  const snapshot = await page.locator('main').ariaSnapshot();
+  expect(snapshot).toContain('AI 模型在哪裡運算？');
+  expect(snapshot).toContain('資料位置、程式執行位置與 AI 模型推理位置彼此不同');
+});
+
 test('situation path links to the expected minimum lessons', async ({page}) => {
   await page.goto('/paths/first-agent-change/');
   await expect(page.locator('.path-steps li')).toHaveCount(6);

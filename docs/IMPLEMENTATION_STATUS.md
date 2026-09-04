@@ -44,11 +44,19 @@ Status: implemented. Codex and Claude Code bridges use official documentation li
 
 ## Phase 10 — Final audit
 
-Status: complete locally. `npm run verify` passes: 35-lesson content lint, link/visual validation, Astro check with zero diagnostics, 22/22 Playwright tests across desktop/mobile including axe, Pagefind search, keyboard/zoom/reflow, zero-JS lesson assertion, and all-route crawl. Production build emits 46 static pages and indexes all 35 lessons. GitHub/public verification is tracked in Phase 11.
+Status: complete locally. `npm run verify` passes: 35-lesson content lint, link/visual validation, Astro check with zero diagnostics, 24/24 Playwright tests across desktop/mobile including axe, Pagefind search, accessibility-tree meaning, keyboard/zoom/reflow, zero-JS lesson assertion, and all-route crawl. Production build emits 46 static pages and indexes all 35 lessons. GitHub/public verification is tracked in Phase 11.
 
 ## Phase 11 — GitHub & production deployment
 
-Status: in progress. Workflow and deployment documentation are implemented; repository creation, push, Actions monitoring, and public smoke verification remain.
+Status: complete.
+
+- Repository: https://github.com/gbanyan/agent-lesson-site (`main`, public, clean history initialized once)
+- Workflow: `Quality Gate and Pages`, run `33838496018`, successful
+- Pages: https://gbanyan.github.io/agent-lesson-site/ (HTTPS enforced)
+- Production smoke: desktop and 390px mobile passed; homepage, CSS/assets, lessons, paths, product bridge, Pagefind, canonical/base-path links, horizontal overflow, request failures, and console errors checked.
+- Generated illustration loading: not applicable; the reviewed pilot intentionally selected zero raster illustrations and the manifest is empty.
+
+Known limitation: automated checks and semantic-tree inspection cannot replace evaluation by assistive-technology users. Formal user testing is outside this repository run and should remain part of future release review.
 
 ## Deviations
 

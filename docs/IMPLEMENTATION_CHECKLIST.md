@@ -11,4 +11,4 @@
 - [x] Phase 8: five situation paths referencing existing lessons
 - [x] Phase 9: Codex and Claude Code schema-driven product bridges
 - [x] Phase 10: final content, safety, accessibility, and build audit
-- [ ] Phase 11: GitHub repository, quality-gated Pages deployment, public smoke verification
+- [x] Phase 11: GitHub repository, quality-gated Pages deployment, public smoke verification
