@@ -4,7 +4,7 @@ const { url, items } = Astro.props;
 ---
 <aside class="official-notice" aria-labelledby="official-title">
   <h2 id="official-title">最新功能與方案以官方為準</h2>
-  <p>AI 工具更新很快，收費方式與功能限制也會調整。開始使用前，建議先查閱：</p>
+  <p>AI 工具更新很快，收費方式與功能限制也會調整。使用前請查閱：</p>
   <ul>{items.map((item) => <li>{item}</li>)}</ul>
   <a href={url} rel="external">查看官方資訊 <span aria-hidden="true">→</span></a>
 </aside>

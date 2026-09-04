@@ -6,7 +6,7 @@ const lessons = (await getCollection('lessons')).sort((a,b) => a.data.section.lo
 const base = import.meta.env.BASE_URL;
 ---
 <BaseLayout title="找概念">
-  <header class="page-header shell"><p class="eyebrow">找一張就好</p><h1>你想找什麼概念？</h1><p>輸入一個詞，或從下方精簡清單選擇。不需要照順序讀完。</p></header>
+  <header class="page-header shell"><p class="eyebrow">概念索引</p><h1>要查哪個概念？</h1><p>輸入一個詞，或從下方清單選擇。各頁都能獨立閱讀。</p></header>
   <section class="shell search-area" data-pagefind-ignore>
     <label for="search"><strong>搜尋概念</strong></label>
     <input id="search" type="search" inputmode="search" autocomplete="off" placeholder="例如：Git、Command、Backup" data-base={base} />
@@ -40,7 +40,7 @@ const base = import.meta.env.BASE_URL;
           li.append(a, p); list.append(li);
         }
         status.textContent = items.length ? `找到 ${items.length} 個結果` : '找不到相符概念。可以換一個更短的詞。';
-      } catch { status.textContent = '搜尋功能目前還沒準備好，請先從下方的完整清單選擇。'; }
+      } catch { status.textContent = '搜尋功能目前還沒準備好，請從下方的完整清單選擇。'; }
     }
     input?.addEventListener('input', () => { window.clearTimeout(timer); timer = window.setTimeout(search, 180); });
   </script>

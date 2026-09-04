@@ -7,27 +7,27 @@ const paths = (await getCollection('paths')).sort((a, b) => a.data.id.localeComp
 <BaseLayout title="看懂 Agent">
   <section class="hero shell">
     <p class="eyebrow">AI Agent 入門</p>
-    <h1>看懂 AI Agent 正在對你的電腦做什麼</h1>
-    <p>不需要先會寫程式。從幾個很小的概念開始。</p>
-    <a class="button" href={url('/start/')}>開始</a>
+    <h1>AI Agent 動手時，電腦發生了什麼？</h1>
+    <p>Agent 會讀取檔案、執行指令，也可能修改資料。這裡把相關的電腦概念拆成短短幾頁。</p>
+    <a class="button" href={url('/start/')}>依情境閱讀</a>
   </section>
   <section class="section">
     <div class="shell section-heading">
       <p class="eyebrow">第一次使用以前</p>
-      <h2>先弄懂費用、安裝、模型與資料隱私</h2>
-      <p>這些資訊一直在變，所以我們不背規格表；先學會怎麼判斷，再針對你正在考慮的服務查最新說明。</p>
+      <h2>費用、安裝、模型與資料隱私</h2>
+      <p>規格與價格會變，判斷方法較少變。選定服務後，再向官方查核目前的方案與限制。</p>
       <a class="button secondary" href={url('/prepare/')}>閱讀使用前說明</a>
     </div>
   </section>
   <section class="section">
     <div class="shell">
-      <div class="section-heading"><p class="eyebrow">依情境開始</p><h2>你現在卡在哪裡？</h2></div>
+      <div class="section-heading"><p class="eyebrow">依情境閱讀</p><h2>目前遇到哪種狀況？</h2></div>
       <div class="card-grid">
         {paths.slice(0, 4).map((path) => <a class="card" href={url(`/paths/${path.data.slug}/`)}><span class="eyebrow">{path.data.id.toUpperCase()}</span><h3>{path.data.title}</h3><p>{path.data.description}</p></a>)}
       </div>
     </div>
   </section>
   <section class="section">
-    <div class="shell section-heading"><p class="eyebrow">快速查找</p><h2>我只想找一個詞</h2><p>搜尋 Git、權限或終端機指令，用一分鐘弄懂它在做什麼。</p><a class="button secondary" href={url('/concepts/')}>找概念</a></div>
+    <div class="shell section-heading"><p class="eyebrow">快速查找</p><h2>直接查一個詞</h2><p>搜尋 Git、權限或終端機指令，查看它的用途與影響。</p><a class="button secondary" href={url('/concepts/')}>找概念</a></div>
   </section>
 </BaseLayout>

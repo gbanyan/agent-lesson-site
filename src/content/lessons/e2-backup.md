@@ -6,12 +6,12 @@ order: 2
 question: Backup 是什麼？
 answer: Backup 是原始資料之外，另一份可供恢復的獨立副本。
 takeaway: 備份要放在原始資料之外；原檔出事時，手上還有一份能拿來恢復。
-followUp: "修改＿＿＿＿以前，請說明備份會存在哪裡、如何確認它可讀，以及如果原檔損壞要怎麼恢復。先建立並驗證副本。"
+followUp: "修改＿＿＿＿以前，請說明備份會存在哪裡、如何確認它可讀，以及如果原檔損壞要怎麼恢復。建立並驗證副本後再修改。"
 newTerms: [Backup]
 prerequisites: [E1]
 visual: { type: concept, preset: backup-copy }
 scenario:
-  request: "改寫這份唯一的訪談逐字稿前，先幫我備份。"
+  request: "改寫這份唯一的訪談逐字稿前，幫我保留一份備份。"
   actions:
     - "Agent 複製原檔到另一個明確位置，並保留可辨認的日期或版本。"
     - "它重新讀取副本，確認副本存在且內容不是空的，再開始改原檔。"

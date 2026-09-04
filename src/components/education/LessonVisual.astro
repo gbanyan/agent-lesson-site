@@ -38,7 +38,7 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
     { title:'AI 模型', steps:[{place:'你的裝置或供應商',title:'產生摘要',detail:'模型實際運算的位置',tone:'remote'}]},
   ], summary:'資料存放、Agent 執行工具與 AI 模型運算可能發生在三個不同位置。' },
   C5: { label:'資料離開裝置的路徑', lanes:[
-    { title:'送出內容', steps:[{place:'你的裝置',title:'錯誤紀錄',detail:'先檢查完整內容',tone:'local'},{place:'Agent 工具',title:'建立線上項目',detail:'準備傳送',tone:'agent'},{place:'網路',title:'上傳資料',detail:'資料離開裝置'},{place:'外部服務',title:'保存內容',detail:'他人可能存取',tone:'remote'}]},
+    { title:'送出內容', steps:[{place:'你的裝置',title:'錯誤紀錄',detail:'檢查完整內容',tone:'local'},{place:'Agent 工具',title:'建立線上項目',detail:'準備傳送',tone:'agent'},{place:'網路',title:'上傳資料',detail:'資料離開裝置'},{place:'外部服務',title:'保存內容',detail:'他人可能存取',tone:'remote'}]},
   ], summary:'Agent 使用網路工具時，本機內容會經過網路送到外部服務。' },
   C7: { label:'本機修改與公開版本', lanes:[
     { title:'尚未發布', steps:[{place:'你的裝置',title:'修改活動公告',detail:'只有本機副本改變',tone:'local'},{place:'公開位置',title:'仍是舊版本',detail:'其他人看不到新內容',tone:'remote'}]},
@@ -49,21 +49,21 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
   ], summary:'Agent 選擇工具執行操作，工具結果再回到 Agent，供它決定下一步。' },
   D3: { label:'檢查、行動、再檢查', lanes:[
     { title:'合併文件', steps:[{place:'兩份來源',title:'讀取修訂版',detail:'找出文字與註解差異',tone:'local'},{place:'Agent',title:'整理衝突',detail:'不確定時停下詢問',tone:'agent'},{place:'新檔案',title:'合併結果',detail:'不覆蓋兩份來源',tone:'result'},{place:'再次檢查',title:'核對章節',detail:'確認沒有漏掉內容'}]},
-  ], summary:'Agent 先比較兩份文件，再處理能確定的差異；完成新檔後還要重新檢查。' },
+  ], summary:'Agent 比較兩份文件，處理能確定的差異；完成新檔後還要重新檢查。' },
   E7: { label:'動作可能落在哪裡', lanes:[
     { title:'你的裝置', steps:[{place:'本機',title:'檔案或資料庫',detail:'內容可能改變',tone:'local'}]},
     { title:'外部世界', steps:[{place:'共享服務',title:'行事曆或文件',detail:'同事可能立刻看見',tone:'remote'},{place:'其他系統',title:'通知或帳單',detail:'可能產生後續影響',tone:'remote'}]},
   ], summary:'Agent 的動作可能留在本機，也可能改變共享文件、通知、帳單等外部狀態。' },
   F4: { label:'網路是雙向的', lanes:[
     { title:'取得資料', steps:[{place:'外部網站',title:'目前公告',detail:'來源可能可靠或有誤',tone:'remote'},{place:'網路',title:'下載內容',detail:'送進 Agent'},{place:'Agent',title:'讀取與判斷',detail:'不能自動當成指令',tone:'agent'}]},
-    { title:'送出資料', steps:[{place:'你的裝置',title:'檔案或問題',detail:'先檢查要送什麼',tone:'local'},{place:'網路',title:'上傳內容',detail:'離開裝置'},{place:'外部服務',title:'接收資料',detail:'依服務規則處理',tone:'remote'}]},
+    { title:'送出資料', steps:[{place:'你的裝置',title:'檔案或問題',detail:'檢查送出內容',tone:'local'},{place:'網路',title:'上傳內容',detail:'離開裝置'},{place:'外部服務',title:'接收資料',detail:'依服務規則處理',tone:'remote'}]},
   ], summary:'網路工具可以把資料帶進來，也可以把本機內容送出去；兩個方向都要檢查。' },
 };
 
 const concepts: Record<string, {label:string;items:{title:string;detail:string}[];relation?:string;summary:string}> = {
   A2: { label:'行動邊界', items:[{title:'工具',detail:'能用什麼'},{title:'工作範圍',detail:'能碰哪裡'},{title:'權限',detail:'能做到多少'}], relation:'＋', summary:'Agent 的行動由可用工具、目前工作範圍與被授予的權限共同限制。' },
   B3: { label:'程式', items:[{title:'輸入',detail:'收到資料或要求'},{title:'程式',detail:'依規則處理'},{title:'輸出',detail:'產生結果'}], summary:'程式收到輸入，依預先寫好的規則處理，再產生輸出。' },
-  B4: { label:'基本運作', items:[{title:'Input',detail:'輸入'},{title:'Process',detail:'處理'},{title:'Output',detail:'輸出'}], summary:'電腦工作可以先簡化成輸入、處理、輸出三個階段。' },
+  B4: { label:'基本運作', items:[{title:'Input',detail:'輸入'},{title:'Process',detail:'處理'},{title:'Output',detail:'輸出'}], summary:'電腦工作可以簡化成輸入、處理、輸出三個階段。' },
   B5: { label:'安裝不等於執行', items:[{title:'安裝',detail:'把需要的內容準備好'},{title:'執行',detail:'讓程式開始工作'}], relation:'≠', summary:'安裝是把程式準備在環境裡；執行才是讓它開始工作。' },
   B6: { label:'兩種影響', items:[{title:'讀取',detail:'取得資訊'},{title:'修改',detail:'改變狀態'}], relation:'≠', summary:'讀取只取得資訊；修改會讓檔案或系統狀態發生變化。' },
   C6: { label:'三種資源', items:[{title:'CPU',detail:'做運算'},{title:'記憶體',detail:'暫時放工作中的內容'},{title:'儲存空間',detail:'較長期保存資料'}], relation:'／', summary:'CPU 負責運算、記憶體暫存工作中內容、儲存空間較長期保存資料。' },
@@ -75,7 +75,7 @@ const concepts: Record<string, {label:string;items:{title:string;detail:string}[
   E3: { label:'目標不同', items:[{title:'Sync',detail:'讓各處保持一致'},{title:'Backup',detail:'出事後回復資料'}], relation:'≠', summary:'Sync 的主要目標是保持一致；Backup 的主要目標是出事後恢復。同步也可能把錯誤一起傳過去。' },
   E4: { label:'較早狀態', items:[{title:'現在',detail:'目前內容'},{title:'版本歷史',detail:'可查看較早狀態'}], relation:'回看', summary:'版本歷史保留過去的存檔；服務有提供恢復功能時，也能用它找回舊內容。' },
   E5: { label:'角色界線', items:[{title:'Git',detail:'記錄專案變化'},{title:'Backup',detail:'獨立恢復副本'}], relation:'≠', summary:'Git 能記錄專案變化；完整備份仍要另外保留。' },
-  E6: { label:'重大修改前', items:[{title:'目前可用狀態',detail:'先確認'},{title:'可恢復點',detail:'先建立或找到'},{title:'重大修改',detail:'再開始'}], summary:'先知道可以從哪裡回去，再讓重大修改開始。' },
+  E6: { label:'重大修改前', items:[{title:'目前可用狀態',detail:'確認可正常運作'},{title:'可恢復點',detail:'建立或找到'},{title:'重大修改',detail:'開始執行'}], summary:'重大修改應在確認可恢復狀態後開始。' },
   F1: { label:'檢視變更', items:[{title:'修改前',detail:'原本狀態'},{title:'差異',detail:'哪些地方改了'},{title:'修改後',detail:'目前狀態'}], summary:'檢視修改前後的差異，才能知道 Agent 實際改了什麼。' },
   F2: { label:'完成判斷', items:[{title:'Agent 的說法',detail:'口頭回報'},{title:'檢查結果',detail:'實際證據'}], relation:'≠', summary:'Agent 說完成只是口頭回報；看到符合要求的檢查結果，才算驗證。' },
   F3: { label:'秘密資訊', items:[{title:'密碼或 API Key',detail:'能代表你取得存取權'},{title:'一般文字',detail:'通常不具同等權限'}], relation:'≠', summary:'密碼與 API Key 可能讓持有者以你的身分存取系統，因此需要避免不必要的暴露。' },
@@ -86,7 +86,7 @@ const concepts: Record<string, {label:string;items:{title:string;detail:string}[
 ) : type === 'terminal' ? (
   lessonId === 'B8'
     ? <TerminalExample purpose="列出報表資料夾的檔案" command="ls 報表" output="一月.xlsx　二月.xlsx　摘要.docx" impact="read" summary="這行指令讀取資料夾目錄並列出檔名，不會修改檔案內容。" />
-    : <TerminalExample purpose="查看目前的位置" command="pwd" output="/Users/you/工作" impact="read" summary="先看動作的目的與影響，再看指令文字。這個例子只讀取目前位置。" />
+    : <TerminalExample purpose="查看目前的位置" command="pwd" output="/Users/you/工作" impact="read" summary="這行指令只讀取目前位置。指令的目的與影響是判斷重點。" />
 ) : type === 'agent-action' ? (
   <AgentAction request="看看這個資料夾裡有什麼。" intent="查看資料夾內容" tool="終端機：ls" result="找到 報表、照片、notes.txt" next="根據結果決定是否還需要下一步" />
 ) : type === 'file-explorer' ? (

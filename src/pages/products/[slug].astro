@@ -9,7 +9,7 @@ const { entry }=Astro.props; const lessons=await getCollection('lessons'); const
 <BaseLayout title={entry.data.product} description={entry.data.intro}>
   <article class="reading page-header">
     <p class="eyebrow">產品橋接</p><h1>使用 {entry.data.product} 前</h1><p class="lesson-answer">{entry.data.intro}</p>
-    <h2>你可以先理解</h2>
+    <h2>相關基本觀念</h2>
     <ul class="path-steps">{entry.data.concepts.map((id:string)=>{const lesson=byId.get(id);return lesson && <li><div><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></div></li>})}</ul>
     <p>實際安裝方式、支援平台、方案與功能可能隨時間改變。</p>
     <OfficialInfoNotice url={entry.data.officialUrl} items={entry.data.check} />

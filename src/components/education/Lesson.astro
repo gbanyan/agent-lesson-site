@@ -20,13 +20,13 @@ const { id, question, answer, takeaway, followUp, newTerms, searchTerms = [], sc
   <slot name="visual" />
   <div class="lesson-body"><slot /></div>
   <section class="scenario" aria-labelledby={`scenario-${id}`}>
-    <p class="scenario-kicker">放進真實情境</p>
-    <h2 id={`scenario-${id}`}>如果你這樣跟 Agent 說</h2>
+    <p class="scenario-kicker">情境範例</p>
+    <h2 id={`scenario-${id}`}>這項要求會怎麼執行</h2>
     <blockquote>{scenario.request}</blockquote>
-    <h3>接下來可能會發生</h3>
+    <h3>可能的執行過程</h3>
     <ol>{scenario.actions.map((action) => <li>{action}</li>)}</ol>
-    <p><strong>你會看到的結果：</strong>{scenario.result}</p>
-    <aside class="scenario-boundary"><strong>這個例子的邊界：</strong>{scenario.boundary}</aside>
+    <p><strong>結果：</strong>{scenario.result}</p>
+    <aside class="scenario-boundary"><strong>判斷邊界：</strong>{scenario.boundary}</aside>
   </section>
   {newTerms.length > 0 && <ul class="term-list" aria-label="這頁的新名詞">{newTerms.map((term) => <li>{term}</li>)}</ul>}
   <Takeaway text={takeaway} />

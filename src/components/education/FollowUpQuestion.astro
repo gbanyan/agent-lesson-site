@@ -3,9 +3,9 @@ interface Props { text: string; }
 const { text } = Astro.props;
 ---
 <aside class="follow-up" aria-labelledby="follow-up-title">
-  <p class="scenario-kicker">換成你的情況</p>
+  <p class="scenario-kicker">延伸查核</p>
   <div class="follow-up-heading">
-    <h2 id="follow-up-title">還可以這樣問</h2>
+    <h2 id="follow-up-title">套用到自己的情況</h2>
     <button type="button" class="copy-prompt" data-copy-prompt aria-label="複製延伸問題">複製問題</button>
   </div>
   <blockquote><code>{text}</code></blockquote>

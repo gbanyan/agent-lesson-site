@@ -29,6 +29,16 @@ test('diagram meaning remains in the accessibility tree', async ({page}) => {
   expect(snapshot).toContain('資料存放、Agent 執行工具與 AI 模型運算可能發生在三個不同位置');
 });
 
+test('system maps use the wider article canvas on desktop', async ({page}) => {
+  await page.setViewportSize({width: 1440, height: 900});
+  await page.goto('/lessons/agent-work-loop/');
+  const visualWidth = await page.locator('.system-map').evaluate((node) => node.getBoundingClientRect().width);
+  const proseWidth = await page.locator('.lesson-body').evaluate((node) => node.getBoundingClientRect().width);
+  const nodeWidths = await page.locator('.system-node').evaluateAll((nodes) => nodes.map((node) => node.getBoundingClientRect().width));
+  expect(visualWidth).toBeGreaterThan(proseWidth + 150);
+  expect(Math.min(...nodeWidths)).toBeGreaterThan(150);
+});
+
 test('role, location, and data-flow lessons use concrete system maps', async ({page}) => {
   const routes = [
     '/lessons/agent-vs-chat/', '/lessons/working-scope/', '/lessons/local-and-remote/',
@@ -103,8 +113,8 @@ test('all 35 lessons render a concrete scenario and boundary', async ({page}) =>
     await page.goto(href);
     await expect(page.locator('.scenario blockquote')).not.toBeEmpty();
     expect(await page.locator('.scenario ol li').count(), href).toBeGreaterThanOrEqual(2);
-    await expect(page.locator('.scenario-boundary')).toContainText('這個例子的邊界');
-    await expect(page.locator('.follow-up')).toContainText('還可以這樣問');
+    await expect(page.locator('.scenario-boundary')).toContainText('判斷邊界');
+    await expect(page.locator('.follow-up')).toContainText('套用到自己的情況');
     await expect(page.locator('.follow-up code')).toContainText('＿＿');
   }
 });

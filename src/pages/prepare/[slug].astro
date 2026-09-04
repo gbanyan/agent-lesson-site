@@ -20,11 +20,11 @@ const next = guides[index + 1];
 <BaseLayout title={entry.data.title} description={entry.data.summary}>
   <article class="reading guide">
     <header class="page-header">
-      <p class="eyebrow">使用前先看 · {entry.data.id}</p>
+      <p class="eyebrow">使用前檢查 · {entry.data.id}</p>
       <h1>{entry.data.title}</h1>
       <p class="lesson-answer">{entry.data.summary}</p>
     </header>
-    <aside class="guide-principle"><strong>先抓住這個原則：</strong>{entry.data.principle}</aside>
+    <aside class="guide-principle"><strong>判斷原則：</strong>{entry.data.principle}</aside>
     <PreflightVisual guideId={entry.data.id} />
     <div class="guide-body"><Content /></div>
     <PromptShelf prompts={entry.data.prompts} />

@@ -12,7 +12,7 @@
 .path-steps li { counter-increment: path; display: grid; grid-template-columns: 2.5rem 1fr; gap: 1rem; padding-block: 1.25rem; border-bottom: 1px solid var(--line); }
 .path-steps li::before { content: counter(path); display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--leaf-pale); color: var(--leaf-dark); font-weight: 800; }
 .path-steps a { font-weight: 750; }
-.scenario { margin-block: 2.5rem; padding: clamp(1.25rem, 4vw, 2rem); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
+.scenario { width: min(100%, 54rem); margin: 2.5rem auto; padding: clamp(1.25rem, 4vw, 2rem); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
 .scenario-kicker { margin: 0 0 .35rem; color: var(--leaf-dark); font-size: .82rem; font-weight: 800; letter-spacing: .08em; }
 .scenario h2 { margin: 0 0 1rem; font-size: var(--step-2); }
 .scenario h3 { margin-top: 1.5rem; font-size: var(--step-1); }

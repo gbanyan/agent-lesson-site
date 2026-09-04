@@ -1,6 +1,6 @@
 id: path-e
 slug: fear-of-breaking-things
 title: 我怕 Agent 把東西改壞
-description: 別怕把東西改壞。先留好退路、看清授權範圍，做完再親手檢查。
+description: 保留可用的恢復方式，確認授權範圍，完成後再檢查實際結果。
 lessons: [B6, E1, E2, E3, E6, F2]
 safetyGate: true

@@ -16,7 +16,8 @@
   --radius: 1.1rem;
   --radius-lg: 1.6rem;
   --content: 70rem;
-  --reading: 44rem;
+  --reading: 48rem;
+  --reading-wide: 66rem;
   --step--1: clamp(0.92rem, 0.88rem + 0.16vw, 1rem);
   --step-0: clamp(1rem, 0.95rem + 0.22vw, 1.125rem);
   --step-1: clamp(1.25rem, 1.12rem + 0.5vw, 1.55rem);

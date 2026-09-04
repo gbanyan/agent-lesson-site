@@ -4,11 +4,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/urls';
 const guides = (await getCollection('preflightGuides')).sort((a, b) => a.data.order - b.data.order);
 ---
-<BaseLayout title="使用前先看" description="開始使用 AI Agent 前，先看懂費用、安裝、模型選擇與資料隱私。">
+<BaseLayout title="使用前檢查" description="開始使用 AI Agent 前，確認費用、安裝、模型選擇與資料隱私。">
   <header class="page-header shell">
-    <p class="eyebrow">使用前先看</p>
-    <h1>先釐清四件容易踩雷的事</h1>
-    <p>不用背今天的價目表或排行榜。先學會問對問題，遇到新產品和新規則時，你仍然知道該查什麼。</p>
+    <p class="eyebrow">使用前檢查</p>
+    <h1>使用 Agent 前的四項檢查</h1>
+    <p>價目表、排行榜與產品規則都會變。這四篇整理比較時要問的問題，以及需要回到官方查核的項目。</p>
   </header>
   <section class="shell card-grid" aria-label="四篇前置說明">
     {guides.map((guide) => (
@@ -20,7 +20,7 @@ const guides = (await getCollection('preflightGuides')).sort((a, b) => a.data.or
     ))}
   </section>
   <aside class="shell prepare-note">
-    <strong>先記住：</strong>遠端模型要處理你的內容，資料就需要離開裝置。任何延伸詢問都不要貼入密碼、金鑰、公司機密或不必要的個資。
+    <strong>資料提醒：</strong>遠端模型要處理內容，資料就需要離開裝置。延伸詢問中不要貼入密碼、金鑰、公司機密或不必要的個資。
   </aside>
 </BaseLayout>
 

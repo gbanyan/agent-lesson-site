@@ -14,8 +14,8 @@ visual: { type: concept, preset: version-history }
 scenario:
   request: "把企劃書恢復到昨天上午的內容。"
   actions:
-    - "Agent 或你先開啟 version history，按時間與作者找出可能版本。"
-    - "先預覽差異，再選擇恢復或另存副本，避免蓋掉仍需要的新內容。"
+    - "Agent 或你開啟 version history，按時間與作者找出可能版本。"
+    - "預覽差異後，再選擇恢復或另存副本，避免蓋掉仍需要的新內容。"
   result: "文件回到選定狀態，或多出一份供比較的舊版本。"
   boundary: "歷史紀錄可能只涵蓋特定檔案、有限天數，或需要連線；看得到紀錄才算真的可用。"
 notTeach: [版本儲存演算法, 服務保留期限]

@@ -1,7 +1,7 @@
 id: claude-code
 slug: claude-code
 product: Claude Code
-intro: 不管 Claude Code 的指令與畫面怎麼改，檔案、權限與備份這幾個基本原則都一樣重要。
+intro: Claude Code 的指令與畫面可能改變；檔案位置、權限範圍與備份仍是固定的檢查項目。
 concepts: [A1, B9, D4, C1, E6]
 officialUrl: https://code.claude.com/docs/en/overview
 check:

@@ -10,10 +10,10 @@
 .concept-node small { color: var(--ink-soft); }
 .concept-arrow { align-self: center; text-align: center; color: var(--leaf); font-size: 1.5rem; }
 .system-lanes { display: grid; gap: 1rem; }
-.system-lane { display: grid; grid-template-columns: minmax(5.5rem, .28fr) 1fr; gap: 1rem; align-items: stretch; }
+.system-lane { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 1rem; align-items: stretch; }
 .lane-title { display: grid; place-items: center; padding: .8rem; border-radius: var(--radius-sm); background: var(--ink); color: var(--paper); text-align: center; }
 .lane-flow { display: flex; align-items: stretch; gap: .5rem; min-width: 0; }
-.system-node { flex: 1 1 0; display: flex; flex-direction: column; justify-content: center; min-width: 0; min-height: 6.5rem; padding: .85rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-soft); }
+.system-node { flex: 1 1 9rem; display: flex; flex-direction: column; justify-content: center; min-width: 0; min-height: 6.5rem; padding: 1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-soft); }
 .system-node small { color: var(--ink-soft); font-size: .72rem; font-weight: 750; letter-spacing: .05em; }
 .system-node strong { margin-block: .2rem; }
 .system-node span { color: var(--ink-soft); font-size: .82rem; }
@@ -52,7 +52,7 @@
 .copy-status { min-height: 1.5em; margin: .5rem 0 0; color: var(--ink-soft); font-size: .85rem; }
 .follow-up .copy-prompt { min-height: 2.75rem; flex: 0 0 auto; padding: .5rem .85rem; border: 1px solid var(--leaf); border-radius: 999px; background: transparent; color: var(--leaf-dark); font: inherit; font-weight: 750; cursor: pointer; }
 .follow-up .copy-prompt:hover { background: var(--leaf-pale); }
-@media (max-width: 44rem) {
+@media (max-width: 52rem) {
   .system-lane { grid-template-columns: 1fr; }
   .lane-title { place-items: start; text-align: left; }
   .lane-flow { flex-direction: column; }

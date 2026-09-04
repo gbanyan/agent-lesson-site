@@ -5,7 +5,7 @@ import { url } from '../lib/urls';
 const paths = (await getCollection('paths')).sort((a, b) => a.data.id.localeCompare(b.data.id));
 ---
 <BaseLayout title="開始">
-  <header class="page-header shell"><p class="eyebrow">不用從頭讀完</p><h1>從你現在的情境開始</h1><p>選一條最符合眼前狀況的路徑。每條只有 4–6 個小觀念，幾分鐘就能抓到重點。</p></header>
+  <header class="page-header shell"><p class="eyebrow">依需要閱讀</p><h1>選一個目前遇到的情境</h1><p>每條路徑包含 4–6 個小觀念，可以直接閱讀眼前需要的部分。</p></header>
   <section class="shell card-grid">
     {paths.map((path) => <a class="card" href={url(`/paths/${path.data.slug}/`)}><span class="eyebrow">{path.data.lessons.length} 個概念</span><h2>{path.data.title}</h2><p>{path.data.description}</p></a>)}
   </section>

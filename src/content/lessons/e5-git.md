@@ -19,4 +19,4 @@ scenario:
   boundary: "Git 只記錄工作資料夾中已納入追蹤的檔案。剛新增但尚未記錄的檔案、外部服務，以及只留在本機的進度，都可能不在遠端副本裡。"
 notTeach: [git commands, branch, merge, rebase, GitHub]
 ---
-你現在不用背 Git 指令。先記住：Agent 提到 Git，通常是在整理一組檔案的變化紀錄，不代表所有資料都已有另一份安全副本。
+Agent 提到 Git，通常是在整理一組檔案的變化紀錄。這不表示所有資料都已有另一份安全副本。

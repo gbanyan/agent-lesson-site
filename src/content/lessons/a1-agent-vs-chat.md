@@ -19,4 +19,4 @@ scenario:
   boundary: "能不能真的改，仍取決於 Agent 當下有沒有檔案工具、工作範圍與你的授權。"
 notTeach: [agent framework, MCP, function calling]
 ---
-Agent 手上可能有工具，能把你的要求變成電腦上的實際操作。開始前，先看清楚它有哪些工具與權限。
+Agent 能使用工具，把要求變成電腦上的實際操作。可用工具與權限決定了它能做哪些事。

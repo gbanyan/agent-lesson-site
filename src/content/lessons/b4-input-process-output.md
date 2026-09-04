@@ -5,7 +5,7 @@ section: B
 order: 4
 question: 電腦的 Input → Process → Output 是什麼？
 answer: Input 是收到的內容，Process 是處理，Output 是產生的結果。
-takeaway: 看到電腦動作時，可以先問：收到什麼、做了什麼、產生什麼？
+takeaway: 電腦動作可以拆成三個問題：收到什麼、做了什麼、產生什麼？
 followUp: "請把『＿＿＿＿』這項工作拆成 Input、Process、Output，另外指出哪一步會讀取資料，哪一步會寫入或傳送資料。"
 newTerms: [Input, Process, Output]
 prerequisites: [B3]

@@ -5,8 +5,8 @@ section: B
 order: 8
 question: Command 是什麼？
 answer: 指令（Command）是一行用文字交代電腦去做的操作。
-takeaway: 指令看起來陌生沒關係；先請 Agent 用白話說明它要做什麼、會影響哪裡。
-followUp: "請先不要執行這行指令：＿＿＿＿。用白話說明每一段的用途，標出可能刪除、覆寫、上傳或安裝內容的部分。"
+takeaway: 執行陌生指令前，請 Agent 用白話說明用途與影響範圍。
+followUp: "不要執行這行指令：＿＿＿＿。請用白話說明每一段的用途，標出可能刪除、覆寫、上傳或安裝內容的部分。"
 newTerms: [Command]
 prerequisites: [B7]
 visual: { type: terminal, preset: pwd }

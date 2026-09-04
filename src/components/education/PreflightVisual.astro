@@ -15,7 +15,7 @@ const maps: Record<string, {label:string;lanes:Lane[];summary:string}> = {
     { title:'CLI', steps:[{place:'終端機',title:'輸入文字指令',detail:'從目前資料夾開始',tone:'local'},{place:'執行環境',title:'使用工具',detail:'可用範圍要另外確認',tone:'agent'}]},
     { title:'網頁版', steps:[{place:'瀏覽器',title:'開啟服務',detail:'本機只顯示介面'},{place:'遠端系統',title:'保存或處理資料',detail:'依服務規則',tone:'remote'}]},
   ], summary:'桌面版、CLI 與網頁版可能登入同一帳號，但工作位置、工具與權限不一定相同。' },
-  P3: { label:'別把公司、模型與 Agent 當成同一件事', lanes:[
+  P3: { label:'公司、模型與 Agent 是三個層次', lanes:[
     { title:'供應商', steps:[{place:'公司',title:'提供模型與服務',detail:'決定方案和資料規則',tone:'remote'}]},
     { title:'模型', steps:[{place:'AI 模型',title:'處理輸入',detail:'能力會隨版本改變',tone:'agent'}]},
     { title:'Agent 產品', steps:[{place:'你使用的介面',title:'組合模型與工具',detail:'實際體驗還受權限影響',tone:'result'}]},
