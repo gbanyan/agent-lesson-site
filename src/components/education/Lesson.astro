@@ -2,12 +2,14 @@
 import Takeaway from './Takeaway.astro';
 interface Props {
   id: string; question: string; answer: string; takeaway: string; newTerms: string[];
+  searchTerms?: string[] | undefined;
   example?: string | undefined; next?: { href: string; label: string } | undefined; previous?: { href: string; label: string } | undefined;
 }
-const { id, question, answer, takeaway, newTerms, example, next, previous } = Astro.props;
+const { id, question, answer, takeaway, newTerms, searchTerms = [], example, next, previous } = Astro.props;
 ---
 <article class="lesson reading" data-pagefind-body>
   <header>
+    {searchTerms.length > 0 && <span class="search-alias" aria-hidden="true" data-pagefind-weight="0.5">{searchTerms.join(' ')}</span>}
     <div class="lesson-meta"><span>微課程 {id}</span><span aria-hidden="true">·</span><span>約 1 分鐘</span></div>
     <h1 data-pagefind-meta="title">{question}</h1>
     <p class="lesson-answer">{answer}</p>

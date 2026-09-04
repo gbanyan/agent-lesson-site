@@ -39,6 +39,7 @@ test('Pagefind finds Git', async ({page}) => {
   await page.getByLabel('搜尋概念').fill('Git');
   await expect(page.locator('#search-status')).toContainText('找到', {timeout: 15_000});
   await expect(page.locator('#search-results')).toContainText('Git 是什麼？');
+  await expect(page.locator('#search-results')).toContainText('Version history 是什麼？');
 });
 
 test('keyboard focus and 200% zoom preserve access', async ({page}) => {

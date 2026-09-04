@@ -18,6 +18,7 @@ const lessons = defineCollection({
     answer: z.string().min(1),
     takeaway: z.string().min(1),
     newTerms: z.array(z.string()).max(3),
+    searchTerms: z.array(z.string()).max(4).optional(),
     prerequisites: z.array(z.string().regex(/^[A-F][1-9]$/)),
     visual: visualSchema,
     example: z.string().min(1).optional(),
