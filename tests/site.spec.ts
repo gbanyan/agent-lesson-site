@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const keyPages = ['/', '/prepare/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/agent-vs-chat/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/'];
+const keyPages = ['/', '/introduction/', '/prepare/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/agent-vs-chat/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/'];
 
 for (const route of keyPages) {
   test(`${route} has no detectable WCAG A/AA violations`, async ({page}) => {
@@ -103,9 +103,19 @@ test('homepage places the introduction and four preparation concepts before firs
   const mainText = await page.locator('main').innerText();
   expect(mainText.indexOf('前言')).toBeLessThan(mainText.indexOf('四個前置準備概念'));
   expect(mainText.indexOf('四個前置準備概念')).toBeLessThan(mainText.indexOf('Agent 怎麼工作'));
+  await expect(page.locator('.introduction-copy')).toContainText('本站的緣起，是為了周邊朋友');
+  await expect(page.locator('.introduction-copy')).not.toContainText('知識平權的創舉');
+  await expect(page.getByRole('link', {name: '閱讀完整前言 →'})).toHaveAttribute('href', '/introduction/');
   await expect(page.locator('.prepare-card')).toHaveCount(4);
   expect(mainText).not.toContain('先看懂它怎麼工作');
   expect(await page.locator('header .nav-links a').allTextContents()).toEqual(['開始', '選工具前', '找概念', '關於本站']);
+});
+
+test('introduction page preserves the complete authored text', async ({page}) => {
+  await page.goto('/introduction/');
+  await expect(page.locator('h1')).toHaveText('前言');
+  await expect(page.locator('.introduction-body')).toContainText('AI, 或者說 LLM 的興起');
+  await expect(page.locator('.introduction-body')).toContainText('仍舊是使用者的責任以及義務。');
 });
 
 test('concept index uses six human-question groups without lesson IDs', async ({page}) => {

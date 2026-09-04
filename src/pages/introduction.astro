@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Introduction from '../content/introduction.md';
+---
+
+<BaseLayout
+  title="前言"
+  description="本站為什麼從基本觀念談起，以及使用 AI Agent 時需要建立哪些判斷能力。"
+>
+  <article class="reading page-header introduction-page">
+    <p class="eyebrow">關於本站</p>
+    <h1>前言</h1>
+    <div class="introduction-body">
+      <Introduction />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .introduction-page{padding-bottom:4rem}
+  .introduction-body{margin-top:2rem;font-size:var(--step-1);line-height:1.85}
+  .introduction-body :global(> :first-child){margin-top:0}
+</style>

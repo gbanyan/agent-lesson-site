@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Introduction from '../content/introduction.md';
 import { url } from '../lib/urls';
 const paths = (await getCollection('paths')).sort((a, b) => a.data.id.localeCompare(b.data.id));
 const guides = (await getCollection('preflightGuides')).sort((a, b) => a.data.order - b.data.order);
@@ -22,7 +21,8 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
         <h2 id="introduction-title">前言</h2>
       </div>
       <div class="introduction-copy">
-        <Introduction />
+        <p>本站的緣起，是為了周邊朋友，思考如何引領他們入門使用 Agent 做事。</p>
+        <a href={url('/introduction/')}>閱讀完整前言 →</a>
       </div>
     </div>
   </section>
@@ -65,8 +65,7 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
 </BaseLayout>
 <style>
   .featured-card{max-width:38rem}
-  .introduction-copy{max-width:48rem;font-size:var(--step-1);line-height:1.75}
-  .introduction-copy :global(> :first-child){margin-top:0}
-  .introduction-copy :global(> :last-child){margin-bottom:0}
+  .introduction-copy{max-width:42rem;font-size:var(--step-1);line-height:1.75}
+  .introduction-copy p{margin:0 0 1rem}
   .prepare-more{margin-top:1.5rem}
 </style>
