@@ -6,7 +6,7 @@ const { prompts } = Astro.props;
 <section class="prompt-shelf" aria-labelledby="prompt-shelf-title">
   <p class="eyebrow">繼續問清楚</p>
   <h2 id="prompt-shelf-title">把你的情況帶進下一個問題</h2>
-  <p>方案、產品和規則改得很快。下面的問題可以直接貼進模型聊天視窗，再把空格處換成你的情況，請模型查詢當下資訊。貼上前，先移除密碼、金鑰、真實個資與公司機密。</p>
+  <p>方案、產品和規則改得很快。把下面的問題貼進模型聊天視窗，再把空格換成你的情況，請模型查詢當下資訊。貼上前先看一眼內容：密碼和金鑰不要貼，真實個資與公司機密也先拿掉。</p>
   <div class="prompt-list">
     {prompts.map((prompt) => (
       <article class="prompt-card">

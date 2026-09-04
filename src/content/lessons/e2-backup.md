@@ -5,7 +5,7 @@ section: E
 order: 2
 question: Backup 是什麼？
 answer: Backup 是原始資料之外，另一份可供恢復的獨立副本。
-takeaway: 真正的 backup 要在原始資料出事時，仍有一份可以拿來恢復。
+takeaway: 備份要放在原始資料之外；原檔出事時，手上還有一份能拿來恢復。
 newTerms: [Backup]
 prerequisites: [E1]
 visual: { type: concept, preset: backup-copy }

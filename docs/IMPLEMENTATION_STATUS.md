@@ -48,6 +48,8 @@ Status: complete locally. `npm run verify` passes: 35-lesson content lint, link/
 
 All user-facing copy was reviewed after the scenario expansion with `agy` using `gemini-3.8-flash-high` at high effort. The first pass identified formulaic contrast sentences, developer-facing jargon, terminology drift, and an over-idealized secret-handling example. Those issues were revised; a second full-tree review found no release-blocking editorial issues, and its remaining terminology suggestions were also applied.
 
+A second full-copy audit used the Traditional Chinese `humanizer-zh-tw` rules. It covered lessons, preflight guides, situation paths, product bridges, page chrome, and repository-facing descriptions. Twenty-three files were revised to remove repeated contrast formulas, slogan-like conclusions, redundant restatement, stiff enumeration, and unnecessary dashes. Technical identifiers, numbers, safety disclosures, and uncertainty markers were kept intact. The follow-up heuristic scan left only deliberate teaching relationships and semantically necessary wording.
+
 Four principle-led preflight guides were added as a separate pilot under `/prepare/`: plans and billing structures, installation/CLI/desktop differences, provider competition and task-based model evaluation, and remote-model privacy. The body copy intentionally avoids live prices, product-specific installation commands, and current model rankings. Each page ends with three locally copyable prompts for asking about the reader's current product and situation; the original 35 lessons are unchanged by this pilot.
 
 ## Phase 11 — GitHub & production deployment

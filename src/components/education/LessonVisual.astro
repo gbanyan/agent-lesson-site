@@ -22,7 +22,7 @@ const concepts: Record<string, {label:string;items:{title:string;detail:string}[
   C4: { label:'三個不同問題', items:[{title:'資料',detail:'放在哪裡'},{title:'程式',detail:'在哪裡執行'},{title:'模型',detail:'在哪裡運算'}], relation:'≠', summary:'檔案存在哪裡、程式在哪裡執行、AI 模型在哪裡運算，是三件不同的事。' },
   C5: { label:'資料移動', items:[{title:'你的電腦',detail:'資料起點'},{title:'網路連線',detail:'交換通道'},{title:'外部系統',detail:'資料到達處'}], summary:'當工具透過網路把內容傳給外部服務時，資料就離開本機。' },
   C6: { label:'三種資源', items:[{title:'CPU',detail:'做運算'},{title:'記憶體',detail:'暫時放工作中的內容'},{title:'儲存空間',detail:'較長期保存資料'}], relation:'／', summary:'CPU 負責運算、記憶體暫存工作中內容、儲存空間較長期保存資料。' },
-  C7: { label:'發布狀態', items:[{title:'本機修改',detail:'只有本機狀態改變'},{title:'發布',detail:'讓其他人取得新版'}], relation:'≠', summary:'在本機改好不等於已發布；其他人通常要等變更被送到他們能存取的位置。' },
+  C7: { label:'發布狀態', items:[{title:'本機修改',detail:'只有本機狀態改變'},{title:'發布',detail:'讓其他人取得新版'}], relation:'≠', summary:'本機修改完成後，還要把變更送到其他人能存取的位置。' },
   D1: { label:'工作記憶', items:[{title:'眼前資訊',detail:'能拿來工作'},{title:'沒有提供',detail:'不一定知道'}], relation:'≠', summary:'Agent 只能根據眼前的工作記憶做事，不一定還記得之前看過的內容。' },
   D2: { label:'採取行動', items:[{title:'Agent',detail:'決定下一步'},{title:'工具',detail:'執行操作'},{title:'結果',detail:'回到 Agent'}], summary:'工具讓 Agent 能讀取資訊、修改內容，或連接外部系統。' },
   D5: { label:'影響範圍', items:[{title:'一般權限',detail:'較有限的範圍'},{title:'管理員權限',detail:'可能影響更多系統區域'}], summary:'管理員權限可能讓同一個動作影響更大的系統範圍。' },
@@ -31,13 +31,13 @@ const concepts: Record<string, {label:string;items:{title:string;detail:string}[
   E2: { label:'獨立副本', items:[{title:'原始資料',detail:'平常使用'},{title:'Backup',detail:'另一份可恢復副本'}], relation:'＋', summary:'Backup 是原始資料之外，另有一份可以在出事後用來恢復的副本。' },
   E3: { label:'目標不同', items:[{title:'Sync',detail:'讓各處保持一致'},{title:'Backup',detail:'出事後回復資料'}], relation:'≠', summary:'Sync 的主要目標是保持一致；Backup 的主要目標是出事後恢復。同步也可能把錯誤一起傳過去。' },
   E4: { label:'較早狀態', items:[{title:'現在',detail:'目前內容'},{title:'版本歷史',detail:'可查看較早狀態'}], relation:'回看', summary:'版本歷史保留過去的存檔；服務有提供恢復功能時，也能用它找回舊內容。' },
-  E5: { label:'角色界線', items:[{title:'Git',detail:'記錄專案變化'},{title:'Backup',detail:'獨立恢復副本'}], relation:'≠', summary:'Git 是版本管理工具，能記錄專案變化；它本身不等於完整備份。' },
+  E5: { label:'角色界線', items:[{title:'Git',detail:'記錄專案變化'},{title:'Backup',detail:'獨立恢復副本'}], relation:'≠', summary:'Git 能記錄專案變化；完整備份仍要另外保留。' },
   E6: { label:'重大修改前', items:[{title:'目前可用狀態',detail:'先確認'},{title:'可恢復點',detail:'先建立或找到'},{title:'重大修改',detail:'再開始'}], summary:'先知道可以從哪裡回去，再讓重大修改開始。' },
   E7: { label:'可能的影響', items:[{title:'檔案與資料庫',detail:'本機或資料狀態'},{title:'遠端與已發布系統',detail:'別人可能看得到'},{title:'外部服務',detail:'可能有費用或副作用'}], relation:'／', summary:'Agent 的行動可能影響檔案、資料庫、遠端或已發布系統，以及外部服務。' },
   F1: { label:'檢視變更', items:[{title:'修改前',detail:'原本狀態'},{title:'差異',detail:'哪些地方改了'},{title:'修改後',detail:'目前狀態'}], summary:'檢視修改前後的差異，才能知道 Agent 實際改了什麼。' },
   F2: { label:'完成判斷', items:[{title:'Agent 的說法',detail:'口頭回報'},{title:'檢查結果',detail:'實際證據'}], relation:'≠', summary:'Agent 說完成只是口頭回報；看到符合要求的檢查結果，才算驗證。' },
   F3: { label:'秘密資訊', items:[{title:'密碼或 API Key',detail:'能代表你取得存取權'},{title:'一般文字',detail:'通常不具同等權限'}], relation:'≠', summary:'密碼與 API Key 可能讓持有者以你的身分存取系統，因此需要避免不必要的暴露。' },
-  F4: { label:'上網的雙向意義', items:[{title:'取得內容',detail:'從網路讀取'},{title:'送出內容',detail:'與外部系統交換資料'}], relation:'＋', summary:'能上網不只代表能搜尋，也可能代表能把資料送往外部；網路內容也不會因被讀到就自動可信。' },
+  F4: { label:'上網的雙向意義', items:[{title:'取得內容',detail:'從網路讀取'},{title:'送出內容',detail:'與外部系統交換資料'}], relation:'＋', summary:'Agent 能從網路取得內容，也可能把資料送往外部。讀到的內容仍要確認是否可信。' },
 };
 ---
 {type === 'terminal' ? (

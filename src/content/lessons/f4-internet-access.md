@@ -5,7 +5,7 @@ section: F
 order: 4
 question: Agent 可以上網代表什麼？
 answer: 它可能取得網路內容，也可能與外部系統交換資料。
-takeaway: Agent 連上網路不只代表能查資料，也代表能把資料送出去；網路上讀到的內容也不一定可信。
+takeaway: Agent 能從網路取得內容，也能把資料送出去；它讀到的資料仍要判斷是否可信。
 newTerms: [Internet access]
 prerequisites: [C5, D2]
 visual: { type: concept, preset: internet-access }
