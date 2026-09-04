@@ -1,6 +1,6 @@
 id: path-c
 slug: agent-runs-command
-title: Agent 說要執行 Command
-description: 看懂 Terminal 和 command 的角色，以及如何判斷權限與驗證結果。
+title: Agent 說要執行指令
+description: 看懂終端機與指令的角色，學會判斷影響、權限與執行結果。
 lessons: [B7, B8, B6, D4, D3, F2]
 safetyGate: false

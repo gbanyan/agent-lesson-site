@@ -32,7 +32,7 @@ Status: complete. No generated raster selected: operational and relational visua
 
 ## Phase 7 — All lessons
 
-Status: complete. Exactly 35 lessons across A–F; content lint reports zero warnings. Cross-reference and visual metadata validation pass.
+Status: complete. Exactly 35 lessons across A–F; every lesson includes a concrete request, 2–5 possible Agent actions, an observable result, and a boundary. Content lint enforces this contract and reports zero warnings. Cross-reference and visual metadata validation pass.
 
 ## Phase 8 — Situation paths
 
@@ -44,7 +44,9 @@ Status: implemented. Codex and Claude Code bridges use official documentation li
 
 ## Phase 10 — Final audit
 
-Status: complete locally. `npm run verify` passes: 35-lesson content lint, link/visual validation, Astro check with zero diagnostics, 26/26 Playwright tests across desktop/mobile including light/dark axe, Pagefind search, accessibility-tree meaning, keyboard/zoom/reflow, zero-JS lesson assertion, and all-route crawl. Production build emits 46 static pages and indexes all 35 lessons. GitHub/public verification is tracked in Phase 11.
+Status: complete locally. `npm run verify` passes: 35-lesson content lint, link/visual validation, Astro check with zero diagnostics, and 30/30 Playwright tests across desktop/mobile. Coverage includes light/dark axe, a persistent three-state theme control, live system-theme changes, all 35 rendered scenarios, Pagefind search, accessibility-tree meaning, keyboard/zoom/reflow, minimal theme-only lesson scripts, and all-route crawling. Production build emits 46 static pages and indexes all 35 lessons. GitHub/public verification is tracked in Phase 11.
+
+All user-facing copy was reviewed after the scenario expansion with `agy` using `gemini-3.8-flash-high` at high effort. The first pass identified formulaic contrast sentences, developer-facing jargon, terminology drift, and an over-idealized secret-handling example. Those issues were revised; a second full-tree review found no release-blocking editorial issues, and its remaining terminology suggestions were also applied.
 
 ## Phase 11 — GitHub & production deployment
 

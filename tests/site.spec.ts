@@ -12,19 +12,20 @@ for (const route of keyPages) {
   });
 }
 
-test('lesson page has no authored client JavaScript', async ({page}) => {
+test('lesson page only ships the small shared theme scripts', async ({page}) => {
   await page.goto('/lessons/command/');
   await expect(page.locator('h1')).toHaveText('Command 是什麼？');
-  await expect(page.locator('script')).toHaveCount(0);
+  await expect(page.locator('script')).toHaveCount(2);
+  await expect(page.locator('script[src]')).toHaveCount(0);
 });
 
 test('diagram meaning remains in the accessibility tree', async ({page}) => {
   await page.goto('/lessons/where-model-runs/');
   const equivalent = page.locator('.visually-equivalent');
-  await expect(equivalent).toContainText('資料位置、程式執行位置與 AI 模型推理位置彼此不同');
+  await expect(equivalent).toContainText('檔案存在哪裡、程式在哪裡執行、AI 模型在哪裡運算，是三件不同的事');
   const snapshot = await page.locator('main').ariaSnapshot();
   expect(snapshot).toContain('AI 模型在哪裡運算？');
-  expect(snapshot).toContain('資料位置、程式執行位置與 AI 模型推理位置彼此不同');
+  expect(snapshot).toContain('檔案存在哪裡、程式在哪裡執行、AI 模型在哪裡運算，是三件不同的事');
 });
 
 test('situation path links to the expected minimum lessons', async ({page}) => {
@@ -58,6 +59,37 @@ test('dark mode follows the system preference and keeps AA contrast', async ({pa
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(17, 24, 21)');
   const results = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
   expect(results.violations).toEqual([]);
+});
+
+test('theme control overrides, remembers, and returns to live system preference', async ({page}) => {
+  await page.emulateMedia({colorScheme: 'light'});
+  await page.goto('/');
+  const toggle = page.locator('[data-theme-toggle]');
+  await expect(toggle).toContainText('跟隨系統');
+  await toggle.click();
+  await expect(toggle).toContainText('淺色');
+  await toggle.click();
+  await expect(toggle).toContainText('深色');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await page.reload();
+  await expect(toggle).toContainText('深色');
+  await toggle.click();
+  await expect(toggle).toContainText('跟隨系統');
+  await expect(page.locator('html')).not.toHaveAttribute('data-theme');
+  await page.emulateMedia({colorScheme: 'dark'});
+  await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(17, 24, 21)');
+});
+
+test('all 35 lessons render a concrete scenario and boundary', async ({page}) => {
+  await page.goto('/concepts/');
+  const links = await page.locator('.concept-list a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')!));
+  expect(links).toHaveLength(35);
+  for (const href of links) {
+    await page.goto(href);
+    await expect(page.locator('.scenario blockquote')).not.toBeEmpty();
+    expect(await page.locator('.scenario ol li').count(), href).toBeGreaterThanOrEqual(2);
+    await expect(page.locator('.scenario-boundary')).toContainText('這個例子的邊界');
+  }
 });
 
 test('all rendered internal links resolve', async ({page, request}) => {

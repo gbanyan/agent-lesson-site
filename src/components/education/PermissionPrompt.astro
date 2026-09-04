@@ -1,6 +1,6 @@
 ---
 interface Props { files?: string[]; consequence?: string; }
-const { files = ['index.html', 'styles.css', 'about.html'], consequence = '這會造成檔案內容改變。' } = Astro.props;
+const { files = ['index.html', 'styles.css', 'about.html'], consequence = '允許後，Agent 會直接改寫這些檔案。' } = Astro.props;
 ---
 <figure class="visual">
   <figcaption class="visual-label">權限要求示意（不是特定產品畫面）</figcaption>

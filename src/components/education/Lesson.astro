@@ -3,9 +3,10 @@ import Takeaway from './Takeaway.astro';
 interface Props {
   id: string; question: string; answer: string; takeaway: string; newTerms: string[];
   searchTerms?: string[] | undefined;
-  example?: string | undefined; next?: { href: string; label: string } | undefined; previous?: { href: string; label: string } | undefined;
+  scenario: { request: string; actions: string[]; result: string; boundary: string };
+  next?: { href: string; label: string } | undefined; previous?: { href: string; label: string } | undefined;
 }
-const { id, question, answer, takeaway, newTerms, searchTerms = [], example, next, previous } = Astro.props;
+const { id, question, answer, takeaway, newTerms, searchTerms = [], scenario, next, previous } = Astro.props;
 ---
 <article class="lesson reading" data-pagefind-body>
   <header>
@@ -16,7 +17,15 @@ const { id, question, answer, takeaway, newTerms, searchTerms = [], example, nex
   </header>
   <slot name="visual" />
   <div class="lesson-body"><slot /></div>
-  {example && <p><strong>例如：</strong>{example}</p>}
+  <section class="scenario" aria-labelledby={`scenario-${id}`}>
+    <p class="scenario-kicker">放進真實情境</p>
+    <h2 id={`scenario-${id}`}>如果你這樣跟 Agent 說</h2>
+    <blockquote>{scenario.request}</blockquote>
+    <h3>接下來可能會發生</h3>
+    <ol>{scenario.actions.map((action) => <li>{action}</li>)}</ol>
+    <p><strong>你會看到的結果：</strong>{scenario.result}</p>
+    <aside class="scenario-boundary"><strong>這個例子的邊界：</strong>{scenario.boundary}</aside>
+  </section>
   {newTerms.length > 0 && <ul class="term-list" aria-label="這頁的新名詞">{newTerms.map((term) => <li>{term}</li>)}</ul>}
   <Takeaway text={takeaway} />
   <nav class="lesson-next" aria-label="課程前後導覽">

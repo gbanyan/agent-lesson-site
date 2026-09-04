@@ -40,7 +40,7 @@ const base = import.meta.env.BASE_URL;
           li.append(a, p); list.append(li);
         }
         status.textContent = items.length ? `找到 ${items.length} 個結果` : '找不到相符概念。可以換一個更短的詞。';
-      } catch { status.textContent = '搜尋索引要在 production build 後使用。'; }
+      } catch { status.textContent = '搜尋功能目前還沒準備好，請先從下方的完整清單選擇。'; }
     }
     input?.addEventListener('input', () => { window.clearTimeout(timer); timer = window.setTimeout(search, 180); });
   </script>

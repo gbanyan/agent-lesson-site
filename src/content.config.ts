@@ -21,7 +21,12 @@ const lessons = defineCollection({
     searchTerms: z.array(z.string()).max(4).optional(),
     prerequisites: z.array(z.string().regex(/^[A-F][1-9]$/)),
     visual: visualSchema,
-    example: z.string().min(1).optional(),
+    scenario: z.object({
+      request: z.string().min(1),
+      actions: z.array(z.string().min(1)).min(2).max(5),
+      result: z.string().min(1),
+      boundary: z.string().min(1),
+    }),
     notTeach: z.array(z.string()).min(1),
   }),
 });

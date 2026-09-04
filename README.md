@@ -1,6 +1,8 @@
 # 看懂 Agent
 
-給幾乎沒有電腦基礎的一般使用者，一次理解一個 AI Coding Agent mental model 的繁體中文 micro-learning website。
+給幾乎沒有電腦基礎的一般使用者，一次看懂一個 AI Coding Agent 核心觀念的繁體中文微型學習網站。
+
+全站提供跟隨系統、淺色與深色三種外觀選擇。每篇 lesson 都包含一段真實情境，說明使用者可以怎麼問、Agent 可能採取哪些動作、會看到什麼結果，以及不能忽略的邊界。
 
 ## Local development
 

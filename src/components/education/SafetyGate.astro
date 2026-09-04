@@ -4,7 +4,7 @@ interface Props { items: Item[]; }
 const { items } = Astro.props;
 ---
 <aside class="safety-gate" aria-labelledby="safety-gate-title">
-  <h2 id="safety-gate-title">在繼續以前，你至少應該知道</h2>
+  <h2 id="safety-gate-title">動手修改前，先花一分鐘確認</h2>
   <ul>{items.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ul>
-  <p>這不是考試，也不會阻止你繼續。它只是讓重要變更更可控。</p>
+  <p>這不是測驗，也不會擋下操作。多看這幾眼，可以省下事後補救的麻煩。</p>
 </aside>

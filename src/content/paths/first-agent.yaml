@@ -1,6 +1,6 @@
 id: path-a
 slug: first-coding-agent
 title: 第一次使用 Coding Agent
-description: 先知道 Agent 和聊天 AI 的差別，再看它的工作範圍、context 與行動方式。
+description: 先看懂 Agent 和聊天 AI 的差別，再認識它的工作範圍、工作記憶與操作方式。
 lessons: [A1, A2, B9, D1, D2, D3]
 safetyGate: false

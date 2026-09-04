@@ -11,5 +11,9 @@ const current = (segment: string) => path.includes(`/${segment}`) ? 'page' : und
       <a href={url('/concepts/')} aria-current={current('concepts')}>找概念</a>
       <a href={url('/about/')} aria-current={current('about')}>關於本站</a>
     </nav>
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="切換網站外觀">
+      <span aria-hidden="true" class="theme-icon"></span>
+      <span data-theme-label>跟隨系統</span>
+    </button>
   </div>
 </header>

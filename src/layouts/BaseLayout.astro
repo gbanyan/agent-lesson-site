@@ -18,14 +18,62 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#f7f5ee" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#111815" media="(prefers-color-scheme: dark)" />
+    <meta id="theme-color" name="theme-color" content="#f7f5ee" />
     <title>{fullTitle}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem('theme');
+          const systemDark = matchMedia('(prefers-color-scheme: dark)').matches;
+          const actual = saved === 'light' || saved === 'dark' ? saved : (systemDark ? 'dark' : 'light');
+          if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
+          document.querySelector('#theme-color')?.setAttribute('content', actual === 'dark' ? '#111815' : '#f7f5ee');
+        } catch (_) {}
+      })();
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">跳到主要內容</a>
     <Header />
     <main id="main-content"><slot /></main>
     <Footer />
+    <script is:inline>
+      (() => {
+        const button = document.querySelector('[data-theme-toggle]');
+        if (!(button instanceof HTMLButtonElement)) return;
+        const choices = ['system', 'light', 'dark'];
+        const labels = { system: '跟隨系統', light: '淺色', dark: '深色' };
+        const systemDark = matchMedia('(prefers-color-scheme: dark)');
+
+        const savedTheme = () => {
+          try {
+            const value = localStorage.getItem('theme');
+            return value === 'light' || value === 'dark' ? value : 'system';
+          } catch (_) { return 'system'; }
+        };
+        const paint = () => {
+          const choice = savedTheme();
+          const actual = choice === 'system' ? (systemDark.matches ? 'dark' : 'light') : choice;
+          button.dataset.choice = choice;
+          button.setAttribute('aria-label', `外觀：${labels[choice]}；目前為${labels[actual]}模式。按下可切換。`);
+          const label = button.querySelector('[data-theme-label]');
+          if (label) label.textContent = labels[choice];
+          document.querySelector('#theme-color')?.setAttribute('content', actual === 'dark' ? '#111815' : '#f7f5ee');
+        };
+        button.addEventListener('click', () => {
+          const current = savedTheme();
+          const next = choices[(choices.indexOf(current) + 1) % choices.length];
+          try {
+            if (next === 'system') localStorage.removeItem('theme');
+            else localStorage.setItem('theme', next);
+          } catch (_) {}
+          if (next === 'system') delete document.documentElement.dataset.theme;
+          else document.documentElement.dataset.theme = next;
+          paint();
+        });
+        systemDark.addEventListener('change', paint);
+        paint();
+      })();
+    </script>
   </body>
 </html>

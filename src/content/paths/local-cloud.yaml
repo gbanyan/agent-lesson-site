@@ -1,6 +1,6 @@
 id: path-d
 slug: local-cloud-confusion
 title: Local / Cloud 搞不懂
-description: 分開理解資料、程式與 AI 模型各自可能位於哪裡。
+description: 一步步拆開來看：資料存在哪裡、程式在哪裡跑、AI 又在哪裡運算。
 lessons: [C1, C2, C3, C4, C5, C7]
 safetyGate: false
