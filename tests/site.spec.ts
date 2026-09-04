@@ -114,6 +114,7 @@ test('homepage places the introduction and four preparation concepts before firs
 test('introduction page preserves the complete authored text', async ({page}) => {
   await page.goto('/introduction/');
   await expect(page.locator('h1')).toHaveText('前言');
+  await expect(page.locator('.introduction-body > p')).toHaveCount(6);
   await expect(page.locator('.introduction-body')).toContainText('AI, 或者說 LLM 的興起');
   await expect(page.locator('.introduction-body')).toContainText('仍舊是使用者的責任以及義務。');
 });
