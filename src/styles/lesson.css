@@ -28,7 +28,6 @@
 .scenario li + li, .example-prose p + p { margin-top: .65rem; }
 .scenario-result { font-weight: 700; }
 .scenario-note { color: var(--ink-soft); font-size: var(--step--1); }
-.visually-equivalent { margin: 1rem 0 0; color: var(--ink-soft); }
 .other-agent-note { color: var(--ink-soft); font-size: var(--step--1); font-weight:700; }
 .scenario-boundary { margin-top: 1.35rem; padding: 1rem 1.2rem; border-left: 4px solid var(--amber); background: color-mix(in srgb, var(--amber) 9%, var(--surface)); }
 .lesson-contrast .scenario { border-inline: 0; border-radius: 0; background: transparent; }

@@ -53,4 +53,15 @@ p { text-wrap: pretty; }
 .button.secondary { background: transparent; color: var(--leaf-dark); }
 .button.secondary:hover { background: var(--leaf-pale); }
 .muted { color: var(--ink-soft); }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }

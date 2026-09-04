@@ -5,7 +5,7 @@ const { label, items, relation = '→', summary } = Astro.props;
 ---
 <figure class="visual">
   <figcaption class="visual-label">概念圖解｜{label}</figcaption>
-  <div class="concept-row" aria-hidden="true">
+  <div class="concept-row" aria-hidden="true" data-pagefind-ignore>
     {items.map((item, index) => (
       <>
         <div class="concept-node"><span><strong>{item.title}</strong><small>{item.detail}</small></span></div>
@@ -13,6 +13,5 @@ const { label, items, relation = '→', summary } = Astro.props;
       </>
     ))}
   </div>
-  <p class="visually-equivalent">{summary}</p>
+  <p class="visually-equivalent sr-only">{summary}</p>
 </figure>
-<style>.visually-equivalent { margin: 1rem 0 0; color: var(--ink-soft); }</style>

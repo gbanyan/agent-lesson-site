@@ -6,7 +6,7 @@ The site is Coding-Agent-first. Scenario labels and lesson IDs are editorial met
 
 `website/` contains `index.html`, `styles.css` and `images/`.
 
-Used by A1, B1, B2, B7, B9, C7, D2, D4, E1, F1 and F2. Visual, example and copyable task text use the same website scope where present. D4's permission visual now names the same two website files as its example.
+Used by A1, B1, B2, B7, B8, B9, C7, D1, D2, D3, D4, E1, F1 and F2. Visual, example and copyable task text use the same website scope where present. D4's permission visual names the same two website files as its example.
 
 ## Secondary scenario — image processing
 
@@ -22,9 +22,9 @@ Used by E1, E2, E4, E5, E6, F1 and F2. The sequence moves from reversibility and
 
 ## Explicit other-Agent examples
 
-B6, C2, C4, D3, E7 and F3 retain document, model-location, calendar or external-service examples. Their rendered case includes the note “同樣的概念也適用於其他 Agent。”
+B6, C2, C4, E7 and F3 retain document, model-location, calendar or external-service examples. Their rendered case includes the note “同樣的概念也適用於其他 Agent。”
 
-B6 and the B8 terminal visual contain protected DOCX-specific copy and remain unchanged. B8's visual and example both stay in the same report-folder scenario; B6 remains a deliberate transition away from the website sequence.
+B6 retains the protected DOCX-specific teaching case and remains a deliberate transition away from the website sequence. B8 now continues the website-folder example used by Program and Terminal.
 
 ## Page-level review rule
 

@@ -5,20 +5,19 @@ section: D
 order: 3
 archetype: definition
 question: Agent 是一次把所有事情想完嗎？
-context: 合併兩份修訂文件時，Agent 會讀取內容、處理能判斷的差異，再根據結果決定是否詢問。
+context: 修改網站後，Agent 可以開啟預覽查看結果，再依檢查結果繼續調整。
 answer: 通常不是。它會取得資訊、採取行動、查看結果，再根據結果繼續。
 takeaway: Agent 多半會反覆查看資訊、採取行動、讀取結果，再決定下一步。
 newTerms: [操作意圖]
 prerequisites: [D1, D2]
 visual: { type: system-map, preset: inspect-folder }
 scenario:
-  appliesBeyondCodingAgent: true
-  request: "比較企劃書的『主管修訂版』和『客戶回覆版』，整理差異後合併成新檔。"
+  request: "把 website 的活動日期改成新日期，並確認手機版沒有跑版。"
   actions:
-    - "Agent 讀取兩份文件，找出段落與修訂標記的差異。"
-    - "它整理衝突，能確定的內容先合併，無法判斷的地方列出來詢問。"
-    - "它重新檢查合併檔，確認沒有漏掉章節或未處理的衝突。"
-  result: "你會看到差異清單、需要決定的衝突，以及一份可供檢查的新檔。"
+    - "Agent 讀取網站檔案，找到活動日期並修改。"
+    - "它開啟預覽，發現手機寬度下的日期文字超出卡片。"
+    - "它調整樣式，再次開啟手機版預覽檢查文字與版面。"
+  result: "日期已更新，重新檢查後的桌面與手機版都能正常閱讀。"
   boundary: "循環不保證一定成功。若每次只重試同一件事卻沒有新證據，應停下重新判斷。"
 notTeach: [private chain-of-thought, agent framework]
 ---

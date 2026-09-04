@@ -5,18 +5,18 @@ section: D
 order: 1
 archetype: definition
 question: Context 是什麼？
-context: Agent 忽然不再沿用稍早的分類規則，可能是因為那段資訊不在這次工作目前可用的資料裡。
+context: Agent 沒有沿用先前的網站文字規則，可能是因為這次工作沒有提供那份規則。
 answer: Context 是這次工作中，Agent 目前可以使用的資訊。
 takeaway: Context 會隨目前提供的對話、檔案與工具結果改變。
 newTerms: [Context]
 prerequisites: [A1]
 visual: { type: concept, preset: context }
 scenario:
-  request: "沿用上個月的分類方式，整理這個月的支出報表。"
+  request: "沿用先前的文字規則，修改 website 的活動日期。"
   actions:
-    - "Agent 查看目前對話與可讀取檔案，找尋『上個月的分類方式』。"
-    - "若沒有那段資訊，它可能自行猜測、要求你補資料，或讀取上月報表當參考。"
-  result: "取得正確參考時，分類較能保持一致；缺少時則可能把支出放錯欄位。"
+    - "若規則仍在目前對話裡，或寫在 Agent 可讀取的專案檔案中，它可以拿來核對。"
+    - "若這次工作沒有提供規則，Agent 只能詢問、重新讀取指定來源，或冒險猜測。"
+  result: "取得規則後，Agent 才能讓活動日期的寫法與網站其他內容一致。"
   boundary: "這不表示 Agent 具有和人一樣的持續長期記憶。重要規格最好保存在可再次讀取的位置。"
 notTeach: [token 計算, attention architecture]
 ---

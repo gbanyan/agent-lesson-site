@@ -28,9 +28,9 @@ No new lesson was required. The existing 35 concepts cover the revised beginner 
 Existing DOCX-specific text is intentionally unchanged. It remains in:
 
 - `src/content/lessons/b6-read-write.md`: the request, three action/boundary passages, and body explanation of DOCX parsing and writing.
-- `src/components/education/LessonVisual.astro`: the `企劃書.docx` data-location node and the `摘要.docx` Terminal output.
+- `src/components/education/LessonVisual.astro`: the `企劃書.docx` data-location node.
 
-This creates one deliberate scenario break between the website-oriented Command sequence and the Read / Write lesson. The break is recorded rather than hidden by rewriting or relocating protected content.
+The Read / Write lesson remains one deliberate transition away from the website sequence. Its DOCX teaching passages were not rewritten or relocated. The later correction pass changed Command's incidental report-folder listing to the recurring website example; it did not alter the protected Read / Write material.
 
 ## Full-site correction pass
 
@@ -42,8 +42,10 @@ The lesson schema now has three explicit archetypes:
 
 Copyable text is no longer mandatory. Eight lessons retain it, with machine-checked audience, mode and capability metadata. The other 27 lessons end when the concept is complete.
 
-A1 now treats chat as an interface and Agent as a tool-using work pattern. It separately identifies Coding Agent, Research Agent and Actionable Agent without introducing frameworks. Terminal is defined as one human-facing command interface and no longer claims that every graphical Agent hides a Terminal. Tool is a provided capability, not necessarily a standalone program. Context refers only to information available in the current task and is not described as human-like long-term memory.
+A1 now treats chat as an interface and Agent as a tool-using work pattern. It names only the Coding Agent covered by the site; research and action modes remain in the prompt taxonomy instead of becoming first-lesson classifications. Terminal is defined as one human-facing command interface and is not described as the tool that executes a Command. Tool is a provided capability, not necessarily a standalone program. Context refers only to information available in the current task and is not described as human-like long-term memory.
 
 C1 now defines only the Local and Remote locations. Upload, retention and visibility remain in C2 and C5. E5 no longer shows Git commands, tracked-state details, remote-copy behavior or repository operations; it retains the conceptual boundary that Git manages included project content and is not a Backup.
 
-The first-use path begins with A1 and Files before Working Scope; A2 is an optional branch. All path links preserve path name, step count, previous/next step and return navigation through client-side metadata on the single canonical lesson route. The Command path includes a low-density relationship diagram for Agent, model, Tool, Command, Program and Terminal.
+The first-use path begins with A1 and Files before Working Scope; A2 is an optional branch. Astro generates a static wrapper for every core path step, so path name, progress, previous/next step and return navigation exist without client-side JavaScript. Each wrapper points its canonical link to the single lesson route and stays out of the Pagefind lesson index. The Command path includes a low-density relationship diagram for Agent, model, Tool, Command, Program and Terminal.
+
+The first-use recurring scenario now remains in `website/` through Context and Agent Loop. Command also lists `website` contents, while the protected DOCX Read / Write lesson remains the sole deliberate scenario transition in that sequence.

@@ -6,7 +6,7 @@ const { label, lanes, summary } = Astro.props;
 ---
 <figure class="visual system-map">
   <figcaption class="visual-label">流程圖解｜{label}</figcaption>
-  <div class="system-lanes" aria-hidden="true">
+  <div class="system-lanes" aria-hidden="true" data-pagefind-ignore>
     {lanes.map((lane) => (
       <div class="system-lane">
         <strong class="lane-title">{lane.title}</strong>
@@ -25,5 +25,5 @@ const { label, lanes, summary } = Astro.props;
       </div>
     ))}
   </div>
-  <p class="visually-equivalent">{summary}</p>
+  <p class="visually-equivalent sr-only">{summary}</p>
 </figure>

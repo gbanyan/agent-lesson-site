@@ -6,20 +6,21 @@ interface Props {
   prompt?: { audience:'research_chat'|'active_agent'|'human'; mode:'ask_only'|'explain_before_action'|'execute_after_confirmation'; capability:'requires_web'|'requires_workspace_access'|'no_special_access'; text:string } | undefined;
   searchTerms?: string[] | undefined;
   scenario: { request: string; actions: string[]; result: string; boundary: string; appliesBeyondCodingAgent?: boolean | undefined };
-  pathContexts?: { slug:string; title:string; step:number; total:number; previous?:{href:string;label:string} | undefined; next?:{href:string;label:string} | undefined; returnHref:string }[] | undefined;
+  pathContext?: { slug:string; title:string; step:number; total:number; previous?:{href:string;label:string} | undefined; next?:{href:string;label:string} | undefined; returnHref:string } | undefined;
+  indexInSearch?: boolean;
   next?: { href: string; label: string } | undefined; previous?: { href: string; label: string } | undefined;
 }
-const { id, archetype, question, context, answer, takeaway, prompt, newTerms, searchTerms = [], scenario, pathContexts = [], next, previous } = Astro.props;
+const { id, archetype, question, context, answer, takeaway, prompt, newTerms, searchTerms = [], scenario, pathContext, indexInSearch = true, next, previous } = Astro.props;
 ---
-<article class:list={['lesson', 'reading', `lesson-${archetype}`]} data-pagefind-body>
-  <nav class="path-context" aria-label="目前情境路徑" hidden data-pagefind-ignore>
-    <p><a data-path-return></a></p>
-    <p class="path-progress"><strong data-path-title></strong><span data-path-count></span></p>
-    <div class="path-context-links"><span data-path-previous></span><span data-path-next></span></div>
-  </nav>
-  <div hidden data-path-options>
-    {pathContexts.map((item) => <span data-path-option data-slug={item.slug} data-title={item.title} data-step={item.step} data-total={item.total} data-return-href={item.returnHref} data-previous-href={item.previous?.href} data-previous-label={item.previous?.label} data-next-href={item.next?.href} data-next-label={item.next?.label}></span>)}
-  </div>
+<article class:list={['lesson', 'reading', `lesson-${archetype}`]} data-pagefind-body={indexInSearch ? true : undefined}>
+  {pathContext && <nav class="path-context" aria-label="目前情境路徑">
+    <p><a href={pathContext.returnHref}>返回「{pathContext.title}」</a></p>
+    <p class="path-progress"><strong>{pathContext.title}</strong><span>第 {pathContext.step} / {pathContext.total} 步</span></p>
+    <div class="path-context-links">
+      <span>{pathContext.previous && <a href={pathContext.previous.href}>← 上一步：{pathContext.previous.label}</a>}</span>
+      <span>{pathContext.next && <a href={pathContext.next.href}>下一步：{pathContext.next.label} →</a>}</span>
+    </div>
+  </nav>}
   <header>
     {searchTerms.length > 0 && <span class="search-alias" aria-hidden="true" data-pagefind-weight="0.5">{searchTerms.join(' ')}</span>}
     <div class="lesson-meta"><span>概念短讀</span></div>
@@ -49,26 +50,4 @@ const { id, archetype, question, context, answer, takeaway, prompt, newTerms, se
     <span>{previous && <a href={previous.href}>← {previous.label}</a>}</span>
     <span>{next && <a href={next.href}>{next.label} →</a>}</span>
   </nav>
-  <script is:inline>
-    (() => {
-      const article = document.currentScript?.closest('.lesson');
-      if (!(article instanceof HTMLElement)) return;
-      const slug = new URLSearchParams(location.search).get('path');
-      if (!slug) return;
-      const option = [...article.querySelectorAll('[data-path-option]')].find((item) => item instanceof HTMLElement && item.dataset.slug === slug);
-      const nav = article.querySelector('.path-context');
-      if (!(option instanceof HTMLElement) || !(nav instanceof HTMLElement)) return;
-      const setLink = (selector, href, label) => {
-        const host = nav.querySelector(selector); if (!host || !href || !label) return;
-        const link = document.createElement('a'); link.href = href; link.textContent = label; host.append(link);
-      };
-      const title = nav.querySelector('[data-path-title]'); if (title) title.textContent = option.dataset.title ?? '';
-      const count = nav.querySelector('[data-path-count]'); if (count) count.textContent = `第 ${option.dataset.step} / ${option.dataset.total} 步`;
-      const back = nav.querySelector('[data-path-return]');
-      if (back instanceof HTMLAnchorElement) { back.href = option.dataset.returnHref ?? ''; back.textContent = '返回這條路徑'; }
-      setLink('[data-path-previous]', option.dataset.previousHref, option.dataset.previousLabel ? `← 上一步：${option.dataset.previousLabel}` : '');
-      setLink('[data-path-next]', option.dataset.nextHref, option.dataset.nextLabel ? `下一步：${option.dataset.nextLabel} →` : '');
-      nav.hidden = false;
-    })();
-  </script>
 </article>

@@ -1,6 +1,6 @@
 <figure class="visual relation-map">
   <figcaption class="visual-label">Agent 執行 Command 時，各部分的關係</figcaption>
-  <div class="relation-flow" aria-hidden="true">
+  <div class="relation-flow" aria-hidden="true" data-pagefind-ignore>
     <span>你提出目標</span><b>↓</b>
     <span>Agent 系統</span><b>↓</b>
     <span>AI 模型根據目前資訊決定下一步</span><b>↓</b>
@@ -9,13 +9,12 @@
     <span>Program 實際工作</span><b>↓</b>
     <span>結果回到 Agent</span>
   </div>
-  <p class="visually-equivalent">你提出目標後，Agent 系統讓 AI 模型根據目前資訊決定下一步，再使用 Tool 讀檔、改檔、上網或執行 Command。Program 完成實際工作，結果回到 Agent。</p>
+  <p class="visually-equivalent sr-only">你提出目標後，Agent 系統讓 AI 模型根據目前資訊決定下一步，再使用 Tool 讀檔、改檔、上網或執行 Command。Program 完成實際工作，結果回到 Agent。</p>
   <p class="terminal-note">Terminal 是人可以輸入或查看文字指令的介面之一，不是 Agent 本身。</p>
 </figure>
 <style>
   .relation-flow { display:grid; justify-items:center; gap:.45rem; max-width:34rem; margin:auto; text-align:center; }
   .relation-flow span { width:100%; padding:.7rem 1rem; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface-soft); }
   .relation-flow b { color:var(--ink-soft); }
-  .visually-equivalent { margin:1rem 0 0; color:var(--ink-soft); }
   .terminal-note { margin:1rem 0 0; padding:.8rem 1rem; border-left:4px solid var(--blue); background:var(--surface-soft); }
 </style>

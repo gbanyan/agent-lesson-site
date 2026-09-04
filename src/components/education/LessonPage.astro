@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Lesson from './Lesson.astro';
+import LessonVisual from './LessonVisual.astro';
+import { url } from '../../lib/urls';
+
+interface PathContext {
+  slug: string;
+  title: string;
+  step: number;
+  total: number;
+  previous?: { href: string; label: string } | undefined;
+  next?: { href: string; label: string } | undefined;
+  returnHref: string;
+}
+interface Props { entry: CollectionEntry<'lessons'>; pathContext?: PathContext; }
+const { entry, pathContext } = Astro.props;
+const { Content } = await render(entry);
+const all = (await getCollection('lessons')).sort((a,b) => a.data.section.localeCompare(b.data.section) || a.data.order-b.data.order);
+const index = all.findIndex((item) => item.data.id === entry.data.id);
+const previousEntry = all[index - 1];
+const nextEntry = all[index + 1];
+const canonicalPrevious = previousEntry ? { href:url(`/lessons/${previousEntry.data.slug}/`), label:previousEntry.data.question } : undefined;
+const canonicalNext = nextEntry ? { href:url(`/lessons/${nextEntry.data.slug}/`), label:nextEntry.data.question } : { href:url('/start/'), label:'選另一條路徑' };
+const previous = pathContext ? pathContext.previous : canonicalPrevious;
+const next = pathContext ? pathContext.next : canonicalNext;
+---
+<BaseLayout title={entry.data.question} description={entry.data.answer} canonicalPath={`/lessons/${entry.data.slug}/`}>
+  <div class="shell">
+    <Lesson id={entry.data.id} archetype={entry.data.archetype} question={entry.data.question} context={entry.data.context} answer={entry.data.answer} takeaway={entry.data.takeaway} prompt={entry.data.prompt} newTerms={entry.data.newTerms} searchTerms={entry.data.searchTerms} scenario={entry.data.scenario} pathContext={pathContext} indexInSearch={!pathContext} previous={previous} next={next}>
+      {entry.data.visual && <LessonVisual slot="visual" lessonId={entry.data.id} type={entry.data.visual.type} preset={entry.data.visual.preset} />}
+      <Content />
+    </Lesson>
+  </div>
+</BaseLayout>

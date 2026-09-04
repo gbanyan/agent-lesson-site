@@ -17,11 +17,11 @@ newTerms: [Command]
 prerequisites: [B7]
 visual: { type: terminal, preset: pwd }
 scenario:
-  request: "列出 報表 資料夾有哪些檔案。"
+  request: "列出 website 資料夾裡的項目。"
   actions:
-    - "Agent 可能執行 ls 報表；這行文字要求電腦查看指定資料夾。"
-    - "電腦讀取資料夾目錄，再把檔名回傳到終端機。"
-  result: "你看到檔名清單，檔案內容沒有因此被改動。"
+    - "Agent 可能執行 ls website；這行文字要求電腦查看指定資料夾。"
+    - "電腦讀取資料夾目錄，再回傳 index.html、styles.css 與 images。"
+  result: "Agent 取得 website 的項目清單，檔案內容沒有因此被改動。"
   boundary: "同一句 Command 可能帶有動作與目標位置。文字很長或用途不明時，應請 Agent 分段說明後再執行。"
 notTeach: [command 語法教學, shell scripting]
 ---

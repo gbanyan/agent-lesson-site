@@ -14,8 +14,8 @@ visual: { type: agent-action, preset: terminal-context }
 scenario:
   request: "看看 website 資料夾裡有哪些檔案。"
   actions:
-    - "Agent 把列出資料夾內容的文字指令交給 Terminal。"
-    - "Terminal 顯示電腦回傳的 index.html 與 images 等名稱。"
+    - "Agent 送出一行文字指令，要求電腦列出資料夾內容。"
+    - "若這項操作顯示在 Terminal，執行結果會列出 index.html 與 images 等名稱。"
   result: "Agent 取得 website 的檔案清單，資料夾內容沒有因此改變。"
   boundary: "Terminal 只是介面，不表示其中的每個動作都安全。實際影響取決於送出的 Command。"
 notTeach: [Bash, zsh, PowerShell]

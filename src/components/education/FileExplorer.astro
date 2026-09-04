@@ -13,10 +13,10 @@ const {
 ---
 <figure class="visual">
   <figcaption class="visual-label">檔案結構示意</figcaption>
-  <div class="tree" aria-hidden="true">
+  <div class="tree" aria-hidden="true" data-pagefind-ignore>
     <div>📁 {root}</div>
     {entries.map((entry, index) => <div class:list={['tree-entry', { nested: entry.depth === 1 }]}>　{index === entries.length - 1 ? '└──' : '├──'} {entry.kind === 'folder' ? '📁' : '📄'} {entry.name}</div>)}
   </div>
-  <p class="muted">{summary}</p>
+  <p class="sr-only">{summary}</p>
 </figure>
 <style>.tree-entry.nested { padding-left: 1.5rem; }</style>

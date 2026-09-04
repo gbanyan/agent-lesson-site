@@ -53,8 +53,8 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
     { title:'一次動作', steps:[{place:'Agent',title:'決定下一步',detail:'根據你的要求',tone:'agent'},{place:'工具',title:'執行操作',detail:'讀檔、改檔或連線'},{place:'結果',title:'回到 Agent',detail:'用來判斷下一步',tone:'result'}]},
   ], summary:'Agent 選擇工具執行操作，工具結果再回到 Agent，供它決定下一步。' },
   D3: { label:'檢查、行動、再檢查', lanes:[
-    { title:'合併文件', steps:[{place:'兩份來源',title:'讀取修訂版',detail:'找出文字與註解差異',tone:'local'},{place:'Agent',title:'整理衝突',detail:'不確定時停下詢問',tone:'agent'},{place:'新檔案',title:'合併結果',detail:'不覆蓋兩份來源',tone:'result'},{place:'再次檢查',title:'核對章節',detail:'確認沒有漏掉內容'}]},
-  ], summary:'Agent 比較兩份文件，處理能確定的差異；完成新檔後還要重新檢查。' },
+    { title:'修改網站', steps:[{place:'網站檔案',title:'讀取活動日期',detail:'找到要改的內容',tone:'local'},{place:'Agent',title:'修改日期',detail:'依照要求更新',tone:'agent'},{place:'手機預覽',title:'發現文字溢出',detail:'取得新的檢查結果',tone:'result'},{place:'再次調整',title:'修正並重查',detail:'確認版面正常'}]},
+  ], summary:'Agent 讀取網站、修改日期並開啟預覽；發現手機版文字溢出後，它再調整樣式並重新檢查。' },
   E7: { label:'動作可能落在哪裡', lanes:[
     { title:'你的裝置', steps:[{place:'本機',title:'檔案或資料庫',detail:'內容可能改變',tone:'local'}]},
     { title:'外部世界', steps:[{place:'共享服務',title:'行事曆或文件',detail:'同事可能立刻看見',tone:'remote'},{place:'其他系統',title:'通知或帳單',detail:'可能產生後續影響',tone:'remote'}]},
@@ -89,11 +89,11 @@ const concepts: Record<string, {label:string;items:{title:string;detail:string}[
   <SystemMap {...systemMaps[lessonId]} />
 ) : type === 'terminal' ? (
   lessonId === 'B8'
-    ? <TerminalExample purpose="列出報表資料夾的檔案" command="ls 報表" output="一月.xlsx　二月.xlsx　摘要.docx" impact="read" summary="這行指令讀取資料夾目錄並列出檔名，不會修改檔案內容。" />
+    ? <TerminalExample purpose="列出 website 資料夾裡的項目" command="ls website" output="index.html　styles.css　images" impact="read" summary="這行指令讀取 website 的資料夾目錄並列出項目，不會修改檔案內容。" />
     : <TerminalExample purpose="查看目前的位置" command="pwd" output="/Users/you/工作" impact="read" summary="這行指令只讀取目前位置。指令的目的與影響是判斷重點。" />
 ) : type === 'agent-action' ? (
   lessonId === 'B7'
-    ? <AgentAction request="看看 website 資料夾裡有什麼。" intent="查看資料夾內容" tool="Terminal：一行文字指令" result="找到 index.html 與 images" next="讀取結果，再決定下一步" />
+    ? <AgentAction request="看看 website 資料夾裡有什麼。" intent="查看資料夾內容" actionLabel="執行文字指令" tool="要求電腦列出 website 資料夾" result="Terminal 顯示 index.html 與 images" next="讀取結果，再決定下一步" summary="Agent 要查看 website 資料夾內容，因此要求電腦執行一行文字指令。若這項操作顯示在 Terminal，結果會列出 index.html 與 images；Agent 讀取結果後再決定下一步。" />
     : <AgentAction request="看看這個資料夾裡有什麼。" intent="查看資料夾內容" tool="終端機：ls" result="找到 報表、照片、notes.txt" next="根據結果決定是否還需要下一步" />
 ) : type === 'file-explorer' ? (
   lessonId === 'B1'

@@ -14,8 +14,8 @@ prompts:
   - label: 估算自己的使用情境
     audience: research_chat
     mode: ask_only
-    capability: no_special_access
-    text: 我預計用 AI Agent 做＿＿＿＿，大約每週＿＿次，每次會處理＿＿＿＿。請先告訴我還缺哪些資訊，再用低、中、高三種使用量估算費用。列出你的假設、可能另外收費的工具和無法確定之處，不要只給一個總金額。
+    capability: requires_web
+    text: 我預計用＿＿＿＿這項產品的 AI Agent 做＿＿＿＿，大約每週＿＿次，每次會處理＿＿＿＿。請根據目前官方費率，先告訴我還缺哪些資訊，再用低、中、高三種使用量估算費用。標示查詢日期、費率來源、假設、可能另外收費的工具和無法確定之處，不要只給一個總金額。
   - label: 找出意外支出風險
     audience: research_chat
     mode: ask_only

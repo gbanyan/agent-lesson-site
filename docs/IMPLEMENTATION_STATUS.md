@@ -42,7 +42,7 @@ The primary examples now use a small website, image processing, or a large proje
 
 ## Phase 8 — Situation paths
 
-Status: implemented. Five paths, each 4–6 core references, no duplicated lesson body. Path entry links add context metadata to the canonical lesson URL; lesson pages then show path name, step count, previous/next step and return navigation. The first-use path starts with Files before Working Scope and keeps A2 as an optional branch. The Command path has a cross-concept relationship diagram in its introduction.
+Status: implemented. Five paths, each with 4–6 core references, use build-time Astro wrapper routes around the same lesson source. Every wrapper contains the path name, step count, previous/next step and return navigation in its static HTML; its canonical link points to the single lesson URL, and only that canonical page enters the Pagefind index. The first-use path starts with Files before Working Scope and keeps A2 as an optional branch. The Command path has a cross-concept relationship diagram in its introduction.
 
 ## Phase 9 — Product bridges
 
@@ -50,7 +50,7 @@ Status: implemented. Codex and Claude Code bridges use official documentation li
 
 ## Phase 10 — Final audit
 
-Status: complete. Content lint, link/visual validation and Astro check pass with zero diagnostics. All 64 Playwright checks pass across desktop and mobile. Coverage includes all three lesson archetypes, the reduced eight-prompt set, prompt responsibility labels, path-aware navigation, 320px reflow, 200% zoom, the six-group concept index, dark/light/system appearance, axe, Pagefind, diagram equivalents and all-route crawling. GitHub/public verification is tracked in Phase 11.
+Status: complete. Content lint, link/visual validation and Astro check pass with zero diagnostics. All 68 Playwright checks pass across desktop and mobile. Coverage includes all three lesson archetypes, the reduced eight-prompt set, prompt responsibility labels, build-time path wrappers and canonical links, 320px reflow, 200% zoom, the six-group concept index, dark/light/system appearance, axe, Pagefind, diagram equivalents and all 80 generated routes. GitHub/public verification is tracked in Phase 11.
 
 All user-facing copy was reviewed after the scenario expansion with `agy` using `gemini-3.8-flash-high` at high effort. The first pass identified formulaic contrast sentences, developer-facing jargon, terminology drift, and an over-idealized secret-handling example. Those issues were revised; a second full-tree review found no release-blocking editorial issues, and its remaining terminology suggestions were also applied.
 
@@ -75,7 +75,7 @@ Status: complete.
 - Repository: https://github.com/gbanyan/agent-lesson-site (`main`, public, clean history initialized once)
 - Workflow: [`Quality Gate and Pages`](https://github.com/gbanyan/agent-lesson-site/actions/workflows/pages.yml), latest `main` run successful
 - Pages: https://gbanyan.github.io/agent-lesson-site/ (HTTPS enforced)
-- Production smoke: desktop and 390px mobile passed; homepage, CSS/assets, lessons, paths, product bridge, Pagefind, canonical/base-path links, horizontal overflow, request failures, and console errors checked.
+- Production smoke: desktop and 320px mobile passed; all 80 routes plus homepage, CSS/assets, lessons, path wrappers, product bridges, Pagefind, canonical/base-path links, horizontal overflow, request failures, and console errors checked.
 - Generated illustration loading: not applicable; the reviewed pilot intentionally selected zero raster illustrations and the manifest is empty.
 
 Known limitation: automated checks and semantic-tree inspection cannot replace evaluation by assistive-technology users. Formal user testing is outside this repository run and should remain part of future release review.

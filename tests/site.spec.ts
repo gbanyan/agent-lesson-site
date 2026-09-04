@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const keyPages = ['/', '/prepare/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/'];
+const keyPages = ['/', '/prepare/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/agent-vs-chat/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/'];
 
 for (const route of keyPages) {
   test(`${route} has no detectable WCAG A/AA violations`, async ({page}) => {
@@ -15,7 +15,7 @@ for (const route of keyPages) {
 test('lesson page only ships the small shared theme scripts', async ({page}) => {
   await page.goto('/lessons/command/');
   await expect(page.locator('h1')).toHaveText('Command 是什麼？');
-  await expect(page.locator('script')).toHaveCount(3);
+  await expect(page.locator('script')).toHaveCount(2);
   await expect(page.locator('script[src]')).toHaveCount(0);
 });
 
@@ -60,7 +60,27 @@ test('situation path links to the expected minimum lessons', async ({page}) => {
   await expect(page.locator('article.lesson')).toBeVisible();
   await expect(page.locator('.path-context')).toBeVisible();
   await expect(page.locator('.path-context')).toContainText('第 1 / 6 步');
-  await expect(page).toHaveURL(/\?path=first-agent-change$/);
+  await expect(page).toHaveURL(/\/paths\/first-agent-change\/working-scope\/$/);
+});
+
+test('path context is built into HTML and keeps the canonical lesson URL', async ({page, request}) => {
+  const route = '/paths/first-coding-agent/agent-vs-chat/';
+  const response = await request.get(route);
+  const html = await response.text();
+  expect(html).toContain('第一次使用 Agent');
+  expect(html).toContain('第 1 / 6 步');
+  expect(html).toContain('下一步：什麼是檔案和資料夾？');
+  expect(html).not.toContain('data-path-option');
+  expect(html).not.toContain('data-pagefind-body');
+
+  await page.goto(route);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://localhost:4321/lessons/agent-vs-chat/');
+  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/paths/first-coding-agent/files-and-folders/');
+  await expect(page.locator('.path-context')).toContainText('返回「第一次使用 Agent」');
+
+  await page.goto('/lessons/agent-vs-chat/');
+  await expect(page.locator('.path-context')).toHaveCount(0);
+  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/lessons/control-whole-computer/');
 });
 
 test('first-time path introduces files before scope and keeps A2 optional', async ({page}) => {
@@ -81,7 +101,8 @@ test('command path introduces the cross-concept relationship map', async ({page}
 test('homepage prioritizes first use and concepts before buyer reference', async ({page}) => {
   await page.goto('/');
   const mainText = await page.locator('main').innerText();
-  expect(mainText.indexOf('先看懂它怎麼工作')).toBeLessThan(mainText.indexOf('購買前需要確認什麼？'));
+  expect(mainText.indexOf('Agent 怎麼工作')).toBeLessThan(mainText.indexOf('購買前需要確認什麼？'));
+  expect(mainText).not.toContain('先看懂它怎麼工作');
   await expect(page.locator('header .nav-links')).toContainText('選工具前');
 });
 
@@ -113,7 +134,7 @@ test('keyboard focus and 200% zoom preserve access', async ({page}) => {
 
 test('320px lesson, path progress, prompt and search reflow without horizontal overflow', async ({page}) => {
   await page.setViewportSize({width: 320, height: 720});
-  for (const route of ['/lessons/command/?path=agent-runs-command', '/lessons/backup/', '/concepts/']) {
+  for (const route of ['/paths/agent-runs-command/command/', '/lessons/backup/', '/concepts/']) {
     await page.goto(route);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1), route).toBeTruthy();
   }
@@ -175,21 +196,21 @@ test('canonical beginner sequence ignores the numeric order of stable IDs', asyn
 test('situation paths follow task-driven concept order', async ({page}) => {
   await page.goto('/paths/agent-runs-command/');
   expect(await page.locator('.path-steps a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')))).toEqual([
-    '/lessons/program/?path=agent-runs-command',
-    '/lessons/terminal/?path=agent-runs-command',
-    '/lessons/command/?path=agent-runs-command',
-    '/lessons/read-vs-write/?path=agent-runs-command',
-    '/lessons/permission/?path=agent-runs-command',
+    '/paths/agent-runs-command/program/',
+    '/paths/agent-runs-command/terminal/',
+    '/paths/agent-runs-command/command/',
+    '/paths/agent-runs-command/read-vs-write/',
+    '/paths/agent-runs-command/permission/',
   ]);
 
   await page.goto('/paths/local-cloud-confusion/');
   expect(await page.locator('.path-steps a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')))).toEqual([
-    '/lessons/local-and-remote/?path=local-cloud-confusion',
-    '/lessons/where-is-my-data/?path=local-cloud-confusion',
-    '/lessons/where-program-runs/?path=local-cloud-confusion',
-    '/lessons/where-model-runs/?path=local-cloud-confusion',
-    '/lessons/computer-resources/?path=local-cloud-confusion',
-    '/lessons/data-leaves-device/?path=local-cloud-confusion',
+    '/paths/local-cloud-confusion/local-and-remote/',
+    '/paths/local-cloud-confusion/where-is-my-data/',
+    '/paths/local-cloud-confusion/where-program-runs/',
+    '/paths/local-cloud-confusion/where-model-runs/',
+    '/paths/local-cloud-confusion/computer-resources/',
+    '/paths/local-cloud-confusion/data-leaves-device/',
   ]);
 });
 
@@ -206,7 +227,8 @@ test('core role pages keep one distinct mental model each', async ({page}) => {
 
   await page.goto('/lessons/terminal/');
   await expect(page.locator('.flow')).toBeVisible();
-  await expect(page.locator('.flow')).toContainText('Terminal：一行文字指令');
+  await expect(page.locator('.flow')).not.toContainText('使用工具：');
+  await expect(page.locator('.flow')).toContainText('執行文字指令');
 
   await page.goto('/lessons/command/');
   await expect(page.locator('.scenario-note')).not.toContainText('&&');
@@ -216,13 +238,19 @@ test('core role pages keep one distinct mental model each', async ({page}) => {
 test('A1, Terminal, Tool, Context, Local Remote and Git keep corrected boundaries', async ({page}) => {
   await page.goto('/lessons/agent-vs-chat/');
   await expect(page.locator('main')).toContainText('聊天是一種互動介面');
-  await expect(page.locator('main')).toContainText('是不是 Agent，不能只看畫面是不是聊天視窗');
+  await expect(page.locator('main')).toContainText('差別在可用能力，不在畫面是不是聊天視窗');
+  await expect(page.locator('.lesson-body')).not.toContainText('Research Agent');
+  await expect(page.locator('.lesson-body')).not.toContainText('Actionable Agent');
   await page.goto('/lessons/terminal/');
   await expect(page.locator('main')).toContainText('畫面上不一定會真的出現 Terminal');
+  await expect(page.locator('.scenario')).toContainText('若這項操作顯示在 Terminal');
   await page.goto('/lessons/tool/');
   await expect(page.locator('main')).toContainText('不一定是一個獨立程式');
   await page.goto('/lessons/context/');
   await expect(page.locator('main')).toContainText('不表示 Agent 具有和人一樣的持續長期記憶');
+  await expect(page.locator('.scenario')).toContainText('website 的活動日期');
+  await page.goto('/lessons/agent-work-loop/');
+  await expect(page.locator('.scenario')).toContainText('手機版沒有跑版');
   await page.goto('/lessons/local-and-remote/');
   await expect(page.locator('main')).toContainText('資料是否被傳送、複製或保存，需要另外確認');
   await page.goto('/lessons/git/');
@@ -285,17 +313,25 @@ test('four preflight guides provide reusable prompts and explicit privacy framin
   await page.locator('[data-copy-prompt]').first().click();
   await expect(page.locator('.copy-status').first()).toHaveText('文字已複製到剪貼簿。');
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(expectedPrompt);
+
+  await page.goto('/prepare/plans-and-costs/');
+  const estimateCard = page.locator('.prompt-card').filter({hasText:'估算自己的使用情境'});
+  await expect(estimateCard).toContainText('需要網路查詢');
+  await expect(estimateCard.locator('code')).toContainText('目前官方費率');
+
+  await page.goto('/products/codex/');
+  await expect(page.getByRole('link', {name:/查看官方資訊/})).toHaveAttribute('href', 'https://learn.chatgpt.com/docs/quickstart');
 });
 
 test('all rendered internal links resolve', async ({page, request}) => {
   await page.goto('/');
   const visited = new Set<string>(); const queue = ['/'];
-  while(queue.length && visited.size < 70){
+  while(queue.length && visited.size < 120){
     const route=queue.shift()!; if(visited.has(route)) continue; visited.add(route);
     await page.goto(route); expect((await page.title()).length).toBeGreaterThan(0);
     const links=await page.locator('a[href]').evaluateAll((nodes)=>nodes.map(node=>(node as HTMLAnchorElement).getAttribute('href')!).filter(Boolean));
     for(const href of links){ if(href.startsWith('/') && !visited.has(href)) queue.push(href); }
   }
   for(const route of visited){ const response=await request.get(route); expect(response.status(), route).toBeLessThan(400); }
-  expect(visited.size).toBeGreaterThan(40);
+  expect(visited.size).toBeGreaterThanOrEqual(80);
 });
