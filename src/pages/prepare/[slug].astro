@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PromptShelf from '../../components/education/PromptShelf.astro';
+import { url } from '../../lib/urls';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('preflightGuides');
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const guides = (await getCollection('preflightGuides')).sort((a, b) => a.data.order - b.data.order);
+const index = guides.findIndex((guide) => guide.data.id === entry.data.id);
+const previous = guides[index - 1];
+const next = guides[index + 1];
+---
+<BaseLayout title={entry.data.title} description={entry.data.summary}>
+  <article class="reading guide">
+    <header class="page-header">
+      <p class="eyebrow">使用前先看 · {entry.data.id}</p>
+      <h1>{entry.data.title}</h1>
+      <p class="lesson-answer">{entry.data.summary}</p>
+    </header>
+    <aside class="guide-principle"><strong>先抓住這個原則：</strong>{entry.data.principle}</aside>
+    <div class="guide-body"><Content /></div>
+    <PromptShelf prompts={entry.data.prompts} />
+    <nav class="lesson-next" aria-label="前置說明前後導覽">
+      <span>{previous && <a href={url(`/prepare/${previous.data.slug}/`)}>← {previous.data.title}</a>}</span>
+      <span>{next ? <a href={url(`/prepare/${next.data.slug}/`)}>{next.data.title} →</a> : <a href={url('/start/')}>選一個情境開始 →</a>}</span>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .guide { padding-inline: 1rem; }
+  .guide-principle { padding: 1.2rem 1.4rem; border-left: 5px solid var(--leaf); border-radius: 0 var(--radius) var(--radius) 0; background: var(--leaf-pale); }
+  .guide-body { margin-top: 2.5rem; color: var(--ink-soft); }
+  .guide-body :global(p + p) { margin-top: 1.35rem; }
+</style>

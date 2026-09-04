@@ -1,0 +1,60 @@
+---
+interface Prompt { label: string; text: string; }
+interface Props { prompts: Prompt[]; }
+const { prompts } = Astro.props;
+---
+<section class="prompt-shelf" aria-labelledby="prompt-shelf-title">
+  <p class="eyebrow">繼續問清楚</p>
+  <h2 id="prompt-shelf-title">把你的情況帶進下一個問題</h2>
+  <p>方案、產品和規則改得很快。下面的問題可以直接貼進模型聊天視窗，再把空格處換成你的情況，請模型查詢當下資訊。貼上前，先移除密碼、金鑰、真實個資與公司機密。</p>
+  <div class="prompt-list">
+    {prompts.map((prompt) => (
+      <article class="prompt-card">
+        <div class="prompt-heading">
+          <h3>{prompt.label}</h3>
+          <button type="button" class="copy-prompt" data-copy-prompt aria-label={`複製「${prompt.label}」問題`}>複製問題</button>
+        </div>
+        <pre><code>{prompt.text}</code></pre>
+        <p class="copy-status" role="status" aria-live="polite"></p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<script>
+  async function copyText(text: string) {
+    if (!navigator.clipboard) throw new Error('clipboard unavailable');
+    await navigator.clipboard.writeText(text);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-prompt]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const card = button.closest('.prompt-card');
+      const text = card?.querySelector('code')?.textContent ?? '';
+      const status = card?.querySelector('.copy-status');
+      try {
+        await copyText(text);
+        button.textContent = '已複製';
+        if (status) status.textContent = '問題已複製到剪貼簿。';
+        window.setTimeout(() => { button.textContent = '複製問題'; }, 1800);
+      } catch {
+        if (status) status.textContent = '無法自動複製，請選取文字後手動複製。';
+      }
+    });
+  });
+</script>
+
+<style>
+  .prompt-shelf { margin-block: 4rem 2rem; padding-top: 2.5rem; border-top: 1px solid var(--line); }
+  .prompt-shelf > h2 { margin-top: .3rem; }
+  .prompt-list { display: grid; gap: 1rem; margin-top: 1.5rem; }
+  .prompt-card { padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+  .prompt-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .prompt-heading h3 { margin: 0; font-size: var(--step-1); }
+  .copy-prompt { min-height: 2.75rem; flex: 0 0 auto; padding: .5rem .85rem; border: 1px solid var(--leaf); border-radius: 999px; background: transparent; color: var(--leaf-dark); font: inherit; font-weight: 750; cursor: pointer; }
+  .copy-prompt:hover { background: var(--leaf-pale); }
+  .prompt-card pre { overflow-x: auto; margin: 1rem 0 0; padding: 1rem; border-radius: var(--radius-sm); background: var(--surface-soft); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .prompt-card code { font: 500 .94rem/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .copy-status { min-height: 1.5em; margin: .5rem 0 0; color: var(--ink-soft); font-size: .85rem; }
+  @media (max-width: 34rem) { .prompt-heading { align-items: flex-start; flex-direction: column; } }
+</style>

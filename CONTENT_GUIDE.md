@@ -35,3 +35,9 @@ Frontmatter 必填：`id`、`slug`、`section`、`order`、`question`、`answer`
 ## Review questions
 
 每張完成後檢查：是否只留一個概念？不知道 Bash、GitHub、server 或 package manager 的讀者仍能懂嗎？例子有沒有說清楚 Agent 真正可能做的動作？邊界有沒有交代暫存檔、封裝格式、網路或外部影響？能否再刪 20%？三年後仍成立嗎？
+
+## Preflight guides
+
+`src/content/preflight-guides` 是四篇獨立的使用前說明，目前不套用到 35 篇 lesson。正文只描述跨產品仍成立的判斷原則，不寫死價格、方案名稱、安裝指令或版本化模型排行。
+
+每篇提供 2–3 個可複製 prompt，讓讀者針對當下產品查詢最新資訊。Prompt 必須保留 `＿＿` 替換欄位，要求標示不確定之處，並在可能涉及資料時提醒讀者移除密碼、金鑰、個資與公司機密。

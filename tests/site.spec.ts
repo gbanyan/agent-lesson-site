@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const keyPages = ['/', '/start/', '/concepts/', '/paths/first-agent-change/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/'];
+const keyPages = ['/', '/prepare/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/'];
 
 for (const route of keyPages) {
   test(`${route} has no detectable WCAG A/AA violations`, async ({page}) => {
@@ -90,6 +90,28 @@ test('all 35 lessons render a concrete scenario and boundary', async ({page}) =>
     expect(await page.locator('.scenario ol li').count(), href).toBeGreaterThanOrEqual(2);
     await expect(page.locator('.scenario-boundary')).toContainText('這個例子的邊界');
   }
+});
+
+test('four preflight guides provide reusable prompts and explicit privacy framing', async ({page, context}) => {
+  await page.goto('/prepare/');
+  const links = await page.locator('section[aria-label="四篇前置說明"] a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')!));
+  expect(links).toHaveLength(4);
+  for (const href of links) {
+    await page.goto(href);
+    await expect(page.locator('.guide-principle')).toBeVisible();
+    await expect(page.locator('.prompt-shelf')).toContainText('方案、產品和規則改得很快');
+    await expect(page.locator('.prompt-card')).toHaveCount(3);
+    await expect(page.locator('.prompt-card code').first()).toContainText('＿＿');
+  }
+
+  await page.goto('/prepare/privacy-and-data/');
+  await expect(page.locator('.guide-body')).toContainText('內容仍可能透過網路送到模型提供商');
+  await expect(page.locator('.guide-body')).toContainText('不代表模型也在本機');
+  await context.grantPermissions(['clipboard-read', 'clipboard-write'], {origin: 'http://127.0.0.1:4321'});
+  const expectedPrompt = await page.locator('.prompt-card code').first().textContent();
+  await page.locator('[data-copy-prompt]').first().click();
+  await expect(page.locator('.copy-status').first()).toHaveText('問題已複製到剪貼簿。');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(expectedPrompt);
 });
 
 test('all rendered internal links resolve', async ({page, request}) => {

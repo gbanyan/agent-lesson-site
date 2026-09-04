@@ -56,4 +56,20 @@ const productBridges = defineCollection({
   }),
 });
 
-export const collections = { lessons, paths, productBridges };
+const preflightGuides = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/preflight-guides' }),
+  schema: z.object({
+    id: z.string().regex(/^P[1-4]$/),
+    slug: z.string().regex(/^[a-z0-9-]+$/),
+    order: z.number().int().min(1).max(4),
+    title: z.string().min(1),
+    summary: z.string().min(1),
+    principle: z.string().min(1),
+    prompts: z.array(z.object({
+      label: z.string().min(1),
+      text: z.string().min(1),
+    })).min(2).max(3),
+  }),
+});
+
+export const collections = { lessons, paths, productBridges, preflightGuides };

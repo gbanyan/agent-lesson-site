@@ -13,7 +13,8 @@
     "lint:content": "tsx scripts/lint-content.ts",
     "lint:links": "tsx scripts/validate-links.ts",
     "lint:visuals": "tsx scripts/validate-visuals.ts",
-    "lint": "npm run lint:content && npm run lint:links && npm run lint:visuals",
+    "lint:guides": "tsx scripts/lint-preflight-guides.ts",
+    "lint": "npm run lint:content && npm run lint:guides && npm run lint:links && npm run lint:visuals",
     "test": "playwright test",
     "test:install": "playwright install chromium",
     "verify": "npm run lint && npm run check && npm run test && npm run build"

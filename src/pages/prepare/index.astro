@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/urls';
+const guides = (await getCollection('preflightGuides')).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout title="使用前先看" description="開始使用 AI Agent 前，先看懂費用、安裝、模型選擇與資料隱私。">
+  <header class="page-header shell">
+    <p class="eyebrow">使用前先看</p>
+    <h1>先釐清四件容易踩雷的事</h1>
+    <p>不用背今天的價目表或排行榜。先學會問對問題，遇到新產品和新規則時，你仍然知道該查什麼。</p>
+  </header>
+  <section class="shell card-grid" aria-label="四篇前置說明">
+    {guides.map((guide) => (
+      <a class="card" href={url(`/prepare/${guide.data.slug}/`)}>
+        <span class="eyebrow">{guide.data.id}</span>
+        <h2>{guide.data.title}</h2>
+        <p>{guide.data.summary}</p>
+      </a>
+    ))}
+  </section>
+  <aside class="shell prepare-note">
+    <strong>先記住：</strong>遠端模型要處理你的內容，資料就需要離開裝置。任何延伸詢問都不要貼入密碼、金鑰、公司機密或不必要的個資。
+  </aside>
+</BaseLayout>
+
+<style>
+  .prepare-note { margin-block: 2rem 5rem; padding: 1.25rem 1.5rem; border-left: 4px solid var(--amber); background: color-mix(in srgb, var(--amber) 9%, var(--surface)); }
+</style>

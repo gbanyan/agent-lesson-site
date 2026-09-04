@@ -12,6 +12,14 @@ const paths = (await getCollection('paths')).sort((a, b) => a.data.id.localeComp
     <a class="button" href={url('/start/')}>開始</a>
   </section>
   <section class="section">
+    <div class="shell section-heading">
+      <p class="eyebrow">第一次使用以前</p>
+      <h2>先弄懂費用、安裝、模型與資料隱私</h2>
+      <p>這些資訊一直在變，所以我們不背規格表；先學會怎麼判斷，再針對你正在考慮的服務查最新說明。</p>
+      <a class="button secondary" href={url('/prepare/')}>閱讀使用前說明</a>
+    </div>
+  </section>
+  <section class="section">
     <div class="shell">
       <div class="section-heading"><p class="eyebrow">依情境開始</p><h2>你現在卡在哪裡？</h2></div>
       <div class="card-grid">

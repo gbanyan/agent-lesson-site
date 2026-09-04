@@ -7,6 +7,7 @@ const current = (segment: string) => path.includes(`/${segment}`) ? 'page' : und
   <div class="shell nav">
     <a class="brand" href={url('/')}>看懂 Agent</a>
     <nav class="nav-links" aria-label="主要導覽">
+      <a href={url('/prepare/')} aria-current={current('prepare')}>使用前</a>
       <a href={url('/start/')} aria-current={current('start')}>開始</a>
       <a href={url('/concepts/')} aria-current={current('concepts')}>找概念</a>
       <a href={url('/about/')} aria-current={current('about')}>關於本站</a>
