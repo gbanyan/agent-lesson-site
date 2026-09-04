@@ -1,8 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Introduction from '../content/introduction.md';
 import { url } from '../lib/urls';
 const paths = (await getCollection('paths')).sort((a, b) => a.data.id.localeCompare(b.data.id));
+const guides = (await getCollection('preflightGuides')).sort((a, b) => a.data.order - b.data.order);
 const firstPath = paths.find((path) => path.data.slug === 'first-coding-agent');
 const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-agent');
 ---
@@ -12,6 +14,36 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
     <h1>AI Agent 動手時，電腦發生了什麼？</h1>
     <p>Agent 會讀取檔案、執行指令，也可能修改資料。這裡把相關的電腦概念拆成短短幾頁。</p>
     <a class="button" href={url('/paths/first-coding-agent/')}>第一次使用 Agent</a>
+  </section>
+  <section class="section introduction-section" aria-labelledby="introduction-title">
+    <div class="shell">
+      <div class="section-heading">
+        <p class="eyebrow">開始閱讀</p>
+        <h2 id="introduction-title">前言</h2>
+      </div>
+      <div class="introduction-copy">
+        <Introduction />
+      </div>
+    </div>
+  </section>
+  <section class="section prepare-section" aria-labelledby="prepare-title">
+    <div class="shell">
+      <div class="section-heading">
+        <p class="eyebrow">選工具前</p>
+        <h2 id="prepare-title">四個前置準備概念</h2>
+        <p>費用、安裝方式、產品差異與資料規則都可能改變。選擇工具時，請以目前的官方資訊為準。</p>
+      </div>
+      <div class="card-grid prepare-grid">
+        {guides.map((guide) => (
+          <a class="card prepare-card" href={url(`/prepare/${guide.data.slug}/`)}>
+            {guide.data.id === 'P3' && <span class="eyebrow">延伸參考</span>}
+            <h3>{guide.data.title}</h3>
+            <p>{guide.data.summary}</p>
+          </a>
+        ))}
+      </div>
+      <p class="prepare-more"><a href={url('/prepare/')}>查看選工具前的完整說明 →</a></p>
+    </div>
   </section>
   <section class="section">
     <div class="shell">
@@ -30,8 +62,11 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
   <section class="section">
     <div class="shell section-heading"><p class="eyebrow">找一個概念</p><h2>直接查不熟的詞</h2><p>搜尋 Git、Permission、Terminal、Command 等概念。</p><a class="button secondary" href={url('/concepts/')}>找概念</a></div>
   </section>
-  <section class="section buyer-section">
-    <div class="shell section-heading"><p class="eyebrow">選擇產品或方案</p><h2>購買前需要確認什麼？</h2><p>費用、安裝方式與資料規則會變。需要選工具時，再查目前官方資訊。</p><a href={url('/prepare/')}>查看選工具前的參考資料 →</a></div>
-  </section>
 </BaseLayout>
-<style>.featured-card{max-width:38rem}.buyer-section{padding-block:3rem}</style>
+<style>
+  .featured-card{max-width:38rem}
+  .introduction-copy{max-width:48rem;font-size:var(--step-1);line-height:1.75}
+  .introduction-copy :global(> :first-child){margin-top:0}
+  .introduction-copy :global(> :last-child){margin-bottom:0}
+  .prepare-more{margin-top:1.5rem}
+</style>

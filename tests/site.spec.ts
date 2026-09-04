@@ -98,12 +98,14 @@ test('command path introduces the cross-concept relationship map', async ({page}
   await expect(page.locator('.terminal-note')).toContainText('不是 Agent 本身');
 });
 
-test('homepage prioritizes first use and concepts before buyer reference', async ({page}) => {
+test('homepage places the introduction and four preparation concepts before first use', async ({page}) => {
   await page.goto('/');
   const mainText = await page.locator('main').innerText();
-  expect(mainText.indexOf('Agent 怎麼工作')).toBeLessThan(mainText.indexOf('購買前需要確認什麼？'));
+  expect(mainText.indexOf('前言')).toBeLessThan(mainText.indexOf('四個前置準備概念'));
+  expect(mainText.indexOf('四個前置準備概念')).toBeLessThan(mainText.indexOf('Agent 怎麼工作'));
+  await expect(page.locator('.prepare-card')).toHaveCount(4);
   expect(mainText).not.toContain('先看懂它怎麼工作');
-  await expect(page.locator('header .nav-links')).toContainText('選工具前');
+  expect(await page.locator('header .nav-links a').allTextContents()).toEqual(['開始', '選工具前', '找概念', '關於本站']);
 });
 
 test('concept index uses six human-question groups without lesson IDs', async ({page}) => {
