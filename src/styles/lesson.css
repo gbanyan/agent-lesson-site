@@ -1,0 +1,13 @@
+.lesson { padding-top: clamp(2.5rem, 6vw, 5rem); }
+.lesson-meta { display: flex; gap: .65rem; align-items: center; color: var(--ink-soft); font-size: var(--step--1); }
+.lesson h1 { margin: .5rem 0 1rem; }
+.lesson-answer { margin: 0; color: var(--leaf-dark); font-size: var(--step-1); font-weight: 720; }
+.lesson-body { margin-block: 2rem; color: var(--ink-soft); }
+.lesson-next { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.lesson-next a { max-width: 20rem; }
+.term-list { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; list-style: none; }
+.term-list li { padding: .25rem .65rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); font-size: .85rem; }
+.path-steps { padding: 0; list-style: none; counter-reset: path; }
+.path-steps li { counter-increment: path; display: grid; grid-template-columns: 2.5rem 1fr; gap: 1rem; padding-block: 1.25rem; border-bottom: 1px solid var(--line); }
+.path-steps li::before { content: counter(path); display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--leaf-pale); color: var(--leaf-dark); font-weight: 800; }
+.path-steps a { font-weight: 750; }

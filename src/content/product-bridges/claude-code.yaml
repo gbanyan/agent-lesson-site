@@ -1,0 +1,10 @@
+id: claude-code
+slug: claude-code
+product: Claude Code
+intro: 使用 Claude Code 前，可以先建立幾個不依賴產品介面的核心觀念。
+concepts: [A1, B9, D4, C1, E6]
+officialUrl: https://code.claude.com/docs/en/overview
+check:
+  - 目前支援的安裝方式與平台
+  - 權限與資料處理設定
+  - 方案、使用額度與功能限制

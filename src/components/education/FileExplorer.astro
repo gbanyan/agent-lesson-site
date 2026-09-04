@@ -1,0 +1,9 @@
+---
+interface Props { root?: string; summary?: string; }
+const { root = 'website', summary = 'website 資料夾裡有 images 資料夾、index.html 與 notes.txt 兩個檔案。' } = Astro.props;
+---
+<figure class="visual">
+  <figcaption class="visual-label">檔案結構示意</figcaption>
+  <div class="tree" aria-hidden="true">📁 {root}<br />　├── 📁 images<br />　├── 📄 index.html<br />　└── 📄 notes.txt</div>
+  <p class="muted">{summary}</p>
+</figure>

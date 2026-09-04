@@ -1,0 +1,6 @@
+id: path-b
+slug: first-agent-change
+title: 第一次讓 Agent 修改東西
+description: 在第一次重要修改前，分清讀取與修改，保留恢復方式，再檢查結果。
+lessons: [B6, B9, D4, E1, E6, F1]
+safetyGate: true

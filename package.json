@@ -1,0 +1,37 @@
+{
+  "name": "agent-literacy-tw",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build:astro": "astro build",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "preview:test": "http-server dist -p 4321 -c-1",
+    "check": "astro check",
+    "lint:content": "tsx scripts/lint-content.ts",
+    "lint:links": "tsx scripts/validate-links.ts",
+    "lint:visuals": "tsx scripts/validate-visuals.ts",
+    "lint": "npm run lint:content && npm run lint:links && npm run lint:visuals",
+    "test": "playwright test",
+    "test:install": "playwright install chromium",
+    "verify": "npm run lint && npm run check && npm run test && npm run build"
+  },
+  "dependencies": {
+    "astro": "^7.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@astrojs/check": "^0.9.10",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^24.0.0",
+    "fast-glob": "^3.3.3",
+    "gray-matter": "^4.0.3",
+    "http-server": "^14.1.1",
+    "pagefind": "^1.5.2",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "yaml": "^2.8.0"
+  }
+}

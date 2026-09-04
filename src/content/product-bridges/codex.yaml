@@ -1,0 +1,10 @@
+id: codex
+slug: codex
+product: Codex
+intro: 使用 Codex 前，可以先建立幾個不依賴產品介面的核心觀念。
+concepts: [A1, B9, D4, C1, E6]
+officialUrl: https://learn.chatgpt.com/docs
+check:
+  - 目前支援的使用方式與平台
+  - 工作環境與權限設定
+  - 方案、使用額度與功能限制

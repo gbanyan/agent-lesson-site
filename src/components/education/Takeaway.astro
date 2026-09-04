@@ -1,0 +1,8 @@
+---
+interface Props { text: string; }
+const { text } = Astro.props;
+---
+<aside class="takeaway" aria-labelledby="takeaway-title">
+  <strong id="takeaway-title">帶走這個觀念</strong>
+  <p>{text}</p>
+</aside>

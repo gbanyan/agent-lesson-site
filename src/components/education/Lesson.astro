@@ -1,0 +1,24 @@
+---
+import Takeaway from './Takeaway.astro';
+interface Props {
+  id: string; question: string; answer: string; takeaway: string; newTerms: string[];
+  example?: string | undefined; next?: { href: string; label: string } | undefined; previous?: { href: string; label: string } | undefined;
+}
+const { id, question, answer, takeaway, newTerms, example, next, previous } = Astro.props;
+---
+<article class="lesson reading" data-pagefind-body>
+  <header>
+    <div class="lesson-meta"><span>微課程 {id}</span><span aria-hidden="true">·</span><span>約 1 分鐘</span></div>
+    <h1 data-pagefind-meta="title">{question}</h1>
+    <p class="lesson-answer">{answer}</p>
+  </header>
+  <slot name="visual" />
+  <div class="lesson-body"><slot /></div>
+  {example && <p><strong>例如：</strong>{example}</p>}
+  {newTerms.length > 0 && <ul class="term-list" aria-label="這頁的新名詞">{newTerms.map((term) => <li>{term}</li>)}</ul>}
+  <Takeaway text={takeaway} />
+  <nav class="lesson-next" aria-label="課程前後導覽">
+    <span>{previous && <a href={previous.href}>← {previous.label}</a>}</span>
+    <span>{next && <a href={next.href}>{next.label} →</a>}</span>
+  </nav>
+</article>

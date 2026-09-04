@@ -1,0 +1,10 @@
+---
+interface Props { url: string; items: string[]; }
+const { url, items } = Astro.props;
+---
+<aside class="official-notice" aria-labelledby="official-title">
+  <h2 id="official-title">最新資訊請自行確認</h2>
+  <p>不同服務或方案可能有所不同。使用或購買前，請向官方確認：</p>
+  <ul>{items.map((item) => <li>{item}</li>)}</ul>
+  <a href={url} rel="external">查看官方資訊 <span aria-hidden="true">→</span></a>
+</aside>

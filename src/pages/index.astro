@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/urls';
+const paths = (await getCollection('paths')).sort((a, b) => a.data.id.localeCompare(b.data.id));
+---
+<BaseLayout title="看懂 Agent">
+  <section class="hero shell">
+    <p class="eyebrow">AI Coding Agent 入門</p>
+    <h1>看懂 AI Agent 正在對你的電腦做什麼</h1>
+    <p>不需要先會寫程式。從幾個很小的概念開始。</p>
+    <a class="button" href={url('/start/')}>開始</a>
+  </section>
+  <section class="section">
+    <div class="shell">
+      <div class="section-heading"><p class="eyebrow">依情境開始</p><h2>你現在卡在哪裡？</h2></div>
+      <div class="card-grid">
+        {paths.slice(0, 4).map((path) => <a class="card" href={url(`/paths/${path.data.slug}/`)}><span class="eyebrow">{path.data.id.toUpperCase()}</span><h3>{path.data.title}</h3><p>{path.data.description}</p></a>)}
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="shell section-heading"><p class="eyebrow">快速查找</p><h2>我只想找一個詞</h2><p>搜尋 Git、Permission、Command，直接找到一張短 lesson。</p><a class="button secondary" href={url('/concepts/')}>找概念</a></div>
+  </section>
+</BaseLayout>

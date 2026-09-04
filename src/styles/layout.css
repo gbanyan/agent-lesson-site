@@ -1,0 +1,31 @@
+.site-header { border-bottom: 1px solid var(--line); background: rgb(247 245 238 / 92%); }
+.nav { min-height: 4.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.brand { color: var(--ink); font-weight: 850; text-decoration: none; letter-spacing: -.02em; }
+.nav-links { display: flex; align-items: center; gap: clamp(.75rem, 3vw, 1.75rem); }
+.nav-links a { min-height: 2.75rem; display: inline-flex; align-items: center; color: var(--ink-soft); font-size: var(--step--1); font-weight: 650; text-decoration: none; }
+.nav-links a[aria-current="page"] { color: var(--leaf-dark); text-decoration: underline; text-underline-offset: .45rem; }
+main { min-height: calc(100vh - 13rem); }
+.site-footer { margin-top: 6rem; border-top: 1px solid var(--line); }
+.footer-inner { display: flex; justify-content: space-between; gap: 1rem; padding-block: 2rem; color: var(--ink-soft); font-size: var(--step--1); }
+.hero { padding-block: clamp(4.5rem, 11vw, 9rem); }
+.hero h1 { max-width: 12ch; margin: .5rem 0 1.2rem; }
+.hero p { max-width: 34rem; color: var(--ink-soft); font-size: var(--step-1); }
+.section { padding-block: clamp(3rem, 7vw, 6rem); }
+.section + .section { border-top: 1px solid var(--line); }
+.section-heading { max-width: 36rem; margin-bottom: 2rem; }
+.card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.card { display: block; min-height: 10rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); text-decoration: none; box-shadow: 0 1px 0 rgb(20 40 30 / 3%); }
+.card:hover { border-color: var(--leaf); color: var(--ink); box-shadow: var(--shadow); transform: translateY(-2px); }
+.card h3 { margin: .25rem 0 .5rem; font-size: var(--step-1); }
+.card p { margin: 0; color: var(--ink-soft); }
+.page-header { padding-block: 4rem 2rem; }
+.page-header h1 { margin: .3rem 0 .75rem; max-width: 18ch; }
+.page-header p { max-width: 40rem; color: var(--ink-soft); }
+.reading.page-header { padding-inline: 1rem; }
+@media (max-width: 42rem) {
+  .nav { align-items: flex-start; padding-block: .8rem; }
+  .nav-links { gap: .3rem; flex-wrap: wrap; justify-content: flex-end; }
+  .nav-links a { padding-inline: .35rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; }
+}

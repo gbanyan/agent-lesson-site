@@ -1,0 +1,18 @@
+---
+interface Item { title: string; detail: string; }
+interface Props { label: string; items: Item[]; relation?: string; summary: string; }
+const { label, items, relation = '→', summary } = Astro.props;
+---
+<figure class="visual">
+  <figcaption class="visual-label">概念圖解｜{label}</figcaption>
+  <div class="concept-row" aria-hidden="true">
+    {items.map((item, index) => (
+      <>
+        <div class="concept-node"><span><strong>{item.title}</strong><small>{item.detail}</small></span></div>
+        {index < items.length - 1 && <div class="concept-arrow">{relation}</div>}
+      </>
+    ))}
+  </div>
+  <p class="visually-equivalent">{summary}</p>
+</figure>
+<style>.visually-equivalent { margin: 1rem 0 0; color: var(--ink-soft); }</style>

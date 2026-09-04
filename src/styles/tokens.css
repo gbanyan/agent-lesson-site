@@ -1,0 +1,25 @@
+:root {
+  --ink: #18231f;
+  --ink-soft: #52605a;
+  --paper: #f7f5ee;
+  --surface: #fffdf8;
+  --surface-soft: #eeeee5;
+  --line: #d7d9ce;
+  --leaf: #245e49;
+  --leaf-dark: #174333;
+  --leaf-pale: #dcebe2;
+  --amber: #b56b22;
+  --blue: #285e79;
+  --focus: #8e3f21;
+  --shadow: 0 18px 50px rgb(31 50 42 / 9%);
+  --radius-sm: 0.65rem;
+  --radius: 1.1rem;
+  --radius-lg: 1.6rem;
+  --content: 70rem;
+  --reading: 44rem;
+  --step--1: clamp(0.92rem, 0.88rem + 0.16vw, 1rem);
+  --step-0: clamp(1rem, 0.95rem + 0.22vw, 1.125rem);
+  --step-1: clamp(1.25rem, 1.12rem + 0.5vw, 1.55rem);
+  --step-2: clamp(1.6rem, 1.35rem + 0.9vw, 2.15rem);
+  --step-3: clamp(2.15rem, 1.7rem + 1.8vw, 3.45rem);
+}

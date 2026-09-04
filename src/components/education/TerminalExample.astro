@@ -1,0 +1,15 @@
+---
+interface Props { purpose: string; command: string; output: string; impact: 'read' | 'modify' | 'external'; summary: string; }
+const { purpose, command, output, impact, summary } = Astro.props;
+const labels = { read: '查看資訊', modify: '造成修改', external: '影響外部系統' };
+---
+<figure class="visual">
+  <figcaption class="visual-label">Terminal 操作示意</figcaption>
+  <div class="terminal" aria-label={`${purpose}。指令 ${command}。結果：${output}`}>
+    <div class="terminal-purpose">{purpose}</div>
+    <pre><code>$ {command}
+{output}</code></pre>
+  </div>
+  <span class="impact">{labels[impact]}</span>
+  <p class="muted">{summary}</p>
+</figure>

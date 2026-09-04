@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/urls';
+---
+<BaseLayout title="關於本站">
+  <article class="reading page-header">
+    <p class="eyebrow">本站的界線</p><h1>少一點內容，多一點掌握</h1>
+    <p class="lesson-answer">本站只教你安全使用 Coding Agent 前，下一步真正需要的最低必要觀念。</p>
+    <p>這不是程式設計課、Shell 課、Git 課或產品手冊。產品介面、價格與功能會變；資料位置、權限、可恢復性與驗證這些 mental model 比較長久。</p>
+    <p>每張 lesson 只處理一個問題，正常頁面不執行 client-side JavaScript。本站不使用帳號、不記錄學習進度，也不要求你讀完整套內容。</p>
+    <p>自動化無障礙測試不能取代人工鍵盤、screen reader 與認知負擔檢查。</p>
+    <a class="button" href={url('/start/')}>選一個情境開始</a>
+  </article>
+</BaseLayout>

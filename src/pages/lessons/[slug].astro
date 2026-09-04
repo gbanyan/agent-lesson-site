@@ -1,0 +1,27 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Lesson from '../../components/education/Lesson.astro';
+import LessonVisual from '../../components/education/LessonVisual.astro';
+import { url } from '../../lib/urls';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('lessons');
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const all = (await getCollection('lessons')).sort((a,b) => a.data.section.localeCompare(b.data.section) || a.data.order-b.data.order);
+const index = all.findIndex((item) => item.data.id === entry.data.id);
+const previousEntry = all[index - 1]; const nextEntry = all[index + 1];
+const previous = previousEntry ? { href:url(`/lessons/${previousEntry.data.slug}/`), label:previousEntry.data.question } : undefined;
+const next = nextEntry ? { href:url(`/lessons/${nextEntry.data.slug}/`), label:nextEntry.data.question } : { href:url('/start/'), label:'選另一條路徑' };
+---
+<BaseLayout title={entry.data.question} description={entry.data.answer}>
+  <div class="shell">
+    <Lesson id={entry.data.id} question={entry.data.question} answer={entry.data.answer} takeaway={entry.data.takeaway} newTerms={entry.data.newTerms} example={entry.data.example} previous={previous} next={next}>
+      {entry.data.visual && <LessonVisual slot="visual" lessonId={entry.data.id} type={entry.data.visual.type} preset={entry.data.visual.preset} />}
+      <Content />
+    </Lesson>
+  </div>
+</BaseLayout>

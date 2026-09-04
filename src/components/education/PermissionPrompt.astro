@@ -1,0 +1,16 @@
+---
+interface Props { files?: string[]; consequence?: string; }
+const { files = ['index.html', 'styles.css', 'about.html'], consequence = '這會造成檔案內容改變。' } = Astro.props;
+---
+<figure class="visual">
+  <figcaption class="visual-label">權限要求示意（不是特定產品畫面）</figcaption>
+  <div class="permission-box">
+    <h3>Agent 要求權限</h3>
+    <p>Agent 想修改：</p>
+    <div class="permission-files">{files.join('、')}</div>
+    <p>{consequence}</p>
+    <div class="permission-actions" aria-label="示意選項">
+      <span class="mock-button">取消</span><span class="mock-button primary">允許</span>
+    </div>
+  </div>
+</figure>
