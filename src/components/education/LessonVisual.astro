@@ -9,13 +9,19 @@ import SystemMap from './SystemMap.astro';
 interface Props { lessonId: string; type: string; preset: string; }
 const { lessonId, type } = Astro.props;
 
+// User-protected DOCX example remains available on its original lesson.
+const protectedDocumentMap = { label:'畫面與儲存位置', lanes:[
+  { title:'本機檔案', steps:[{place:'瀏覽器或應用程式',title:'畫面顯示內容',detail:'從硬碟讀取'},{place:'你的裝置',title:'企劃書.docx',detail:'實際存放位置',tone:'local' as const}]},
+  { title:'遠端文件', steps:[{place:'瀏覽器或應用程式',title:'畫面顯示內容',detail:'看起來可能相同'},{place:'服務商系統',title:'線上企劃書',detail:'實際存放位置',tone:'remote' as const}]},
+], summary:'同樣在螢幕上看到文件，資料可能存在本機，也可能只存在遠端服務。' };
+
 type SystemStep = { place:string; title:string; detail:string; tone?:'local'|'agent'|'remote'|'result' };
 type SystemLane = { title:string; steps:SystemStep[] };
 const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string}> = {
   A1: { label:'同一種聊天介面，可能有不同能力', lanes:[
     { title:'主要回覆內容', steps:[{place:'你',title:'在聊天視窗提出要求',detail:'詢問做法'},{place:'AI',title:'回覆內容',detail:'由你決定後續操作',tone:'result'}]},
-    { title:'Agent 工作方式', steps:[{place:'你',title:'在聊天視窗提出目標',detail:'說明範圍'},{place:'Agent',title:'使用可用 Tool',detail:'取得資訊或採取行動',tone:'agent'},{place:'結果',title:'回到聊天介面',detail:'供你檢查',tone:'result'}]},
-  ], summary:'聊天視窗只是一種互動介面。Agent 會在指定環境中使用可用的 Tool 完成任務，再把結果帶回介面。' },
+    { title:'Agent 工作方式', steps:[{place:'你',title:'在聊天視窗提出目標',detail:'說明範圍'},{place:'Agent',title:'使用可用工具',detail:'取得資訊或採取行動',tone:'agent'},{place:'結果',title:'回到聊天介面',detail:'供你檢查',tone:'result'}]},
+  ], summary:'聊天視窗只是一種互動介面。Agent 會在指定環境中使用可用的工具 完成任務，再把結果帶回介面。' },
   B3: { label:'程式從哪裡來', lanes:[
     { title:'原本就有', steps:[{place:'Agent',title:'選擇現有程式',detail:'使用電腦已有的工具',tone:'agent'},{place:'電腦',title:'執行程式',detail:'開始實際工作',tone:'result'}]},
     { title:'需要安裝', steps:[{place:'Agent',title:'提出安裝',detail:'說明來源與影響',tone:'agent'},{place:'電腦',title:'執行新程式',detail:'安裝後另行啟動',tone:'result'}]},
@@ -25,40 +31,18 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
     { title:'已開放', steps:[{place:'目前資料夾',title:'website',detail:'Agent 可以查看與修改',tone:'agent'},{place:'範圍內',title:'index.html',detail:'這次任務會處理',tone:'result'}]},
     { title:'未開放', steps:[{place:'其他位置',title:'相簿與郵件',detail:'不在目前工作範圍'},{place:'需要時',title:'另行確認',detail:'不能自行擴大範圍',tone:'remote'}]},
   ], summary:'Agent 只應在目前開放的工作範圍內處理資料；其他位置要另外確認。' },
-  C1: { label:'本機與遠端', lanes:[
-    { title:'Local', steps:[{place:'目前環境',title:'這台裝置',detail:'你正在使用的一端',tone:'local'}]},
-    { title:'Remote', steps:[{place:'網路另一端',title:'另一台電腦或服務',detail:'透過網路接觸',tone:'remote'}]},
-  ], summary:'Local 是目前使用的這台裝置或環境；Remote 是透過網路接觸的另一台電腦或服務。這兩個詞本身不表示資料已經傳送或保存。' },
-  C2: { label:'畫面與儲存位置', lanes:[
-    { title:'本機檔案', steps:[{place:'瀏覽器或應用程式',title:'畫面顯示內容',detail:'從硬碟讀取'},{place:'你的裝置',title:'企劃書.docx',detail:'實際存放位置',tone:'local'}]},
-    { title:'遠端文件', steps:[{place:'瀏覽器或應用程式',title:'畫面顯示內容',detail:'看起來可能相同'},{place:'服務商系統',title:'線上企劃書',detail:'實際存放位置',tone:'remote'}]},
-  ], summary:'同樣在螢幕上看到文件，資料可能存在本機，也可能只存在遠端服務。' },
-  C3: { label:'工作在哪裡發生', lanes:[
-    { title:'本機執行', steps:[{place:'你的裝置',title:'Agent 執行工具',detail:'使用本機 CPU',tone:'local'},{place:'你的裝置',title:'產生結果',detail:'直接讀寫本機檔案',tone:'result'}]},
-    { title:'遠端執行', steps:[{place:'你的裝置',title:'送出任務',detail:'透過網路'},{place:'遠端環境',title:'執行工具',detail:'使用另一台電腦',tone:'remote'},{place:'你的裝置',title:'取回結果',detail:'可能需要下載',tone:'result'}]},
-  ], summary:'同一項工作可以在你的裝置執行，也可以送到遠端環境執行；兩者使用的檔案與資源可能不同。' },
-  C4: { label:'三個位置要分開看', lanes:[
-    { title:'資料', steps:[{place:'你的裝置或遠端',title:'會議記錄',detail:'檔案存放的位置'}]},
-    { title:'Agent', steps:[{place:'你的裝置或遠端',title:'讀檔與使用工具',detail:'工作流程執行的位置',tone:'agent'}]},
-    { title:'AI 模型', steps:[{place:'你的裝置或供應商',title:'產生摘要',detail:'模型實際運算的位置',tone:'remote'}]},
-  ], summary:'資料存放、Agent 執行工具與 AI 模型運算可能發生在三個不同位置。' },
-  C5: { label:'資料離開裝置的路徑', lanes:[
-    { title:'送出內容', steps:[{place:'你的裝置',title:'錯誤紀錄',detail:'檢查完整內容',tone:'local'},{place:'Agent 工具',title:'建立線上項目',detail:'準備傳送',tone:'agent'},{place:'網路',title:'上傳資料',detail:'資料離開裝置'},{place:'外部服務',title:'保存內容',detail:'他人可能存取',tone:'remote'}]},
-  ], summary:'Agent 使用網路工具時，本機內容會經過網路送到外部服務。' },
-  C7: { label:'本機修改與公開版本', lanes:[
-    { title:'尚未發布', steps:[{place:'你的裝置',title:'修改活動公告',detail:'只有本機副本改變',tone:'local'},{place:'公開位置',title:'仍是舊版本',detail:'其他人看不到新內容',tone:'remote'}]},
-    { title:'完成發布', steps:[{place:'你的裝置',title:'送出新版',detail:'啟動發布或同步',tone:'local'},{place:'公開位置',title:'取得新版',detail:'其他人現在看得到',tone:'result'}]},
-  ], summary:'本機改好之後，還要把新版送到公開或共享位置，其他人才會看到變更。' },
-  D2: { label:'Agent 如何使用工具', lanes:[
-    { title:'一次動作', steps:[{place:'Agent',title:'決定下一步',detail:'根據你的要求',tone:'agent'},{place:'工具',title:'執行操作',detail:'讀檔、改檔或連線'},{place:'結果',title:'回到 Agent',detail:'用來判斷下一步',tone:'result'}]},
-  ], summary:'Agent 選擇工具執行操作，工具結果再回到 Agent，供它決定下一步。' },
-  D3: { label:'檢查、行動、再檢查', lanes:[
-    { title:'修改網站', steps:[{place:'網站檔案',title:'讀取活動日期',detail:'找到要改的內容',tone:'local'},{place:'Agent',title:'修改日期',detail:'依照要求更新',tone:'agent'},{place:'手機預覽',title:'發現文字溢出',detail:'取得新的檢查結果',tone:'result'},{place:'再次調整',title:'修正並重查',detail:'確認版面正常'}]},
-  ], summary:'Agent 讀取網站、修改日期並開啟預覽；發現手機版文字溢出後，它再調整樣式並重新檢查。' },
+  C1: {"label":"縮圖工作的位置","lanes":[{"title":"本機","steps":[{"place":"這台電腦","title":"執行圖片程式","detail":"讀原圖，另存新圖","tone":"local"}]},{"title":"遠端","steps":[{"place":"網路另一端","title":"執行圖片程式","detail":"傳送前另行確認","tone":"remote"}]}],"summary":"同樣三張圖片，可以由這台電腦或網路另一端的圖片程式縮小。本機與遠端描述位置，不能單靠名稱判斷有沒有傳送資料。"},
+  C2: {"label":"三張圖片存在哪裡","lanes":[{"title":"原圖","steps":[{"place":"這台電腦","title":"website/images","detail":"三張原圖保留","tone":"local"}]},{"title":"新圖","steps":[{"place":"預定位置","title":"website/small","detail":"確認三張新圖已保存","tone":"result"},{"place":"若只有線上結果","title":"還要下載","detail":"看得到不表示已存在本機","tone":"remote"}]}],"summary":"三張原圖保留在本機 website/images，新圖要確認已保存到 website/small。線上看得到的結果若尚未下載，本機仍沒有那份新圖。"},
+  C3: {"label":"哪台電腦真的縮圖","lanes":[{"title":"本機方式","steps":[{"place":"拿到","title":"本機原圖","detail":"website/images","tone":"local"},{"place":"操作","title":"這台電腦縮圖","detail":"執行圖片程式"},{"place":"結果","title":"本機新圖","detail":"website/small","tone":"result"}]},{"title":"遠端方式","steps":[{"place":"拿到","title":"獲准上傳的圖片","detail":"先確認傳送範圍"},{"place":"操作","title":"另一台電腦縮圖","detail":"執行圖片程式","tone":"remote"},{"place":"結果","title":"下載新圖","detail":"原圖保留","tone":"result"}]}],"summary":"本機方式由這台電腦縮圖；遠端方式由另一台電腦縮圖後再下載。兩種都要保留原圖。"},
+  C4: {"label":"模型決定操作，圖片程式執行","lanes":[{"title":"這次已知","steps":[{"place":"這台電腦","title":"原圖與縮圖程式","detail":"讀原圖、產生三張新圖","tone":"local"}]},{"title":"另外確認","steps":[{"place":"AI 模型","title":"決定工具要求","detail":"可能在網路另一端","tone":"remote"},{"place":"傳送內容","title":"文字或圖片","detail":"依工具與設定確認","tone":"agent"}]}],"summary":"資料存放、Agent 執行工具與 AI 模型運算可能發生在不同位置。本例縮圖程式在本機，模型可能在遠端決定操作；不能因此認定圖片從未送出。"},
+  C5: {"label":"圖片何時離開這台電腦","lanes":[{"title":"獲准之後","steps":[{"place":"拿到","title":"三張本機原圖","detail":"先查看實際內容","tone":"local"},{"place":"操作","title":"工具上傳","detail":"經過網路"},{"place":"結果","title":"服務收到圖片","detail":"原圖仍在也算已送出","tone":"remote"}]}],"summary":"工具獲准後上傳三張原圖，線上服務收到內容；原圖仍在本機不表示資料沒有離開。"},
+  C7: {"label":"修改與公開是兩個時刻","lanes":[{"title":"目前","steps":[{"place":"這台電腦","title":"9 月 27 日","detail":"練習網頁已改","tone":"local"},{"place":"公開位置","title":"尚未發布","detail":"本機檢查不會自動公開"}]},{"title":"之後另決定","steps":[{"place":"獲准並檢查後","title":"執行發布","detail":"確認送出成功"},{"place":"公開網址","title":"核對新日期","detail":"其他人才可能看見","tone":"result"}]}],"summary":"練習網頁目前只在本機改成 9 月 27 日。公開需要另外決定並完成發布，再到公開網址核對。"},
+  D2: {"label":"修改要求如何成為實際變更","lanes":[{"title":"一次操作","steps":[{"place":"拿到","title":"原日期與新日期","detail":"其他內容保留","tone":"agent"},{"place":"操作","title":"工具寫入日期","detail":"提出要求後才執行"},{"place":"結果","title":"檔案改變與回報","detail":"回報供下一輪檢查","tone":"result"}]}],"summary":"AI 取得原日期與新日期後提出要求，修改工具執行才會改變檔案。工具回報成為下一輪資訊，仍要核對實際內容。"},
+  D3: {"label":"結果進入下一輪","lanes":[{"title":"改日期","steps":[{"place":"拿到","title":"原日期與要求","detail":"只改日期","tone":"local"},{"place":"操作","title":"工具寫入 9 月 27 日","detail":"檔案真的改變","tone":"agent"},{"place":"結果","title":"手機預覽溢出","detail":"版面檢查未通過","tone":"result"},{"place":"下一輪","title":"回報並確認範圍","detail":"擴大修改前等授權"}]}],"summary":"工具修改日期後，Agent 開啟手機預覽取得溢出結果，將它納入下一輪，回報需要調整樣式並等待授權。循環不保證成功。"},
   E7: { label:'動作可能落在哪裡', lanes:[
     { title:'你的裝置', steps:[{place:'本機',title:'檔案或資料庫',detail:'內容可能改變',tone:'local'}]},
     { title:'外部世界', steps:[{place:'共享服務',title:'行事曆或文件',detail:'同事可能立刻看見',tone:'remote'},{place:'其他系統',title:'通知或帳單',detail:'可能產生後續影響',tone:'remote'}]},
-  ], summary:'Agent 的動作可能留在本機，也可能改變共享文件、通知、帳單等外部狀態。' },
+  ], summary:'Agent 的動作可能留在本機，也可能修改共享文件、送出通知或產生帳單。' },
   F4: { label:'網路是雙向的', lanes:[
     { title:'取得資料', steps:[{place:'外部網站',title:'目前公告',detail:'來源可能可靠或有誤',tone:'remote'},{place:'網路',title:'下載內容',detail:'送進 Agent'},{place:'Agent',title:'讀取與判斷',detail:'不能自動當成指令',tone:'agent'}]},
     { title:'送出資料', steps:[{place:'你的裝置',title:'檔案或問題',detail:'檢查送出內容',tone:'local'},{place:'網路',title:'上傳內容',detail:'離開裝置'},{place:'外部服務',title:'接收資料',detail:'依服務規則處理',tone:'remote'}]},
@@ -67,21 +51,19 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
 
 const concepts: Record<string, {label:string;items:{title:string;detail:string}[];relation?:string;summary:string}> = {
   A2: { label:'行動邊界', items:[{title:'工具',detail:'能用什麼'},{title:'工作範圍',detail:'能碰哪裡'},{title:'權限',detail:'能做到多少'}], relation:'＋', summary:'Agent 的行動由可用工具、目前工作範圍與被授予的權限共同限制。' },
-  B4: { label:'縮小網站圖片', items:[{title:'原始照片',detail:'Input／收到的內容'},{title:'調整尺寸',detail:'Process／進行的處理'},{title:'縮小照片',detail:'Output／留下的結果'}], summary:'圖片工作收到原始照片，程式調整尺寸，再留下縮小後的新照片。' },
+  B4: {"label":"這份練習網頁的變化","items":[{"title":"拿到","detail":"9 月 20 日與新日期"},{"title":"操作","detail":"工具改成 9 月 27 日"},{"title":"結果","detail":"檔案已改，仍未公開"}],"summary":"拿到原網頁與新日期，工具把 9 月 20 日寫成 9 月 27 日，結果是本機檔案改變，尚未公開。"},
   B5: { label:'安裝不等於執行', items:[{title:'安裝',detail:'把需要的內容準備好'},{title:'執行',detail:'讓程式開始工作'}], relation:'≠', summary:'安裝是把程式準備在環境裡；執行才是讓它開始工作。' },
   B6: { label:'兩種影響', items:[{title:'讀取',detail:'取得資訊'},{title:'修改',detail:'改變狀態'}], relation:'≠', summary:'讀取只取得資訊；修改會讓檔案或系統狀態發生變化。' },
   C6: { label:'本機工具用到的資源', items:[{title:'CPU',detail:'進行計算'},{title:'記憶體',detail:'暫放工作內容'},{title:'儲存空間',detail:'保存程式與產出'}], relation:'／', summary:'本機工具會用 CPU 計算、用記憶體暫放工作內容，並用儲存空間保存程式與產出。' },
-  D1: { label:'目前可用資訊', items:[{title:'這次 Context',detail:'對話、檔案與工具結果'},{title:'未提供的資訊',detail:'不能當作已知'}], relation:'≠', summary:'Agent 依這次工作目前可用的資訊做事；這不表示它具有和人一樣的持續長期記憶。' },
+  D1: {"label":"提出修改前拿到的資訊","items":[{"title":"已取得","detail":"原日期、新日期與限制"},{"title":"還沒讀到","detail":"不能當成已知"}],"relation":"／","summary":"AI 必須取得原日期、新日期及保留其他內容的要求；檔案存在不表示已讀取。"},
   D5: { label:'影響範圍', items:[{title:'一般權限',detail:'較有限的範圍'},{title:'管理員權限',detail:'可能影響更多系統區域'}], summary:'管理員權限可能讓同一個動作影響更大的系統範圍。' },
   D6: { label:'限制機制', items:[{title:'Sandbox 內',detail:'允許的行動範圍'},{title:'Sandbox 外',detail:'受到限制或需另行允許'}], relation:'｜', summary:'Sandbox 用邊界限制可採取的行動，但它不是絕對安全的保證。' },
-  E1: { label:'能否復原', items:[{title:'修改',detail:'狀態已改變'},{title:'恢復來源',detail:'不一定存在'}], relation:'需要確認', summary:'修改發生後，是否能復原取決於是否有可用的舊狀態或獨立副本。' },
-  E2: { label:'獨立副本', items:[{title:'原始資料',detail:'平常使用'},{title:'Backup',detail:'另一份可恢復副本'}], relation:'＋', summary:'Backup 是原始資料之外，另有一份可以在出事後用來恢復的副本。' },
-  E3: { label:'目標不同', items:[{title:'Sync',detail:'讓各處保持一致'},{title:'Backup',detail:'出事後回復資料'}], relation:'≠', summary:'Sync 的主要目標是保持一致；Backup 的主要目標是出事後恢復。同步也可能把錯誤一起傳過去。' },
-  E4: { label:'較早狀態', items:[{title:'現在',detail:'目前內容'},{title:'版本歷史',detail:'可查看較早狀態'}], relation:'回看', summary:'版本歷史保留過去的存檔；服務有提供恢復功能時，也能用它找回舊內容。' },
-  E5: { label:'角色界線', items:[{title:'Git',detail:'記錄專案變化'},{title:'Backup',detail:'獨立恢復副本'}], relation:'≠', summary:'Git 能記錄專案變化；完整備份仍要另外保留。' },
-  E6: { label:'重大修改前', items:[{title:'目前可用狀態',detail:'確認可正常運作'},{title:'可恢復點',detail:'建立或找到'},{title:'重大修改',detail:'開始執行'}], summary:'重大修改應在確認可恢復狀態後開始。' },
-  F1: { label:'檢視變更', items:[{title:'修改前',detail:'原本狀態'},{title:'差異',detail:'哪些地方改了'},{title:'修改後',detail:'目前狀態'}], summary:'檢視修改前後的差異，才能知道 Agent 實際改了什麼。' },
-  F2: { label:'完成判斷', items:[{title:'Agent 的說法',detail:'口頭回報'},{title:'檢查結果',detail:'實際證據'}], relation:'≠', summary:'Agent 說完成只是口頭回報；看到符合要求的檢查結果，才算驗證。' },
+  E1: {"label":"修改前找好恢復來源","items":[{"title":"保留","detail":"9 月 20 日的網頁"},{"title":"確認","detail":"能打開、知道怎麼取回"},{"title":"才修改","detail":"寫成 9 月 27 日"}],"summary":"先保留原網頁，打開確認並知道怎麼取回，再改成新日期。沒有舊版本不保證能恢復。"},
+  E2: {"label":"另一份可用資料","items":[{"title":"原網頁","detail":"準備修改日期"},{"title":"備份","detail":"保留修改前的內容"}],"relation":"＋","summary":"備份保留修改前的網頁，應確認位置、內容與能否開啟；同磁碟副本不能防磁碟損壞。"},
+  E3: {"label":"刪除也可能傳過去","items":[{"title":"同步","detail":"各處一起更新或刪除"},{"title":"備份","detail":"另外保留可取回的副本"}],"relation":"／","summary":"同步可能把刪除傳到其他地方；是否仍有可恢復的副本，要另外確認。"},
+  E4: {"label":"查看較早版本","items":[{"title":"拿到","detail":"兩份已保存的網頁"},{"title":"操作","detail":"比較 9 月 20 日與 27 日"},{"title":"結果","detail":"看見差異，尚未恢復"}],"summary":"比較已保存的兩個版本，得到日期差異；查看紀錄不會把目前內容還原。Git 是保存及查看版本的工具例子。"},
+  F1: {"label":"哪些內容真的改了","items":[{"title":"拿到","detail":"修改前後網頁"},{"title":"操作","detail":"比較日期與其他內容"},{"title":"結果","detail":"改動清單，尚待操作檢查"}],"summary":"比較前後網頁可以指出日期或其他內容的變更；看過差異仍要開啟頁面驗證。"},
+  F2: {"label":"結果符合要求嗎","items":[{"title":"拿到","detail":"修改後網頁與原要求"},{"title":"操作","detail":"核對日期、連結、手機版"},{"title":"結果","detail":"符合或不符合要求"}],"summary":"開啟修改後網頁，對照原要求核對日期、連結與手機版，取得實際檢查結果。"},
   F3: { label:'秘密資訊', items:[{title:'密碼或 API Key',detail:'能代表你取得存取權'},{title:'一般文字',detail:'通常不具同等權限'}], relation:'≠', summary:'密碼與 API Key 可能讓持有者以你的身分存取系統，因此需要避免不必要的暴露。' },
 };
 ---
@@ -98,9 +80,10 @@ const concepts: Record<string, {label:string;items:{title:string;detail:string}[
 ) : type === 'file-explorer' ? (
   lessonId === 'B1'
     ? <FileExplorer root="website" entries={[{kind:'file',name:'index.html'},{kind:'folder',name:'images'}]} summary="website 資料夾裡有首頁檔案 index.html，以及存放圖片的 images 資料夾。" />
-    : <FileExplorer root="website" entries={[{kind:'folder',name:'images'},{kind:'file',name:'logo.png',depth:1}]} summary="路徑 website/images/logo.png 指向 images 資料夾裡的 logo.png。" />
+    : <FileExplorer root="website" entries={[{kind:'file',name:'index.html'}]} summary="路徑 website/index.html 指向 website 資料夾中的練習網頁。" />
 ) : type === 'permission' ? (
-  <PermissionPrompt files={['website/index.html', 'website/styles.css']} consequence="允許後，Agent 會修改首頁內容與樣式。" />
+  <PermissionPrompt files={['website/index.html']} consequence="允許工具寫入新日期；其他內容保留，先不公開。" />
 ) : concepts[lessonId] ? (
   <ConceptDiagram {...concepts[lessonId]} />
 ) : null}
+{lessonId === 'C2' && <details><summary>另外看文件的例子</summary><SystemMap {...protectedDocumentMap} /></details>}

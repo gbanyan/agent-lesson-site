@@ -7,8 +7,10 @@ const labels = { read: '查看資訊', modify: '造成修改', external: '影響
   <figcaption class="visual-label">終端機操作示意</figcaption>
   <div class="terminal" aria-hidden="true" data-pagefind-ignore>
     <div class="terminal-purpose">{purpose}</div>
-    <pre><code>$ {command}
-{output}</code></pre>
+    <p class="terminal-purpose">送給電腦的指令</p>
+    <pre><code>$ {command}</code></pre>
+    <p class="terminal-purpose">電腦回傳的結果</p>
+    <pre><samp>{output}</samp></pre>
   </div>
   <span class="impact" aria-hidden="true" data-pagefind-ignore>{labels[impact]}</span>
   <p class="visually-equivalent sr-only">{purpose}。Command 是「{command}」，執行結果為「{output}」。{summary}</p>

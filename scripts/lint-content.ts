@@ -13,6 +13,7 @@ for (const file of files) {
 }
 
 const ids = new Set(entries.map(({data}) => String(data.id)));
+if (ids.size !== entries.length) errors.push('lesson ID 不得重複');
 const slugs = new Set<string>();
 for (const { file, data, body } of entries) {
   const fail = (message:string) => errors.push(`${file}: ${message}`);
@@ -66,13 +67,15 @@ for (const { file, data, body } of entries) {
     if (commands.length > 1) fail('核心 Markdown 禁止大型 multi-command code block');
   }
   const text = [data.question, data.context, data.answer, data.takeaway, prompt?.text ?? '', scenario?.request ?? '', ...(Array.isArray(scenario?.actions) ? scenario.actions : []), scenario?.result ?? '', scenario?.boundary ?? '', body].join(' ');
+  // A narrow vocabulary guard complements, but cannot replace, the editorial prerequisite audit.
+  if (/\b(?:workspace|project|issue|log)\b/i.test(text)) fail('讀者文案出現未解釋的工程工作用語，請改用具體中文說明');
   const cjkCount = (text.match(/[\u3400-\u9fff]/g) ?? []).length;
   if (cjkCount > 700) fail(`中文字數 ${cjkCount} 超過 hard limit 700`);
   else if (cjkCount > 500) warnings.push(`${file}: 中文字數 ${cjkCount} 超過 soft target 500`);
 }
 
-const expected = {A:2,B:9,C:7,D:6,E:7,F:4};
-if (entries.length !== 35) errors.push(`V1 必須恰好 35 張 lesson，目前 ${entries.length}`);
+const expected = {A:2,B:8,C:7,D:6,E:5,F:4};
+if (entries.length !== 32) errors.push(`三組內容合併後應有 32 張 lesson，目前 ${entries.length}`);
 for (const [section, count] of Object.entries(expected)) {
   const actual = entries.filter(({data}) => data.section === section).length;
   if (actual !== count) errors.push(`Section ${section} 應有 ${count} 張，目前 ${actual}`);

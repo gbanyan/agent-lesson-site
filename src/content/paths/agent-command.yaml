@@ -1,6 +1,6 @@
 id: path-c
 slug: agent-runs-command
 title: Agent 說要執行指令
-description: 看懂程式、終端機與指令的角色，再判斷動作是否會修改資料及需要哪些權限。
-lessons: [B3, B7, B8, B6, D4]
+description: 先用縮圖例子認識程式，再回到練習網頁，辨認指令與回傳結果。讀寫的文件例子另作比較，最後確認修改日期需要的權限。
+lessons: [B3, B8, B6, D4]
 safetyGate: false

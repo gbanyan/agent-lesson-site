@@ -5,20 +5,28 @@ section: C
 order: 4
 archetype: definition
 question: AI 模型在哪裡運算？
-context: Agent 工具能在本機讀取檔案，但產生摘要的 AI 模型可能在供應商的電腦上運算。
+context: 這次由本機程式縮小三張練習圖片，但決定工具操作的 AI 模型可能在另一台電腦運算。
 answer: 模型可能在本機或遠端運算；它的位置不必和你的資料或 Agent 工具相同。
 takeaway: 檔案存在哪、程式在哪裡跑、AI 模型在哪裡運算，是三件要分開確認的事。
-newTerms: [模型運算]
-prerequisites: [C2, C3]
-visual: { type: system-map, preset: three-locations }
+newTerms:
+  - 模型運算
+prerequisites:
+  - C2
+  - C3
+visual:
+  type: system-map
+  preset: three-locations
 scenario:
-  appliesBeyondCodingAgent: true
-  request: "請 Agent 摘要我電腦裡的會議記錄。"
+  request: 原圖留在本機縮小時，AI 模型也一定在這台電腦嗎？
   actions:
-    - "Agent 工具在本機讀取檔案，取得要處理的文字。"
-    - "若模型由遠端服務提供，相關文字會被送到遠端伺服器進行模型運算，再把摘要送回來。"
-  result: "摘要顯示在本機介面，但模型運算可能發生在另一台電腦。"
-  boundary: "會傳哪些內容、保存多久，會隨產品與設定改變。摘要顯示在本機，也不能證明資料從未離開本機。"
-notTeach: [模型架構, GPU 規格]
+    - 本機工具回報檔名、尺寸等資訊，供 AI 決定縮圖要求。
+    - 若使用遠端模型，相關資訊經網路送給模型；本機圖片程式仍負責縮圖。
+  result: 模型可以在遠端決定操作，同時由這台電腦執行縮圖；三張新圖仍可留在本機。
+  boundary: 傳給模型的內容可能包含文字或圖片，取決於工具與設定。不能從本機縮圖推定原圖從未送出。
+notTeach:
+  - 模型架構
+  - GPU 規格
 ---
-每項服務的做法不同，也可能隨時間改變。資料處理與執行環境應以官方最新說明為準。
+模型產生下一步的要求，圖片程式執行尺寸轉換。這兩項工作可以在不同電腦發生。
+
+分開查模型、工具與檔案的位置，也要確認實際傳送內容。

@@ -2,6 +2,14 @@
 
 This file is updated at each phase gate. Evidence commands are listed under each phase; final outcomes are recorded after execution.
 
+## Current content revision — 2026-09-05
+
+The user-requested continuity revision supersedes the earlier lesson counts and sequences below. There are 32 canonical lessons after three merges, while old lesson and published path URLs remain usable. The six-step beginner route follows a local practice webpage date change; the location route follows three images. English terms remain searchable behind question-led entry points. Recovery, permissions, actual changes and verification remain distinct checks.
+
+Scope and completion tracking: `CONTENT_REVISION_PLAN.md`. Editorial evidence: `CONTENT_CONTINUITY_AUDIT.md`. Reader trial: `READER_TRIAL.md` (materials ready; actual reader results pending). Protected DOCX prose and the author introduction remain unchanged; the original DOCX location diagram stays on C2 as an optional example.
+
+Release verification is in progress. The release is not declared complete until local gates, Actions deployment and production smoke checks pass. The original phase entries below are retained as historical records.
+
 ## Phase 0 — Research & spec
 
 Status: complete. Official Astro, Pagefind, Playwright, axe, Codex, and Claude Code sources reviewed. Architecture, constitution, content guide, visual style, schemas, directory structure, and checklist established. No stack deviation.

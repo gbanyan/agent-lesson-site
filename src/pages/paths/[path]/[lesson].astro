@@ -2,11 +2,13 @@
 import { getCollection } from 'astro:content';
 import LessonPage from '../../../components/education/LessonPage.astro';
 import { url } from '../../../lib/urls';
+import MovedLesson from '../../../components/education/MovedLesson.astro';
+import { legacyLessons, publishedPathSteps } from '../../../lib/legacy-lessons';
 
 export async function getStaticPaths() {
   const [paths, lessons] = await Promise.all([getCollection('paths'), getCollection('lessons')]);
   const byId = new Map(lessons.map((lesson) => [lesson.data.id, lesson]));
-  return paths.flatMap((path) => path.data.lessons.flatMap((id, index) => {
+  const current = paths.flatMap((path) => path.data.lessons.flatMap((id, index) => {
     const entry = byId.get(id);
     if (!entry) return [];
     const previousLesson = index > 0 ? byId.get(path.data.lessons[index - 1]!) : undefined;
@@ -16,19 +18,31 @@ export async function getStaticPaths() {
       params: { path:path.data.slug, lesson:entry.data.slug },
       props: {
         entry,
+        moved: false,
+        href: '',
         pathContext: {
           slug:path.data.slug,
           title:path.data.title,
           step:index + 1,
           total:path.data.lessons.length,
-          previous:previousLesson ? { href:wrapperHref(previousLesson.data.slug), label:previousLesson.data.question } : undefined,
-          next:nextLesson ? { href:wrapperHref(nextLesson.data.slug), label:nextLesson.data.question } : undefined,
+          introduction:path.data.stepIntros?.[id],
+          previous:previousLesson ? { href:wrapperHref(previousLesson.data.slug), label:path.data.stepTitles?.[previousLesson.data.id] ?? previousLesson.data.question } : undefined,
+          next:nextLesson ? { href:wrapperHref(nextLesson.data.slug), label:path.data.stepTitles?.[nextLesson.data.id] ?? nextLesson.data.question } : undefined,
           returnHref:url(`/paths/${path.data.slug}/`),
         },
       },
     }];
   }));
+  const aliases = paths.flatMap((path) => (publishedPathSteps[path.data.slug] ?? []).flatMap((slug) => {
+    if (current.some((route) => route.params.path === path.data.slug && route.params.lesson === slug)) return [];
+    const targetSlug = legacyLessons.find((legacy) => legacy.slug === slug)?.targetSlug ?? slug;
+    const entry = lessons.find((lesson) => lesson.data.slug === targetSlug)!;
+    const href = path.data.lessons.includes(entry.data.id)
+      ? url(`/paths/${path.data.slug}/${targetSlug}/`) : url(`/lessons/${targetSlug}/`);
+    return [{ params: {path:path.data.slug, lesson:slug}, props: {entry, moved:true, href, pathContext:undefined} }];
+  }));
+  return [...current, ...aliases];
 }
-const { entry, pathContext } = Astro.props;
+const { entry, pathContext, moved, href } = Astro.props;
 ---
-<LessonPage entry={entry} pathContext={pathContext} />
+{moved ? <MovedLesson href={href} title={entry.data.question} /> : <LessonPage entry={entry} pathContext={pathContext} />}

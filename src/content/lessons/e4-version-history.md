@@ -4,20 +4,23 @@ slug: version-history
 section: E
 order: 4
 archetype: definition
-question: Version history 是什麼？
-context: website 今天被改壞了，專案中仍看得到昨天保存的狀態。這些較早的存檔就是版本歷史。
-answer: 版本歷史（Version history）是一串過去的存檔，讓你查看舊內容，並在服務支援時恢復。
-takeaway: 找得到歷史紀錄還不夠；也要知道它記了哪些內容、會保留多久，以及如何恢復。
-newTerms: [Version history]
+question: 能找到修改以前的版本嗎？
+context: 練習網頁日期已改成 9 月 27 日，你想查看原本寫著 9 月 20 日的內容。
+answer: 版本紀錄保存較早的內容；先確認哪些檔案有被記錄，再選擇要查看或恢復的版本。
+takeaway: 能取回哪些內容，取決於實際保存的版本；重要資料的獨立副本仍要另外準備。
+newTerms: [版本紀錄, Git]
+searchTerms: [Version history, Git, 版本歷史, 版本管理]
 prerequisites: [E1]
 visual: { type: concept, preset: version-history }
 scenario:
-  request: "找出 website 昨天還能正常開啟的版本。"
+  request: "找出練習網頁改日期以前的版本，先讓我比較，不要直接覆蓋現在的檔案。"
   actions:
-    - "Agent 或你查看 Version history，按時間找出可能的舊狀態。"
-    - "比較首頁與樣式差異後，再決定恢復或另存一份供檢查。"
-  result: "專案回到選定狀態，或保留一份舊版本供比較。"
-  boundary: "歷史紀錄可能只涵蓋特定檔案、有限天數，或需要連線；看得到紀錄才算真的可用。"
-notTeach: [版本儲存演算法, 服務保留期限]
+    - "Agent 查看已保存的版本，找出日期仍是 9 月 20 日的網頁。"
+    - "它顯示兩個版本的差異，由你決定是否恢復。"
+  result: "你看得到日期前後的變化；只有查看紀錄，現在的網頁仍是 9 月 27 日。"
+  boundary: "未納入紀錄的檔案不會因此保存。紀錄也可能有保留期限，或和原檔一起遺失。"
+notTeach: [git commands, branch, merge, rebase, GitHub, 服務保留期限]
 ---
-它能增加恢復機會，但每項服務保留的範圍和期限不同。獨立、完整的備份仍要另外準備。
+版本紀錄（Version history）是一串保存過的內容。Git 是程式專案常用來查看差異、保存版本的工具；它只管理被納入紀錄的檔案，不會自動替整台電腦備份。
+
+查看舊版本與恢復舊版本是不同操作。恢復前要確認會覆蓋哪些目前內容，也要檢查取回的檔案能否使用。

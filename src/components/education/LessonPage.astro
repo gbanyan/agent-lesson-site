@@ -11,11 +11,12 @@ interface PathContext {
   title: string;
   step: number;
   total: number;
+  introduction?: string | undefined;
   previous?: { href: string; label: string } | undefined;
   next?: { href: string; label: string } | undefined;
   returnHref: string;
 }
-interface Props { entry: CollectionEntry<'lessons'>; pathContext?: PathContext; }
+interface Props { entry: CollectionEntry<'lessons'>; pathContext?: PathContext | undefined; }
 const { entry, pathContext } = Astro.props;
 const { Content } = await render(entry);
 const all = (await getCollection('lessons')).sort((a,b) => a.data.section.localeCompare(b.data.section) || a.data.order-b.data.order);

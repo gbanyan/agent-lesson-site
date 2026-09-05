@@ -14,11 +14,11 @@ const description = isResearch
   ? '適合查價格、方案、安裝方式、產品支援與官方文件。它不一定能檢查你目前電腦裡的實際狀態。'
   : isTask
     ? '送出後，Agent 可能依內容開始檢查或修改。確認工作範圍後再使用。'
-    : '適合詢問已開啟目前 workspace 或 project 的 Agent。它可以根據眼前的檔案與權限回答。';
+    : '適合詢問已開啟目前工作資料夾的 Agent。它可以根據眼前的檔案與權限回答。';
 const action = isTask ? '複製任務限制' : isResearch ? '複製查詢' : '複製問題';
 const capability = {
   requires_web: '需要網路查詢',
-  requires_workspace_access: '需要目前工作區',
+  requires_workspace_access: '需要讀取目前工作資料夾',
   no_special_access: '不需特殊存取',
 }[prompt.capability];
 ---

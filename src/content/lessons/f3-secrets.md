@@ -4,9 +4,9 @@ slug: secrets
 section: F
 order: 3
 archetype: safety_action
-question: 密碼與 API Key 為什麼需要特別注意？
+question: 為什麼不能隨意分享登入用的秘密資料？
 context: 某個工具要求登入或連接外部服務，Agent 可能需要憑證。這類文字一旦外流，別人也可能用它取得存取權。
-answer: 它們是秘密資訊，取得的人或程式可能用它們存取你的帳號或服務。
+answer: 密碼或給程式用的存取金鑰，可能讓持有者使用你的帳號或服務，因此要限制接觸的人與程式。
 takeaway: 密碼或金鑰（secrets）不應出現在一般檔案、對話或外部系統中；只在必要的最小範圍提供。
 newTerms: [API Key, secrets]
 prerequisites: [C5]
@@ -22,4 +22,4 @@ scenario:
   boundary: "把欄位命名為『密碼』或設成隱藏，不代表金鑰已受到保護。若金鑰已外洩，應立刻依官方方式撤銷並換新。"
 notTeach: [Vault architecture, 金鑰輪替系統]
 ---
-Agent 能讀取某個位置，不代表那裡適合存放密碼。若秘密可能已經外洩，應依服務官方方式撤銷或更換。
+給程式存取服務用的金鑰常叫 API Key，這些秘密資料也常統稱 secrets。Agent 能讀取某個位置，不代表那裡適合存放密碼。若秘密可能已經外洩，應依服務官方方式撤銷或更換。

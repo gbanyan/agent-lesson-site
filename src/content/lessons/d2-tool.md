@@ -4,20 +4,31 @@ slug: tool
 section: D
 order: 2
 archetype: definition
-question: Tool 是什麼？
-context: Agent 要修改網站時，會先讀取 index.html，變更內容，再用瀏覽器或測試工具查看結果。
-answer: Tool 是 Agent 被提供、可以用來取得資訊或採取行動的能力。
-takeaway: Tool 描述 Agent 能使用的能力，不一定是一個獨立程式。
-newTerms: [Tool]
-prerequisites: [A1]
-visual: { type: system-map, preset: tool-loop }
+question: AI 怎麼讀取檔案或修改內容？
+context: AI 已取得練習網頁的原日期與你的要求，接下來要把 9 月 20 日寫成 9 月 27 日。
+answer: AI 提出操作要求，由可用工具讀檔或寫入；工具真的執行後，檔案才可能改變。
+takeaway: 要確認檔案是否更新，先看工具是否執行，再核對實際內容。
+newTerms:
+  - 工具
+prerequisites:
+  - A1
+visual:
+  type: system-map
+  preset: tool-loop
 scenario:
-  request: "把 website 首頁標題改成新的活動名稱，再確認頁面仍能開啟。"
+  request: 把 website/index.html 的活動日期改成 9 月 27 日，保留其他內容，先不要公開。
   actions:
-    - "Agent 使用檔案工具讀取 index.html，再用修改工具變更標題。"
-    - "完成後，它使用瀏覽器或測試工具重新開啟頁面。"
-  result: "檔案工具、修改工具與測試工具分別提供不同能力，結果會回到 Agent。"
-  boundary: "環境沒有提供某項 Tool 時，Agent 不能假裝已使用它完成工作。"
-notTeach: [JSON schema, RPC, MCP internals]
+    - AI 把指定檔案與新日期交給修改工具。
+    - 工具執行寫入，回報成功或錯誤；Agent 根據結果決定是否重新讀檔檢查。
+  result: 成功寫入會改變網頁檔案；工具回報是供下一輪判斷的資訊，仍要核對實際內容。
+  boundary: 沒有修改工具、沒有權限或工具失敗時，AI 即使寫出新日期，也不能宣稱檔案已更新。
+notTeach:
+  - JSON schema
+  - RPC
+  - MCP internals
+searchTerms:
+  - Tool
 ---
-不同環境提供的 Tool 不同。查看可用能力，比只看 Agent 名稱更能判斷它可以做什麼。
+工具（Tool）是提供給 Agent 讀取資訊或採取行動的能力，不一定是一個獨立程式。不同環境提供的能力不同。
+
+一段「準備改成新日期」的回覆，只是文字。要看工具是否執行、改到哪裡，以及回傳了什麼。

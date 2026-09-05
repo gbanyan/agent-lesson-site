@@ -2,7 +2,7 @@ id: claude-code
 slug: claude-code
 product: Claude Code
 intro: Claude Code 的指令與畫面可能改變；檔案位置、權限範圍與備份仍是固定的檢查項目。
-concepts: [A1, B9, D4, C1, E6]
+concepts: [A1, B9, D4, C1, E1]
 officialUrl: https://code.claude.com/docs/en/overview
 check:
   - 目前支援的安裝方式與平台

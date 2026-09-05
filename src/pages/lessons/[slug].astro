@@ -1,11 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
 import LessonPage from '../../components/education/LessonPage.astro';
+import MovedLesson from '../../components/education/MovedLesson.astro';
+import { legacyLessons } from '../../lib/legacy-lessons';
+import { url } from '../../lib/urls';
 
 export async function getStaticPaths() {
   const entries = await getCollection('lessons');
-  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+  return [
+    ...entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry, moved: false } })),
+    ...legacyLessons.map((legacy) => ({ params: { slug: legacy.slug }, props: { entry: entries.find((entry) => entry.data.id === legacy.targetId)!, moved: true } })),
+  ];
 }
-const { entry } = Astro.props;
+const { entry, moved } = Astro.props;
 ---
-<LessonPage entry={entry} />
+{moved ? <MovedLesson href={url(`/lessons/${entry.data.slug}/`)} title={entry.data.question} /> : <LessonPage entry={entry} />}

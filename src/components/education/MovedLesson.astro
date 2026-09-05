@@ -1,0 +1,16 @@
+---
+interface Props { href: string; title: string; }
+const { href, title } = Astro.props;
+---
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content={`0;url=${href}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={new URL(href, Astro.site)} />
+    <title>{title}｜看懂 Agent</title>
+  </head>
+  <body><main><h1>課文已整合</h1><p><a href={href}>{title}</a></p></main></body>
+</html>

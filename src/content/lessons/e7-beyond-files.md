@@ -5,10 +5,10 @@ section: E
 order: 7
 archetype: safety_action
 question: Agent 除了檔案，還可能改到什麼？
-context: Agent 建立公司行事曆活動後，邀請可能立刻寄給同事；本機沒有新增檔案，外部狀態卻已改變。
-answer: 它也可能影響資料庫、遠端系統、已發布內容或外部服務。
+context: Agent 建立公司行事曆活動後，邀請可能立刻寄給同事；本機沒有新增檔案，別人卻已收到通知。
+answer: 它也可能改到共享行事曆、已公開的內容，或讓另一個服務送出通知。
 takeaway: 審核動作時也要往電腦外面看：別人的系統、通知、公開內容或帳單都可能跟著改變。
-newTerms: [外部狀態]
+newTerms: []
 prerequisites: [D2, C7]
 visual: { type: system-map, preset: external-effects }
 scenario:

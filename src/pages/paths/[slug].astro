@@ -13,7 +13,7 @@ const optionalSteps = (entry.data.optionalLessons ?? []).map((id:string) => byId
 const safetyItems = [
   {href:url('/lessons/working-scope/'),label:'Agent 正在哪個範圍工作'},
   {href:url('/lessons/read-vs-write/'),label:'這個動作會不會修改資料'},
-  {href:url('/lessons/recovery-before-change/'),label:'如果結果不好，要從哪裡恢復'},
+  {href:url('/lessons/are-changes-reversible/'),label:'如果結果不好，要從哪裡恢復'},
   {href:url('/lessons/beyond-files/'),label:'它是否可能影響外部系統'},
 ];
 ---
@@ -22,7 +22,7 @@ const safetyItems = [
     <p class="eyebrow">情境路徑 · {steps.length} 個概念</p><h1>{entry.data.title}</h1><p class="lesson-answer">{entry.data.description}</p>
     {entry.data.safetyGate && <SafetyGate items={safetyItems} />}
     {entry.data.slug === 'agent-runs-command' && <AgentCommandMap />}
-    <ol class="path-steps">{steps.map((lesson) => lesson && <li><div><a href={url(`/paths/${entry.data.slug}/${lesson.data.slug}/`)}>{lesson.data.question}</a><p class="muted">{lesson.data.answer}</p></div></li>)}</ol>
+    <ol class="path-steps">{steps.map((lesson) => lesson && <li><div><a href={url(`/paths/${entry.data.slug}/${lesson.data.slug}/`)}>{entry.data.stepTitles?.[lesson.data.id] ?? lesson.data.question}</a><p class="muted">{entry.data.stepIntros?.[lesson.data.id] ?? lesson.data.answer}</p></div></li>)}</ol>
     {optionalSteps.length > 0 && <aside class="optional-step"><h2>需要時再看</h2>{optionalSteps.map((lesson) => lesson && <p><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></p>)}</aside>}
   </article>
 </BaseLayout>

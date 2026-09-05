@@ -7,7 +7,7 @@
 - [x] Phase 4: cognitive, beginner, visual, accessibility, aging review gate
 - [x] Phase 5: browser inspection at desktop, tablet, mobile, keyboard, zoom, search, paths
 - [x] Phase 6: illustration pilot decision and manifest
-- [x] Phase 7: all 35 lessons with section audits
+- [x] Phase 7: 32 canonical lessons after the 2026-09 content merges; section and continuity audits recorded
 - [x] Phase 8: five situation paths referencing existing lessons
 - [x] Phase 9: Codex and Claude Code schema-driven product bridges
 - [x] Phase 10: final content, safety, accessibility, and build audit

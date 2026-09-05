@@ -1,6 +1,6 @@
 id: path-d
 slug: local-cloud-confusion
-title: Local / Cloud 搞不懂
-description: 分別確認資料的儲存位置、程式的執行位置與 AI 模型的運算位置。
+title: 工作是在我的電腦做，還是在別處？
+description: 換一個完整例子：把三張練習圖片各縮小一份，原圖保留。跟著這批圖片，分別查看檔案、縮圖程式與 AI 模型的位置。
 lessons: [C1, C2, C3, C4, C6, C5]
 safetyGate: false

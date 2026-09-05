@@ -2,7 +2,7 @@
 
 ## Product boundary
 
-本站是繁體中文、低認知負擔的 AI Agent mental-model micro-learning site。V1 固定 35 張核心 lesson，不是產品手冊、程式課程或線上課程平台。
+本站是繁體中文、低認知負擔的 AI Agent mental-model micro-learning site。2026-09 教學修訂合併三組重複內容，提供 32 張主要課文；舊網址以靜態轉向保留，整體仍是可部署到任意靜態主機的教材。
 
 ## Technical choices
 

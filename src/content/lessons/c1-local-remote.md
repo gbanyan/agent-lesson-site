@@ -4,20 +4,31 @@ slug: local-and-remote
 section: C
 order: 1
 archetype: contrast
-question: Local 和 Remote 是什麼？
-context: 同一個 Agent 可以在目前這台電腦工作，也可以透過網路使用另一台電腦或服務。
-answer: Local 是你正在使用的裝置這一端；Remote 是透過網路接觸的另一端。
+question: 這件事在我的電腦做，還是在別處？
+context: 換一個練習：這台電腦的 website/images 裡有三張原圖。現在要各縮小一份，放到 website/small，原圖保留。
+answer: 先找出實際工作的電腦。本機是你正在用的這台，遠端是透過網路接觸的另一台。
 takeaway: Local 和 Remote 只描述位置；資料有沒有移動或保存，要另外確認。
-newTerms: [Local, Remote]
+newTerms:
+  - 本機
+  - 遠端
 prerequisites: []
-visual: { type: system-map, preset: local-remote }
+visual:
+  type: system-map
+  preset: local-remote
 scenario:
-  request: "這個網站預覽是在 Local 還是 Remote 執行？"
+  request: 把三張練習圖片各縮小一份，原圖保留；先說明要在哪台電腦處理。
   actions:
-    - "預覽若由目前這台裝置上的程式提供，執行位置是 Local。"
-    - "預覽若由網路另一端的服務提供，執行位置是 Remote。"
-  result: "這兩個詞只指出工作位於目前環境或網路另一端。"
-  boundary: "Remote 只描述另一端在哪裡。資料是否被傳送、複製或保存，需要另外確認。"
-notTeach: [網路協定, 遠端桌面]
+    - 若使用這台電腦的縮圖程式，處理發生在本機。
+    - 若改用網路另一端的縮圖服務，處理發生在遠端；傳送前要另外確認。
+  result: 同一批圖有不同處理位置可選，還不能只從畫面判斷資料是否已傳出去。
+  boundary: 資料是否被傳送、複製或保存，需要另外確認。
+notTeach:
+  - 網路協定
+  - 遠端桌面
+searchTerms:
+  - Local
+  - Remote
+  - Cloud
+  - 雲端
 ---
-Local 是目前使用的這台裝置或環境。Remote 是透過網路接觸的另一台電腦或服務。
+本機與遠端也常寫成 Local 與 Remote；雲端通常指透過網路使用的服務。這些詞描述位置，不能單靠它們判斷有沒有上傳圖片。

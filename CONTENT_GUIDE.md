@@ -4,11 +4,11 @@
 
 每張 lesson 固定為：一個 question、一個 short answer、至多一個 visual、極短 explanation、一個具體 scenario、takeaway、next。不可加入 FAQ、頁內目錄或延伸閱讀牆。
 
-Frontmatter 必填：`id`、`slug`、`section`、`order`、`question`、`answer`、`takeaway`、`followUp`、`newTerms`、`prerequisites`、`visual`、`scenario`、`notTeach`。
+Frontmatter 必填：`id`、`slug`、`section`、`order`、`archetype`、`question`、`context`、`answer`、`takeaway`、`newTerms`、`prerequisites`、`visual`、`scenario`、`notTeach`。`prompt` 與 `searchTerms` 選填。
 
 `scenario` 必須包含讀者可能說出的 `request`、Agent 可能採取的 2–5 個 `actions`、讀者會看到的 `result`，以及不應從例子過度推論的 `boundary`。動作要具體到能看出讀取、寫入、執行程式或連接外部服務的差別；但不能把 Agent 的理想行為寫成必然。
 
-`followUp` 是可直接貼進模型聊天視窗的延伸問題，必須保留 `＿＿` 替換欄位。問題要幫讀者把當頁概念套進自己的情況，例如查清楚資料位置、權限範圍或驗證方式；不要只把 lesson 問句換個說法。
+`prompt` 是可直接複製的問題或任務限制，必須保留 `＿＿` 替換欄位，並標示 `audience`、`mode`、`capability`。只有對當下工作有幫助時才提供；不要只把 lesson 問句換個說法。
 
 ## Length thresholds
 
@@ -23,7 +23,7 @@ Frontmatter 必填：`id`、`slug`、`section`、`order`、`question`、`answer`
 ## Hard rules
 
 - `question`、`answer`、`takeaway` 各只能有一個非空值。
-- `followUp` 必須是一個非空字串，並包含 `＿＿` 替換欄位。
+- 若有 `prompt`，文字必須非空且包含 `＿＿`，責任與能力欄位必須符合 schema。
 - `question` 必須只含一個問句結尾。
 - `newTerms` 最多三個；`notTeach` 必填且至少一項。
 - `visual` 為一個物件或 `null`，不得為陣列。
@@ -39,8 +39,12 @@ Frontmatter 必填：`id`、`slug`、`section`、`order`、`question`、`answer`
 
 每張完成後檢查：是否只留一個概念？不知道 Bash、GitHub、server 或 package manager 的讀者仍能懂嗎？例子有沒有說清楚 Agent 真正可能做的動作？邊界有沒有交代暫存檔、封裝格式、網路或外部影響？能否再刪 20%？三年後仍成立嗎？
 
+另外逐頁記錄：「這個例子成立以前，讀者還必須知道哪些事？」`newTerms` 數量不能證明沒有隱藏前提。主情境固定為練習網頁日期 9 月 20 日改成 9 月 27 日，其他內容保留、檢查後另決定公開；第二情境固定三張原圖另存縮小版。切換情境必須明說。
+
+標題與導覽用讀者的問題，術語放在解釋後與搜尋別名。「拿到／操作／結果」可重用圖解，但要區分提出要求、工具執行、回傳資訊與實際改變。資料流本身不證明授權、正確性或可復原。C2 同頁另保留使用者保護的 DOCX 圖解，由讀者展開。
+
 ## Preflight guides
 
-`src/content/preflight-guides` 是四篇獨立的使用前說明，目前不套用到 35 篇 lesson。正文只描述跨產品仍成立的判斷原則，不寫死價格、方案名稱、安裝指令或版本化模型排行。
+`src/content/preflight-guides` 是四篇獨立的使用前說明，目前不套用到 32 篇 lesson。正文只描述跨產品仍成立的判斷原則，不寫死價格、方案名稱、安裝指令或版本化模型排行。
 
 每篇提供 2–3 個可複製 prompt，讓讀者針對當下產品查詢最新資訊。Prompt 必須保留 `＿＿` 替換欄位，要求標示不確定之處，並在可能涉及資料時提醒讀者移除密碼、金鑰、個資與公司機密。

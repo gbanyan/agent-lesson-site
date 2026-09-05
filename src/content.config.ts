@@ -28,7 +28,7 @@ const lessons = defineCollection({
     takeaway: z.string().min(1),
     prompt: promptSchema.optional(),
     newTerms: z.array(z.string()).max(3),
-    searchTerms: z.array(z.string()).max(4).optional(),
+    searchTerms: z.array(z.string()).max(8).optional(),
     prerequisites: z.array(z.string().regex(/^[A-F][1-9]$/)),
     visual: visualSchema,
     scenario: z.object({
@@ -51,6 +51,8 @@ const paths = defineCollection({
     description: z.string(),
     lessons: z.array(z.string().regex(/^[A-F][1-9]$/)).min(4).max(6),
     optionalLessons: z.array(z.string().regex(/^[A-F][1-9]$/)).max(2).optional(),
+    stepTitles: z.record(z.string(), z.string()).optional(),
+    stepIntros: z.record(z.string(), z.string()).optional(),
     safetyGate: z.boolean().default(false),
   }),
 });

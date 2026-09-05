@@ -4,25 +4,37 @@ slug: permission
 section: D
 order: 4
 archetype: safety_action
-question: Permission 是什麼？
-context: Agent 準備修改網站檔案時，系統可能要求允許它存取指定資料夾。
-answer: Permission 是允許某個人或程式執行特定動作的授權。
+question: 按下「允許」後，它能做什麼？
+context: 練習網頁只需要改日期。工具可以讀檔，但準備寫入時可能要求你的允許。
+answer: 權限決定工具獲准做哪些動作。允許前，看清楚能修改哪份資料，以及授權會維持多久。
 takeaway: 權限提示應說清楚由誰執行、動作內容與影響範圍。
 prompt:
   audience: active_agent
   mode: ask_only
   capability: requires_workspace_access
-  text: "這個權限提示要求＿＿＿＿。請說明是哪個工具提出、允許後能碰哪些資料、拒絕會怎樣，以及是否有範圍更小的做法。不要執行或要求更多權限。"
-newTerms: [Permission]
-prerequisites: [B6, D2]
-visual: { type: permission, preset: modify-files }
+  text: 這個權限提示要求＿＿＿＿。請說明是哪個工具提出、允許後能碰哪些資料、拒絕會怎樣，以及是否有範圍更小的做法。不要執行或要求更多權限。
+newTerms:
+  - 權限
+prerequisites:
+  - B6
+  - D2
+visual:
+  type: permission
+  preset: modify-files
 scenario:
-  request: "修改 website 裡的首頁文字與樣式。"
+  request: 只把 website/index.html 的日期改成 9 月 27 日，其他內容保留，先不公開。
   actions:
-    - "Agent 可以讀取 website，但寫入 index.html 與 styles.css 時遇到權限邊界。"
-    - "系統顯示要修改的檔案與影響；你可以允許或拒絕。"
-  result: "允許後才能修改網站檔案；拒絕後應停止寫入並保留原狀。"
-  boundary: "提示應清楚列出動作、位置與持續時間。修改兩個網站檔案，不需要永久開放整個使用者資料夾。"
-notTeach: [權限位元, ACL]
+    - 工具讀取原日期，寫入前遇到權限限制。
+    - 你查看提示列出的檔案與動作，再決定允許或拒絕。
+  result: 允許代表工具可以嘗試寫入，不代表已成功修改；拒絕後應停止這項操作。
+  boundary: 改這份網頁不需要永久開放整台電腦。授權範圍較大時，要確認能否縮小。
+notTeach:
+  - 權限位元
+  - ACL
+searchTerms:
+  - Permission
+  - 權限
 ---
-允許一次動作不等於開放所有動作；實際範圍取決於環境。按鈕可能換位置，授權後的影響才是判斷依據。
+產品裡可能把權限寫成 Permission。一次允許能涵蓋哪些動作，要以實際提示與設定確認。
+
+權限只回答能否執行，不證明結果正確；完成後仍要檢查日期與其他內容。

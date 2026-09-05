@@ -4,20 +4,30 @@ slug: context
 section: D
 order: 1
 archetype: definition
-question: Context 是什麼？
-context: Agent 沒有沿用先前的網站文字規則，可能是因為這次工作沒有提供那份規則。
-answer: Context 是這次工作中，Agent 目前可以使用的資訊。
-takeaway: Context 會隨目前提供的對話、檔案與工具結果改變。
-newTerms: [Context]
-prerequisites: [A1]
-visual: { type: concept, preset: context }
+question: AI 這次有拿到哪些資訊？
+context: 練習網頁原本寫著 9 月 20 日。你要求改成 9 月 27 日，其他內容保留，先不要公開。
+answer: AI 要拿到原本內容、新日期與修改限制，才能依這次要求決定下一步。
+takeaway: 新讀到的檔案或工具回報，會改變 AI 下一輪能使用的資訊。
+newTerms: []
+prerequisites:
+  - A1
+visual:
+  type: concept
+  preset: context
 scenario:
-  request: "沿用先前的文字規則，修改 website 的活動日期。"
+  request: 把 website 的活動日期從 9 月 20 日改成 9 月 27 日，其他內容保留，先不要公開。
   actions:
-    - "若規則仍在目前對話裡，或寫在 Agent 可讀取的專案檔案中，它可以拿來核對。"
-    - "若這次工作沒有提供規則，Agent 只能詢問、重新讀取指定來源，或冒險猜測。"
-  result: "取得規則後，Agent 才能讓活動日期的寫法與網站其他內容一致。"
-  boundary: "這不表示 Agent 具有和人一樣的持續長期記憶。重要規格最好保存在可再次讀取的位置。"
-notTeach: [token 計算, attention architecture]
+    - Agent 讀取 website/index.html，取得目前日期。
+    - 它把檔案內容與這次要求放在一起判斷；缺少日期或限制時應先詢問。
+  result: 拿到足夠資訊後，才有依據提出修改要求；讀取本身還沒改掉原日期。
+  boundary: 這不表示 Agent 具有和人一樣的持續長期記憶。重要要求應保存在可再次讀取的位置。
+notTeach:
+  - token 計算
+  - attention architecture
+searchTerms:
+  - Context
+  - 上下文
 ---
-補上正確檔案、說清楚要求或取得新的工具結果，都會改變目前 Context。重要決定前，可以讓 Agent 重新讀取現況。
+這次可用的對話、讀到的檔案及工具回報，合起來稱為 Context。檔案存在電腦上，不代表 AI 已經拿到裡面的內容。
+
+工具執行後帶回的新日期或錯誤訊息，也會成為下一輪資訊；必要時應重新讀取目前檔案，不能只沿用先前的印象。

@@ -1,5 +1,11 @@
 # Pedagogical Review Notes
 
+## Current revision — 2026-09-05
+
+The current decisions and prerequisite review are in `CONTENT_CONTINUITY_AUDIT.md` and `SCENARIO_MAP.md`. There are now 32 canonical lessons, with Terminal/Command, recovery/pre-change preparation, and version history/Git merged. The six-step first-use path follows one date-change job. The protected DOCX lesson is byte-for-byte unchanged; its C2 diagram remains available on the same page under an optional example. The earlier notes below describe the prior release, not the current sequence or lesson count.
+
+Reader testing material is in `READER_TRIAL.md`. No new reader results have been collected; automated checks cannot establish comprehension.
+
 ## Canonical sequence
 
 The public sequence is controlled by lesson metadata, not by the numeric part of an ID. IDs and stable URLs remain unchanged.

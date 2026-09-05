@@ -1,28 +1,28 @@
 # Scenario Map
 
-The site is Coding-Agent-first. Scenario labels and lesson IDs are editorial metadata, not the public lesson taxonomy.
+Current revision: 2026-09-05. Scenario labels and lesson IDs are editorial metadata, not the public lesson taxonomy. See `CONTENT_CONTINUITY_AUDIT.md` for the page-by-page prerequisite review.
 
 ## Primary scenario — simple website
 
-`website/` contains `index.html`, `styles.css` and `images/`.
+The teaching example is a local practice folder `website/` containing `index.html`, `styles.css` and `images/`. Readers need not own a website. The single job changes the activity date from 9 月 20 日 to 9 月 27 日, keeps other content intact, checks the result, and leaves publication for a separate decision.
 
-Used by A1, B1, B2, B7, B8, B9, C7, D1, D2, D3, D4, E1, F1 and F2. Visual, example and copyable task text use the same website scope where present. D4's permission visual names the same two website files as its example.
+Used by A1, B1, B2, B4, B8, B9, C7, D1, D2, D3, D4, E1, E2, E4, F1 and F2. D4 names only index.html. E3 explicitly introduces synchronization as an optional variation. D3 reports a failed layout check and requests authorization before broadening the edit to styles.
 
 ## Secondary scenario — image processing
 
-The Agent makes smaller copies of website images while preserving the originals.
+The Agent makes three smaller copies from `website/images` into `website/small`, preserving all original images. Local versus remote processing are explicit alternatives, not an assumed upload.
 
-Used by B3, B4, B5, C3 and C6. This sequence covers program source, install versus run, Input / Process / Output, execution location and local resources.
+Used by B3, B5, C1, C2, C3, C4, C6 and C5. This sequence covers program source, install versus run, data location, execution location, model location, local resources and data transmission. B4 now follows the primary date-change example before naming input, processing and output.
 
-## Safety scenario — large project change
+## Safety within the same job
 
-The Agent is preparing to modify many files in `website/`.
+Recovery, backup, history, permission and inspection use the same date-change task, without switching to renaming activities or reorganizing the project.
 
-Used by E1, E2, E4, E5, E6, F1 and F2. The sequence moves from reversibility and backup to version history, Git, a recoverable state and verification.
+E6 is merged into E1; E5 is merged into E4; B7 is merged into B8. Original standalone and published path URLs remain available via static redirects.
 
 ## Explicit other-Agent examples
 
-B6, C2, C4, E7 and F3 retain document, model-location, calendar or external-service examples. Their rendered case includes the note “同樣的概念也適用於其他 Agent。”
+B6, E7 and F3 retain document, calendar or external-service cases. C2 retains its protected document diagram in an optional details element on the same page; the primary example uses the same three images as the location path.
 
 B6 retains the protected DOCX-specific teaching case and remains a deliberate transition away from the website sequence. B8 now continues the website-folder example used by Program and Terminal.
 

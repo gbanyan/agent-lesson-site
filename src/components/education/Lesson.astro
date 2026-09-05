@@ -6,7 +6,7 @@ interface Props {
   prompt?: { audience:'research_chat'|'active_agent'|'human'; mode:'ask_only'|'explain_before_action'|'execute_after_confirmation'; capability:'requires_web'|'requires_workspace_access'|'no_special_access'; text:string } | undefined;
   searchTerms?: string[] | undefined;
   scenario: { request: string; actions: string[]; result: string; boundary: string; appliesBeyondCodingAgent?: boolean | undefined };
-  pathContext?: { slug:string; title:string; step:number; total:number; previous?:{href:string;label:string} | undefined; next?:{href:string;label:string} | undefined; returnHref:string } | undefined;
+  pathContext?: { slug:string; title:string; step:number; total:number; introduction?:string | undefined; previous?:{href:string;label:string} | undefined; next?:{href:string;label:string} | undefined; returnHref:string } | undefined;
   indexInSearch?: boolean;
   next?: { href: string; label: string } | undefined; previous?: { href: string; label: string } | undefined;
 }
@@ -21,6 +21,7 @@ const { id, archetype, question, context, answer, takeaway, prompt, newTerms, se
       <span>{pathContext.next && <a href={pathContext.next.href}>下一步：{pathContext.next.label} →</a>}</span>
     </div>
   </nav>}
+  {pathContext?.introduction && <p class="path-step-introduction">{pathContext.introduction}</p>}
   <header>
     {searchTerms.length > 0 && <span class="search-alias" aria-hidden="true" data-pagefind-weight="0.5">{searchTerms.join(' ')}</span>}
     <div class="lesson-meta"><span>概念短讀</span></div>
@@ -28,9 +29,9 @@ const { id, archetype, question, context, answer, takeaway, prompt, newTerms, se
     <p class="lesson-context">{context}</p>
     <p class="lesson-answer">{answer}</p>
   </header>
-  {newTerms.length > 0 && <ul class="term-list" aria-label="這頁的新名詞">{newTerms.map((term) => <li>{term}</li>)}</ul>}
   <slot name="visual" />
   <div class="lesson-body"><slot /></div>
+  {newTerms.length > 0 && <ul class="term-list" aria-label="文中名稱">{newTerms.map((term) => <li>{term}</li>)}</ul>}
   <section class="scenario" aria-labelledby={`scenario-${id}`}>
     <p class="scenario-kicker">{archetype === 'safety_action' ? '執行前確認' : archetype === 'contrast' ? '放進同一個案例比較' : '例子'}</p>
     <h2 id={`scenario-${id}`}>{archetype === 'safety_action' ? '這次可能發生什麼' : '放到實際情況裡'}</h2>
