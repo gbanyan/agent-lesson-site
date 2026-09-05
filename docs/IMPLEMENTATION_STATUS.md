@@ -8,7 +8,9 @@ This file is updated at each phase gate. Evidence commands are listed under each
 
 Five situation paths now supply context for every step, including explicit document/photo/article transitions without touching protected DOCX text. Direct-entry photo lessons introduce their task. F3 starts with password sharing, D6 consistently uses an image program and photo copies, and F3/E7 show an explicit caution before the unsafe request. The beginner route is now B4 → B1 → D1 → E1 → D2 → F1, preparing recovery before tool execution.
 
-Local `npm run verify` passed: 32 lessons, zero content/Astro warnings, 90 desktop/mobile tests, 86 static pages. Local smoke passed all URLs and the new recovery-before-tool sequence plus warning markers. The reordered path and desktop/320px dark warning examples were visually reviewed. Introduction, B6 prose and the protected C2 DOCX diagram are unchanged against `0058b6d`. Production deployment for this follow-up is pending. Earlier entries below retain their original test counts and deployment evidence.
+Local `npm run verify` passed: 32 lessons, zero content/Astro warnings, 90 desktop/mobile tests, 86 static pages. Local smoke passed all URLs and the new recovery-before-tool sequence plus warning markers. The reordered path and desktop/320px dark warning examples were visually reviewed. Introduction, B6 prose and the protected C2 DOCX diagram are unchanged against `0058b6d`.
+
+Revision `371517e` passed [GitHub Actions 33949198607](https://github.com/gbanyan/agent-lesson-site/actions/runs/33949198607), including quality-build and Pages deployment. Production `npm run smoke -- https://gbanyan.github.io/agent-lesson-site/` passed all 86 URLs, desktop/light and 320px/dark, canonical/base paths, resources, search, unchanged author text, reordered beginner sequence and warning markers. A separate live browser traversal confirmed contextual introductions on all 28 steps across five paths. Actual novice comprehension trials remain pending; automated checks do not replace them. Earlier entries below retain their original test counts and deployment evidence.
 
 ### Follow-up: photo-sharing scenario
 
