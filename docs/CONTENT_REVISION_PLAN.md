@@ -16,12 +16,18 @@
 - [x] 更新內容規格、情境對照、編輯審查紀錄與 implementation status；修正硬編碼舊頁數的驗證，保留有效品質門檻。
 - [x] 準備五種預測結果的真人試讀題與記錄表，明列真人試讀尚待完成；不宣稱自動檢查能證明理解。
 - [x] 完整本機品質門檻、舊網址與搜尋別名、路徑及手機／深色模式驗證。
-- [ ] diff 審查、commit、push main、監看 GitHub Actions、正式網站查核。
+- [x] diff 審查、commit、push main、監看 GitHub Actions、正式網站查核。
 
 ## 外部驗證
 
 實際新手試讀需真人參與。先提供可直接使用的材料與無提示施測流程；未取得真實作答前不將理解成效標為已驗證。
 
+- [ ] 收集未使用過 Coding Agent 的讀者作答，依實際誤解修訂並重新檢查。尚未收到真人作答；不可用自動測試結果代填。
+
 ## 本機證據
 
 `npm run verify`：32 篇課文、0 內容警告、0 Astro 診斷、84 項桌面／手機測試。Pagefind 索引 32 篇，靜態輸出保留 86 個網址。本機 `npm run smoke -- http://localhost:4321/` 已驗證轉向、搜尋、base/canonical、資源、兩種版面及作者原文。修改前基準為 `c8011f6`，DOCX 課文與前言的 `git diff --exit-code` 通過。
+
+## 正式站證據
+
+實作 commit `7abfd44`；GitHub Actions run `33945002273` 的 quality-build 與 deploy 均成功。公開站執行 `npm run smoke -- https://gbanyan.github.io/agent-lesson-site/` 通過全部 86 個靜態網址，以及桌面／320px 深色版、舊網址轉向、canonical 與 base path、資源、搜尋和作者原文檢查。主線與圖解另有本機瀏覽器截圖目視審查，截圖未提交到 repository。

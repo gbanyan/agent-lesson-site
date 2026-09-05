@@ -8,7 +8,9 @@ The user-requested continuity revision supersedes the earlier lesson counts and 
 
 Scope and completion tracking: `CONTENT_REVISION_PLAN.md`. Editorial evidence: `CONTENT_CONTINUITY_AUDIT.md`. Reader trial: `READER_TRIAL.md` (materials ready; actual reader results pending). Protected DOCX prose and the author introduction remain unchanged; the original DOCX location diagram stays on C2 as an optional example.
 
-Release verification is in progress. The release is not declared complete until local gates, Actions deployment and production smoke checks pass. The original phase entries below are retained as historical records.
+Implementation and deployment verified for `7abfd44`. `npm run verify` passed with 32 lessons, zero content warnings, zero Astro diagnostics and 84 desktop/mobile tests. GitHub Actions [33945002273](https://github.com/gbanyan/agent-lesson-site/actions/runs/33945002273) passed quality-build and deployment. `npm run smoke -- https://gbanyan.github.io/agent-lesson-site/` passed on the public site: all 86 static URLs, desktop/light and 320px/dark, old redirects, canonical/base paths, assets, English search and exact author introduction text. The original phase entries below are historical records.
+
+The overall pedagogical validation remains open: the five-question reader trial has no actual participant responses yet. This limitation is distinct from the successful build and deployment.
 
 ## Phase 0 — Research & spec
 
