@@ -5,7 +5,7 @@ section: F
 order: 2
 archetype: contrast
 question: Agent 說完成，就真的完成了嗎？
-context: 你已確認新增了三張照片、原圖沒有改動。接著要檢查新圖是否真的變小，而且仍看得清楚。
+context: 假設你請 Agent 縮小照片，已查過新增的三張檔案、確認原圖沒被改動。接著還要開啟新圖，檢查是否真的變小而且看得清楚。
 answer: 不一定。「完成」只是 Agent 的口頭回報，仍需用適合的方法驗證。
 takeaway: 重要的改動，要看到實際運作的結果，不能只靠一句「完成了」。
 prompt:

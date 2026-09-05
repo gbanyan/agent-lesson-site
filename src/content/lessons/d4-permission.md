@@ -5,7 +5,7 @@ section: D
 order: 4
 archetype: safety_action
 question: 按下「允許」後，它能做什麼？
-context: 工具可以查看照片，但準備另存縮小版時可能要求寫入權限。
+context: 你請 Agent 把照片縮小並另存，原圖不動。工具可能已能查看照片，卻在另存新圖時要求寫入權限。
 answer: 權限決定工具獲准做哪些動作。允許前，看清楚能修改哪份資料，以及授權會維持多久。
 takeaway: 權限提示應說清楚由誰執行、動作內容與影響範圍。
 prompt:

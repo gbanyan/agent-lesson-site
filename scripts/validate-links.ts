@@ -19,6 +19,9 @@ for (const folder of ['paths','product-bridges']) {
       for (const id of Object.keys(data[key] ?? {})) if (!refs.includes(id)) errors.push(`${file}: ${key} 的 ${id} 不在路徑內`);
     }
     if (folder === 'paths' && new Set(refs).size !== refs.length) errors.push(`${file}: path 內有重複 lesson`);
+    if (folder === 'paths') for (const id of refs) {
+      if (typeof data.stepIntros?.[id] !== 'string' || !data.stepIntros[id].trim()) errors.push(`${file}: ${id} 缺少路徑銜接說明`);
+    }
   }
 }
 for (const legacy of legacyLessons) {

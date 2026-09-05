@@ -5,7 +5,7 @@ section: D
 order: 5
 archetype: safety_action
 question: 允許管理員權限，會多開放哪些範圍？
-context: Agent 安裝某個工具時遇到限制，接著要求管理員權限。允許後，安裝動作能影響更大的系統範圍。
+context: 你想縮小照片，但電腦缺少合用的工具；Agent 提出安裝時，又要求管理員權限。允許後，安裝動作可能影響原本碰不到的系統範圍。
 answer: 管理員權限通常代表程式可以影響更大的系統範圍。
 takeaway: 更高權限要有清楚原因；不確定時可以拒絕並要求替代做法。
 newTerms:

@@ -5,7 +5,7 @@ section: B
 order: 1
 archetype: definition
 question: 這些資料原本放在哪裡？
-context: 選好的三張原圖放在「照片」資料夾，分別叫 photo-1.jpg、photo-2.jpg、photo-3.jpg。縮小版會另外放到「縮小照片」。
+context: 假設你選了三張照片，想另存縮小版給朋友；例子把原圖放在「照片」資料夾，檔名是 photo-1.jpg、photo-2.jpg、photo-3.jpg。新圖會放到另一個「縮小照片」資料夾。
 answer: 檔案保存一份內容；資料夾把檔案和其他資料夾整理在一起。
 takeaway: Agent 說要讀或改某個檔案時，可從資料夾結構確認它的位置。
 newTerms:

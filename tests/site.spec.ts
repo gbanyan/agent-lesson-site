@@ -84,12 +84,12 @@ test('path context is built into HTML and keeps the canonical lesson URL', async
   await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/lessons/control-whole-computer/');
 });
 
-test('first-time path follows one job from requirements to recovery and keeps A2 optional', async ({page}) => {
+test('first-time path prepares recovery before tool execution and keeps A2 optional', async ({page}) => {
   await page.goto('/paths/first-coding-agent/');
   await expect(page.locator('.path-steps li')).toHaveCount(6);
   expect(await page.locator('.path-steps a').allTextContents()).toEqual([
     '這次要把什麼改成什麼？', '這些資料原本放在哪裡？', 'AI 這次有拿到哪些資訊？',
-    '它怎麼讓電腦真的動手？', '做完之後，哪些地方改變了？', '結果不好，能從哪裡恢復？',
+    '動手前，原圖保留在哪裡？', '它怎麼讓電腦真的動手？', '做完之後，哪些地方改變了？',
   ]);
   await expect(page.locator('.path-steps')).toContainText('這是動手前就要做的事');
   await expect(page.locator('.optional-step')).toContainText('Agent 可以直接控制整台電腦嗎？');
@@ -183,7 +183,63 @@ test('beginner path can be followed as six connected steps without changing the 
     await expect(page.locator('main')).not.toContainText('9 月 27 日');
     if (step < 6) await page.locator('.lesson-next a').last().click();
   }
-  await expect(page.locator('.path-step-introduction')).toContainText('動手前');
+  await expect(page).toHaveURL(/\/inspect-changes\/$/);
+  await page.goto('/paths/first-coding-agent/are-changes-reversible/');
+  await expect(page.locator('.path-progress')).toContainText('第 4 / 6 步');
+  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/paths/first-coding-agent/tool/');
+});
+
+test('every situation step supplies context and explains changes of example', async ({page}) => {
+  for (const path of ['first-coding-agent', 'first-agent-change', 'agent-runs-command', 'fear-of-breaking-things', 'local-cloud-confusion']) {
+    await page.goto(`/paths/${path}/`);
+    const links = await page.locator('.path-steps a').evaluateAll(nodes => nodes.map(node => (node as HTMLAnchorElement).pathname));
+    for (const href of links) {
+      await page.goto(href);
+      await expect(page.locator('.path-step-introduction')).not.toBeEmpty();
+    }
+  }
+  await page.goto('/paths/first-agent-change/read-vs-write/');
+  await expect(page.locator('.path-step-introduction')).toContainText('換成文件');
+  await page.goto('/paths/first-agent-change/permission/');
+  await expect(page.locator('.path-step-introduction')).toContainText('回到照片');
+  await page.goto('/paths/fear-of-breaking-things/version-history/');
+  await expect(page.locator('.path-step-introduction')).toContainText('換成反覆修改文章');
+  await page.goto('/paths/fear-of-breaking-things/claim-vs-verification/');
+  await expect(page.locator('.path-step-introduction')).toContainText('回到照片');
+});
+
+test('cautionary requests are labelled before the request and ordinary examples are not', async ({page}) => {
+  for (const slug of ['secrets', 'beyond-files']) {
+    await page.goto(`/lessons/${slug}/`);
+    await expect(page.locator('.scenario-warning')).toContainText('以下要求不應直接照做');
+    expect(await page.locator('.scenario').evaluate(section => {
+      const warning = section.querySelector('.scenario-warning')!;
+      const request = section.querySelector('blockquote')!;
+      return Boolean(warning.compareDocumentPosition(request) & Node.DOCUMENT_POSITION_FOLLOWING)
+        && request.getAttribute('aria-describedby') === warning.id;
+    })).toBe(true);
+    await expect(page.locator('.scenario .copy-prompt')).toHaveCount(0);
+    const results = await new AxeBuilder({page}).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+    expect(results.violations).toEqual([]);
+  }
+  await page.goto('/lessons/backup/');
+  await expect(page.locator('.scenario-warning')).toHaveCount(0);
+});
+
+test('direct lesson entry introduces the task and keeps the sandbox example consistent', async ({page}) => {
+  for (const slug of ['files-and-folders', 'where-program-runs', 'tool', 'agent-work-loop', 'claim-vs-verification']) {
+    await page.goto(`/lessons/${slug}/`);
+    await expect(page.locator('.lesson-context')).toContainText('照片');
+    await expect(page.locator('.lesson-context')).toContainText('縮小');
+    await expect(page.locator('.lesson-context')).not.toContainText('同樣三張');
+  }
+  await page.goto('/lessons/secrets/');
+  await expect(page.locator('.scenario blockquote')).toContainText('登入密碼');
+  await expect(page.locator('.scenario')).not.toContainText('自動排程');
+  await page.goto('/lessons/sandbox/');
+  await expect(page.locator('.lesson-context')).toContainText('照片副本');
+  await expect(page.locator('.scenario')).toContainText('圖片程式');
+  await expect(page.locator('.lesson-body')).toContainText('不等於環境已經設好限制');
 });
 
 test('keyboard focus and 200% zoom preserve access', async ({page}) => {

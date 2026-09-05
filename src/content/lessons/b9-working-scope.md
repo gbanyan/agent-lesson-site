@@ -5,7 +5,7 @@ section: B
 order: 3
 archetype: safety_action
 question: Agent 現在在哪個範圍工作？
-context: 這次只讀取「照片」中選好的三張原圖，把新圖另存到「縮小照片」。其他相簿與郵件不在任務範圍。
+context: 你想把選好的三張照片縮小後寄給朋友，原圖放在「照片」、新圖另存到「縮小照片」。其他相簿與郵件不在這次任務範圍。
 answer: 先確認 Agent 目前在哪個資料夾，以及這次獲准讀寫哪些位置；工具實際能碰到的範圍可能更大。
 takeaway: 目前工作範圍決定 Agent 正在查看與修改哪些位置。
 prompt:

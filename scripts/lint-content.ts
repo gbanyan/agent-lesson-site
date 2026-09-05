@@ -52,6 +52,8 @@ for (const { file, data, body } of entries) {
   const scenario = data.scenario as Record<string, unknown> | undefined;
   if (!scenario || typeof scenario !== 'object') fail('scenario 必須是情境物件');
   else {
+    if (scenario.warning !== undefined && (typeof scenario.warning !== 'string' || !scenario.warning.trim())) fail('scenario.warning 必須是非空警示文字');
+    if (['F3', 'E7'].includes(String(data.id)) && !scenario.warning) fail('危險要求案例必須在要求前提供 scenario.warning');
     for (const key of ['request', 'result', 'boundary']) {
       if (typeof scenario[key] !== 'string' || !String(scenario[key]).trim()) fail(`scenario.${key} 必須是非空字串`);
     }
@@ -66,7 +68,7 @@ for (const { file, data, body } of entries) {
     const commands = match[1]!.split('\n').filter((line) => /^\s*(\$|>|#)\s+\S/.test(line));
     if (commands.length > 1) fail('核心 Markdown 禁止大型 multi-command code block');
   }
-  const text = [data.question, data.context, data.answer, data.takeaway, prompt?.text ?? '', scenario?.request ?? '', ...(Array.isArray(scenario?.actions) ? scenario.actions : []), scenario?.result ?? '', scenario?.boundary ?? '', body].join(' ');
+  const text = [data.question, data.context, data.answer, data.takeaway, prompt?.text ?? '', scenario?.warning ?? '', scenario?.request ?? '', ...(Array.isArray(scenario?.actions) ? scenario.actions : []), scenario?.result ?? '', scenario?.boundary ?? '', body].join(' ');
   // A narrow vocabulary guard complements, but cannot replace, the editorial prerequisite audit.
   if (/\b(?:workspace|project|issue|log)\b/i.test(text)) fail('讀者文案出現未解釋的工程工作用語，請改用具體中文說明');
   const cjkCount = (text.match(/[\u3400-\u9fff]/g) ?? []).length;

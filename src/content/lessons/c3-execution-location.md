@@ -5,7 +5,7 @@ section: C
 order: 3
 archetype: contrast
 question: 程式在哪裡執行？
-context: 同樣三張原圖，縮圖程式可以在這台電腦執行，也可能在網路另一端執行。
+context: 你要把三張照片各縮小一份、保留原圖。縮圖程式可以在這台電腦執行，也可能在網路另一端執行。
 answer: 程式可能在你的裝置執行，也可能在遠端電腦執行；這和資料放哪裡是不同問題。
 takeaway: 分開確認「資料在哪裡」與「工作在哪裡執行」。
 newTerms:

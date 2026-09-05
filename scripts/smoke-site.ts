@@ -27,6 +27,7 @@ try {
     'paths/agent-runs-command/terminal/', 'paths/first-agent-change/recovery-before-change/',
     'paths/first-coding-agent/agent-vs-chat/', 'lessons/where-is-my-data/',
     'lessons/where-model-runs/', 'lessons/agent-work-loop/', 'introduction/',
+    'lessons/secrets/', 'lessons/beyond-files/', 'lessons/sandbox/',
   ];
   for (const width of [1440, 320]) {
     await page.setViewportSize({width, height:900});
@@ -44,6 +45,19 @@ try {
       }
       expect(await page.locator('img').evaluateAll((nodes) => nodes.every((node) => node instanceof HTMLImageElement && node.complete && node.naturalWidth > 0))).toBeTruthy();
     }
+  }
+  await page.goto(new URL('concepts/', base).href, {waitUntil:'networkidle'});
+  // Check the currently published teaching sequence, not only route availability.
+  await page.goto(new URL('paths/first-coding-agent/', base).href);
+  const steps = await page.locator('.path-steps a').evaluateAll(nodes => nodes.map(node => (node as HTMLAnchorElement).href));
+  expect(steps.map(href => href.replace(base.href, ''))).toEqual([
+    'paths/first-coding-agent/input-process-output/', 'paths/first-coding-agent/files-and-folders/',
+    'paths/first-coding-agent/context/', 'paths/first-coding-agent/are-changes-reversible/',
+    'paths/first-coding-agent/tool/', 'paths/first-coding-agent/inspect-changes/',
+  ]);
+  for (const slug of ['secrets', 'beyond-files']) {
+    await page.goto(new URL(`lessons/${slug}/`, base).href);
+    await expect(page.locator('.scenario-warning')).toContainText('以下要求不應直接照做');
   }
   await page.goto(new URL('concepts/', base).href, {waitUntil:'networkidle'});
   await expect(page.locator('.concept-groups a')).toHaveCount(32);

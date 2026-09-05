@@ -5,7 +5,7 @@ section: C
 order: 6
 archetype: safety_action
 question: 資料什麼時候會離開我的電腦？
-context: 三張照片原本在這台電腦。Agent 若準備使用線上縮圖服務，就要先說清楚會把哪些內容送出去。
+context: 你想把電腦上的三張照片縮小後寄給朋友。Agent 若準備使用線上縮圖服務，就要先說清楚會把哪些內容送出去。
 answer: 當工具透過網路把內容傳給外部服務時，資料就離開本機。
 takeaway: 看到網路或外部服務操作時，確認會傳送什麼資料、送到哪裡。
 newTerms:

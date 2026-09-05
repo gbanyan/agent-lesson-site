@@ -13,6 +13,7 @@ prerequisites: [D2, C7]
 visual: { type: system-map, preset: external-effects }
 scenario:
   appliesBeyondCodingAgent: true
+  warning: 測試活動若放進正式行事曆，也可能真的寄出邀請；應先停下確認對象，改用不會通知他人的測試方式。
   request: "把測試活動建立到公司的正式行事曆。"
   actions:
     - "Agent 透過行事曆工具連接遠端服務，建立有時間與受邀者的活動。"

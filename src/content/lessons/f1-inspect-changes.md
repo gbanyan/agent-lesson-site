@@ -5,7 +5,7 @@ section: F
 order: 1
 archetype: safety_action
 question: 我怎麼知道 Agent 改了什麼？
-context: Agent 回報三張照片已縮小。你原本要求另存新圖、保留原圖，現在先查看哪些檔案真的改變了。
+context: 假設你請 Agent 把三張照片各縮小一份，原圖保留；它現在回報完成。先查看哪些檔案真的改變，不能只看這句回覆。
 answer: 查看修改前後的差異，並確認受影響的檔案或系統。
 takeaway: 重要修改應該能被檢視；Agent 的摘要不能代替實際差異。
 prompt:

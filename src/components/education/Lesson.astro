@@ -5,7 +5,7 @@ interface Props {
   id: string; archetype: 'definition' | 'contrast' | 'safety_action'; question: string; context: string; answer: string; takeaway: string; newTerms: string[];
   prompt?: { audience:'research_chat'|'active_agent'|'human'; mode:'ask_only'|'explain_before_action'|'execute_after_confirmation'; capability:'requires_web'|'requires_workspace_access'|'no_special_access'; text:string } | undefined;
   searchTerms?: string[] | undefined;
-  scenario: { request: string; actions: string[]; result: string; boundary: string; appliesBeyondCodingAgent?: boolean | undefined };
+  scenario: { request: string; actions: string[]; result: string; boundary: string; appliesBeyondCodingAgent?: boolean | undefined; warning?: string | undefined };
   pathContext?: { slug:string; title:string; step:number; total:number; introduction?:string | undefined; previous?:{href:string;label:string} | undefined; next?:{href:string;label:string} | undefined; returnHref:string } | undefined;
   indexInSearch?: boolean;
   next?: { href: string; label: string } | undefined; previous?: { href: string; label: string } | undefined;
@@ -36,7 +36,8 @@ const { id, archetype, question, context, answer, takeaway, prompt, newTerms, se
     <p class="scenario-kicker">{archetype === 'safety_action' ? '執行前確認' : archetype === 'contrast' ? '放進同一個案例比較' : '例子'}</p>
     <h2 id={`scenario-${id}`}>{archetype === 'safety_action' ? '這次可能發生什麼' : '放到實際情況裡'}</h2>
     {scenario.appliesBeyondCodingAgent && <p class="other-agent-note">同樣的概念也適用於其他 Agent。</p>}
-    <blockquote>{scenario.request}</blockquote>
+    {scenario.warning && <aside class="scenario-warning scenario-boundary" id={`warning-${id}`}><strong>警示案例：以下要求不應直接照做。</strong><p>{scenario.warning}</p></aside>}
+    <blockquote aria-describedby={scenario.warning ? `warning-${id}` : undefined}>{scenario.request}</blockquote>
     {archetype === 'definition'
       ? <div class="example-prose">{scenario.actions.map((action) => <p>{action}</p>)}</div>
       : <ul>{scenario.actions.map((action) => <li>{action}</li>)}</ul>}

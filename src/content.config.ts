@@ -37,6 +37,7 @@ const lessons = defineCollection({
       result: z.string().min(1),
       boundary: z.string().min(1),
       appliesBeyondCodingAgent: z.boolean().optional(),
+      warning: z.string().min(1).optional(),
     }),
     notTeach: z.array(z.string()).min(1),
   }),

@@ -5,7 +5,7 @@ section: C
 order: 5
 archetype: definition
 question: AI 在雲端，為什麼我的電腦還會變慢？
-context: AI 模型在遠端決定操作，本機程式仍要縮小三張照片，因此這台電腦可能變慢或發熱。
+context: 你請 Agent 縮小照片，雖然 AI 模型在遠端決定操作，圖片程式仍可能在這台電腦執行。處理大量照片時，本機可能變慢或發熱。
 answer: Agent 使用的工具仍可能在本機執行，消耗 CPU 與記憶體，並把程式或產出寫入儲存空間。
 takeaway: AI 模型在遠端運算，不表示 Agent 使用的工具也在遠端執行。
 newTerms:

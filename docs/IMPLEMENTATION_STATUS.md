@@ -4,6 +4,12 @@ This file is updated at each phase gate. Evidence commands are listed under each
 
 ## Current content revision — 2026-09-05
 
+### Follow-up: remaining narrative gaps
+
+Five situation paths now supply context for every step, including explicit document/photo/article transitions without touching protected DOCX text. Direct-entry photo lessons introduce their task. F3 starts with password sharing, D6 consistently uses an image program and photo copies, and F3/E7 show an explicit caution before the unsafe request. The beginner route is now B4 → B1 → D1 → E1 → D2 → F1, preparing recovery before tool execution.
+
+Local `npm run verify` passed: 32 lessons, zero content/Astro warnings, 90 desktop/mobile tests, 86 static pages. Local smoke passed all URLs and the new recovery-before-tool sequence plus warning markers. The reordered path and desktop/320px dark warning examples were visually reviewed. Introduction, B6 prose and the protected C2 DOCX diagram are unchanged against `0058b6d`. Production deployment for this follow-up is pending. Earlier entries below retain their original test counts and deployment evidence.
+
 ### Follow-up: photo-sharing scenario
 
 The user's follow-up replaces the practice webpage with a familiar purpose: make smaller photo copies to send to a friend, preserve originals, inspect results, then separately decide whether to send. The homepage, path introduction and first lesson establish the purpose before folder names appear. No practice download or hands-on prerequisite is implied. E4 explicitly switches to article revisions for version history; protected introduction and DOCX prose/diagram remain unchanged against `d4c1319`.

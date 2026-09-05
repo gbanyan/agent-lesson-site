@@ -57,14 +57,14 @@ const concepts: Record<string, {label:string;items:{title:string;detail:string}[
   C6: { label:'本機工具用到的資源', items:[{title:'CPU',detail:'進行計算'},{title:'記憶體',detail:'暫放工作內容'},{title:'儲存空間',detail:'保存程式與產出'}], relation:'／', summary:'本機工具會用 CPU 計算、用記憶體暫放工作內容，並用儲存空間保存程式與產出。' },
   D1: {"label":"提出操作前拿到的資訊","items":[{"title":"已取得","detail":"照片資訊、要求與限制"},{"title":"還沒讀到","detail":"不能當成已知"}],"summary":"AI 需要取得指定照片的資訊與縮圖要求；照片存在電腦上，不表示 AI 已拿到內容。"},
   D5: { label:'影響範圍', items:[{title:'一般權限',detail:'較有限的範圍'},{title:'管理員權限',detail:'可能影響更多系統區域'}], summary:'管理員權限可能讓同一個動作影響更大的系統範圍。' },
-  D6: { label:'限制機制', items:[{title:'Sandbox 內',detail:'允許的行動範圍'},{title:'Sandbox 外',detail:'受到限制或需另行允許'}], relation:'｜', summary:'Sandbox 用邊界限制可採取的行動，但它不是絕對安全的保證。' },
+  D6: { label:'圖片程式的限制', items:[{title:'允許',detail:'只讀寫照片副本'},{title:'阻擋',detail:'其他文件與網路'}], relation:'｜', summary:'在這個例子的設定下，圖片程式只讀寫測試資料夾，其他文件與網路受到阻擋。要先確認環境真的提供這些限制。' },
   E1: {"label":"先保留能重做的原圖","items":[{"title":"保留","detail":"完整原圖"},{"title":"確認","detail":"能開啟、不被覆蓋"},{"title":"才處理","detail":"另存縮小版"}],"summary":"新圖不合用時，從保留的原圖重做。若原圖已覆蓋且沒有舊版本，就不能保證恢復。"},
   E2: {"label":"另外保留原圖副本","items":[{"title":"原圖","detail":"保留完整內容"},{"title":"備份","detail":"另一份可取回的副本"}],"summary":"縮小版不能當成完整原圖的備份。同磁碟副本也不能防整顆磁碟損壞。"},
   E3: {"label":"刪除也可能傳過去","items":[{"title":"同步","detail":"各處一起更新或刪除"},{"title":"備份","detail":"另外保留可取回的副本"}],"relation":"／","summary":"同步可能把刪除傳到其他地方；是否仍有可恢復的副本，要另外確認。"},
   E4: {"label":"文章的較早版本","items":[{"title":"拿到","detail":"兩份已保存的文章"},{"title":"操作","detail":"比較刪掉的段落"},{"title":"結果","detail":"看見差異，尚未恢復"}],"summary":"查看已保存的文章版本可以找出刪掉的段落；查看不會還原目前內容。Git 是版本工具的一個例子。"},
   F1: {"label":"哪些檔案真的改了","items":[{"title":"拿到","detail":"處理前後的檔案"},{"title":"操作","detail":"查看新增與原圖變化"},{"title":"結果","detail":"變更清單，尚待驗證"}],"summary":"確認新增三張照片且原圖未改，仍要開啟新圖檢查大小與清晰度。"},
   F2: {"label":"新照片符合要求嗎","items":[{"title":"拿到","detail":"新圖與原要求"},{"title":"操作","detail":"核對大小、內容與清晰度"},{"title":"結果","detail":"符合或不符合要求"}],"summary":"開啟新照片，對照約定的檔案大小並比較畫面，取得實際檢查結果。"},
-  F3: { label:'秘密資訊', items:[{title:'密碼或 API Key',detail:'能代表你取得存取權'},{title:'一般文字',detail:'通常不具同等權限'}], relation:'≠', summary:'密碼與 API Key 可能讓持有者以你的身分存取系統，因此需要避免不必要的暴露。' },
+  F3: { label:'密碼不能當一般文字分享', items:[{title:'登入密碼',detail:'可能讓別人使用你的帳號'},{title:'一般說明',detail:'不應包含登入秘密'}], relation:'≠', summary:'把登入密碼放進共同文件，看到文件的人也可能使用你的帳號。給程式用的私密金鑰也需要保護。' },
 };
 ---
 {systemMaps[lessonId] ? (
