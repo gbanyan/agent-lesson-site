@@ -1,6 +1,6 @@
 id: path-d
 slug: local-cloud-confusion
 title: 工作是在我的電腦做，還是在別處？
-description: 換一個完整例子：把三張練習圖片各縮小一份，原圖保留。跟著這批圖片，分別查看檔案、縮圖程式與 AI 模型的位置。
+description: 想把照片縮小後寄給朋友，先看這件事在哪裡做。跟著這批圖片，分別查看檔案、縮圖程式與 AI 模型的位置。
 lessons: [C1, C2, C3, C4, C6, C5]
 safetyGate: false

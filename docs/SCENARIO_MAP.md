@@ -1,31 +1,32 @@
-# Scenario Map
+# 情境對照
 
-Current revision: 2026-09-05. Scenario labels and lesson IDs are editorial metadata, not the public lesson taxonomy. See `CONTENT_CONTINUITY_AUDIT.md` for the page-by-page prerequisite review.
+目前修訂：2026-09-05。依使用者後續意見，取消突兀的練習網頁，不提供或暗示有待下載的練習素材。
 
-## Primary scenario — simple website
+## 入門主線：把照片縮小後寄給朋友
 
-The teaching example is a local practice folder `website/` containing `index.html`, `styles.css` and `images/`. Readers need not own a website. The single job changes the activity date from 9 月 20 日 to 9 月 27 日, keeps other content intact, checks the result, and leaves publication for a separate decision.
+目的先出現：照片檔案太大，想請 Agent 各縮小一份，原圖保留。這是說明用的例子，不要求讀者準備檔案或操作。
 
-Used by A1, B1, B2, B4, B8, B9, C7, D1, D2, D3, D4, E1, E2, E4, F1 and F2. D4 names only index.html. E3 explicitly introduces synchronization as an optional variation. D3 reports a failed layout check and requests authorization before broadening the edit to styles.
+首頁、路徑首頁及 B4 先交代目的與限制。B1 才引入示意名稱：「照片」放三張原圖 photo-1.jpg、photo-2.jpg、photo-3.jpg，「縮小照片」另存新圖。這些名稱不表示已有教材檔案。
 
-## Secondary scenario — image processing
+A1、B1–B5、B8、B9、C1–C7、D1–D4、E1–E3、F1、F2 接續這件工作。縮小前確認期望大小與可接受清晰度；檢查後另決定是否寄出。圖解與正文使用同樣位置與限制。
 
-The Agent makes three smaller copies from `website/images` into `website/small`, preserving all original images. Local versus remote processing are explicit alternatives, not an assumed upload.
+## 不混淆的判斷
 
-Used by B3, B5, C1, C2, C3, C4, C6 and C5. This sequence covers program source, install versus run, data location, execution location, model location, local resources and data transmission. B4 now follows the primary date-change example before naming input, processing and output.
+- 列檔名或讀取大小不會因此修改原圖；取得檔名不表示看過照片。
+- 模型提出操作要求，工具執行才會產生新圖；回報不是實際檔案。
+- 檢視變更先看新增、修改與刪除；驗證另外檢查大小、畫面與原圖是否完整。
+- 縮小版不是完整原圖備份；另存不代表已寄出。
+- D3 用一張仍太大的新圖呈現循環；更大的畫質取捨先詢問，不擅自上傳外部服務。
+- 資料、程式與模型位置分開看。遠端方式是明示比較，不暗示原圖已上傳。
 
-## Safety within the same job
+## 有理由才換情境
 
-Recovery, backup, history, permission and inspection use the same date-change task, without switching to renaming activities or reorganizing the project.
+E4 明說換成反覆修改文章，藉刪掉的段落解釋版本紀錄；Git 留作工具例子。F4 查寄件服務的附件限制，區分查詢文字與上傳照片。
 
-E6 is merged into E1; E5 is merged into E4; B7 is merged into B8. Original standalone and published path URLs remain available via static redirects.
+B6 DOCX 原文保持不變；C2 原有 DOCX 圖解保留在同頁可展開區域。E7 的行事曆與通知用來說明外部影響，F3 保留秘密資料的安全案例。作者前言不改。
 
-## Explicit other-Agent examples
+## 作者檢查
 
-B6, E7 and F3 retain document, calendar or external-service cases. C2 retains its protected document diagram in an optional details element on the same page; the primary example uses the same three images as the location path.
+逐頁一起核對情境、圖解、案例、Prompt 與結論。不為了固定情境而抹平權限、備份、驗證與外部影響的差異。英文名稱仍可搜尋，舊網址與合併關係不變。
 
-B6 retains the protected DOCX-specific teaching case and remains a deliberate transition away from the website sequence. B8 now continues the website-folder example used by Program and Terminal.
-
-## Page-level review rule
-
-For each lesson, review the context, visual, case, prompt and displayed takeaway together. A secondary scenario is acceptable only when it exposes a consequence that the website or image example cannot show, and it must be identified to the reader.
+真人試讀資料尚未取得，以上是編輯判斷，不宣稱已證明新手理解成效。

@@ -172,11 +172,15 @@ test('English search aliases lead to the question-led canonical lessons', async 
 
 test('beginner path can be followed as six connected steps without changing the task', async ({page}) => {
   await page.goto('/paths/first-coding-agent/');
+  await expect(page.locator('main')).toContainText('想寄照片給朋友');
+  await expect(page.locator('main')).toContainText('不需要準備檔案或跟著操作');
   await page.locator('.path-steps a').first().click();
   for (let step = 1; step <= 6; step++) {
     await expect(page.locator('.path-progress')).toContainText(`第 ${step} / 6 步`);
     await expect(page.locator('.path-step-introduction')).not.toBeEmpty();
-    await expect(page.locator('.scenario')).toContainText(/9 月 (20|27) 日/);
+    await expect(page.locator('.scenario')).toContainText(/照片|原圖/);
+    await expect(page.locator('main')).not.toContainText('練習網頁');
+    await expect(page.locator('main')).not.toContainText('9 月 27 日');
     if (step < 6) await page.locator('.lesson-next a').last().click();
   }
   await expect(page.locator('.path-step-introduction')).toContainText('動手前');
@@ -281,13 +285,13 @@ test('core role pages keep one distinct mental model each', async ({page}) => {
   await page.goto('/lessons/input-process-output/');
   await expect(page.locator('h1')).toHaveText('這次要把什麼改成什麼？');
   await expect(page.locator('.concept-node')).toHaveCount(3);
-  await expect(page.locator('.visual')).toContainText('檔案已改，仍未公開');
+  await expect(page.locator('.visual')).toContainText('新圖保留，尚未寄出');
 
   await page.goto('/lessons/terminal/');
   await expect(page).toHaveURL(/\/lessons\/command\/$/);
   await expect(page.locator('.terminal')).toBeVisible();
-  await expect(page.locator('.terminal code')).toContainText('ls website');
-  await expect(page.locator('.terminal samp')).toContainText('index.html');
+  await expect(page.locator('.terminal code')).toContainText('ls 照片');
+  await expect(page.locator('.terminal samp')).toContainText('photo-1.jpg');
 
   await page.goto('/lessons/command/');
   await expect(page.locator('.scenario-note')).not.toContainText('&&');
@@ -302,14 +306,14 @@ test('A1, Terminal, Tool, Context, Local Remote and Git keep corrected boundarie
   await expect(page.locator('.lesson-body')).not.toContainText('Actionable Agent');
   await page.goto('/lessons/terminal/');
   await expect(page.locator('main')).toContainText('畫面上不一定會真的出現 Terminal');
-  await expect(page.locator('.scenario')).toContainText('原本網頁的日期仍是 9 月 20 日');
+  await expect(page.locator('.scenario')).toContainText('三張原圖沒有被修改');
   await page.goto('/lessons/tool/');
   await expect(page.locator('main')).toContainText('不一定是一個獨立程式');
   await page.goto('/lessons/context/');
   await expect(page.locator('main')).toContainText('不表示 Agent 具有和人一樣的持續長期記憶');
-  await expect(page.locator('.scenario')).toContainText('website 的活動日期');
+  await expect(page.locator('.scenario')).toContainText('原圖保留，新圖另存');
   await page.goto('/lessons/agent-work-loop/');
-  await expect(page.locator('.scenario')).toContainText('手機版沒有跑版');
+  await expect(page.locator('.scenario')).toContainText('新圖仍太大或看不清楚');
   await page.goto('/lessons/local-and-remote/');
   await expect(page.locator('main')).toContainText('資料是否被傳送、複製或保存，需要另外確認');
   await page.goto('/lessons/git/');

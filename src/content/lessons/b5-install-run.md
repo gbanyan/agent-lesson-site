@@ -17,10 +17,10 @@ visual:
   type: concept
   preset: install-run
 scenario:
-  request: 安裝圖片縮小工具，再把 website/images 的三張原圖各縮小一份到 website/small，原圖保留。
+  request: 安裝圖片縮小工具，再把「照片」的三張原圖各縮小一份到「縮小照片」，原圖保留。
   actions:
     - 如果工具尚未準備好，Agent 可能先從可信來源下載並安裝。
-    - 安裝完成後，它才執行工具，讀取三張原圖並另存新圖到 website/small。
+    - 安裝完成後，它才執行工具，讀取三張原圖並另存新圖到「縮小照片」。
   result: 安裝會讓電腦多出程式；執行後才會產生縮小的圖片。
   boundary: 安裝本身也會寫入磁碟，並可能連線到工具提供者；開始前要確認來源與授權。
 notTeach:

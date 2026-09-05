@@ -5,7 +5,7 @@ section: C
 order: 4
 archetype: definition
 question: AI 模型在哪裡運算？
-context: 這次由本機程式縮小三張練習圖片，但決定工具操作的 AI 模型可能在另一台電腦運算。
+context: 這次由本機程式縮小三張照片，但決定工具操作的 AI 模型可能在另一台電腦運算。
 answer: 模型可能在本機或遠端運算；它的位置不必和你的資料或 Agent 工具相同。
 takeaway: 檔案存在哪、程式在哪裡跑、AI 模型在哪裡運算，是三件要分開確認的事。
 newTerms:

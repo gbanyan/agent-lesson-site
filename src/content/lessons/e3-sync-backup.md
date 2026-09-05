@@ -18,7 +18,7 @@ visual:
   type: concept
   preset: sync-backup
 scenario:
-  request: 如果這份練習網頁另外開了雲端同步，刪錯本機檔案能靠雲端救回嗎？
+  request: 如果存放照片的資料夾另外開了雲端同步，刪錯本機檔案能靠雲端救回嗎？
   actions:
     - Agent 確認同步會不會把本機刪除傳到另一端。
     - 你另外查看是否有可用的舊版本、回收桶或獨立副本。

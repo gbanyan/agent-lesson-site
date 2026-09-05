@@ -4,6 +4,14 @@ This file is updated at each phase gate. Evidence commands are listed under each
 
 ## Current content revision — 2026-09-05
 
+### Follow-up: photo-sharing scenario
+
+The user's follow-up replaces the practice webpage with a familiar purpose: make smaller photo copies to send to a friend, preserve originals, inspect results, then separately decide whether to send. The homepage, path introduction and first lesson establish the purpose before folder names appear. No practice download or hands-on prerequisite is implied. E4 explicitly switches to article revisions for version history; protected introduction and DOCX prose/diagram remain unchanged against `d4c1319`.
+
+Final local `npm run verify` passed: 32 lessons, zero lint/Astro diagnostics, 84 desktop/mobile tests and 86 static pages. The six-step test checks the photo narrative and absence of the former practice webpage. Path, first-lesson and 320px dark command-page screenshots were visually reviewed. Deployment for this follow-up is pending; the evidence below belongs to the previous revision.
+
+### Previous revision evidence
+
 The user-requested continuity revision supersedes the earlier lesson counts and sequences below. There are 32 canonical lessons after three merges, while old lesson and published path URLs remain usable. The six-step beginner route follows a local practice webpage date change; the location route follows three images. English terms remain searchable behind question-led entry points. Recovery, permissions, actual changes and verification remain distinct checks.
 
 Scope and completion tracking: `CONTENT_REVISION_PLAN.md`. Editorial evidence: `CONTENT_CONTINUITY_AUDIT.md`. Reader trial: `READER_TRIAL.md` (materials ready; actual reader results pending). Protected DOCX prose and the author introduction remain unchanged; the original DOCX location diagram stays on C2 as an optional example.

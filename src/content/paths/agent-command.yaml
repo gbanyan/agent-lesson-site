@@ -1,6 +1,6 @@
 id: path-c
 slug: agent-runs-command
 title: Agent 說要執行指令
-description: 先用縮圖例子認識程式，再回到練習網頁，辨認指令與回傳結果。讀寫的文件例子另作比較，最後確認修改日期需要的權限。
+description: 從縮小照片認識程式，再用列出照片的畫面辨認指令與結果。讀寫的文件例子另作比較，最後確認另存新圖需要的權限。
 lessons: [B3, B8, B6, D4]
 safetyGate: false

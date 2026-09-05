@@ -5,7 +5,7 @@ section: B
 order: 3
 archetype: safety_action
 question: Agent 現在在哪個範圍工作？
-context: 練習網頁放在 website。這次只改裡面的活動日期，其他資料夾及網頁內容都保留。
+context: 這次只讀取「照片」中選好的三張原圖，把新圖另存到「縮小照片」。其他相簿與郵件不在任務範圍。
 answer: 先確認 Agent 目前在哪個資料夾，以及這次獲准讀寫哪些位置；工具實際能碰到的範圍可能更大。
 takeaway: 目前工作範圍決定 Agent 正在查看與修改哪些位置。
 prompt:
@@ -22,12 +22,12 @@ visual:
   type: system-map
   preset: working-scope
 scenario:
-  request: 只把 website/index.html 的 9 月 20 日改成 9 月 27 日，其他內容保留，先不要公開。
+  request: 只處理選好的三張照片，另存縮小版；不要改原圖，也不要寄信。
   actions:
-    - Agent 確認工作位置與檔案路徑，讀取指定網頁。
-    - 工具只寫入新日期，再列出改動的地方。
-  result: 指定網頁日期更新，其他檔案不應被改動。
-  boundary: 若工具要求碰到 website 以外的位置，先確認理由與授權，不因為工具做得到就放行。
+    - Agent 確認原圖與另存位置，列出預計讀寫的檔案。
+    - 工具讀取指定原圖，只在約定位置建立新圖。
+  result: 「縮小照片」多出三張新圖，原圖與其他檔案不應被改動。
+  boundary: 若工具要求碰到其他相簿或連上郵件帳號，先確認理由與授權，不因為工具做得到就放行。
 notTeach:
   - 工作目錄切換指令
   - workspace 管理
