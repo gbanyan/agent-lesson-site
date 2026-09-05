@@ -8,7 +8,11 @@ This file is updated at each phase gate. Evidence commands are listed under each
 
 The user's follow-up replaces the practice webpage with a familiar purpose: make smaller photo copies to send to a friend, preserve originals, inspect results, then separately decide whether to send. The homepage, path introduction and first lesson establish the purpose before folder names appear. No practice download or hands-on prerequisite is implied. E4 explicitly switches to article revisions for version history; protected introduction and DOCX prose/diagram remain unchanged against `d4c1319`.
 
-Final local `npm run verify` passed: 32 lessons, zero lint/Astro diagnostics, 84 desktop/mobile tests and 86 static pages. The six-step test checks the photo narrative and absence of the former practice webpage. Path, first-lesson and 320px dark command-page screenshots were visually reviewed. Deployment for this follow-up is pending; the evidence below belongs to the previous revision.
+Final local `npm run verify` passed: 32 lessons, zero lint/Astro diagnostics, 84 desktop/mobile tests and 86 static pages. The six-step test checks the photo narrative and absence of the former practice webpage. Path, first-lesson and 320px dark command-page screenshots were visually reviewed.
+
+Photo revision `8727e4e` passed [GitHub Actions 33946090907](https://github.com/gbanyan/agent-lesson-site/actions/runs/33946090907), including quality-build and Pages deployment. `npm run smoke -- https://gbanyan.github.io/agent-lesson-site/` passed all 86 public URLs, desktop/light and 320px/dark, redirects, canonical/base paths, assets, search and exact introduction text. A separate browser traversal confirmed the live photo introduction and all six steps without the former date-change story. Local smoke also passed using the configured `http://localhost:4321/`; an initial invocation using `127.0.0.1` correctly failed canonical-origin validation and was rerun with the configured hostname, without changing the check.
+
+Actual novice reader responses are still unavailable; the updated trial questions are ready, not completed results. Evidence below belongs to the previous revision.
 
 ### Previous revision evidence
 
