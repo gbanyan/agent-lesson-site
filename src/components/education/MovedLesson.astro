@@ -9,8 +9,10 @@ const { href, title } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="refresh" content={`0;url=${href}`} />
     <meta name="robots" content="noindex" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="canonical" href={new URL(href, Astro.site)} />
     <title>{title}｜看懂 Agent</title>
+    <style is:inline>body { margin: 2rem auto; max-width: 36rem; padding-inline: 1rem; font: 1.05rem/1.75 system-ui, sans-serif; color: #18231f; background: #f7f5ee; } @media (prefers-color-scheme: dark) { body { color: #e6eee9; background: #111815; } } a { color: #245e49; } @media (prefers-color-scheme: dark) { a { color: #83caa7; } } h1 { font-size: 1.5rem; line-height: 1.3; }</style>
   </head>
   <body><main><h1>課文已整合</h1><p><a href={href}>{title}</a></p></main></body>
 </html>

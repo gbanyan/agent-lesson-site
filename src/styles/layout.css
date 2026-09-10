@@ -7,7 +7,7 @@
 .theme-toggle { min-height: 2.75rem; display: inline-flex; align-items: center; gap: .45rem; padding: .45rem .75rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); font: inherit; font-size: var(--step--1); font-weight: 650; cursor: pointer; white-space: nowrap; }
 .theme-toggle:hover { border-color: var(--leaf); }
 .theme-icon { width: .85rem; height: .85rem; border: 2px solid currentColor; border-radius: 50%; background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
-main { min-height: calc(100vh - 13rem); }
+main { min-height: calc(100vh - 13rem); min-height: calc(100svh - 13rem); }
 .site-footer { margin-top: 6rem; border-top: 1px solid var(--line); }
 .footer-inner { display: flex; justify-content: space-between; gap: 1rem; padding-block: 2rem; color: var(--ink-soft); font-size: var(--step--1); }
 .hero { padding-block: clamp(4.5rem, 11vw, 9rem); }
@@ -19,12 +19,13 @@ main { min-height: calc(100vh - 13rem); }
 .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .card { display: block; min-height: 10rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); text-decoration: none; box-shadow: 0 1px 0 rgb(20 40 30 / 3%); }
 .card:hover { border-color: var(--leaf); color: var(--ink); box-shadow: var(--shadow); transform: translateY(-2px); }
-.card h3 { margin: .25rem 0 .5rem; font-size: var(--step-1); }
+.card :is(h2, h3) { margin: .25rem 0 .5rem; font-size: var(--step-1); }
 .card p { margin: 0; color: var(--ink-soft); }
 .page-header { padding-block: 4rem 2rem; }
 .page-header h1 { margin: .3rem 0 .75rem; max-width: 18ch; }
 .page-header p { max-width: 40rem; color: var(--ink-soft); }
 .reading.page-header { padding-inline: 1rem; }
+@media (max-width: 48rem) { .hero h1 { max-width: none; } }
 @media (max-width: 42rem) {
   .nav { align-items: center; padding-block: .8rem; flex-wrap: wrap; }
   .nav-links { gap: .3rem; flex-wrap: wrap; justify-content: flex-end; }

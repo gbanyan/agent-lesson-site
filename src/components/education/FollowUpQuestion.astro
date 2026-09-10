@@ -1,4 +1,5 @@
 ---
+import { uid } from '../../lib/uid';
 interface Prompt {
   audience: 'research_chat' | 'active_agent' | 'human';
   mode: 'ask_only' | 'explain_before_action' | 'execute_after_confirmation';
@@ -21,11 +22,12 @@ const capability = {
   requires_workspace_access: '需要讀取目前工作資料夾',
   no_special_access: '不需特殊存取',
 }[prompt.capability];
+const titleId = uid('follow-up-', `${Astro.url.pathname}|${prompt.text}`);
 ---
-<aside class:list={['follow-up', `prompt-${isResearch ? 'research' : isTask ? 'task' : 'agent'}`]} aria-labelledby="follow-up-title">
+<aside class:list={['follow-up', `prompt-${isResearch ? 'research' : isTask ? 'task' : 'agent'}`]} aria-labelledby={titleId}>
   <p class="prompt-audience">{capability}</p>
   <div class="follow-up-heading">
-    <h2 id="follow-up-title">{title}</h2>
+    <h2 id={titleId}>{title}</h2>
     <button type="button" class="copy-prompt" data-copy-prompt data-copy-label={action} aria-label={action}>{action}</button>
   </div>
   <p class="prompt-description">{description}</p>

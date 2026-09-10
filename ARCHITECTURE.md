@@ -10,7 +10,7 @@
 - Astro Content Collections 使用 loader-based API；內容分為 `lessons`、`paths`、`productBridges`。
 - Lesson 用 Markdown；path 與 product bridge 用 YAML，避免自由長文。
 - Vanilla CSS 與 design tokens；不使用前端框架或 SPA。
-- 正常 lesson 頁零 client-side JavaScript。只有搜尋頁載入 Pagefind API。
+- 全站僅一個小型 inline script（外觀主題切換與複製按鈕）；頁面本身無框架 JavaScript。只有搜尋頁動態載入 Pagefind API。
 - Pagefind 在 Astro build 後索引 `dist/`，採 npm extended binary 以支援中文斷詞。
 - Playwright 對 production build 啟動 preview；axe 掃描 WCAG A/AA 自動可測項目。
 - 無 backend、database、登入、CMS、進度追蹤或 vendor-specific hosting。
@@ -37,9 +37,10 @@ Primary references:
 
 ## JavaScript budget
 
-- Lesson, path, product bridge, home, about: no authored client script.
+- All pages: one tiny inline script in `BaseLayout` for theme persistence and prompt-copy buttons. No framework, no analytics, no progress tracking.
 - Concepts/search: one small ES module, loaded only on the search page, dynamically importing Pagefind after user input or focus.
 
 ## Accessibility baseline
-
 Document language is `zh-Hant-TW`; all pages use landmarks, a skip link, visible focus, at least 44px practical touch targets, responsive reflow, reduced-motion handling, and semantic text equivalents for every visual. Automated axe scans are paired with documented manual keyboard, screen-reader, zoom, and cognitive-load review.
+
+Reusable components never hardcode ARIA target ids: `src/lib/uid.ts` derives deterministic ids from page path plus component content (Astro exposes no public unique-id API; `astro check` guards this convention by rejecting untyped props).

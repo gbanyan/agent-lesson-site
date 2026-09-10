@@ -78,9 +78,7 @@ const concepts: Record<string, {label:string;items:{title:string;detail:string}[
     ? <AgentAction request="看看照片資料夾裡有什麼。" intent="查看資料夾內容" actionLabel="執行文字指令" tool="要求電腦列出照片資料夾" result="顯示三張照片的檔名" next="讀取結果，再決定下一步" summary="工具列出照片的檔名，Agent 讀取清單後決定下一步；原圖未改。" />
     : <AgentAction request="看看這個資料夾裡有什麼。" intent="查看資料夾內容" tool="終端機：ls" result="找到 報表、照片、notes.txt" next="根據結果決定是否還需要下一步" />
 ) : type === 'file-explorer' ? (
-  lessonId === 'B1'
-    ? <FileExplorer root="照片" entries={[{kind:'file',name:'photo-1.jpg'},{kind:'file',name:'photo-2.jpg'},{kind:'file',name:'photo-3.jpg'}]} summary="照片資料夾裡有三張原圖，照片/photo-1.jpg 指向其中第一張。縮小版另存到另一個資料夾，不覆蓋這些原圖。" />
-    : <FileExplorer root="照片" entries={[{kind:'file',name:'photo-1.jpg'},{kind:'file',name:'photo-2.jpg'},{kind:'file',name:'photo-3.jpg'}]} summary="照片資料夾裡有三張原圖，照片/photo-1.jpg 指向其中第一張。縮小版另存到另一個資料夾，不覆蓋這些原圖。" />
+  <FileExplorer root="照片" entries={[{kind:'file',name:'photo-1.jpg'},{kind:'file',name:'photo-2.jpg'},{kind:'file',name:'photo-3.jpg'}]} summary="照片資料夾裡有三張原圖，照片/photo-1.jpg 指向其中第一張。縮小版另存到另一個資料夾，不覆蓋這些原圖。" />
 ) : type === 'permission' ? (
   <PermissionPrompt files={['縮小照片/']} consequence="允許工具在這裡另存新圖；原圖不動，不寄信或分享。" />
 ) : concepts[lessonId] ? (

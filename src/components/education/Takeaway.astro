@@ -1,8 +1,10 @@
 ---
+import { uid } from '../../lib/uid';
 interface Props { text: string; }
 const { text } = Astro.props;
+const titleId = uid('takeaway-', `${Astro.url.pathname}|${text}`);
 ---
-<aside class="takeaway" aria-labelledby="takeaway-title">
-  <strong id="takeaway-title">這頁重點</strong>
+<aside class="takeaway" aria-labelledby={titleId}>
+  <strong id={titleId}>這頁重點</strong>
   <p>{text}</p>
 </aside>

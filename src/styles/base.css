@@ -53,6 +53,7 @@ p { text-wrap: pretty; }
 .button.secondary { background: transparent; color: var(--leaf-dark); }
 .button.secondary:hover { background: var(--leaf-pale); }
 .muted { color: var(--ink-soft); }
+mark { padding: .05em .18em; border-radius: .2em; background: color-mix(in srgb, var(--amber) 32%, transparent); color: inherit; }
 .sr-only {
   position: absolute;
   width: 1px;

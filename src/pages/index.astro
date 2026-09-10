@@ -60,7 +60,7 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
     </div>
   </section>
   <section class="section">
-    <div class="shell section-heading"><p class="eyebrow">找一個概念</p><h2>直接查不熟的詞</h2><p>搜尋 Git、Permission、Terminal、Command 等概念。</p><a class="button secondary" href={url('/concepts/')}>找概念</a></div>
+    <div class="shell section-heading search-cta"><p class="eyebrow">找一個概念</p><h2>直接查不熟的詞</h2><p>搜尋 Git、Permission、Terminal、Command 等概念。</p><a class="button secondary" href={url('/concepts/')}>找概念</a></div>
   </section>
 </BaseLayout>
 <style>
@@ -68,4 +68,5 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
   .introduction-copy{max-width:42rem;font-size:var(--step-1);line-height:1.75}
   .introduction-copy p{margin:0 0 1rem}
   .prepare-more{margin-top:1.5rem}
+  .search-cta{margin-bottom:0}
 </style>

@@ -24,6 +24,7 @@
 .system-arrow { align-self: center; flex: 0 0 auto; color: var(--leaf); font-size: 1.35rem; }
 .terminal { overflow: hidden; border: 1px solid #33413b; border-radius: var(--radius); background: #1c2723; color: #f2f5ed; }
 .terminal-purpose { padding: .65rem 1rem; border-bottom: 1px solid #415049; color: #c9d7ce; }
+.terminal p.terminal-purpose { margin: 0; }
 .terminal pre { overflow-x: auto; margin: 0; padding: 1rem; font: 500 .95rem/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; }
 .impact { display: inline-flex; margin-top: 1rem; padding: .35rem .7rem; border-radius: 999px; background: var(--leaf-pale); color: var(--leaf-dark); font-size: .85rem; font-weight: 750; }
 .flow { display: grid; gap: .55rem; }
@@ -41,6 +42,7 @@
 .takeaway { margin-block: 2rem; padding: 1.35rem 1.5rem; border-left: 5px solid var(--leaf); border-radius: 0 var(--radius) var(--radius) 0; background: var(--leaf-pale); }
 .takeaway p { margin: .2rem 0 0; font-weight: 700; }
 .safety-gate { padding: 1.5rem; border: 1px solid color-mix(in srgb, var(--amber) 65%, var(--line)); border-radius: var(--radius); background: color-mix(in srgb, var(--amber) 10%, var(--surface)); }
+.safety-gate h2 { margin-top: 0; }
 .safety-gate ul { padding-left: 1.4rem; }
 .official-notice { padding: 1.4rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-soft); }
 .official-notice h2 { margin-top: 0; font-size: var(--step-1); }
