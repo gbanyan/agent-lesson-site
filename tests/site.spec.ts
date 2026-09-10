@@ -88,7 +88,7 @@ test('first-time path prepares recovery before tool execution and keeps A2 optio
   await page.goto('/paths/first-coding-agent/');
   await expect(page.locator('.path-steps li')).toHaveCount(6);
   expect(await page.locator('.path-steps a').allTextContents()).toEqual([
-    '這次要把什麼改成什麼？', '這些資料原本放在哪裡？', 'AI 這次有拿到哪些資訊？',
+    '它怎麼把你給的資訊變成結果？', '這些資料原本放在哪裡？', 'AI 這次有拿到哪些資訊？',
     '動手前，原圖保留在哪裡？', '它怎麼讓電腦真的動手？', '做完之後，哪些地方改變了？',
   ]);
   await expect(page.locator('.path-steps')).toContainText('這是動手前就要做的事');
@@ -312,7 +312,7 @@ test('all 32 merged lessons use one of three archetypes and preserve actionable 
       await expect(page.locator('.follow-up code')).toContainText('＿＿');
     }
   }
-  expect(promptCount).toBe(8);
+  expect(promptCount).toBe(9);
 });
 
 test('canonical beginner sequence ignores the numeric order of stable IDs', async ({page}) => {
@@ -349,7 +349,7 @@ test('core role pages keep one distinct mental model each', async ({page}) => {
   await expect(page.locator('main')).toContainText('程式碼或程式檔案只是保存下來的指示');
 
   await page.goto('/lessons/input-process-output/');
-  await expect(page.locator('h1')).toHaveText('這次要把什麼改成什麼？');
+  await expect(page.locator('h1')).toHaveText('它怎麼把你給的資訊變成結果？');
   await expect(page.locator('.concept-node')).toHaveCount(3);
   await expect(page.locator('.visual')).toContainText('新圖保留，尚未寄出');
 
