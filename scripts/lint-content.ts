@@ -76,8 +76,8 @@ for (const { file, data, body } of entries) {
   else if (cjkCount > 500) warnings.push(`${file}: 中文字數 ${cjkCount} 超過 soft target 500`);
 }
 
-const expected = {A:2,B:8,C:7,D:6,E:5,F:4};
-if (entries.length !== 32) errors.push(`三組內容合併後應有 32 張 lesson，目前 ${entries.length}`);
+const expected = {A:3,B:8,C:7,D:6,E:5,F:4};
+if (entries.length !== 33) errors.push(`內容合併後應有 33 張 lesson，目前 ${entries.length}`);
 for (const [section, count] of Object.entries(expected)) {
   const actual = entries.filter(({data}) => data.section === section).length;
   if (actual !== count) errors.push(`Section ${section} 應有 ${count} 張，目前 ${actual}`);

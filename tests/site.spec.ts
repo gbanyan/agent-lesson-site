@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { legacyLessons, publishedPathSteps } from '../src/lib/legacy-lessons';
 
-const keyPages = ['/', '/introduction/', '/prepare/', '/prepare/what-can-it-do/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/input-process-output/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/', '/lessons/command/', '/lessons/are-changes-reversible/', '/lessons/version-history/'];
+const keyPages = ['/', '/introduction/', '/prepare/', '/prepare/what-can-it-do/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/input-process-output/', '/lessons/agent-vs-chat/', '/lessons/what-still-works/', '/lessons/agent-work-loop/', '/lessons/command/', '/lessons/are-changes-reversible/', '/lessons/version-history/'];
 
 for (const route of keyPages) {
   test(`${route} has no detectable WCAG A/AA violations`, async ({page}) => {
@@ -136,7 +136,7 @@ test('introduction redirects to the merged About page with the authored preface'
 test('concept index uses six human-question groups without lesson IDs', async ({page}) => {
   await page.goto('/concepts/');
   await expect(page.locator('.concept-group')).toHaveCount(6);
-  await expect(page.locator('.concept-groups a')).toHaveCount(32);
+  await expect(page.locator('.concept-groups a')).toHaveCount(33);
   await expect(page.locator('.concept-groups')).toContainText('Agent 在做什麼？');
   await expect(page.locator('.concept-groups')).toContainText('怎麼確認結果？');
   expect(await page.locator('.concept-groups').innerText()).not.toMatch(/\b[ABCDEF]\d\b/);
@@ -297,10 +297,10 @@ test('theme control overrides, remembers, and returns to live system preference'
   await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(17, 24, 21)');
 });
 
-test('all 32 merged lessons use one of three archetypes and preserve actionable prompts', async ({page}) => {
+test('every lesson uses one of three archetypes and preserves actionable prompts', async ({page}) => {
   await page.goto('/concepts/');
   const links = await page.locator('.concept-groups a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')!));
-  expect(links).toHaveLength(32);
+  expect(links).toHaveLength(33);
   let promptCount = 0;
   for (const href of links) {
     await page.goto(href);
