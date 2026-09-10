@@ -2,7 +2,33 @@
 
 This file is updated at each phase gate. Evidence commands are listed under each phase; final outcomes are recorded after execution.
 
-## Current content revision — 2026-09-05
+## Current content revision — 2026-09-10
+
+### About preface rewritten as promises
+
+At the author's direction the About page moved from reader exhortations to site promises: four authored preface paragraphs remain in `src/content/introduction.md`; the merged site-details block was removed, taking with it the public statements about no-account/no-progress, the screen-reader testing disclosure, and the negative scope declaration. That removal is the author's decision, recorded in `docs/SCENARIO_MAP.md`. The preface is now authored directly and must not be rewritten by tooling. Test anchors were repinned in the same commits (paragraph count, closing sentence).
+
+### Preflight layer: new P0, reframed P4, terminology alignment
+
+A fifth guide, P0 `what-can-it-do`, adds the ideation entry point (inventory your existing programs, your repeated tasks, and vague notions worth chatting through); the layer contract moved from exactly four guides to five, with a P0 system diagram and an adaptive prompt-shelf header for brainstorm prompts that need no web access. P4 `privacy-and-data` was reframed from a local/remote classification exercise into a single safe default: whatever you cannot see the process of has left your device. Consistent with that, the only positive presentation of a locally running model in the lessons (C4) was removed; local-versus-remote place words stay in C1. Provider, billing-type, and date-stamp terminology were aligned across all five guides, and unexplained jargon (本機, API, 模型改善 word order) was replaced with plain language or defined inline.
+
+### B4 rewritten as the dataflow lens; A3 added
+
+B4 is now the site's dataflow lens: three concrete request flows (meeting recording → summary, regulation lookup with source quality, photo resize) all read as input → process → output, plus a new copyable confirm-before-start prompt and an authored bridge back to P0. The photo anchor sentence is unchanged, so the other five path lessons and stepIntros needed no text edits. A3 `what-still-works` (contrast archetype, section A) grounds the changing/unchanging split in the site's own structure: the preflight zone is the pile you query, the lesson zone is the pile you practice. The B4 diagram was generalized from the photo-only ladder to the three-stage flow with the photo example kept in its summary. Lesson counts moved 32 → 33 across the concepts index, content linter, living docs, tests, and the production smoke script.
+
+### Editorial gate changes
+
+Length thresholds raised to soft 700 / hard 900 by author decision, because example-driven lessons legitimately run longer. Copyable-prompt density pin moved from 8 to 9 with B4's new prompt.
+
+### Verification and deployment
+
+Local `npm run verify` passed at each phase gate: 33 lessons, lint ×5, zero Astro diagnostics, 100 desktop/mobile tests, build and Pagefind. GitHub Actions runs 23–26 (through `ab96a1e`, [34492767930](https://github.com/gbanyan/agent-lesson-site/actions/runs/34492767930)) passed quality-build and Pages deployment. Production `npm run smoke -- https://gbanyan.github.io/agent-lesson-site/` passed: 91 static routes, desktop/light and 320px/dark, redirects, canonical/base paths, assets, search aliases, the 33-lesson concept index and the rewritten preface text. One hard-coded lesson count inside the smoke script was caught by this production run and fixed in `cebbd82`.
+
+### Still open
+
+Actual reader-trial responses remain unavailable. The A1/B4 framing overlap, the per-lesson pass over the remaining lessons, and the path exit-card decision (recommendation: a guided block, not a seventh step) are open follow-ups.
+
+## Previous content revision — 2026-09-05
 
 ### Prepared locally: merge introduction and About
 
