@@ -52,7 +52,7 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
 const concepts: Record<string, {label:string;items:{title:string;detail:string}[];relation?:string;summary:string}> = {
   A2: { label:'行動邊界', items:[{title:'工具',detail:'能用什麼'},{title:'工作範圍',detail:'能碰哪裡'},{title:'權限',detail:'能做到多少'}], relation:'＋', summary:'Agent 的行動由可用工具、目前工作範圍與被授予的權限共同限制。' },
   A3: { label:'會換的與不會換的', items:[{title:'產品層',detail:'介面、名稱、排行、價格'},{title:'工作層',detail:'拿到什麼、動到什麼、交出什麼'},{title:'要練的',detail:'對著新產品問同一組問題'}], relation:'→', summary:'產品會換；工作層的問題不變。換了工具，要練的是把問題照樣問出來。' },
-  B4: {"label":"照片縮小後留下什麼","items":[{"title":"拿到","detail":"三張原圖與縮圖要求"},{"title":"操作","detail":"縮小並另存"},{"title":"結果","detail":"新圖保留，尚未寄出"}],"summary":"工具讀取三張原圖並另存縮小版，原圖不動。新圖與工具回報是不同結果，還沒有寄給朋友。"},
+  B4: { label:'任何一件事，都走這三段', items:[{title:'輸入',detail:'你的要求，加上檔案或搜到的資料'},{title:'處理',detail:'統整文字，或執行程式真正動手'},{title:'輸出',detail:'文字、新檔案，加一段回報'}], relation:'→', summary:'輸入是你給的東西，處理是它做的工作，輸出是你收的成果。照片的例子就是這張圖：三張原圖與要求進去，圖片程式執行縮小，交出三張新圖和一聲「完成」。' },
   B5: { label:'安裝不等於執行', items:[{title:'安裝',detail:'把需要的內容準備好'},{title:'執行',detail:'讓程式開始工作'}], relation:'≠', summary:'安裝是把程式準備在環境裡；執行才是讓它開始工作。' },
   B6: { label:'兩種影響', items:[{title:'讀取',detail:'取得資訊'},{title:'修改',detail:'改變狀態'}], relation:'≠', summary:'讀取只取得資訊；修改會讓檔案或系統狀態發生變化。' },
   C6: { label:'本機工具用到的資源', items:[{title:'CPU',detail:'進行計算'},{title:'記憶體',detail:'暫放工作內容'},{title:'儲存空間',detail:'保存程式與產出'}], relation:'／', summary:'本機工具會用 CPU 計算、用記憶體暫放工作內容，並用儲存空間保存程式與產出。' },

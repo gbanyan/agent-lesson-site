@@ -351,7 +351,7 @@ test('core role pages keep one distinct mental model each', async ({page}) => {
   await page.goto('/lessons/input-process-output/');
   await expect(page.locator('h1')).toHaveText('它怎麼把你給的資訊變成結果？');
   await expect(page.locator('.concept-node')).toHaveCount(3);
-  await expect(page.locator('.visual')).toContainText('新圖保留，尚未寄出');
+  await expect(page.locator('.visual')).toContainText('照片的例子就是這張圖');
 
   await page.goto('/lessons/terminal/');
   await expect(page).toHaveURL(/\/lessons\/command\/$/);
