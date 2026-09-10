@@ -24,6 +24,11 @@ const safetyItems = [
     {entry.data.slug === 'agent-runs-command' && <AgentCommandMap />}
     <ol class="path-steps">{steps.map((lesson) => lesson && <li><div><a href={url(`/paths/${entry.data.slug}/${lesson.data.slug}/`)}>{entry.data.stepTitles?.[lesson.data.id] ?? lesson.data.question}</a><p class="muted">{entry.data.stepIntros?.[lesson.data.id] ?? lesson.data.answer}</p></div></li>)}</ol>
     {optionalSteps.length > 0 && <aside class="optional-step"><h2>需要時再看</h2>{optionalSteps.map((lesson) => lesson && <p><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></p>)}</aside>}
+    {entry.data.slug === 'first-coding-agent' && <aside class="path-exit">
+      <h2>換你的事了</h2>
+      <p>這六步用的是示範照片。要找出哪些工作可以交給 Agent，先從「選工具前」的盤點方法開始。</p>
+      <p><a href={url('/prepare/what-can-it-do/')}>Agent 能幫我做的事，從哪裡想？ →</a></p>
+    </aside>}
   </article>
 </BaseLayout>
-<style>.optional-step { margin-top:2rem; padding:1.25rem; border-left:4px solid var(--line); background:var(--surface-soft); }.optional-step h2 { margin-top:0; font-size:var(--step-1); }</style>
+<style>.optional-step { margin-top:2rem; padding:1.25rem; border-left:4px solid var(--line); background:var(--surface-soft); }.optional-step h2 { margin-top:0; font-size:var(--step-1); } .path-exit { margin-top:2rem; padding:1.5rem; border:1px solid var(--leaf); border-radius:var(--radius); background:var(--leaf-pale); } .path-exit h2 { margin-top:0; font-size:var(--step-1); } .path-exit p { margin:.6rem 0 0; } .path-exit a { font-weight:700; }</style>
