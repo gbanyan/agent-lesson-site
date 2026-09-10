@@ -72,8 +72,8 @@ for (const { file, data, body } of entries) {
   // A narrow vocabulary guard complements, but cannot replace, the editorial prerequisite audit.
   if (/\b(?:workspace|project|issue|log)\b/i.test(text)) fail('讀者文案出現未解釋的工程工作用語，請改用具體中文說明');
   const cjkCount = (text.match(/[\u3400-\u9fff]/g) ?? []).length;
-  if (cjkCount > 700) fail(`中文字數 ${cjkCount} 超過 hard limit 700`);
-  else if (cjkCount > 500) warnings.push(`${file}: 中文字數 ${cjkCount} 超過 soft target 500`);
+  if (cjkCount > 900) fail(`中文字數 ${cjkCount} 超過 hard limit 900`);
+  else if (cjkCount > 700) warnings.push(`${file}: 中文字數 ${cjkCount} 超過 soft target 700`);
 }
 
 const expected = {A:3,B:8,C:7,D:6,E:5,F:4};

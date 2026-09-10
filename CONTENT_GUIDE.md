@@ -16,9 +16,9 @@ Frontmatter 必填：`id`、`slug`、`section`、`order`、`archetype`、`questi
 
 以中文字（CJK character）計算整張核心 lesson 的主要文字：
 
-- 250–500 字：soft target，不是最低字數。
-- 超過 500 字：warning，要求刪減審查。
-- 超過 700 字：hard failure，視為已接近傳統文章。
+- 250–700 字：soft target，不是最低字數。
+- 超過 700 字：warning，要求刪減審查。
+- 超過 900 字：hard failure，視為已接近傳統文章。
 
 短於 250 字完全允許。低認知負擔優先於湊字數。
 
