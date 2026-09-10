@@ -22,6 +22,7 @@ const lessons = defineCollection({
     section: z.enum(['A', 'B', 'C', 'D', 'E', 'F']),
     order: z.number().int().positive(),
     archetype: z.enum(['definition', 'contrast', 'safety_action']),
+    role: z.enum(['core']).optional(),
     question: z.string().min(1),
     context: z.string().min(1),
     answer: z.string().min(1),
@@ -87,4 +88,22 @@ const preflightGuides = defineCollection({
   }),
 });
 
-export const collections = { lessons, paths, productBridges, preflightGuides };
+const tasks = defineCollection({
+  loader: glob({ pattern: '**/*.{yaml,yml}', base: './src/content/task-examples' }),
+  schema: z.object({
+    id: z.string().regex(/^T[1-9]$/),
+    slug: z.string().regex(/^[a-z0-9-]+$/),
+    title: z.string().min(1),
+    situation: z.string().min(1),
+    outcome: z.string().min(1),
+    steps: z.array(z.object({
+      actor: z.enum(['you', 'agent', 'checkpoint']),
+      kind: z.enum(['read', 'modify', 'external']).optional(),
+      text: z.string().min(1),
+      lessons: z.array(z.string().regex(/^[A-F][1-9]$/)).min(1).max(3),
+    })).min(2).max(7),
+    boundary: z.string().min(1),
+  }),
+});
+
+export const collections = { lessons, paths, productBridges, preflightGuides, tasks };

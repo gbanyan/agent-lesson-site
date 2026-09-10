@@ -1,15 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AboutContent from '../content/introduction.md';
 import { url } from '../lib/urls';
 ---
 <BaseLayout title="關於本站">
-  <article class="reading page-header">
-    <p class="eyebrow">本站的界線</p><h1>每頁只處理一個問題</h1>
-    <p class="lesson-answer">本站整理了安全使用 Agent 前，最常用到的基本觀念。</p>
-    <p>這裡不教程式設計、Shell、Git 操作，也不當產品手冊。按鈕、價格與功能隨時會變；但「檔案在哪裡、權限給了多少、改壞了怎麼救」換到不同工具仍然管用。</p>
-    <p>本站不用帳號，也不記錄學習進度。各頁可以獨立閱讀。</p>
-    <p>我們使用自動檢查，也人工檢查鍵盤操作、縮放、窄螢幕排版與圖解的文字等價內容。目前尚未完成由螢幕報讀使用者進行的正式測試。</p>
-    <p>準備使用特定產品時，可以查看 <a href={url('/products/codex/')}>Codex</a> 或 <a href={url('/products/claude-code/')}>Claude Code</a> 的概念橋接，再向官方確認最新安裝、方案與功能資訊。</p>
+  <article class="reading page-header about-page">
+    <h1>關於本站</h1>
+    <div class="introduction-body"><AboutContent /></div>
     <a class="button" href={url('/start/')}>選一個情境開始</a>
   </article>
 </BaseLayout>
+
+<style>
+  .about-page{padding-bottom:4rem}
+  .introduction-body{margin-block:2rem;font-size:var(--step-1);line-height:1.85}
+  .introduction-body :global(> :first-child){margin-top:0}
+  .introduction-body :global(h2){margin-top:3rem}
+</style>

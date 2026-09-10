@@ -1,0 +1,19 @@
+---
+interface Ref { label: string; href: string; }
+interface Step { actor: 'you' | 'agent' | 'checkpoint'; kind: 'read' | 'modify' | 'external' | undefined; text: string; refs: Ref[]; }
+interface Props { steps: Step[]; }
+const { steps } = Astro.props;
+const actorLabels = { you: '你', agent: 'Agent', checkpoint: '檢查點' };
+const kindLabels = { read: '讀取', modify: '修改', external: '對外行動' };
+---
+<ol class="task-flow">
+  {steps.map((step) => (
+    <li class:list={['task-step', `task-${step.actor}`, step.kind && `task-kind-${step.kind}`]}>
+      <span class="task-actor">{actorLabels[step.actor]}{step.kind && <em class="task-kind">{kindLabels[step.kind]}</em>}</span>
+      <div class="task-step-body">
+        <p>{step.text}</p>
+        {step.refs.length > 0 && <p class="task-refs">用到：<>{step.refs.map((ref, index) => <>{index > 0 && '、'}<a href={ref.href}>{ref.label}</a></>)}</></p>}
+      </div>
+    </li>
+  ))}
+</ol>

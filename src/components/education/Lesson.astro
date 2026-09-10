@@ -2,7 +2,7 @@
 import Takeaway from './Takeaway.astro';
 import FollowUpQuestion from './FollowUpQuestion.astro';
 interface Props {
-  id: string; archetype: 'definition' | 'contrast' | 'safety_action'; question: string; context: string; answer: string; takeaway: string; newTerms: string[];
+  id: string; archetype: 'definition' | 'contrast' | 'safety_action'; role?: 'core' | undefined; question: string; context: string; answer: string; takeaway: string; newTerms: string[];
   prompt?: { audience:'research_chat'|'active_agent'|'human'; mode:'ask_only'|'explain_before_action'|'execute_after_confirmation'; capability:'requires_web'|'requires_workspace_access'|'no_special_access'; text:string } | undefined;
   searchTerms?: string[] | undefined;
   scenario: { request: string; actions: string[]; result: string; boundary: string; appliesBeyondCodingAgent?: boolean | undefined; warning?: string | undefined };
@@ -10,7 +10,7 @@ interface Props {
   indexInSearch?: boolean;
   next?: { href: string; label: string } | undefined; previous?: { href: string; label: string } | undefined;
 }
-const { id, archetype, question, context, answer, takeaway, prompt, newTerms, searchTerms = [], scenario, pathContext, indexInSearch = true, next, previous } = Astro.props;
+const { id, archetype, role, question, context, answer, takeaway, prompt, newTerms, searchTerms = [], scenario, pathContext, indexInSearch = true, next, previous } = Astro.props;
 ---
 <article class:list={['lesson', 'reading', `lesson-${archetype}`]} data-pagefind-body={indexInSearch ? true : undefined}>
   {pathContext && <nav class="path-context" aria-label="目前情境路徑">
@@ -25,6 +25,7 @@ const { id, archetype, question, context, answer, takeaway, prompt, newTerms, se
   <header>
     {searchTerms.length > 0 && <span class="search-alias" aria-hidden="true" data-pagefind-weight="0.5">{searchTerms.join(' ')}</span>}
     <div class="lesson-meta"><span>概念短讀</span></div>
+    {role === 'core' && <span class="lesson-role">核心觀念</span>}
     <h1 data-pagefind-meta="title">{question}</h1>
     <p class="lesson-context">{context}</p>
     <p class="lesson-answer">{answer}</p>

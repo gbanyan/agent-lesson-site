@@ -2,8 +2,13 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { url } from '../lib/urls';
+import { compiledContent } from '../content/introduction.md';
+const aboutExcerpt = (await compiledContent()).match(/<p>[\s\S]*?<\/p>/)?.[0] ?? '';
 const paths = (await getCollection('paths')).sort((a, b) => a.data.id.localeCompare(b.data.id));
 const guides = (await getCollection('preflightGuides')).sort((a, b) => a.data.order - b.data.order);
+const lessons = await getCollection('lessons');
+const coreLessons = lessons.filter((lesson) => lesson.data.role === 'core').sort((a, b) => a.data.section.localeCompare(b.data.section) || a.data.order - b.data.order);
+const tasks = (await getCollection('tasks')).sort((a, b) => a.data.id.localeCompare(b.data.id));
 const firstPath = paths.find((path) => path.data.slug === 'first-coding-agent');
 const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-agent');
 ---
@@ -18,11 +23,11 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
     <div class="shell">
       <div class="section-heading">
         <p class="eyebrow">開始閱讀</p>
-        <h2 id="introduction-title">前言</h2>
+        <h2 id="introduction-title">關於本站</h2>
       </div>
       <div class="introduction-copy">
-        <p>本站的緣起，是為了周邊朋友，思考如何引領他們入門使用 Agent 做事。</p>
-        <a href={url('/introduction/')}>閱讀完整前言 →</a>
+        <Fragment set:html={aboutExcerpt} />
+        <a href={url('/about/')}>閱讀完整介紹 →</a>
       </div>
     </div>
   </section>
@@ -49,6 +54,7 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
     <div class="shell">
       <div class="section-heading"><p class="eyebrow">第一次使用 Agent</p><h2>Agent 怎麼工作</h2><p>想寄照片給朋友，檔案卻太大？從保留原圖、另存縮小版這件事，看 Agent 怎麼工作。不需要準備檔案或跟著操作。</p></div>
       {firstPath && <a class="card featured-card" href={url(`/paths/${firstPath.data.slug}/`)}><h3>{firstPath.data.title}</h3><p>{firstPath.data.description}</p></a>}
+      {coreLessons.length > 0 && <p class="core-row"><strong>通用核心</strong>：{coreLessons.map((lesson, index) => <>{index > 0 && '、'}<a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></>)}</p>}
     </div>
   </section>
   <section class="section">
@@ -57,6 +63,12 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
       <div class="card-grid">
         {situationPaths.map((path) => <a class="card" href={url(`/paths/${path.data.slug}/`)}><h3>{path.data.title}</h3><p>{path.data.description}</p></a>)}
       </div>
+    </div>
+  </section>
+  <section class="section" aria-labelledby="tasks-title">
+    <div class="shell">
+      <div class="section-heading"><p class="eyebrow">任務示例</p><h2 id="tasks-title">一件完整的任務怎麼跑</h2><p>從提出要求到檢查結果，多個觀念在同一件工作裡輪番上陣。這是說明用的例子，不需要跟著操作。</p></div>
+      <div class="card-grid">{tasks.map((task) => <a class="card" href={url(`/tasks/${task.data.slug}/`)}><h3>{task.data.title}</h3><p>{task.data.situation}</p></a>)}</div>
     </div>
   </section>
   <section class="section">
@@ -69,4 +81,7 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
   .introduction-copy p{margin:0 0 1rem}
   .prepare-more{margin-top:1.5rem}
   .search-cta{margin-bottom:0}
+  .core-row{margin-top:1.25rem;color:var(--ink-soft)}
+  .core-row strong{color:var(--ink)}
+  .core-row a{font-weight:650}
 </style>

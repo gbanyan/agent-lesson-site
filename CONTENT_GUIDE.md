@@ -52,3 +52,18 @@ Frontmatter 必填：`id`、`slug`、`section`、`order`、`archetype`、`questi
 `src/content/preflight-guides` 是四篇獨立的使用前說明，目前不套用到 32 篇 lesson。正文只描述跨產品仍成立的判斷原則，不寫死價格、方案名稱、安裝指令或版本化模型排行。
 
 每篇提供 2–3 個可複製 prompt，讓讀者針對當下產品查詢最新資訊。Prompt 必須保留 `＿＿` 替換欄位，要求標示不確定之處，並在可能涉及資料時提醒讀者移除密碼、金鑰、個資與公司機密。
+
+## Task examples
+
+`src/content/task-examples` 是完整任務的說明性示範，採 YAML 結構：situation → steps → outcome → boundary。
+
+- steps 為 2–7 步；第一步必須是 `actor: you`（讀者可能說出的要求）；每支至少一個 `actor: checkpoint`。
+- 每步引用 1–3 個 lesson ID；ID 不出現在畫面文字，連結顯示該課的 question。
+- `kind` 選填，標示 agent 行動的影響層級：`read`、`modify`、`external`；檢查點是語意節點，不是步驟備註。
+- 產品中立：不得出現特定產品名稱、價格或模型版本；說明用，不暗示有待下載的練習素材。
+- 文法承自 lesson 的 scenario（request → actions → result → boundary），放大到整件任務；outcome 建議保留一次「檢查後修正」，呼應「聲稱完成不等於驗證成功」。
+- `scripts/lint-tasks.ts` 執行上述檢查；任務只從首頁與 `/tasks/<slug>/` 曝光，不進 header 導覽。
+
+## Core role
+
+lesson 可標 `role: core`（4–8 張，lint 上限）。core 是地位標記，不是新內容層：渲染為首頁「通用核心」列、課頁徽章與 `/concepts/` 分組排序，文字仍只存在 lesson 本身。

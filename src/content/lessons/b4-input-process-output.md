@@ -4,6 +4,7 @@ slug: input-process-output
 section: B
 order: 6
 archetype: definition
+role: core
 question: 這次要把什麼改成什麼？
 context: 想像你要寄幾張照片給朋友，但檔案太大。你請 Agent 把選好的三張照片各縮小一份，原圖保留，檢查後再決定是否寄出。
 answer: 先看它拿到哪些照片，再看工具如何另存縮小版，最後確認新照片可用、原圖沒被改動。

@@ -1,0 +1,24 @@
+id: T2
+slug: revision-article
+title: 一份草稿改了又改，隨時回得到舊版
+situation: 意見很多，想把草稿改一輪，又怕改壞之後退不回去。
+steps:
+  - actor: you
+    text: 提出要求：「把這份意見裡的新段落併進草稿，重寫第三節；其餘章節先不要動。」
+    lessons: [D1, B2]
+  - actor: agent
+    kind: read
+    text: 先讀出草稿與意見的內容，說明它打算改哪些地方，動手前讓你確認範圍。
+    lessons: [B6, F1]
+  - actor: checkpoint
+    text: 確認目前版本已另存一份副本（或已进入版本記錄），才繼續修改。
+    lessons: [E2, E1]
+  - actor: agent
+    kind: modify
+    text: 按確認過的計畫修改草稿；副本保持原樣，不動。
+    lessons: [B6, E2]
+  - actor: checkpoint
+    text: 改完發現語氣不對，要回舊版——先確認副本能開啟、內容完整，再決定還原方式。
+    lessons: [E1, F2]
+outcome: 反覆修改能放手進行，是因為先留了回得去的地方；版本工具只是讓這個過程更好找。
+boundary: 同一個磁碟裡的副本防不了整顆硬碟損壞；同步服務也可能把新版帶到其他裝置，恢復方式要另外確認。

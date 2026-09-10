@@ -4,6 +4,14 @@ This file is updated at each phase gate. Evidence commands are listed under each
 
 ## Current content revision — 2026-09-05
 
+### Prepared locally: merge introduction and About
+
+At the user's request, the full introduction and existing site details are consolidated in `src/content/introduction.md`, rendered at `/about/`. The original six introduction paragraphs remain verbatim; site details follow them for the user to edit. Homepage excerpt, header and footer lead to the same page; `/introduction/` retains a static noindex redirect and fallback link. The homepage excerpt comes from the first rendered Markdown paragraph.
+
+This merge is intentionally not committed or deployed yet: the user will revise the combined text first. Earlier deployment records below describe the published version.
+
+Local `npm run verify` passed (90 tests); local smoke passed 86 URLs including the redirect and preserved author paragraphs. The merged page was visually reviewed, including a 320px dark-mode overflow check.
+
 ### Follow-up: remaining narrative gaps
 
 Five situation paths now supply context for every step, including explicit document/photo/article transitions without touching protected DOCX text. Direct-entry photo lessons introduce their task. F3 starts with password sharing, D6 consistently uses an image program and photo copies, and F3/E7 show an explicit caution before the unsafe request. The beginner route is now B4 → B1 → D1 → E1 → D2 → F1, preparing recovery before tool execution.

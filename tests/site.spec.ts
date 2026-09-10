@@ -105,22 +105,32 @@ test('command path introduces the cross-concept relationship map', async ({page}
 test('homepage places the introduction and four preparation concepts before first use', async ({page}) => {
   await page.goto('/');
   const mainText = await page.locator('main').innerText();
-  expect(mainText.indexOf('前言')).toBeLessThan(mainText.indexOf('四個前置準備概念'));
+  expect(mainText.indexOf('關於本站')).toBeGreaterThanOrEqual(0);
+  expect(mainText.indexOf('關於本站')).toBeLessThan(mainText.indexOf('四個前置準備概念'));
   expect(mainText.indexOf('四個前置準備概念')).toBeLessThan(mainText.indexOf('Agent 怎麼工作'));
   await expect(page.locator('.introduction-copy')).toContainText('本站的緣起，是為了周邊朋友');
   await expect(page.locator('.introduction-copy')).not.toContainText('知識平權的創舉');
-  await expect(page.getByRole('link', {name: '閱讀完整前言 →'})).toHaveAttribute('href', '/introduction/');
+  await expect(page.getByRole('link', {name: '閱讀完整介紹 →'})).toHaveAttribute('href', '/about/');
   await expect(page.locator('.prepare-card')).toHaveCount(4);
   expect(mainText).not.toContain('先看懂它怎麼工作');
   expect(await page.locator('header .nav-links a').allTextContents()).toEqual(['開始', '選工具前', '找概念', '關於本站']);
 });
 
-test('introduction page preserves the complete authored text', async ({page}) => {
+test('introduction redirects to the merged About page with the authored preface', async ({page}) => {
   await page.goto('/introduction/');
-  await expect(page.locator('h1')).toHaveText('前言');
-  await expect(page.locator('.introduction-body > p')).toHaveCount(6);
+  await expect(page).toHaveURL(/\/about\/$/);
+  await expect(page.locator('h1')).toHaveText('關於本站');
+  await expect(page.locator('.introduction-body > p')).toHaveCount(5);
   await expect(page.locator('.introduction-body')).toContainText('AI, 或者說 LLM 的興起');
-  await expect(page.locator('.introduction-body')).toContainText('仍舊是使用者的責任以及義務。');
+  await expect(page.locator('.introduction-body')).toContainText('沒有一份教材能替這個決定簽名');
+  await expect(page.locator('header a[aria-current="page"]')).toHaveText('關於本站');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://localhost:4321/about/');
+  const oldPage = await page.request.get('/introduction/');
+  expect(await oldPage.text()).toContain('name="robots" content="noindex"');
+  await page.goto('/');
+  const excerpt = await page.locator('.introduction-copy > p').textContent();
+  await page.goto('/about/');
+  expect(await page.locator('.introduction-body > p').first().textContent()).toBe(excerpt);
 });
 
 test('concept index uses six human-question groups without lesson IDs', async ({page}) => {
@@ -393,11 +403,9 @@ test('lesson IDs stay internal and protected DOCX copy remains intact', async ({
   await expect(page.locator('details')).toContainText('企劃書.docx');
 });
 
-test('theme control names the controlled setting and About avoids screen-reader overclaim', async ({page}) => {
+test('theme control names the controlled setting', async ({page}) => {
   await page.goto('/');
   await expect(page.locator('[data-theme-toggle]')).toContainText('外觀：跟隨系統');
-  await page.goto('/about/');
-  await expect(page.locator('main')).toContainText('尚未完成由螢幕報讀使用者進行的正式測試');
 });
 
 test('prompt types identify the audience and execution risk', async ({page, context}) => {

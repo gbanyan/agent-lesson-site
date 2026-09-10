@@ -1,0 +1,24 @@
+id: T1
+slug: expense-summary
+title: 把三個月的支出記錄整理成一張表
+situation: 支出散在好幾個檔案裡，想先看清錢花在哪，再決定怎麼處理。
+steps:
+  - actor: you
+    text: 提出要求：「讀取『支出』資料夾裡的三個月份檔案，彙總成一張 monthly.csv；原始檔案不要動。」
+    lessons: [B9, E1]
+  - actor: agent
+    kind: read
+    text: 先列出資料夾的內容與檔案大小，確認它看到的正是你以為的那三個檔案。
+    lessons: [B8, F1]
+  - actor: agent
+    kind: modify
+    text: 在本機產生新檔 monthly.csv，原來的月份檔案保持不變。
+    lessons: [B6, C2]
+  - actor: checkpoint
+    text: 打開 monthly.csv，抽查兩個月份總和是否對得上；Agent 說「已完成」不算完成。
+    lessons: [F2]
+  - actor: checkpoint
+    text: 總和不對時，請它說明用了哪些欄位再重做一次，不要直接覆蓋上一份結果。
+    lessons: [E1, D3]
+outcome: 一次完成的彙總表與一次檢查後重來的修正，都留在資料夾裡；原始記錄隨時可回到起點。
+boundary: 實際步驟依產品與檔案格式而異；這個例子只說明閱讀、修改與檢查的順序，不需要你準備任何檔案。

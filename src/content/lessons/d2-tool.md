@@ -4,6 +4,7 @@ slug: tool
 section: D
 order: 2
 archetype: definition
+role: core
 question: AI 怎麼讀取檔案或修改內容？
 context: 你請 AI 把三張照片各縮小一份，原圖保留。它知道要求後，還需要工具實際讀圖、縮小並另存。
 answer: AI 提出操作要求，由可用工具讀檔或寫入；工具真的執行後，檔案才可能改變。

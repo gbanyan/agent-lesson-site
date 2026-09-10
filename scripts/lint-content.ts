@@ -82,6 +82,11 @@ for (const [section, count] of Object.entries(expected)) {
   const actual = entries.filter(({data}) => data.section === section).length;
   if (actual !== count) errors.push(`Section ${section} 應有 ${count} 張，目前 ${actual}`);
 }
+for (const { file, data } of entries) {
+  if ('role' in data && data.role !== 'core') errors.push(`${file}: role 只能省略或為 core`);
+}
+const coreCount = entries.filter(({ data }) => data.role === 'core').length;
+if (coreCount < 4 || coreCount > 8) errors.push(`核心觀念標記必須在 4–8 張之間，目前 ${coreCount}`);
 
 for (const warning of warnings) console.warn(`WARN ${warning}`);
 if (errors.length) { for (const error of errors) console.error(`ERROR ${error}`); process.exit(1); }

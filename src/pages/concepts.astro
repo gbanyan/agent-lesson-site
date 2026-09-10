@@ -23,7 +23,7 @@ const groups = [
     <ol id="search-results" class="search-results"></ol>
   </section>
   <section class="shell concept-groups" data-pagefind-ignore>
-    {groups.map((group) => <section class="concept-group"><h2>{group.title}</h2><ul>{group.ids.map((id) => byId.get(id)).map((lesson) => lesson && <li><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></li>)}</ul></section>)}
+    {groups.map((group) => <section class="concept-group"><h2>{group.title}</h2><ul>{[...group.ids].sort((a, b) => Number(byId.get(b)?.data.role === 'core') - Number(byId.get(a)?.data.role === 'core')).map((id) => byId.get(id)).map((lesson) => lesson && <li><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></li>)}</ul></section>)}
   </section>
   <script is:inline>
     const input = document.querySelector('#search');

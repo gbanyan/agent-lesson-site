@@ -4,6 +4,7 @@ slug: are-changes-reversible
 section: E
 order: 1
 archetype: safety_action
+role: core
 question: 改壞了，要從哪裡恢復？
 context: 縮小照片前，要先確認新圖會另存、原圖能開啟。若縮得太模糊，才有原圖可以重新處理。
 answer: 先保留並打開舊版本或另一份副本，確認它包含這次要改的資料，再開始修改。

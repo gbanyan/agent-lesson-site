@@ -66,8 +66,9 @@ try {
     await expect(page.locator(`#search-results a[href$="/lessons/${slug}/"]`)).toBeVisible({timeout:15000});
   }
   await page.goto(new URL('introduction/', base).href, {waitUntil:'networkidle'});
-  const source = (await readFile('src/content/introduction.md', 'utf8')).replace(/^<!--[\s\S]*?-->\s*/, '').trim().split(/\n\s*\n/);
-  expect(await page.locator('.introduction-body > p').allTextContents()).toEqual(source);
+  await expect(page).toHaveURL(new URL('about/', base).href);
+  const source = (await readFile('src/content/introduction.md', 'utf8')).split('<!-- site-details -->')[0]!.replace(/<!--[\s\S]*?-->/g, '').trim().split(/\n\s*\n/).filter(block => !block.startsWith('#'));
+  expect((await page.locator('.introduction-body > p').allTextContents()).slice(0, source.length)).toEqual(source);
   await page.emulateMedia({colorScheme:'light'});
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toContain('light');
   await page.emulateMedia({colorScheme:'dark'});

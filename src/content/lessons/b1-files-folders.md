@@ -4,6 +4,7 @@ slug: files-and-folders
 section: B
 order: 1
 archetype: definition
+role: core
 question: 這些資料原本放在哪裡？
 context: 假設你選了三張照片，想另存縮小版給朋友；例子把原圖放在「照片」資料夾，檔名是 photo-1.jpg、photo-2.jpg、photo-3.jpg。新圖會放到另一個「縮小照片」資料夾。
 answer: 檔案保存一份內容；資料夾把檔案和其他資料夾整理在一起。

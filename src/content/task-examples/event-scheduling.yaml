@@ -1,0 +1,24 @@
+id: T3
+slug: event-scheduling
+title: 幫活動挑時間，寫進共享日曆並通知成員
+situation: 要辦一場活動，需要挑時段、更新大家的行事曆，還要發出通知。
+steps:
+  - actor: you
+    text: 提出要求：「看我下週既有安排，挑一個合適時段更新團隊日曆，並通知成員。」
+    lessons: [D1, E7]
+  - actor: agent
+    kind: read
+    text: 先讀取日曆現有的項目，列出可選時段與各自影響到的對象。
+    lessons: [B8, B6]
+  - actor: checkpoint
+    text: 寫入共享日曆、發送通知之前，確認時段、對象與文字都符合你的意思。
+    lessons: [D4, E7]
+  - actor: agent
+    kind: external
+    text: 經你確認後更新共享日曆並發出通知；同事可能立刻看見這份變動。
+    lessons: [E7, C7]
+  - actor: checkpoint
+    text: 打開日曆確認活動真的存在、通知真的送出，才算這一步完成。
+    lessons: [F2, C7]
+outcome: 任務的收尾以實際的日曆與通知為準，而不是以 Agent 的回報為準；外部影響在確認點才被放行。
+boundary: 能不能存取日曆、通知會送到哪裡，取決於你授予的工具與權限；每個外部動作都要單獨確認。

@@ -7,7 +7,7 @@
 ## Technical choices
 
 - Astro + TypeScript，輸出純靜態 `dist/`。
-- Astro Content Collections 使用 loader-based API；內容分為 `lessons`、`paths`、`productBridges`。
+- Astro Content Collections 使用 loader-based API；內容分為 `lessons`、`paths`、`preflightGuides`、`productBridges`、`tasks`。
 - Lesson 用 Markdown；path 與 product bridge 用 YAML，避免自由長文。
 - Vanilla CSS 與 design tokens；不使用前端框架或 SPA。
 - 全站僅一個小型 inline script（外觀主題切換與複製按鈕）；頁面本身無框架 JavaScript。只有搜尋頁動態載入 Pagefind API。
@@ -33,7 +33,7 @@ Primary references:
 
 ## Rendering and content flow
 
-`src/content.config.ts` validates content at build time. Dynamic route pages query collections, sort by section/order, render Markdown, select one visual preset, and emit semantic HTML. Paths contain lesson IDs only and never duplicate lesson prose.
+`src/content.config.ts` validates content at build time. Dynamic route pages query collections, sort by section/order, render Markdown, select one visual preset, and emit semantic HTML. Paths and task examples reference lessons by ID only and never duplicate lesson prose; a lesson may carry `role: core`, surfaced as homepage and concept-index views rather than a separate content tier.
 
 ## JavaScript budget
 

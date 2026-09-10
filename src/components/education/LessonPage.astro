@@ -30,7 +30,7 @@ const next = pathContext ? pathContext.next : canonicalNext;
 ---
 <BaseLayout title={entry.data.question} description={entry.data.answer} canonicalPath={`/lessons/${entry.data.slug}/`}>
   <div class="shell">
-    <Lesson id={entry.data.id} archetype={entry.data.archetype} question={entry.data.question} context={entry.data.context} answer={entry.data.answer} takeaway={entry.data.takeaway} prompt={entry.data.prompt} newTerms={entry.data.newTerms} searchTerms={entry.data.searchTerms} scenario={entry.data.scenario} pathContext={pathContext} indexInSearch={!pathContext} previous={previous} next={next}>
+    <Lesson id={entry.data.id} archetype={entry.data.archetype} role={entry.data.role} question={entry.data.question} context={entry.data.context} answer={entry.data.answer} takeaway={entry.data.takeaway} prompt={entry.data.prompt} newTerms={entry.data.newTerms} searchTerms={entry.data.searchTerms} scenario={entry.data.scenario} pathContext={pathContext} indexInSearch={!pathContext} previous={previous} next={next}>
       {entry.data.visual && <LessonVisual slot="visual" lessonId={entry.data.id} type={entry.data.visual.type} preset={entry.data.visual.preset} />}
       <Content />
     </Lesson>

@@ -4,6 +4,7 @@ slug: context
 section: D
 order: 1
 archetype: definition
+role: core
 question: AI 這次有拿到哪些資訊？
 context: 你要把三張照片縮小後寄給朋友。Agent 需要知道是哪三張、希望檔案多大，以及原圖必須保留、先不寄出。
 answer: AI 要取得與這次工作有關的資訊及限制，才有依據決定下一步。
