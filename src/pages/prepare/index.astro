@@ -9,12 +9,12 @@ const products = await getCollection('productBridges');
   <header class="page-header shell">
     <p class="eyebrow">選工具前</p>
     <h1>購買或安裝前，要確認什麼？</h1>
-    <p>這些是選產品時的參考資料，不是開始理解 Agent 的必修課。價格、支援方式與資料規則請以目前官方資訊為準。</p>
+    <p>這些是選產品時的參考資料，不是開始理解 Agent 的必修課。這一區處理會隨產品變動的資訊，所以要請你親手查官方；不會過期的判斷在課文區。</p>
   </header>
-  <section class="shell card-grid" aria-label="四篇前置說明">
+  <section class="shell card-grid" aria-label="五篇前置說明">
     {guides.map((guide) => (
       <a class="card" href={url(`/prepare/${guide.data.slug}/`)}>
-        {guide.data.id === 'P3' && <span class="eyebrow">延伸參考</span>}
+        {guide.data.id === 'P0' && <span class="eyebrow">先讀這篇</span>}{guide.data.id === 'P3' && <span class="eyebrow">延伸參考</span>}
         <h2>{guide.data.title}</h2>
         <p>{guide.data.summary}</p>
       </a>

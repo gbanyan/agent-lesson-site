@@ -6,6 +6,10 @@ const { guideId } = Astro.props;
 type Step = { place:string; title:string; detail:string; tone?:'local'|'agent'|'remote'|'result' };
 type Lane = { title:string; steps:Step[] };
 const maps: Record<string, {label:string;lanes:Lane[];summary:string}> = {
+  P0: { label:'電腦早就會的事，加上你的判斷', lanes:[
+    { title:'已經做得到', steps:[{place:'你的程式',title:'彙總、比對、批次改',detail:'每個動作都有人先實作過',tone:'local'},{place:'現成做法',title:'報表、對帳、檢查表',detail:'你領域裡的固定套路',tone:'agent'}]},
+    { title:'過去要人判斷', steps:[{place:'你的標準',title:'哪幾張算選好的',detail:'模糊的取捨只能你自己來',tone:'remote'},{place:'Agent 接上',title:'依描述決定步驟',detail:'會做也可能錯，做完要檢查',tone:'result'}]},
+  ], summary:'Agent 用的手都是電腦早就會的事；新增的是它聽你描述去決定順序，這一步會錯，所以要檢查。' },
   P1: { label:'兩張帳單可能分開計算', lanes:[
     { title:'App', steps:[{place:'你的帳號',title:'固定訂閱',detail:'可能含每月額度',tone:'agent'},{place:'超過限制',title:'停用或另計',detail:'依目前方案規則',tone:'result'}]},
     { title:'API', steps:[{place:'開發者帳戶',title:'用量計費',detail:'依輸入、輸出或工具使用',tone:'remote'},{place:'帳單',title:'另外結算',detail:'不一定包含在 App 訂閱',tone:'result'}]},

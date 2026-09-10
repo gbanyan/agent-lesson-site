@@ -13,7 +13,7 @@ for (const file of files) {
   for (const key of ['id', 'slug', 'order', 'title', 'summary', 'principle', 'prompts']) {
     if (!(key in data)) fail(`缺少 ${key}`);
   }
-  if (!/^P[1-4]$/.test(String(data.id))) fail('id 必須為 P1–P4');
+  if (!/^P[0-4]$/.test(String(data.id))) fail('id 必須為 P0–P4');
   if (ids.has(String(data.id))) fail(`id ${data.id} 重複`); else ids.add(String(data.id));
   if (slugs.has(String(data.slug))) fail(`slug ${data.slug} 重複`); else slugs.add(String(data.slug));
   if (!Array.isArray(data.prompts) || data.prompts.length < 2 || data.prompts.length > 3) {
@@ -35,7 +35,7 @@ for (const file of files) {
   }
 }
 
-if (files.length !== 4) errors.push(`前置說明必須恰好 4 篇，目前 ${files.length}`);
+if (files.length !== 5) errors.push(`前置說明必須恰好 5 篇，目前 ${files.length}`);
 if (errors.length) {
   for (const error of errors) console.error(`ERROR ${error}`);
   process.exit(1);

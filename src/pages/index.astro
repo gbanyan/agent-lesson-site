@@ -35,13 +35,13 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
     <div class="shell">
       <div class="section-heading">
         <p class="eyebrow">選工具前</p>
-        <h2 id="prepare-title">四個前置準備概念</h2>
-        <p>費用、安裝方式、產品差異與資料規則都可能改變。選擇工具時，請以目前的官方資訊為準。</p>
+        <h2 id="prepare-title">五個前置準備概念</h2>
+        <p>先盤點你想交出去的事，再確認費用、安裝方式、產品差異與資料規則。這些細節會隨產品改變，請以目前的官方資訊為準。</p>
       </div>
       <div class="card-grid prepare-grid">
         {guides.map((guide) => (
           <a class="card prepare-card" href={url(`/prepare/${guide.data.slug}/`)}>
-            {guide.data.id === 'P3' && <span class="eyebrow">延伸參考</span>}
+            {guide.data.id === 'P0' && <span class="eyebrow">先讀這篇</span>}{guide.data.id === 'P3' && <span class="eyebrow">延伸參考</span>}
             <h3>{guide.data.title}</h3>
             <p>{guide.data.summary}</p>
           </a>

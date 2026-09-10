@@ -15,7 +15,7 @@ prompts:
     audience: research_chat
     mode: ask_only
     capability: requires_web
-    text: 請依目前官方資料，比較＿＿＿＿的 CLI、桌面版與網頁版。請分別說明它們如何選擇工作資料夾、能使用哪些工具、何時要求權限、工作是否在本機執行，以及資料是否會送到遠端。無法由官方資料確認的部分請直接說不知道。
+    text: 請依目前官方資料，比較＿＿＿＿的 CLI、桌面版與網頁版。請分別說明它們如何選擇工作資料夾、能使用哪些工具、何時要求權限，以及工作是否在本機執行。無法由官方資料確認的部分請直接說不知道。
   - label: 看懂一條安裝指令
     audience: research_chat
     mode: ask_only

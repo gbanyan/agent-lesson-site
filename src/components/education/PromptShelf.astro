@@ -4,11 +4,12 @@ interface Prompt { label: string; text: string; audience: 'research_chat' | 'act
 interface Props { prompts: Prompt[]; }
 const { prompts } = Astro.props;
 const titleId = uid('prompt-shelf-', `${Astro.url.pathname}|${prompts.map((prompt) => prompt.label).join('|')}`);
+const needsWeb = prompts.some((prompt) => prompt.capability === 'requires_web');
 ---
 <section class="prompt-shelf" aria-labelledby={titleId}>
-  <p class="eyebrow">查詢目前資訊</p>
-  <h2 id={titleId}>問能查官方資料的 AI</h2>
-  <p>這些查詢適合能瀏覽官方網頁或公開資訊的 AI。它不一定能看到你目前電腦裡的檔案、設定或權限。</p>
+  <p class="eyebrow">{needsWeb ? '查詢目前資訊' : '先想，再查'}</p>
+  <h2 id={titleId}>{needsWeb ? '問能查官方資料的 AI' : '問你手邊的 AI 就好'}</h2>
+  <p>{needsWeb ? '這些查詢適合能瀏覽官方網頁或公開資訊的 AI。它不一定能看到你目前電腦裡的檔案、設定或權限。' : '這些問題不需要網路，把你的狀況描述給它就夠。貼上內容以前，先移除密碼、金鑰、個資與公司機密。'}</p>
   <div class="prompt-list">
     {prompts.map((prompt) => (
       <article class="prompt-card">

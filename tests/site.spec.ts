@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { legacyLessons, publishedPathSteps } from '../src/lib/legacy-lessons';
 
-const keyPages = ['/', '/introduction/', '/prepare/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/input-process-output/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/', '/lessons/command/', '/lessons/are-changes-reversible/', '/lessons/version-history/'];
+const keyPages = ['/', '/introduction/', '/prepare/', '/prepare/what-can-it-do/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/input-process-output/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/', '/lessons/command/', '/lessons/are-changes-reversible/', '/lessons/version-history/'];
 
 for (const route of keyPages) {
   test(`${route} has no detectable WCAG A/AA violations`, async ({page}) => {
@@ -102,16 +102,16 @@ test('command path introduces the cross-concept relationship map', async ({page}
   await expect(page.locator('.terminal-note')).toContainText('不是 Agent 本身');
 });
 
-test('homepage places the introduction and four preparation concepts before first use', async ({page}) => {
+test('homepage places the introduction and five preparation concepts before first use', async ({page}) => {
   await page.goto('/');
   const mainText = await page.locator('main').innerText();
   expect(mainText.indexOf('關於本站')).toBeGreaterThanOrEqual(0);
-  expect(mainText.indexOf('關於本站')).toBeLessThan(mainText.indexOf('四個前置準備概念'));
-  expect(mainText.indexOf('四個前置準備概念')).toBeLessThan(mainText.indexOf('Agent 怎麼工作'));
+  expect(mainText.indexOf('關於本站')).toBeLessThan(mainText.indexOf('五個前置準備概念'));
+  expect(mainText.indexOf('五個前置準備概念')).toBeLessThan(mainText.indexOf('Agent 怎麼工作'));
   await expect(page.locator('.introduction-copy')).toContainText('本站的緣起，是為了周邊朋友');
   await expect(page.locator('.introduction-copy')).not.toContainText('知識平權的創舉');
   await expect(page.getByRole('link', {name: '閱讀完整介紹 →'})).toHaveAttribute('href', '/about/');
-  await expect(page.locator('.prepare-card')).toHaveCount(4);
+  await expect(page.locator('.prepare-card')).toHaveCount(5);
   expect(mainText).not.toContain('先看懂它怎麼工作');
   expect(await page.locator('header .nav-links a').allTextContents()).toEqual(['開始', '選工具前', '找概念', '關於本站']);
 });
@@ -423,21 +423,21 @@ test('prompt types identify the audience and execution risk', async ({page, cont
   await expect(page.locator('.follow-up')).toHaveCount(0);
 });
 
-test('four preflight guides provide reusable prompts and explicit privacy framing', async ({page, context}) => {
+test('five preflight guides provide reusable prompts and explicit privacy framing', async ({page, context}) => {
   await page.goto('/prepare/');
-  const links = await page.locator('section[aria-label="四篇前置說明"] a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')!));
-  expect(links).toHaveLength(4);
+  const links = await page.locator('section[aria-label="五篇前置說明"] a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')!));
+  expect(links).toHaveLength(5);
   for (const href of links) {
     await page.goto(href);
     await expect(page.locator('.guide-principle')).toBeVisible();
     await expect(page.locator('.system-map')).toBeVisible();
-    await expect(page.locator('.prompt-shelf')).toContainText('問能查官方資料的 AI');
+    await expect(page.locator('.prompt-shelf h2')).toContainText(/問能查官方資料的 AI|問你手邊的 AI 就好/);
     await expect(page.locator('.prompt-card')).toHaveCount(3);
     await expect(page.locator('.prompt-card code').first()).toContainText('＿＿');
   }
 
   await page.goto('/prepare/privacy-and-data/');
-  await expect(page.locator('.guide-body')).toContainText('工具結果會經過網路');
+  await expect(page.locator('.guide-body')).toContainText('工具結果，都會經過網路');
   await expect(page.locator('.guide-body')).toContainText('不表示模型也在本機');
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], {origin: 'http://127.0.0.1:4321'});
   const expectedPrompt = await page.locator('.prompt-card code').first().textContent();

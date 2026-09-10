@@ -49,7 +49,7 @@ Frontmatter 必填：`id`、`slug`、`section`、`order`、`archetype`、`questi
 
 ## Preflight guides
 
-`src/content/preflight-guides` 是四篇獨立的使用前說明，目前不套用到 32 篇 lesson。正文只描述跨產品仍成立的判斷原則，不寫死價格、方案名稱、安裝指令或版本化模型排行。
+`src/content/preflight-guides` 是五篇獨立的使用前說明（P0 盤點「能請它做什麼」，P1–P4 查產品的錢、裝、選、隱私），目前不套用到 32 篇 lesson。正文只描述跨產品仍成立的判斷原則，不寫死價格、方案名稱、安裝指令或版本化模型排行。
 
 每篇提供 2–3 個可複製 prompt，讓讀者針對當下產品查詢最新資訊。Prompt 必須保留 `＿＿` 替換欄位，要求標示不確定之處，並在可能涉及資料時提醒讀者移除密碼、金鑰、個資與公司機密。
 
