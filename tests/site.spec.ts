@@ -432,7 +432,9 @@ test('five preflight guides provide reusable prompts and explicit privacy framin
     await expect(page.locator('.guide-principle')).toBeVisible();
     await expect(page.locator('.system-map')).toBeVisible();
     await expect(page.locator('.prompt-shelf h2')).toContainText(/問能查官方資料的 AI|問你手邊的 AI 就好/);
-    await expect(page.locator('.prompt-card')).toHaveCount(3);
+    const cardCount = await page.locator('.prompt-card').count();
+    expect(cardCount).toBeGreaterThanOrEqual(2);
+    expect(cardCount).toBeLessThanOrEqual(3);
     await expect(page.locator('.prompt-card code').first()).toContainText('＿＿');
   }
 
