@@ -102,11 +102,11 @@ test('command path introduces the cross-concept relationship map', async ({page}
   await expect(page.locator('.terminal-note')).toContainText('不是 Agent 本身');
 });
 
-test('homepage places the introduction and five preparation concepts before first use', async ({page}) => {
+test('homepage opens with the authored preface then preparation concepts before first use', async ({page}) => {
   await page.goto('/');
   const mainText = await page.locator('main').innerText();
-  expect(mainText.indexOf('關於本站')).toBeGreaterThanOrEqual(0);
-  expect(mainText.indexOf('關於本站')).toBeLessThan(mainText.indexOf('五個前置準備概念'));
+  expect(mainText.indexOf('本站的緣起')).toBeGreaterThanOrEqual(0);
+  expect(mainText.indexOf('本站的緣起')).toBeLessThan(mainText.indexOf('五個前置準備概念'));
   expect(mainText.indexOf('五個前置準備概念')).toBeLessThan(mainText.indexOf('Agent 怎麼工作'));
   await expect(page.locator('.introduction-copy')).toContainText('本站的緣起，是為了周邊朋友');
   await expect(page.locator('.introduction-copy')).not.toContainText('知識平權的創舉');

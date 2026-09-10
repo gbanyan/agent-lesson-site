@@ -16,20 +16,11 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
   <section class="hero shell">
     <p class="eyebrow">AI Agent 入門</p>
     <h1>AI Agent 動手時，電腦發生了什麼？</h1>
-    <p>Agent 會讀取檔案、執行指令，也可能修改資料。這裡把相關的電腦概念拆成短短幾頁。</p>
-    <a class="button" href={url('/paths/first-coding-agent/')}>第一次使用 Agent</a>
-  </section>
-  <section class="section introduction-section" aria-labelledby="introduction-title">
-    <div class="shell">
-      <div class="section-heading">
-        <p class="eyebrow">開始閱讀</p>
-        <h2 id="introduction-title">關於本站</h2>
-      </div>
-      <div class="introduction-copy">
-        <Fragment set:html={aboutExcerpt} />
-        <a href={url('/about/')}>閱讀完整介紹 →</a>
-      </div>
+    <div class="introduction-copy">
+      <Fragment set:html={aboutExcerpt} />
+      <a href={url('/about/')}>閱讀完整介紹 →</a>
     </div>
+    <p class="hero-actions"><a class="button" href={url('/prepare/what-can-it-do/')}>先盤點你想交出去的事</a><a class="button secondary" href={url('/paths/first-coding-agent/')}>跟六步路徑第一次使用 Agent</a></p>
   </section>
   <section class="section prepare-section" aria-labelledby="prepare-title">
     <div class="shell">
@@ -76,6 +67,7 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
   </section>
 </BaseLayout>
 <style>
+  .hero-actions{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.5rem}
   .featured-card{max-width:38rem}
   .introduction-copy{max-width:42rem;font-size:var(--step-1);line-height:1.75}
   .introduction-copy p{margin:0 0 1rem}
