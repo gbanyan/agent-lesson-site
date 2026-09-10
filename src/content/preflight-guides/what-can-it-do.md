@@ -4,7 +4,7 @@ slug: what-can-it-do
 order: 0
 title: Agent 能幫我做的事，從哪裡想？
 summary: 已有程式與工作已有的做法，就是想像的來源。
-principle: 能力從既成事物的出發——先從「已經有人這樣做過、之前專業的人怎麼做」想，再問它想不想得到步驟、計劃。
+principle: 能力從既成事物出發——先從「已經有人這樣做過、之前專業的人怎麼做」想，再問它想不想得到步驟、計劃。
 prompts:
   - label: 盤點你的可委託工作
     audience: research_chat

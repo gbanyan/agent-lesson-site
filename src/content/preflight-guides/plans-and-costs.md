@@ -3,14 +3,14 @@ id: P1
 slug: plans-and-costs
 order: 1
 title: 方案與費用怎麼判斷？
-summary: 價目表會改。購買前要分清楚訂閱、使用額度與用量計費。
+summary: 價目表會改。購買前要分清楚固定訂閱、點數與用量計費。
 principle: 價格常變，收費方法比較固定。比較數字前，找出哪些動作會產生費用。
 prompts:
   - label: 查詢目前方案
     audience: research_chat
     mode: ask_only
     capability: requires_web
-    text: 我正在考慮使用＿＿＿＿。請查詢目前的官方方案與計費說明，告訴我有沒有免費方案、固定訂閱或用量計費。請一併說明內含額度、超額費用，以及 App 和 API 是否分開收費。標出資料日期並附上官方來源。不要要求我提供密碼或付款資料。
+    text: 我正在考慮使用＿＿＿＿。請查詢目前的官方方案與計費說明，告訴我有沒有免費方案、固定訂閱、點數或用量計費。請一併說明內含額度、超額費用，以及 App 和 API 是否分開收費。標出查詢日期並附上官方來源。不要要求我提供密碼或付款資料。
   - label: 估算自己的使用情境
     audience: research_chat
     mode: ask_only
