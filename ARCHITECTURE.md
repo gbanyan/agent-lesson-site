@@ -2,7 +2,7 @@
 
 ## Product boundary
 
-本站是繁體中文、低認知負擔的 AI Agent mental-model micro-learning site。2026-09 教學修訂合併三組重複內容，提供 32 張主要課文；舊網址以靜態轉向保留，整體仍是可部署到任意靜態主機的教材。
+本站是繁體中文、低認知負擔的 AI Agent mental-model micro-learning site。2026-09 教學修訂合併三組重複內容，隨後加入 A3（什麼不會過期）與 P0（能請它做什麼），現提供 33 張主要課文與五篇使用前說明；舊網址以靜態轉向保留，整體仍是可部署到任意靜態主機的教材。
 
 ## Technical choices
 
