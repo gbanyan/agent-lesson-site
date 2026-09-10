@@ -6,7 +6,9 @@ const paths = (await getCollection('paths')).sort((a, b) => a.data.id.localeComp
 ---
 <BaseLayout title="開始">
   <header class="page-header shell"><p class="eyebrow">依需要閱讀</p><h1>選一個目前遇到的情境</h1><p>每條路徑包含 4–6 個小觀念，可以直接閱讀眼前需要的部分。</p></header>
+  <aside class="shell start-lead"><strong>還不確定要交出去什麼？</strong>先從<a href={url('/prepare/what-can-it-do/')}>盤點 Agent 能幫你做什麼</a>開始，想清楚再回來選路徑。</aside>
   <section class="shell card-grid">
     {paths.map((path) => <a class="card" href={url(`/paths/${path.data.slug}/`)}><span class="eyebrow">{path.data.lessons.length} 個概念</span><h2>{path.data.title}</h2><p>{path.data.description}</p></a>)}
   </section>
 </BaseLayout>
+<style>.start-lead { margin-block:0 2.5rem; padding:1.1rem 1.35rem; border-left:4px solid var(--leaf); border-radius:0 var(--radius) var(--radius) 0; background:var(--leaf-pale); } .start-lead a { font-weight:700; }</style>
