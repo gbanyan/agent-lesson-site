@@ -20,9 +20,9 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
       <Fragment set:html={aboutExcerpt} />
       <a href={url('/about/')}>閱讀完整介紹 →</a>
     </div>
-    <p class="hero-actions"><a class="button" href={url('/prepare/what-can-it-do/')}>先盤點你想交出去的事</a><a class="button secondary" href={url('/paths/first-coding-agent/')}>跟六步路徑第一次使用 Agent</a></p>
+    <p class="hero-actions"><a class="button" href="#prepare">下一步：先盤點你想交出去的工作 ↓</a></p>
   </section>
-  <section class="section prepare-section" aria-labelledby="prepare-title">
+  <section class="section prepare-section" id="prepare" aria-labelledby="prepare-title">
     <div class="shell">
       <div class="section-heading">
         <p class="eyebrow">選工具前</p>
@@ -39,9 +39,10 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
         ))}
       </div>
       <p class="prepare-more"><a href={url('/prepare/')}>查看選工具前的完整說明 →</a></p>
+      <p class="next-step"><a class="button" href="#first-use">下一步：跟六步路徑，看 Agent 怎麼工作 ↓</a></p>
     </div>
   </section>
-  <section class="section">
+  <section class="section" id="first-use">
     <div class="shell">
       <div class="section-heading"><p class="eyebrow">第一次使用 Agent</p><h2>Agent 怎麼工作</h2><p>想寄照片給朋友，檔案卻太大？從保留原圖、另存縮小版這件事，看 Agent 怎麼工作。不需要準備檔案或跟著操作。</p></div>
       {firstPath && <a class="card featured-card" href={url(`/paths/${firstPath.data.slug}/`)}><h3>{firstPath.data.title}</h3><p>{firstPath.data.description}</p></a>}
@@ -67,7 +68,9 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
   </section>
 </BaseLayout>
 <style>
-  .hero-actions{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.5rem}
+  .hero-actions{margin-top:1.75rem}
+  .next-step{margin-top:1.5rem}
+  #prepare,#first-use{scroll-margin-top:1rem}
   .featured-card{max-width:38rem}
   .introduction-copy{max-width:42rem;font-size:var(--step-1);line-height:1.75}
   .introduction-copy p{margin:0 0 1rem}
