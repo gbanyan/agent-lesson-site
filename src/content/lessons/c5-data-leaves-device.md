@@ -12,7 +12,6 @@ newTerms:
   - 外部服務
 prerequisites:
   - C1
-  - C4
 visual:
   type: system-map
   preset: data-movement

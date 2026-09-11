@@ -21,13 +21,13 @@ test('lesson page only ships the small shared theme scripts', async ({page}) => 
 });
 
 test('diagram meaning remains in the accessibility tree', async ({page}) => {
-  await page.goto('/lessons/where-model-runs/');
+  await page.goto('/lessons/where-program-runs/');
   const equivalent = page.locator('.visually-equivalent');
-  await expect(equivalent).toContainText('資料存放、Agent 執行工具與 AI 模型運算可能發生在不同位置');
-  await expect(equivalent).toContainText('縮圖程式在本機，模型可能在遠端');
+  await expect(equivalent).toContainText('檔案、縮圖程式與決定操作的模型可能在不同電腦');
+  await expect(equivalent).toContainText('本機工具會用本機資源');
   const snapshot = await page.locator('main').ariaSnapshot();
-  expect(snapshot).toContain('AI 模型在哪裡運算？');
-  expect(snapshot).toContain('資料存放、Agent 執行工具與 AI 模型運算可能發生在不同位置');
+  expect(snapshot).toContain('Agent 做事，會用到不只一台電腦？');
+  expect(snapshot).toContain('檔案、縮圖程式與決定操作的模型可能在不同電腦');
 });
 
 test('system maps use the wider article canvas on desktop', async ({page}) => {
@@ -43,7 +43,7 @@ test('system maps use the wider article canvas on desktop', async ({page}) => {
 test('role, location, and data-flow lessons use concrete system maps', async ({page}) => {
   const routes = [
     '/lessons/agent-vs-chat/', '/lessons/working-scope/', '/lessons/local-and-remote/',
-    '/lessons/where-is-my-data/', '/lessons/where-program-runs/', '/lessons/where-model-runs/',
+    '/lessons/where-is-my-data/', '/lessons/where-program-runs/',
     '/lessons/data-leaves-device/', '/lessons/local-vs-published/', '/lessons/tool/',
     '/lessons/agent-work-loop/', '/lessons/beyond-files/', '/lessons/internet-access/',
   ];
@@ -136,7 +136,7 @@ test('introduction redirects to the merged About page with the authored preface'
 test('concept index uses six human-question groups without lesson IDs', async ({page}) => {
   await page.goto('/concepts/');
   await expect(page.locator('.concept-group')).toHaveCount(6);
-  await expect(page.locator('.concept-groups a')).toHaveCount(33);
+  await expect(page.locator('.concept-groups a')).toHaveCount(30);
   await expect(page.locator('.concept-groups')).toContainText('Agent 在做什麼？');
   await expect(page.locator('.concept-groups')).toContainText('怎麼確認結果？');
   expect(await page.locator('.concept-groups').innerText()).not.toMatch(/\b[ABCDEF]\d\b/);
@@ -236,7 +236,7 @@ test('cautionary requests are labelled before the request and ordinary examples 
   await expect(page.locator('.scenario-warning')).toHaveCount(0);
 });
 
-test('direct lesson entry introduces the task and keeps the sandbox example consistent', async ({page}) => {
+test('direct lesson entry introduces the task and keeps the scope example consistent', async ({page}) => {
   for (const slug of ['files-and-folders', 'where-program-runs', 'tool', 'agent-work-loop', 'claim-vs-verification']) {
     await page.goto(`/lessons/${slug}/`);
     await expect(page.locator('.lesson-context')).toContainText('照片');
@@ -246,10 +246,10 @@ test('direct lesson entry introduces the task and keeps the sandbox example cons
   await page.goto('/lessons/secrets/');
   await expect(page.locator('.scenario blockquote')).toContainText('登入密碼');
   await expect(page.locator('.scenario')).not.toContainText('自動排程');
-  await page.goto('/lessons/sandbox/');
-  await expect(page.locator('.lesson-context')).toContainText('照片副本');
-  await expect(page.locator('.scenario')).toContainText('圖片程式');
-  await expect(page.locator('.lesson-body')).toContainText('不等於環境已經設好限制');
+  await page.goto('/lessons/working-scope/');
+  await expect(page.locator('.lesson-context')).toContainText('照片');
+  await expect(page.locator('.scenario blockquote')).toContainText('只處理選好的三張照片');
+  await expect(page.locator('.lesson-body')).toContainText('當下環境顯示的範圍');
 });
 
 test('keyboard focus and 200% zoom preserve access', async ({page}) => {
@@ -300,7 +300,7 @@ test('theme control overrides, remembers, and returns to live system preference'
 test('every lesson uses one of three archetypes and preserves actionable prompts', async ({page}) => {
   await page.goto('/concepts/');
   const links = await page.locator('.concept-groups a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')!));
-  expect(links).toHaveLength(33);
+  expect(links).toHaveLength(30);
   let promptCount = 0;
   for (const href of links) {
     await page.goto(href);
@@ -318,8 +318,8 @@ test('every lesson uses one of three archetypes and preserves actionable prompts
 test('canonical beginner sequence ignores the numeric order of stable IDs', async ({page}) => {
   await page.goto('/lessons/path/');
   await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/lessons/working-scope/');
-  await page.goto('/lessons/where-model-runs/');
-  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/lessons/computer-resources/');
+  await page.goto('/lessons/where-program-runs/');
+  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/lessons/data-leaves-device/');
 });
 
 test('situation paths follow task-driven concept order', async ({page}) => {
@@ -336,8 +336,6 @@ test('situation paths follow task-driven concept order', async ({page}) => {
     '/paths/local-cloud-confusion/local-and-remote/',
     '/paths/local-cloud-confusion/where-is-my-data/',
     '/paths/local-cloud-confusion/where-program-runs/',
-    '/paths/local-cloud-confusion/where-model-runs/',
-    '/paths/local-cloud-confusion/computer-resources/',
     '/paths/local-cloud-confusion/data-leaves-device/',
   ]);
 });
@@ -394,9 +392,9 @@ test('lesson IDs stay internal and protected DOCX copy remains intact', async ({
   await expect(page.locator('main')).not.toContainText('約 1 分鐘');
 
   await page.goto('/lessons/read-vs-write/');
-  await expect(page.locator('main')).toContainText('讀一下 report.docx，告訴我第二章在說什麼；先不要修改。');
-  await expect(page.locator('main')).toContainText('對 DOCX 則可能執行 unzip、pandoc 或文件解析程式');
-  await expect(page.locator('main')).toContainText('DOCX 裡其實打包了文字結構、格式和圖片');
+  await expect(page.locator('main')).toContainText('讀一下這份文件，告訴我第二章在說什麼；先不要修改。');
+  await expect(page.locator('main')).toContainText('有些資料要靠另外的程式才讀得懂');
+  await expect(page.locator('main')).toContainText('這一步才會真的改變內容');
   await page.goto('/lessons/where-is-my-data/');
   await page.getByText('另外看文件的例子', {exact:true}).click();
   await expect(page.locator('details .system-map')).toBeVisible();

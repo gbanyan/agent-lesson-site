@@ -3,6 +3,9 @@ export const legacyLessons = [
   { id: 'B7', slug: 'terminal', targetId: 'B8', targetSlug: 'command' },
   { id: 'E5', slug: 'git', targetId: 'E4', targetSlug: 'version-history' },
   { id: 'E6', slug: 'recovery-before-change', targetId: 'E1', targetSlug: 'are-changes-reversible' },
+  { id: 'C4', slug: 'where-model-runs', targetId: 'C3', targetSlug: 'where-program-runs' },
+  { id: 'C6', slug: 'computer-resources', targetId: 'C3', targetSlug: 'where-program-runs' },
+  { id: 'D6', slug: 'sandbox', targetId: 'B9', targetSlug: 'working-scope' },
 ] as const;
 
 // Keep old path-step links, including steps removed from the beginner route.

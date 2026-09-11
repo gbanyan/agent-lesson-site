@@ -33,8 +33,10 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
   ], summary:'Agent 只應在目前開放的工作範圍內處理資料；其他位置要另外確認。' },
   C1: {"label":"縮圖工作的位置","lanes":[{"title":"本機","steps":[{"place":"這台電腦","title":"執行圖片程式","detail":"讀原圖，另存新圖","tone":"local"}]},{"title":"遠端","steps":[{"place":"網路另一端","title":"執行圖片程式","detail":"傳送前另行確認","tone":"remote"}]}],"summary":"同樣三張圖片，可以由這台電腦或網路另一端的圖片程式縮小。本機與遠端描述位置，不能單靠名稱判斷有沒有傳送資料。"},
   C2: {"label":"三張圖片存在哪裡","lanes":[{"title":"原圖","steps":[{"place":"這台電腦","title":"照片","detail":"三張原圖保留","tone":"local"}]},{"title":"新圖","steps":[{"place":"預定位置","title":"縮小照片","detail":"確認三張新圖已保存","tone":"result"},{"place":"若只有線上結果","title":"還要下載","detail":"看得到不表示已存在本機","tone":"remote"}]}],"summary":"三張原圖保留在本機的「照片」資料夾，新圖要確認已保存到「縮小照片」。線上看得到的結果若尚未下載，本機仍沒有那份新圖。"},
-  C3: {"label":"哪台電腦真的縮圖","lanes":[{"title":"本機方式","steps":[{"place":"拿到","title":"本機原圖","detail":"照片","tone":"local"},{"place":"操作","title":"這台電腦縮圖","detail":"執行圖片程式"},{"place":"結果","title":"本機新圖","detail":"縮小照片","tone":"result"}]},{"title":"遠端方式","steps":[{"place":"拿到","title":"獲准上傳的圖片","detail":"先確認傳送範圍"},{"place":"操作","title":"另一台電腦縮圖","detail":"執行圖片程式","tone":"remote"},{"place":"結果","title":"下載新圖","detail":"原圖保留","tone":"result"}]}],"summary":"本機方式由這台電腦縮圖；遠端方式由另一台電腦縮圖後再下載。兩種都要保留原圖。"},
-  C4: {"label":"模型決定操作，圖片程式執行","lanes":[{"title":"這次已知","steps":[{"place":"這台電腦","title":"原圖與縮圖程式","detail":"讀原圖、產生三張新圖","tone":"local"}]},{"title":"另外確認","steps":[{"place":"AI 模型","title":"決定工具要求","detail":"可能在網路另一端","tone":"remote"},{"place":"傳送內容","title":"文字或圖片","detail":"依工具與設定確認","tone":"agent"}]}],"summary":"資料存放、Agent 執行工具與 AI 模型運算可能發生在不同位置。本例縮圖程式在本機，模型可能在遠端決定操作；不能因此認定圖片從未送出。"},
+  C3: { label:'一次工作，可能牽涉不同電腦', lanes:[
+    { title:'你的裝置', steps:[{place:'這台電腦',title:'檔案與本機工具',detail:'縮圖程式可能在本機',tone:'local'},{place:'本機資源',title:'運算與儲存空間',detail:'本機執行的工具會用到',tone:'local'}]},
+    { title:'另一邊', steps:[{place:'遠端電腦',title:'或外部服務',detail:'縮圖可能在那裡',tone:'remote'},{place:'雲端模型',title:'決定操作方式',detail:'通常在雲端',tone:'remote'},{place:'送出內容',title:'文字或圖片',detail:'離開你的裝置',tone:'result'}]},
+  ], summary:'檔案、縮圖程式與決定操作的模型可能在不同電腦。本機工具會用本機資源；模型或遠端工具可能要送出資料。要分開確認資料位置、執行位置與模型位置。' },
   C5: {"label":"圖片何時離開這台電腦","lanes":[{"title":"獲准之後","steps":[{"place":"拿到","title":"三張本機原圖","detail":"先查看實際內容","tone":"local"},{"place":"操作","title":"工具上傳","detail":"經過網路"},{"place":"結果","title":"服務收到圖片","detail":"原圖仍在也算已送出","tone":"remote"}]}],"summary":"工具獲准後上傳三張原圖，線上服務收到內容；原圖仍在本機不表示資料沒有離開。"},
   C7: {"label":"做好與寄出是兩個動作","lanes":[{"title":"先做好，再另決定","steps":[{"place":"這台電腦","title":"三張新照片","detail":"已另存，尚未寄出"},{"place":"確認後","title":"寄出或分享","detail":"先確認對象與照片"},{"place":"朋友那端","title":"確認收到","detail":"查看實際送出結果"}]}],"summary":"本機另存照片不等於已寄出。寄信或分享要另外確認；自動同步的資料夾也可能把照片送出去。"},
   D2: {"label":"縮圖要求如何成為新檔案","lanes":[{"title":"一次操作","steps":[{"place":"拿到","title":"原圖位置與要求","detail":"原圖不動"},{"place":"操作","title":"工具縮小並另存","detail":"要求之後實際執行"},{"place":"結果","title":"新圖與工具回報","detail":"仍須檢查檔案"}]}],"summary":"AI 提出操作要求，工具執行才會產生新圖。工具回報成為下一輪資訊，仍要核對實際檔案。"},
@@ -55,14 +57,11 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
 
 const concepts: Record<string, {label:string;items:{title:string;detail:string}[];relation?:string;summary:string}> = {
   A2: { label:'行動邊界', items:[{title:'工具',detail:'能用什麼'},{title:'工作範圍',detail:'能碰哪裡'},{title:'權限',detail:'能做到多少'}], relation:'＋', summary:'Agent 的行動由可用工具、目前工作範圍與被授予的權限共同限制。' },
-  A3: { label:'會換的與不會換的', items:[{title:'產品層',detail:'介面、名稱、排行、價格'},{title:'工作層',detail:'拿到什麼、動到什麼、交出什麼'},{title:'要練的',detail:'對著新產品問同一組問題'}], relation:'→', summary:'產品會換；工作層的問題不變。換了工具，要練的是把問題照樣問出來。' },
   B4: { label:'任何一件事，都走這三段', items:[{title:'輸入',detail:'你的要求，加上檔案或搜到的資料'},{title:'處理',detail:'統整文字，或執行程式真正動手'},{title:'輸出',detail:'文字、新檔案，加一段回報'}], relation:'→', summary:'輸入是你給的東西，處理是它做的工作，輸出是你收的成果。照片的例子就是這張圖：三張原圖與要求進去，圖片程式執行縮小，交出三張新圖和一聲「完成」。' },
   B5: { label:'安裝不等於執行', items:[{title:'安裝',detail:'把需要的內容準備好'},{title:'執行',detail:'讓程式開始工作'}], relation:'≠', summary:'安裝是把程式準備在環境裡；執行才是讓它開始工作。' },
   B6: { label:'兩種影響', items:[{title:'讀取',detail:'取得資訊'},{title:'修改',detail:'改變狀態'}], relation:'≠', summary:'讀取只取得資訊；修改會讓檔案或系統狀態發生變化。' },
-  C6: { label:'本機工具用到的資源', items:[{title:'CPU',detail:'進行計算'},{title:'記憶體',detail:'暫放工作內容'},{title:'儲存空間',detail:'保存程式與產出'}], relation:'／', summary:'本機工具會用 CPU 計算、用記憶體暫放工作內容，並用儲存空間保存程式與產出。' },
   D1: {"label":"提出操作前拿到的資訊","items":[{"title":"已取得","detail":"照片資訊、要求與限制"},{"title":"還沒讀到","detail":"不能當成已知"}],"summary":"AI 需要取得指定照片的資訊與縮圖要求；照片存在電腦上，不表示 AI 已拿到內容。"},
   D5: { label:'影響範圍', items:[{title:'一般權限',detail:'較有限的範圍'},{title:'管理員權限',detail:'可能影響更多系統區域'}], summary:'管理員權限可能讓同一個動作影響更大的系統範圍。' },
-  D6: { label:'圖片程式的限制', items:[{title:'允許',detail:'只讀寫照片副本'},{title:'阻擋',detail:'其他文件與網路'}], relation:'｜', summary:'在這個例子的設定下，圖片程式只讀寫測試資料夾，其他文件與網路受到阻擋。要先確認環境真的提供這些限制。' },
   E1: {"label":"先保留能重做的原圖","items":[{"title":"保留","detail":"完整原圖"},{"title":"確認","detail":"能開啟、不被覆蓋"},{"title":"才處理","detail":"另存縮小版"}],"summary":"新圖不合用時，從保留的原圖重做。若原圖已覆蓋且沒有舊版本，就不能保證恢復。"},
   E2: {"label":"另外保留原圖副本","items":[{"title":"原圖","detail":"保留完整內容"},{"title":"備份","detail":"另一份可取回的副本"}],"summary":"縮小版不能當成完整原圖的備份。同磁碟副本也不能防整顆磁碟損壞。"},
   E3: {"label":"刪除也可能傳過去","items":[{"title":"同步","detail":"各處一起更新或刪除"},{"title":"備份","detail":"另外保留可取回的副本"}],"relation":"／","summary":"同步可能把刪除傳到其他地方；是否仍有可恢復的副本，要另外確認。"},
