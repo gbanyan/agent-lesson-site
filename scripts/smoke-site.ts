@@ -23,11 +23,8 @@ try {
 
   const reviewRoutes = [
     '', 'paths/first-coding-agent/', 'paths/first-coding-agent/input-process-output/',
-    'lessons/terminal/', 'lessons/git/', 'lessons/recovery-before-change/',
-    'paths/agent-runs-command/terminal/', 'paths/first-agent-change/recovery-before-change/',
-    'paths/first-coding-agent/agent-vs-chat/', 'lessons/where-is-my-data/',
-    'lessons/where-model-runs/', 'lessons/agent-work-loop/', 'introduction/',
-    'lessons/secrets/', 'lessons/beyond-files/', 'lessons/sandbox/',
+    'lessons/where-is-my-data/', 'lessons/agent-work-loop/',
+    'lessons/secrets/', 'lessons/beyond-files/',
   ];
   for (const width of [1440, 320]) {
     await page.setViewportSize({width, height:900});
@@ -65,8 +62,7 @@ try {
     await page.getByLabel('搜尋概念').fill(term!);
     await expect(page.locator(`#search-results a[href$="/lessons/${slug}/"]`)).toBeVisible({timeout:15000});
   }
-  await page.goto(new URL('introduction/', base).href, {waitUntil:'networkidle'});
-  await expect(page).toHaveURL(new URL('about/', base).href);
+  await page.goto(new URL('about/', base).href, {waitUntil:'networkidle'});
   const source = (await readFile('src/content/introduction.md', 'utf8')).split('<!-- site-details -->')[0]!.replace(/<!--[\s\S]*?-->/g, '').trim().split(/\n\s*\n/).filter(block => !block.startsWith('#'));
   expect((await page.locator('.introduction-body > p').allTextContents()).slice(0, source.length)).toEqual(source);
   await page.emulateMedia({colorScheme:'light'});

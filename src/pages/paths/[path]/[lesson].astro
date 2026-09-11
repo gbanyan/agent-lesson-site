@@ -2,8 +2,6 @@
 import { getCollection } from 'astro:content';
 import LessonPage from '../../../components/education/LessonPage.astro';
 import { url } from '../../../lib/urls';
-import MovedLesson from '../../../components/education/MovedLesson.astro';
-import { legacyLessons, publishedPathSteps } from '../../../lib/legacy-lessons';
 
 export async function getStaticPaths() {
   const [paths, lessons] = await Promise.all([getCollection('paths'), getCollection('lessons')]);
@@ -18,8 +16,6 @@ export async function getStaticPaths() {
       params: { path:path.data.slug, lesson:entry.data.slug },
       props: {
         entry,
-        moved: false,
-        href: '',
         pathContext: {
           slug:path.data.slug,
           title:path.data.title,
@@ -33,16 +29,8 @@ export async function getStaticPaths() {
       },
     }];
   }));
-  const aliases = paths.flatMap((path) => (publishedPathSteps[path.data.slug] ?? []).flatMap((slug) => {
-    if (current.some((route) => route.params.path === path.data.slug && route.params.lesson === slug)) return [];
-    const targetSlug = legacyLessons.find((legacy) => legacy.slug === slug)?.targetSlug ?? slug;
-    const entry = lessons.find((lesson) => lesson.data.slug === targetSlug)!;
-    const href = path.data.lessons.includes(entry.data.id)
-      ? url(`/paths/${path.data.slug}/${targetSlug}/`) : url(`/lessons/${targetSlug}/`);
-    return [{ params: {path:path.data.slug, lesson:slug}, props: {entry, moved:true, href, pathContext:undefined} }];
-  }));
-  return [...current, ...aliases];
+  return current;
 }
-const { entry, pathContext, moved, href } = Astro.props;
+const { entry, pathContext } = Astro.props;
 ---
-{moved ? <MovedLesson href={href} title={entry.data.question} /> : <LessonPage entry={entry} pathContext={pathContext} />}
+<LessonPage entry={entry} pathContext={pathContext} />

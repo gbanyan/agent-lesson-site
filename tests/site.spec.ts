@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { legacyLessons, publishedPathSteps } from '../src/lib/legacy-lessons';
 
-const keyPages = ['/', '/introduction/', '/prepare/', '/prepare/what-can-it-do/', '/prepare/what-still-works/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/input-process-output/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/', '/lessons/command/', '/lessons/are-changes-reversible/', '/lessons/version-history/'];
+const keyPages = ['/', '/prepare/', '/prepare/what-can-it-do/', '/prepare/what-still-works/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/input-process-output/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/', '/lessons/command/', '/lessons/are-changes-reversible/', '/lessons/version-history/'];
 
 for (const route of keyPages) {
   test(`${route} has no detectable WCAG A/AA violations`, async ({page}) => {
@@ -116,17 +115,14 @@ test('homepage opens with the authored preface then preparation concepts before 
   expect(await page.locator('header .nav-links a').allTextContents()).toEqual(['開始', '找概念', '關於本站']);
 });
 
-test('introduction redirects to the merged About page with the authored preface', async ({page}) => {
-  await page.goto('/introduction/');
-  await expect(page).toHaveURL(/\/about\/$/);
+test('about page shows the authored preface and matches the homepage excerpt', async ({page}) => {
+  await page.goto('/about/');
   await expect(page.locator('h1')).toHaveText('關於本站');
   await expect(page.locator('.introduction-body > p')).toHaveCount(5);
   await expect(page.locator('.introduction-body')).toContainText('AI 的興起，本該是知識平權的創舉');
   await expect(page.locator('.introduction-body')).toContainText('沒有一份教材能替這個決定簽名');
   await expect(page.locator('header a[aria-current="page"]')).toHaveText('關於本站');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://localhost:4321/about/');
-  const oldPage = await page.request.get('/introduction/');
-  expect(await oldPage.text()).toContain('name="robots" content="noindex"');
   await page.goto('/');
   const excerpt = await page.locator('.introduction-copy > p').textContent();
   await page.goto('/about/');
@@ -148,24 +144,6 @@ test('Pagefind finds Git', async ({page}) => {
   await expect(page.locator('#search-status')).toContainText('找到', {timeout: 15_000});
   await expect(page.locator('#search-results')).toContainText('能找到修改以前的版本嗎？');
   await expect(page.locator('#search-results a[href$="/git/"]')).toHaveCount(0);
-});
-
-test('published lesson and path URLs still resolve after the merges', async ({page, request}) => {
-  for (const legacy of legacyLessons) {
-    const response = await request.get(`/lessons/${legacy.slug}/`);
-    const html = await response.text();
-    expect(html).toContain('noindex');
-    expect(html).not.toContain('data-pagefind-body');
-    await page.goto(`/lessons/${legacy.slug}/`);
-    await expect(page).toHaveURL(new RegExp(`/lessons/${legacy.targetSlug}/$`));
-    await expect(page.locator('article.lesson')).toBeVisible();
-  }
-  for (const [path, slugs] of Object.entries(publishedPathSteps)) {
-    for (const slug of slugs) {
-      await page.goto(`/paths/${path}/${slug}/`);
-      await expect(page.locator('article.lesson'), `${path}/${slug}`).toBeVisible();
-    }
-  }
 });
 
 test('English search aliases lead to the question-led canonical lessons', async ({page}) => {
@@ -351,8 +329,7 @@ test('core role pages keep one distinct mental model each', async ({page}) => {
   await expect(page.locator('.concept-node')).toHaveCount(3);
   await expect(page.locator('.visual')).toContainText('照片的例子就是這張圖');
 
-  await page.goto('/lessons/terminal/');
-  await expect(page).toHaveURL(/\/lessons\/command\/$/);
+  await page.goto('/lessons/command/');
   await expect(page.locator('.terminal')).toBeVisible();
   await expect(page.locator('.terminal code')).toContainText('ls 照片');
   await expect(page.locator('.terminal samp')).toContainText('photo-1.jpg');
@@ -368,7 +345,7 @@ test('A1, Terminal, Tool, Context, Local Remote and Git keep corrected boundarie
   await expect(page.locator('main')).toContainText('差別在可用能力，不在畫面是不是聊天視窗');
   await expect(page.locator('.lesson-body')).not.toContainText('Research Agent');
   await expect(page.locator('.lesson-body')).not.toContainText('Actionable Agent');
-  await page.goto('/lessons/terminal/');
+  await page.goto('/lessons/command/');
   await expect(page.locator('main')).toContainText('畫面上不一定會真的出現 Terminal');
   await expect(page.locator('.scenario')).toContainText('三張原圖沒有被修改');
   await page.goto('/lessons/tool/');
@@ -380,7 +357,7 @@ test('A1, Terminal, Tool, Context, Local Remote and Git keep corrected boundarie
   await expect(page.locator('.scenario')).toContainText('新圖仍太大或看不清楚');
   await page.goto('/lessons/local-and-remote/');
   await expect(page.locator('main')).toContainText('資料是否被傳送、複製或保存，需要另外確認');
-  await page.goto('/lessons/git/');
+  await page.goto('/lessons/version-history/');
   await expect(page.locator('main')).not.toContainText('git status');
   await expect(page.locator('main')).not.toContainText('git diff');
 });
