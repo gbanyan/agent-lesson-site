@@ -438,6 +438,7 @@ test('preflight guides provide reusable prompts and explicit privacy framing', a
     await expect(page.locator('.prompt-card code').first()).toContainText('＿＿');
   }
 
+  await page.goto('/prepare/privacy-and-data/');
   await expect(page.locator('.guide-body')).toContainText('凡是你看不到過程的，就當作已經離開你的裝置');
   await expect(page.locator('.guide-body')).toContainText('附加的檔案與工具結果都會經過網路');
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], {origin: 'http://127.0.0.1:4321'});
