@@ -7,4 +7,5 @@ officialUrl: https://code.claude.com/docs/en/overview
 check:
   - 目前支援的安裝方式與平台
   - 權限與資料處理設定
+  - 允許與批准方式（每次詢問／自動接受／先出計畫）與如何檢視並批准改動
   - 方案、使用額度與功能限制

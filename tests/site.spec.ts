@@ -14,7 +14,7 @@ for (const route of keyPages) {
 
 test('lesson page only ships the small shared theme scripts', async ({page}) => {
   await page.goto('/lessons/command/');
-  await expect(page.locator('h1')).toHaveText('這個文字畫面裡，哪一行是在叫電腦做事？');
+  await expect(page.locator('h1')).toHaveText('它報的那一行，是它做的動作，還是回傳的結果？');
   await expect(page.locator('script')).toHaveCount(2);
   await expect(page.locator('script[src]')).toHaveCount(0);
 });
