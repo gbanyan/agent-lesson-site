@@ -18,9 +18,9 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
     <h1>AI Agent 動手時，電腦發生了什麼？</h1>
     <div class="introduction-copy">
       <Fragment set:html={aboutExcerpt} />
-      <a href={url('/about/')}>閱讀完整介紹 →</a>
+      <a href={url('/about/')}>關於本站 →</a>
     </div>
-    <p class="hero-actions"><a class="button" href="#prepare">下一步：先盤點你想交出去的工作 ↓</a></p>
+    <p class="hero-actions"><a class="button" href="#prepare">先準備前置觀念 ↓</a></p>
   </section>
   <section class="section prepare-section" id="prepare" aria-labelledby="prepare-title">
     <div class="shell">
@@ -38,7 +38,7 @@ const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-a
           </a>
         ))}
       </div>
-      <p class="prepare-more"><a href={url('/prepare/')}>查看前置觀念的完整說明 →</a></p>
+      <p class="prepare-more"><a href={url('/prepare/')}>前置觀念總覽 →</a></p>
       <p class="next-step"><a class="button" href="#first-use">下一步：跟六步路徑，看 Agent 怎麼工作 ↓</a></p>
     </div>
   </section>

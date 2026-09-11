@@ -3,7 +3,6 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { url } from '../../lib/urls';
 const guides = (await getCollection('preflightGuides')).sort((a, b) => a.data.order - b.data.order);
-const products = await getCollection('productBridges');
 ---
 <BaseLayout title="前置觀念" description="開始使用 Agent 前，先想清楚你能交出去什麼，並確認會隨產品變動的費用、安裝、選用與資料規則。">
   <header class="page-header shell">
@@ -20,13 +19,4 @@ const products = await getCollection('productBridges');
       </a>
     ))}
   </section>
-  <section class="shell product-links"><h2>查看特定產品</h2><p>{products.map((product, index) => <><a href={url(`/products/${product.data.slug}/`)}>{product.data.product}</a>{index < products.length - 1 && '、'}</>)}</p></section>
-  <aside class="shell prepare-note">
-    <strong>資料提醒：</strong>遠端模型要處理內容，資料就需要離開裝置。延伸詢問中不要貼入密碼、金鑰、公司機密或不必要的個資。
-  </aside>
 </BaseLayout>
-
-<style>
-  .prepare-note { margin-block: 2rem 5rem; padding: 1.25rem 1.5rem; border-left: 4px solid var(--amber); background: color-mix(in srgb, var(--amber) 9%, var(--surface)); }
-  .product-links { margin-top:2.5rem; }
-</style>

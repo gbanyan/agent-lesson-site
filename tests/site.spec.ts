@@ -110,10 +110,10 @@ test('homepage opens with the authored preface then preparation concepts before 
   expect(mainText.indexOf('前置準備')).toBeLessThan(mainText.indexOf('Agent 怎麼工作'));
   await expect(page.locator('.introduction-copy')).toContainText('本站的緣起，是為了周邊朋友');
   await expect(page.locator('.introduction-copy')).not.toContainText('知識平權的創舉');
-  await expect(page.getByRole('link', {name: '閱讀完整介紹 →'})).toHaveAttribute('href', '/about/');
+  await expect(page.getByRole('link', {name: '關於本站 →'})).toHaveAttribute('href', '/about/');
   expect(await page.locator('.prepare-card').count()).toBeGreaterThanOrEqual(5);
   expect(mainText).not.toContain('先看懂它怎麼工作');
-  expect(await page.locator('header .nav-links a').allTextContents()).toEqual(['開始', '前置觀念', '找概念', '關於本站']);
+  expect(await page.locator('header .nav-links a').allTextContents()).toEqual(['開始', '找概念', '關於本站']);
 });
 
 test('introduction redirects to the merged About page with the authored preface', async ({page}) => {
