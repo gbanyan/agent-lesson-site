@@ -60,7 +60,7 @@ try {
     await expect(page.locator('.scenario-warning')).toContainText('以下要求不應直接照做');
   }
   await page.goto(new URL('concepts/', base).href, {waitUntil:'networkidle'});
-  await expect(page.locator('.concept-groups a')).toHaveCount(32);
+  await expect(page.locator('.concept-groups a')).toHaveCount(33);
   for (const [term, slug] of [['Git','version-history'], ['Terminal','command'], ['Context','context'], ['Tool','tool'], ['Backup','backup'], ['Input','input-process-output']]) {
     await page.getByLabel('搜尋概念').fill(term!);
     await expect(page.locator(`#search-results a[href$="/lessons/${slug}/"]`)).toBeVisible({timeout:15000});

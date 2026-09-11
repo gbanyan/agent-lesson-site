@@ -47,6 +47,10 @@ const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string
     { title:'取得資料', steps:[{place:'外部網站',title:'目前公告',detail:'來源可能可靠或有誤',tone:'remote'},{place:'網路',title:'下載內容',detail:'送進 Agent'},{place:'Agent',title:'讀取與判斷',detail:'不能自動當成指令',tone:'agent'}]},
     { title:'送出資料', steps:[{place:'你的裝置',title:'檔案或問題',detail:'檢查送出內容',tone:'local'},{place:'網路',title:'上傳內容',detail:'離開裝置'},{place:'外部服務',title:'接收資料',detail:'依服務規則處理',tone:'remote'}]},
   ], summary:'網路工具可以把資料帶進來，也可以把本機內容送出去；兩個方向都要檢查。' },
+  D7: { label:'每個外部服務都要各自開門', lanes:[
+    { title:'Agent 想碰的服務', steps:[{place:'行事曆',title:'讀取空檔、建立活動',detail:'可能是不同公司',tone:'remote'},{place:'郵件',title:'寄出邀請',detail:'另一家公司',tone:'remote'},{place:'雲端資料夾',title:'上傳議程',detail:'又一家公司',tone:'remote'}]},
+    { title:'你的授權', steps:[{place:'逐一同意',title:'開放哪些存取',detail:'不是一次通包',tone:'agent'},{place:'範圍與期限',title:'能碰多久、多廣',detail:'各服務不同',tone:'agent'},{place:'撤銷',title:'回原服務設定',detail:'不在 Agent 端關掉',tone:'result'}]},
+  ], summary:'行事曆、郵件與雲端資料夾多半由不同公司提供；Agent 要存取，就得各自取得授權，並確認範圍、期限，以及如何回到原服務撤銷。' },
 };
 
 const concepts: Record<string, {label:string;items:{title:string;detail:string}[];relation?:string;summary:string}> = {
