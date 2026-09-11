@@ -1,8 +1,8 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import LessonPage from '../../components/education/LessonPage.astro';
 import MovedLesson from '../../components/education/MovedLesson.astro';
-import { legacyLessons } from '../../lib/legacy-lessons';
+import { legacyLessons, movedGuideLessons } from '../../lib/legacy-lessons';
 import { url } from '../../lib/urls';
 
 export async function getStaticPaths() {
@@ -10,8 +10,9 @@ export async function getStaticPaths() {
   return [
     ...entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry, moved: false } })),
     ...legacyLessons.map((legacy) => ({ params: { slug: legacy.slug }, props: { entry: entries.find((entry) => entry.data.id === legacy.targetId)!, moved: true } })),
+    ...movedGuideLessons.map((legacy) => ({ params: { slug: legacy.slug }, props: { entry: undefined, moved: true, targetPath: legacy.targetPath, title: legacy.title } })),
   ];
 }
-const { entry, moved } = Astro.props;
+const { entry, moved, targetPath, title } = Astro.props as { entry?: CollectionEntry<'lessons'>; moved?: boolean; targetPath?: string; title?: string };
 ---
-{moved ? <MovedLesson href={url(`/lessons/${entry.data.slug}/`)} title={entry.data.question} /> : <LessonPage entry={entry} />}
+{moved ? <MovedLesson href={targetPath ?? url(`/lessons/${entry!.data.slug}/`)} title={title ?? entry!.data.question} /> : <LessonPage entry={entry!} />}

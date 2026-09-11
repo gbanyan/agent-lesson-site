@@ -28,6 +28,10 @@ const maps: Record<string, {label:string;lanes:Lane[];summary:string}> = {
     { title:'模型處理', steps:[{place:'你的裝置',title:'對話與檔案',detail:'可能還包含工具結果',tone:'local'},{place:'網路',title:'上傳內容',detail:'資料離開裝置'},{place:'模型供應商',title:'處理與保存',detail:'依帳號和服務規則',tone:'remote'}]},
     { title:'其他工具', steps:[{place:'Agent',title:'搜尋或外掛',detail:'啟動其他服務',tone:'agent'},{place:'外部系統',title:'收到部分內容',detail:'可能有不同資料規則',tone:'remote'}]},
   ], summary:'送出的內容可能經模型供應商處理，也可能因搜尋、外掛或其他工具流向不同服務。' },
+  P5: { label:'跟著產品變的，與跟著工作不變的', lanes:[
+    { title:'會換的部分', steps:[{place:'產品名稱與介面',title:'按鈕與版面',detail:'會隨版本或公司變動',tone:'agent'},{place:'方案與排行',title:'價格、額度、排行榜',detail:'查目前官方即可'},{place:'安裝與帳號',title:'位置與權限方式',detail:'每套可能不同',tone:'remote'}]},
+    { title:'不變的部分', steps:[{place:'你的資料',title:'在哪裡、它拿了哪些',detail:'換產品仍是同一組問題',tone:'local'},{place:'你的決定',title:'准了什麼、怎麼檢查',detail:'結果要核對，不只看描述',tone:'result'},{place:'你的後路',title:'改壞了怎麼救',detail:'先保留舊版或副本',tone:'result'}]},
+  ], summary:'產品名稱、介面、方案與排行榜會變；資料位置、授權、結果檢查與復原，換了產品仍是同一組問題。' },
 };
 const map = maps[guideId];
 ---

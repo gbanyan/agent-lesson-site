@@ -26,7 +26,7 @@ const safetyItems = [
     {optionalSteps.length > 0 && <aside class="optional-step"><h2>需要時再看</h2>{optionalSteps.map((lesson) => lesson && <p><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></p>)}</aside>}
     {entry.data.slug === 'first-coding-agent' && <aside class="path-exit">
       <h2>換你的事了</h2>
-      <p>這六步用的是示範照片。要找出哪些工作可以交給 Agent，先從「選工具前」的盤點方法開始。</p>
+      <p>這六步用的是示範照片。要找出哪些工作可以交給 Agent，先從「前置觀念」的盤點方法開始。</p>
       <p><a href={url('/prepare/what-can-it-do/')}>Agent 能幫我做的事，從哪裡想？ →</a></p>
     </aside>}
   </article>

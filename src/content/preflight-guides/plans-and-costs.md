@@ -1,7 +1,7 @@
 ---
 id: P1
 slug: plans-and-costs
-order: 1
+order: 2
 title: 方案與費用怎麼判斷？
 summary: 價目表會改。購買前要分清楚固定訂閱、點數與用量計費。
 principle: 價格常變，收費方法比較固定。比較數字前，找出哪些動作會產生費用。

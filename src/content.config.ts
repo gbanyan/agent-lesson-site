@@ -75,9 +75,9 @@ const productBridges = defineCollection({
 const preflightGuides = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/preflight-guides' }),
   schema: z.object({
-    id: z.string().regex(/^P[0-4]$/),
+    id: z.string().regex(/^P[0-9]+$/),
     slug: z.string().regex(/^[a-z0-9-]+$/),
-    order: z.number().int().min(0).max(4),
+    order: z.number().int().min(0),
     title: z.string().min(1),
     summary: z.string().min(1),
     principle: z.string().min(1),

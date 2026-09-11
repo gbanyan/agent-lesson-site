@@ -1,7 +1,7 @@
 ---
 id: P3
 slug: providers-and-evaluation
-order: 3
+order: 4
 title: 模型這麼多，怎麼知道哪個適合我？
 summary: 供應商、模型名稱和排行榜一直在變。要比較，就讓候選模型做你平常真的會做的事。
 principle: 「最強模型」沒有統一答案。寫下自己的任務、能容忍的錯誤和預算，再用同一套案例測試。

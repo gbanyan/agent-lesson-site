@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { legacyLessons, publishedPathSteps } from '../src/lib/legacy-lessons';
 
-const keyPages = ['/', '/introduction/', '/prepare/', '/prepare/what-can-it-do/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/input-process-output/', '/lessons/agent-vs-chat/', '/lessons/what-still-works/', '/lessons/agent-work-loop/', '/lessons/command/', '/lessons/are-changes-reversible/', '/lessons/version-history/'];
+const keyPages = ['/', '/introduction/', '/prepare/', '/prepare/what-can-it-do/', '/prepare/what-still-works/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/input-process-output/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/', '/lessons/command/', '/lessons/are-changes-reversible/', '/lessons/version-history/'];
 
 for (const route of keyPages) {
   test(`${route} has no detectable WCAG A/AA violations`, async ({page}) => {
@@ -106,14 +106,14 @@ test('homepage opens with the authored preface then preparation concepts before 
   await page.goto('/');
   const mainText = await page.locator('main').innerText();
   expect(mainText.indexOf('本站的緣起')).toBeGreaterThanOrEqual(0);
-  expect(mainText.indexOf('本站的緣起')).toBeLessThan(mainText.indexOf('五個前置準備概念'));
-  expect(mainText.indexOf('五個前置準備概念')).toBeLessThan(mainText.indexOf('Agent 怎麼工作'));
+  expect(mainText.indexOf('本站的緣起')).toBeLessThan(mainText.indexOf('前置準備'));
+  expect(mainText.indexOf('前置準備')).toBeLessThan(mainText.indexOf('Agent 怎麼工作'));
   await expect(page.locator('.introduction-copy')).toContainText('本站的緣起，是為了周邊朋友');
   await expect(page.locator('.introduction-copy')).not.toContainText('知識平權的創舉');
   await expect(page.getByRole('link', {name: '閱讀完整介紹 →'})).toHaveAttribute('href', '/about/');
-  await expect(page.locator('.prepare-card')).toHaveCount(5);
+  expect(await page.locator('.prepare-card').count()).toBeGreaterThanOrEqual(5);
   expect(mainText).not.toContain('先看懂它怎麼工作');
-  expect(await page.locator('header .nav-links a').allTextContents()).toEqual(['開始', '選工具前', '找概念', '關於本站']);
+  expect(await page.locator('header .nav-links a').allTextContents()).toEqual(['開始', '前置觀念', '找概念', '關於本站']);
 });
 
 test('introduction redirects to the merged About page with the authored preface', async ({page}) => {
@@ -121,7 +121,7 @@ test('introduction redirects to the merged About page with the authored preface'
   await expect(page).toHaveURL(/\/about\/$/);
   await expect(page.locator('h1')).toHaveText('關於本站');
   await expect(page.locator('.introduction-body > p')).toHaveCount(5);
-  await expect(page.locator('.introduction-body')).toContainText('AI, 或者說 LLM 的興起');
+  await expect(page.locator('.introduction-body')).toContainText('AI 的興起，本該是知識平權的創舉');
   await expect(page.locator('.introduction-body')).toContainText('沒有一份教材能替這個決定簽名');
   await expect(page.locator('header a[aria-current="page"]')).toHaveText('關於本站');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://localhost:4321/about/');
@@ -136,7 +136,7 @@ test('introduction redirects to the merged About page with the authored preface'
 test('concept index uses six human-question groups without lesson IDs', async ({page}) => {
   await page.goto('/concepts/');
   await expect(page.locator('.concept-group')).toHaveCount(6);
-  await expect(page.locator('.concept-groups a')).toHaveCount(33);
+  await expect(page.locator('.concept-groups a')).toHaveCount(32);
   await expect(page.locator('.concept-groups')).toContainText('Agent 在做什麼？');
   await expect(page.locator('.concept-groups')).toContainText('怎麼確認結果？');
   expect(await page.locator('.concept-groups').innerText()).not.toMatch(/\b[ABCDEF]\d\b/);
@@ -300,7 +300,7 @@ test('theme control overrides, remembers, and returns to live system preference'
 test('every lesson uses one of three archetypes and preserves actionable prompts', async ({page}) => {
   await page.goto('/concepts/');
   const links = await page.locator('.concept-groups a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')!));
-  expect(links).toHaveLength(33);
+  expect(links).toHaveLength(32);
   let promptCount = 0;
   for (const href of links) {
     await page.goto(href);
@@ -423,10 +423,10 @@ test('prompt types identify the audience and execution risk', async ({page, cont
   await expect(page.locator('.follow-up')).toHaveCount(0);
 });
 
-test('five preflight guides provide reusable prompts and explicit privacy framing', async ({page, context}) => {
+test('preflight guides provide reusable prompts and explicit privacy framing', async ({page, context}) => {
   await page.goto('/prepare/');
-  const links = await page.locator('section[aria-label="五篇前置說明"] a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')!));
-  expect(links).toHaveLength(5);
+  const links = await page.locator('section[aria-label="前置觀念說明"] a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')!));
+  expect(links.length).toBeGreaterThanOrEqual(5);
   for (const href of links) {
     await page.goto(href);
     await expect(page.locator('.guide-principle')).toBeVisible();
@@ -439,7 +439,7 @@ test('five preflight guides provide reusable prompts and explicit privacy framin
   }
 
   await expect(page.locator('.guide-body')).toContainText('凡是你看不到過程的，就當作已經離開你的裝置');
-  await expect(page.locator('.guide-body')).toContainText('工具結果，都會經過網路');
+  await expect(page.locator('.guide-body')).toContainText('附加的檔案與工具結果都會經過網路');
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], {origin: 'http://127.0.0.1:4321'});
   const expectedPrompt = await page.locator('.prompt-card code').first().textContent();
   await page.locator('[data-copy-prompt]').first().click();

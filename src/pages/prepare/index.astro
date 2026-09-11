@@ -5,16 +5,16 @@ import { url } from '../../lib/urls';
 const guides = (await getCollection('preflightGuides')).sort((a, b) => a.data.order - b.data.order);
 const products = await getCollection('productBridges');
 ---
-<BaseLayout title="選工具前" description="選擇 AI Agent 產品前，確認費用、安裝方式與資料規則。">
+<BaseLayout title="前置觀念" description="開始使用 Agent 前，先想清楚你能交出去什麼，並確認會隨產品變動的費用、安裝、選用與資料規則。">
   <header class="page-header shell">
-    <p class="eyebrow">選工具前</p>
-    <h1>購買或安裝前，要確認什麼？</h1>
-    <p>這些是選產品時的參考資料，不是開始理解 Agent 的必修課。這一區處理會隨產品變動的資訊，所以要請你親手查官方；不會過期的判斷在課文區。</p>
+    <p class="eyebrow">前置觀念</p>
+    <h1>開始用 Agent 前，該先想清楚哪些事？</h1>
+    <p>這是開始前的準備觀念：先盤點你能把哪些事交出去，再確認會隨產品變動的資訊——費用、安裝方式、產品差異與資料規則，都要親手查官方。這兩類都需要你在動手前先想一遍；背後不變的判斷原則，本站會在課文區繼續教你。</p>
   </header>
-  <section class="shell card-grid" aria-label="五篇前置說明">
+  <section class="shell card-grid" aria-label="前置觀念說明">
     {guides.map((guide) => (
       <a class="card" href={url(`/prepare/${guide.data.slug}/`)}>
-        {guide.data.id === 'P0' && <span class="eyebrow">先讀這篇</span>}{guide.data.id === 'P3' && <span class="eyebrow">延伸參考</span>}
+        {guide.data.order === 0 && <span class="eyebrow">先讀這篇</span>}{guide.data.id === 'P3' && <span class="eyebrow">延伸參考</span>}
         <h2>{guide.data.title}</h2>
         <p>{guide.data.summary}</p>
       </a>

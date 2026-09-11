@@ -13,3 +13,8 @@ export const publishedPathSteps: Record<string, string[]> = {
   'agent-runs-command': ['program', 'terminal', 'command', 'read-vs-write', 'permission'],
   'local-cloud-confusion': ['local-and-remote', 'where-is-my-data', 'where-program-runs', 'where-model-runs', 'computer-resources', 'data-leaves-device'],
 };
+
+// A3 moved to a 前置觀念 guide; keep its old lesson URL usable.
+export const movedGuideLessons = [
+  { id: 'A3', slug: 'what-still-works', targetPath: '/prepare/what-still-works/', title: '學 Agent，哪些會過期、哪些不會？' },
+] as const;
