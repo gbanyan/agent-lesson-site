@@ -2,7 +2,16 @@
 
 This file is updated at each phase gate. Evidence commands are listed under each phase; final outcomes are recorded after execution.
 
-## Current content revision — 2026-09-10
+## Current content revision — 2026-09-11
+
+Structure continues the previous revision and is now 30 lessons, with the legacy/backward-compatibility layer removed:
+
+- Lesson 33 → 30. C3 (program execution) and C4 (model location) merged into one lesson on using more than one computer, folding C6's local-resource note in; C6 (computer resources) and D6 (sandbox) dropped. Terminal/Command, recovery, version/Git merges remain single pages.
+- The `選工具前` zone was repositioned to `前置觀念` and expanded: added P5 (what stays vs what changes, formerly lesson A3) and P6 (how to research an unfamiliar domain), so the zone holds seven orientation/product guides.
+- Added D7 on cross-service authorization boundaries (each external service needs its own grant; scattered grants are a real friction point).
+- Backward compatibility removed entirely: no meta-refresh redirects, no noindex old pages, no legacy lesson/path aliases. `legacy-lessons.ts`, `MovedLesson.astro` and the `/introduction/` redirect page were deleted; lessons and path steps generate only current content.
+
+Local `npm run verify` and the deployment workflow pass with 30 lessons, 7 preflight guides, zero Astro diagnostics, 100 desktop/mobile tests and a clean build.
 
 ### About preface rewritten as promises
 

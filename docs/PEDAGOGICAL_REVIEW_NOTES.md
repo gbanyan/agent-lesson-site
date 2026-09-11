@@ -2,7 +2,7 @@
 
 ## Current revision — 2026-09-05
 
-The current decisions and prerequisite review are in `CONTENT_CONTINUITY_AUDIT.md` and `SCENARIO_MAP.md`. There are now 32 canonical lessons, with Terminal/Command, recovery/pre-change preparation, and version history/Git merged. The six-step first-use path follows one date-change job. The protected DOCX lesson is byte-for-byte unchanged; its C2 diagram remains available on the same page under an optional example. The earlier notes below describe the prior release, not the current sequence or lesson count.
+The current decisions and prerequisite review are in `CONTENT_CONTINUITY_AUDIT.md` and `SCENARIO_MAP.md`. There are now 30 canonical lessons, with Terminal/Command, recovery/pre-change preparation, version history/Git, and program/model/resource location merged. The first-use path follows the photo-resize example, needing no files or hands-on steps. The protected C2 DOCX diagram remains available on the same page under an optional example. The earlier notes below describe the prior release, not the current sequence or lesson count.
 
 Reader testing material is in `READER_TRIAL.md`. No new reader results have been collected; automated checks cannot establish comprehension.
 
@@ -27,16 +27,14 @@ The C sequence changed from `C1 → C2 → C3 → C4 → C5 → C6 → C7` to `C
 
 Compound-command syntax was removed from the Command lesson. Program does not introduce executables, interpreters, compilers, package managers, PATH, or language categories. Resources does not introduce cores, clock speed, VRAM, swap, cache, or purchasing guidance. Local versus Published still avoids CI/CD and hosting comparisons.
 
-No new lesson was required. The existing 35 concepts cover the revised beginner journey.
+No new lesson was required. The existing 30 lessons cover the revised beginner journey.
 
-## Protected DOCX content
+## DOCX example content
 
-Existing DOCX-specific text is intentionally unchanged. It remains in:
+The DOCX example is now intentionally kept only where it belongs:
 
-- `src/content/lessons/b6-read-write.md`: the request, three action/boundary passages, and body explanation of DOCX parsing and writing.
-- `src/components/education/LessonVisual.astro`: the `企劃書.docx` data-location node.
-
-The Read / Write lesson remains one deliberate transition away from the website sequence. Its DOCX teaching passages were not rewritten or relocated. The later correction pass changed Command's incidental report-folder listing to the recurring website example; it did not alter the protected Read / Write material.
+- `src/components/education/LessonVisual.astro`: the `企劃書.docx` data-location node, kept as an optional expandable example on the C2 page.
+- `src/content/lessons/b6-read-write.md`: rewritten to avoid DOCX/OCR jargon; it now uses a generic wording (some files need another program to read) while keeping the read-vs-write distinction.
 
 ## Full-site correction pass
 
@@ -54,4 +52,4 @@ C1 now defines only the Local and Remote locations. Upload, retention and visibi
 
 The first-use path begins with A1 and Files before Working Scope; A2 is an optional branch. Astro generates a static wrapper for every core path step, so path name, progress, previous/next step and return navigation exist without client-side JavaScript. Each wrapper points its canonical link to the single lesson route and stays out of the Pagefind lesson index. The Command path includes a low-density relationship diagram for Agent, model, Tool, Command, Program and Terminal.
 
-The first-use recurring scenario now remains in `website/` through Context and Agent Loop. Command also lists `website` contents, while the protected DOCX Read / Write lesson remains the sole deliberate scenario transition in that sequence.
+The first-use recurring scenario now remains in `website/` through Context and Agent Loop. Command also lists `website` contents, while the B6 Read / Write lesson remains the sole deliberate scenario transition in that sequence.
