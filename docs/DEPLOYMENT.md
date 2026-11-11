@@ -38,5 +38,6 @@ Rollback: Cloudflare keeps previous Worker versions; roll back to the prior vers
 | Date | Version ID | Source commit | Notes |
 | --- | --- | --- | --- |
 | 2026-11-12 | `f0ae8cd3-01c0-47b8-9225-5377556459bc` | `cf564a8` + Cloudflare config | First Cloudflare deployment with custom domain. Live check: all 79 routes 200 via the edge, trailing-slash redirect, 404 page, Pagefind assets, canonical on the new domain. |
+| 2026-11-12 | (GitHub Pages) | `e8bec33` | Old address now serves redirect pages only. Browser check: `/`, a lesson, a path step and `/concepts/?q=git#search` under `/agent-lesson-site/` land on the same path, query and hash at the new domain. |
 
 Static frontend content must be treated as public; no runtime secrets are required.
