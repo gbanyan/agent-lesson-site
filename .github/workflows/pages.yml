@@ -1,4 +1,9 @@
-name: Quality Gate and Pages
+name: Quality Gate and Pages Redirect
+
+# The site is served by Cloudflare Workers Static Assets at
+# https://agent-lesson.gbanyan.net and deployed locally with `npm run deploy`
+# (see docs/DEPLOYMENT.md). This workflow only checks quality and keeps the
+# old GitHub Pages address redirecting to the new domain.
 
 on:
   push:
@@ -16,7 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pages: read
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -37,26 +41,27 @@ jobs:
         run: npm test
       - name: Production build
         run: npm run build
-      - name: Configure Pages
-        if: github.event_name != 'pull_request'
-        uses: actions/configure-pages@v6
-      - name: Upload Pages artifact
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: dist
 
-  deploy:
+  # Independent of quality-build: the redirect is static and must not wait on browser installs.
+  redirect:
     if: github.event_name != 'pull_request'
-    needs: quality-build
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+      - name: Upload redirect pages
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: redirect
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5

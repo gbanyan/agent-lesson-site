@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>看懂 Agent 已搬到新網址</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://agent-lesson.gbanyan.net/">
+<script>
+  // Old GitHub Pages URLs keep their path under the new domain:
+  // /agent-lesson-site/lessons/x/ → https://agent-lesson.gbanyan.net/lessons/x/
+  (function () {
+    var prefix = '/agent-lesson-site';
+    var path = location.pathname.indexOf(prefix) === 0 ? location.pathname.slice(prefix.length) : location.pathname;
+    location.replace('https://agent-lesson.gbanyan.net' + (path || '/') + location.search + location.hash);
+  })();
+</script>
+<noscript><meta http-equiv="refresh" content="0; url=https://agent-lesson.gbanyan.net/"></noscript>
+<style>body{margin:0;padding:3rem 1.5rem;font:1.125rem/1.75 system-ui,sans-serif;color:#18231f;background:#f7f5ee}a{color:#174333}</style>
+</head>
+<body>
+<p>看懂 Agent 已搬到新網址：<a href="https://agent-lesson.gbanyan.net/">agent-lesson.gbanyan.net</a></p>
+</body>
+</html>

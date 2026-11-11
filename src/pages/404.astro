@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/urls';
+---
+<BaseLayout title="找不到這一頁" description="這個網址沒有對應的頁面。">
+  <article class="reading page-header">
+    <p class="eyebrow kicker">404</p>
+    <h1>找不到這一頁</h1>
+    <p class="lede">網址可能打錯了，或這一頁已經換了位置。</p>
+    <p><a href={url('/concepts/')}>從概念索引找找看</a>，或<a href={url('/')}>回到首頁</a>。</p>
+  </article>
+</BaseLayout>

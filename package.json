@@ -14,16 +14,21 @@
     "test": "playwright test",
     "test:install": "playwright install chromium",
     "smoke": "tsx scripts/smoke-site.ts",
-    "verify": "npm run lint && npm run check && npm run test && npm run build"
+    "verify": "npm run lint && npm run check && npm run test && npm run build",
+    "deploy:check": "npm run verify && node scripts/package-cloudflare.mjs && cf deploy --prebuilt --dry-run",
+    "deploy": "npm run verify && node scripts/package-cloudflare.mjs && cf deploy --prebuilt"
   },
   "dependencies": {
     "astro": "^7.3.1"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.13.0",
     "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
+    "@cloudflare/build-output-utils": "0.9.5",
+    "@cloudflare/config": "0.28.1",
     "@playwright/test": "^1.62.1",
     "@types/node": "^24.0.0",
+    "cf": "1.0.0-beta.24",
     "fast-glob": "^3.3.3",
     "gray-matter": "^4.0.3",
     "http-server": "^14.1.1",

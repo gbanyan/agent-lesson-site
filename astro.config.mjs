@@ -1,13 +1,8 @@
 import { defineConfig } from 'astro/config';
 
-const [owner, repository] = (process.env.GITHUB_REPOSITORY ?? '/').split('/');
-const onGitHub = process.env.GITHUB_ACTIONS === 'true' && Boolean(repository);
-const projectBase = onGitHub && !repository.endsWith('.github.io') ? `/${repository}` : '/';
-const site = onGitHub ? `https://${owner}.github.io` : 'http://localhost:4321';
-
+// Served at the root of a custom domain by Cloudflare Workers Static Assets.
 export default defineConfig({
-  site,
-  base: projectBase,
+  site: 'https://agent-lesson.gbanyan.net',
   output: 'static',
   trailingSlash: 'always',
   build: { format: 'directory' },

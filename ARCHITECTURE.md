@@ -13,7 +13,7 @@
 - 全站兩段小型 inline script：`<head>` 內決定外觀主題（`window.siteTheme`），`<body>` 末端接上主題切換按鈕與複製按鈕；頁面本身無框架 JavaScript。只有搜尋頁動態載入 Pagefind API。
 - Pagefind 在 Astro build 後索引 `dist/`，採 npm extended binary 以支援中文斷詞。
 - Playwright 對 production build 啟動 preview；axe 掃描 WCAG A/AA 自動可測項目。
-- 無 backend、database、登入、CMS、進度追蹤或 vendor-specific hosting。
+- 無 backend、database、登入、CMS 或進度追蹤。正式站由 Cloudflare Workers Static Assets 提供（assets-only，無 Worker 程式碼）；`dist/` 仍可部署到任意靜態主機。
 
 ## Research record (2026-09-04)
 

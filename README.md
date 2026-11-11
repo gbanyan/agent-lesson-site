@@ -21,9 +21,9 @@ Push 前執行完整 preflight：
 npm run verify
 ```
 
-Production build 產生 vendor-neutral static artifact：`dist/`。Reference deployment 使用 GitHub Pages；細節見 [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)。內容規範見 [`EDITORIAL_CONSTITUTION.md`](EDITORIAL_CONSTITUTION.md)。
+Production build 產生 vendor-neutral static artifact：`dist/`。正式站由 Cloudflare Workers Static Assets 提供，在本機以 `npm run deploy` 部署；細節見 [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)。內容規範見 [`EDITORIAL_CONSTITUTION.md`](EDITORIAL_CONSTITUTION.md)。
 
-Public reference deployment: https://gbanyan.github.io/agent-lesson-site/
+Public site: https://agent-lesson.gbanyan.net/ （舊的 GitHub Pages 網址會自動導向這裡）
 
 ## License
 

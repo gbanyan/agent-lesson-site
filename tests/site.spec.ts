@@ -109,7 +109,7 @@ test('path context is built into HTML and keeps the canonical lesson URL', async
   expect(html).not.toContain('data-pagefind-body');
 
   await page.goto(route);
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `http://localhost:4321${routes.lesson(first!.lesson)}`);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://agent-lesson.gbanyan.net${routes.lesson(first!.lesson)}`);
   await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', routes.pathStep(path, second!.lesson));
   await expect(page.locator('.path-context')).toContainText(`返回「${path.title}」`);
   await expect(page.locator('.lesson-prerequisites')).toHaveCount(0);
@@ -172,7 +172,7 @@ test('about page shows the authored preface and matches the homepage excerpt', a
   await expect(page.locator('.introduction-body')).toContainText('AI 的興起，本該是知識平權的創舉');
   await expect(page.locator('.introduction-body')).toContainText('沒有一份教材能替這個決定簽名');
   await expect(page.locator('header a[aria-current="page"]')).toHaveText('關於本站');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://localhost:4321/about/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://agent-lesson.gbanyan.net/about/');
   await page.goto('/');
   const excerpt = await page.locator('.introduction-copy > p').textContent();
   await page.goto('/about/');
