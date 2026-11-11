@@ -24,7 +24,7 @@
 
 .button {
   display: inline-flex; min-height: var(--tap); align-items: center; justify-content: center; gap: .5rem;
-  padding: .65rem 1.05rem; border: 1px solid var(--leaf);
+  padding: .65rem 1.05rem; border: 1px solid var(--leaf); border-radius: var(--radius-pill);
   background: var(--leaf); color: var(--paper); font-weight: 700; text-decoration: none;
 }
 .button:hover { background: var(--leaf-dark); color: var(--paper); }

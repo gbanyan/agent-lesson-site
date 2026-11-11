@@ -15,9 +15,10 @@
 .path-context-links { display: flex; justify-content: space-between; gap: 1rem; margin-top: .8rem; padding-top: .8rem; border-top: 1px solid var(--line); }
 
 .lesson details { margin-block: 1rem; padding: 0 1.15rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-soft); }
-.lesson summary { display: flex; align-items: center; min-height: var(--tap); padding-block: .45rem; cursor: pointer; font-weight: 750; color: var(--leaf-dark); }
-.lesson summary::before { content: '▸'; margin-right: .5rem; }
-.lesson details[open] summary::before { content: '▾'; }
+.lesson summary { display: flex; align-items: center; min-height: var(--tap); padding-block: .45rem; list-style: none; cursor: pointer; font-weight: 750; color: var(--leaf-dark); }
+.lesson summary::-webkit-details-marker { display: none; }
+.lesson summary::before { content: '▸'; content: '▸' / ''; margin-right: .5rem; }
+.lesson details[open] summary::before { content: '▾'; content: '▾' / ''; }
 .lesson details[open] { padding-bottom: .9rem; }
 .lesson-body { margin-block: 2rem; color: var(--ink-soft); }
 .lesson-next { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }

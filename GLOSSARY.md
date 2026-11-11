@@ -16,4 +16,5 @@ Domain terms used in code, content and reviews. Prefer these names when naming m
 - **Concept group** — one of the human-question groups on `/concepts/`; every lesson belongs to exactly one.
 - **Content graph** — the pure module that orders all content, resolves IDs and reports broken references (`src/lib/content-graph.ts`).
 - **Guard** — editor-protected phrases on a page: `keep` must stay, `avoid` must not return. Checked by lint.
-- **Tone** — the semantic accent of a box: `leaf` (key point, done, local), `amber` (caution, modification, external), `blue` (agent, research).
+- **Tone** — the semantic accent of a box: `leaf` (key point, done, local), `amber` (caution, modification, external), `blue` (agent, research). Set with `data-tone` on `.panel`, `.callout` and task steps.
+- **Step role** — a system-map node's place in the flow: `local`, `agent`, `remote`, `result`. Diagram vocabulary, drawn with the same three colours (local and result → leaf, agent → blue, remote → amber) but not through `data-tone`.

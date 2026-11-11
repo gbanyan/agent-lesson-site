@@ -29,7 +29,10 @@ const canonical = new URL(canonicalPath ? url(canonicalPath) : Astro.url.pathnam
       // window.siteTheme is shared with the toggle wiring at the end of <body>.
       (() => {
         const system = matchMedia('(prefers-color-scheme: dark)');
+        // `chosen` keeps a click working for this page even when storage is blocked.
+        let chosen = null;
         const saved = () => {
+          if (chosen) return chosen;
           try {
             const value = localStorage.getItem('theme');
             return value === 'light' || value === 'dark' ? value : 'system';
@@ -44,6 +47,7 @@ const canonical = new URL(canonicalPath ? url(canonicalPath) : Astro.url.pathnam
           return { choice, actual: choice === 'system' ? (system.matches ? 'dark' : 'light') : choice };
         };
         const set = (choice) => {
+          chosen = choice;
           try {
             if (choice === 'system') localStorage.removeItem('theme'); else localStorage.setItem('theme', choice);
           } catch (_) {}

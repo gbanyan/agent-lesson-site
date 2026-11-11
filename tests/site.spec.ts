@@ -32,11 +32,28 @@ test('lesson page only ships the small shared inline scripts', async ({page}) =>
 
 test('diagram meaning remains in the accessibility tree', async ({page}) => {
   const lesson = lessonBySlug('where-program-runs');
+  const visual = lesson.visual;
+  if (visual?.type !== 'system-map') throw new Error(`${lesson.slug} is expected to use a system map`);
   await page.goto(routes.lesson(lesson));
-  await expect(page.locator('.visually-equivalent')).toContainText(lesson.visual!.type === 'system-map' ? lesson.visual!.summary : '');
+  await expect(page.locator('.visually-equivalent')).toContainText(visual.summary);
   const snapshot = await page.locator('main').ariaSnapshot();
   expect(snapshot).toContain(lesson.question);
-  expect(snapshot).toContain(lesson.visual!.type === 'system-map' ? lesson.visual!.summary : '');
+  expect(snapshot).toContain(visual.summary);
+});
+
+test('guarded phrases are present (or absent) on the rendered page', async ({page}) => {
+  const guarded = [
+    ...content.lessons.map((item) => ({ route: routes.lesson(item), guard: item.guard })),
+    ...content.guides.map((item) => ({ route: routes.guide(item), guard: item.guard })),
+    ...content.paths.map((item) => ({ route: routes.path(item), guard: item.guard })),
+  ].filter((item) => item.guard);
+  expect(guarded.length).toBeGreaterThan(0);
+  for (const { route, guard } of guarded) {
+    await page.goto(route);
+    const text = await page.locator('main').innerText();
+    for (const phrase of guard!.keep) expect(text, `${route} keeps「${phrase}」`).toContain(phrase);
+    for (const phrase of guard!.avoid) expect(text, `${route} avoids「${phrase}」`).not.toContain(phrase);
+  }
 });
 
 test('system maps use the wider article canvas on desktop', async ({page}) => {
@@ -310,6 +327,21 @@ test('theme control overrides, remembers, and returns to live system preference'
   await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f7f5ee');
   await page.emulateMedia({colorScheme: 'dark'});
   await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(17, 24, 21)');
+});
+
+test('theme control still works for the current page when storage is blocked', async ({page}) => {
+  await page.emulateMedia({colorScheme: 'light'});
+  await page.addInitScript(() => {
+    const blocked = () => { throw new DOMException('blocked', 'SecurityError'); };
+    Storage.prototype.getItem = blocked; Storage.prototype.setItem = blocked; Storage.prototype.removeItem = blocked;
+  });
+  await page.goto('/');
+  const toggle = page.locator('[data-theme-toggle]');
+  await toggle.click();
+  await toggle.click();
+  await expect(toggle).toContainText('深色');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(17, 24, 21)');
 });
 
 test('every lesson renders its archetype, scenario and copyable prompt', async ({page}) => {

@@ -15,7 +15,7 @@ const slug = z.string().regex(/^[a-z0-9-]+$/);
 const BLANK = '＿＿';
 
 /** Phrases an editor wants kept on (or kept off) a page; checked by lint against the page's own text. */
-export const guardSchema = z.object({
+export const guardSchema = z.strictObject({
   keep: z.array(text).default([]),
   avoid: z.array(text).default([]),
 }).optional();
@@ -24,35 +24,36 @@ export const guardSchema = z.object({
 
 export const toneSchema = z.enum(['local', 'agent', 'remote', 'result']);
 
-export const systemMapSchema = z.object({
+export const systemMapSchema = z.strictObject({
   label: text,
-  lanes: z.array(z.object({
+  lanes: z.array(z.strictObject({
     title: text,
-    steps: z.array(z.object({ place: text, title: text, detail: text, tone: toneSchema.optional() })).min(1),
+    steps: z.array(z.strictObject({ place: text, title: text, detail: text, tone: toneSchema.optional() })).min(1),
   })).min(1),
   summary: text,
 });
 
-export const flowDiagramSchema = z.object({
+export const flowDiagramSchema = z.strictObject({
   label: text,
   steps: z.array(text).min(2),
   summary: text,
   note: text.optional(),
 });
 
-const conceptVisual = z.object({
+const conceptVisual = z.strictObject({
   type: z.literal('concept'),
   label: text,
-  items: z.array(z.object({ title: text, detail: text })).min(2),
+  items: z.array(z.strictObject({ title: text, detail: text })).min(2),
   relation: text.optional(),
   summary: text,
 });
-const systemMapVisual = systemMapSchema.extend({
+const systemMapVisual = z.strictObject({
+  ...systemMapSchema.shape,
   type: z.literal('system-map'),
   /** A second, reader-expandable map shown after the main one. */
-  more: z.object({ label: text, map: systemMapSchema }).optional(),
+  more: z.strictObject({ label: text, map: systemMapSchema }).optional(),
 });
-const terminalVisual = z.object({
+const terminalVisual = z.strictObject({
   type: z.literal('terminal'),
   purpose: text,
   command: text,
@@ -60,13 +61,13 @@ const terminalVisual = z.object({
   impact: z.enum(['read', 'modify', 'external']),
   summary: text,
 });
-const fileExplorerVisual = z.object({
+const fileExplorerVisual = z.strictObject({
   type: z.literal('file-explorer'),
   root: text,
-  entries: z.array(z.object({ kind: z.enum(['folder', 'file']), name: text, depth: z.number().int().min(0).max(1).optional() })).min(1),
+  entries: z.array(z.strictObject({ kind: z.enum(['folder', 'file']), name: text, depth: z.number().int().min(0).max(1).optional() })).min(1),
   summary: text,
 });
-const permissionVisual = z.object({
+const permissionVisual = z.strictObject({
   type: z.literal('permission'),
   files: z.array(text).min(1),
   consequence: text,
@@ -78,7 +79,7 @@ export const visualSchema = z.discriminatedUnion('type', [
 
 // ---------------------------------------------------------------- prompts
 
-export const promptSchema = z.object({
+export const promptSchema = z.strictObject({
   audience: z.enum(['research_chat', 'active_agent', 'human']),
   mode: z.enum(['ask_only', 'explain_before_action', 'execute_after_confirmation']),
   capability: z.enum(['requires_web', 'requires_workspace_access', 'no_special_access']),
@@ -88,7 +89,7 @@ export const promptSchema = z.object({
   .refine((p) => p.mode !== 'execute_after_confirmation' || p.audience === 'active_agent', '可執行任務要求必須交給 active_agent');
 
 /** Preflight guides only ever send readers to a research chat, never to a working agent. */
-export const guidePromptSchema = z.object({
+export const guidePromptSchema = z.strictObject({
   label: text,
   audience: z.literal('research_chat'),
   mode: z.literal('ask_only'),
@@ -98,7 +99,7 @@ export const guidePromptSchema = z.object({
 
 // ---------------------------------------------------------------- collections
 
-export const lessonSchema = z.object({
+export const lessonSchema = z.strictObject({
   id: lessonId,
   slug,
   section: z.enum(['A', 'B', 'C', 'D', 'E', 'F']),
@@ -114,20 +115,22 @@ export const lessonSchema = z.object({
   searchTerms: z.array(text).max(8).optional(),
   prerequisites: z.array(lessonId).default([]),
   visual: visualSchema.nullable(),
-  scenario: z.object({
+  scenario: z.strictObject({
     request: text,
     actions: z.array(text).min(2).max(5),
     result: text,
     boundary: text,
     appliesBeyondCodingAgent: z.boolean().optional(),
-    /** Present only when the request is a cautionary example readers must not copy. */
+    /** The request is a cautionary example readers must not copy; requires `warning`. */
+    cautionary: z.boolean().optional(),
+    /** Shown before a cautionary request; only allowed when `cautionary: true`. */
     warning: text.optional(),
-  }),
+  }).refine((s) => Boolean(s.cautionary) === Boolean(s.warning), '警示案例必須同時標示 cautionary: true 與 scenario.warning；一般例子兩者皆不寫'),
   notTeach: z.array(text).min(1),
   guard: guardSchema,
 });
 
-export const pathSchema = z.object({
+export const pathSchema = z.strictObject({
   id: z.string().regex(/^path-[a-z]$/),
   slug,
   order: z.number().int().min(0),
@@ -139,13 +142,13 @@ export const pathSchema = z.object({
   optionalLessons: z.array(lessonId).max(2).optional(),
   stepTitles: z.record(lessonId, text).optional(),
   stepIntros: z.record(lessonId, text),
-  safetyGate: z.array(z.object({ lesson: lessonId, label: text })).min(1).optional(),
+  safetyGate: z.array(z.strictObject({ lesson: lessonId, label: text })).min(1).optional(),
   diagram: flowDiagramSchema.optional(),
-  exit: z.object({ title: text, text, guide: guideId }).optional(),
+  exit: z.strictObject({ title: text, text, guide: guideId }).optional(),
   guard: guardSchema,
 });
 
-export const productBridgeSchema = z.object({
+export const productBridgeSchema = z.strictObject({
   id: text,
   slug,
   product: text,
@@ -155,7 +158,7 @@ export const productBridgeSchema = z.object({
   check: z.array(text).min(1).max(4),
 });
 
-export const guideSchema = z.object({
+export const guideSchema = z.strictObject({
   id: guideId,
   slug,
   order: z.number().int().min(0),
@@ -169,13 +172,13 @@ export const guideSchema = z.object({
   guard: guardSchema,
 });
 
-export const taskSchema = z.object({
+export const taskSchema = z.strictObject({
   id: z.string().regex(/^T[1-9]$/),
   slug,
   title: text,
   situation: text,
   outcome: text,
-  steps: z.array(z.object({
+  steps: z.array(z.strictObject({
     actor: z.enum(['you', 'agent', 'checkpoint']),
     kind: z.enum(['read', 'modify', 'external']).optional(),
     text,
@@ -186,7 +189,7 @@ export const taskSchema = z.object({
   boundary: text,
 });
 
-export const conceptGroupSchema = z.object({
+export const conceptGroupSchema = z.strictObject({
   id: slug,
   order: z.number().int().min(0),
   title: text,

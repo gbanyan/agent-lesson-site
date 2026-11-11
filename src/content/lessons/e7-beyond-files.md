@@ -33,6 +33,7 @@ visual:
   summary: Agent 的動作可能留在本機，也可能修改共享文件、送出通知或產生帳單。
 scenario:
   appliesBeyondCodingAgent: true
+  cautionary: true
   warning: 測試活動若放進正式行事曆，也可能真的寄出邀請；應先停下確認對象，改用不會通知他人的測試方式。
   request: "把測試活動建立到公司的正式行事曆。"
   actions:

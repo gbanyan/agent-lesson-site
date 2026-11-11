@@ -8,6 +8,7 @@ const aboutExcerpt = (await compiledContent()).match(/<p>[\s\S]*?<\/p>/)?.[0] ??
 const content = await getContent();
 const featuredPath = content.featuredPath;
 const situationPaths = content.paths.filter((path) => path !== featuredPath);
+const stepCount = featuredPath ? '零一二三四五六七八九'[featuredPath.lessons.length] : undefined;
 ---
 <BaseLayout title="看懂 Agent">
   <section class="hero shell">
@@ -30,7 +31,7 @@ const situationPaths = content.paths.filter((path) => path !== featuredPath);
         {content.guides.map((guide) => <GuideCard guide={guide} />)}
       </div>
       <p class="prepare-more"><a href={url('/prepare/')}>前置觀念總覽 →</a></p>
-      <p class="next-step"><a class="button pill" href="#first-use">下一步：跟六步路徑，看 Agent 怎麼工作 ↓</a></p>
+      {stepCount && <p class="next-step"><a class="button pill" href="#first-use">下一步：跟{stepCount}步路徑，看 Agent 怎麼工作 ↓</a></p>}
     </div>
   </section>
   <section class="section" id="first-use">

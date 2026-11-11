@@ -12,7 +12,9 @@ No reader-facing content changed except one promised feature: canonical lesson p
 - Styles: palette in `src/lib/palette.ts` (one definition for system-dark and forced-dark), missing tokens added, stylesheets split by role with `.panel`, `.callout` and `data-tone` primitives, `.article` reading layout replacing the hard-coded width list, three breakpoints. `CopyablePrompt.astro` owns the copy UI; the copy script uses `data-copy-*` attributes only.
 - Tests: new `content` Playwright project (no browser) for the content graph; browser tests derive counts and orders from content; wording pins moved to per-entry `guard` fields checked by lint; added forced-dark axe scans and touch-target checks. Smoke script derives its expectations from content.
 
-Verification: `npm run lint`, `npm run check` (0 diagnostics), 102 Playwright tests, `npm run build`, and the smoke script against a local static server all passed. Rendered `<main>` text was diffed against the previous build: identical apart from the prerequisite links. Light/dark screenshots of 13 page types were compared side by side.
+Independent review (Fable 5.2) found no blockers; follow-ups applied in the same branch: all content schemas are strict (misspelled keys fail), cautionary scenarios require `cautionary: true` together with `warning`, the system-map requirement for location/role/data-flow lessons is pinned in `tests/content.spec.ts`, `guard` ignores unrendered fields and is re-checked on the rendered page, a synthetic fixture tests that reading order ignores numeric IDs, the theme toggle keeps working for the current page when storage is blocked, `.button` keeps its pill radius, and the homepage step count follows the featured path.
+
+Verification: `npm run lint`, `npm run check` (0 diagnostics), 108 Playwright tests, `npm run build`, and the smoke script against a local static server all passed. Rendered `<main>` text was diffed against the previous build: identical apart from the prerequisite links. Light/dark screenshots of 13 page types were compared side by side.
 
 ## Content revision — 2026-09-11
 

@@ -22,6 +22,22 @@ test('lessons read in section-then-order sequence, independent of numeric IDs', 
   expect(content.lessonNeighbors(first.id).next).toBe(content.lessons[1]);
 });
 
+test('reading order follows section then order, not the numeric ID', () => {
+  const base = content.lesson('B1');
+  const lesson = (id: string, section: Lesson['section'], order: number): Lesson => ({ ...base, id, slug: id.toLowerCase(), section, order, prerequisites: [] });
+  const graph = createContentGraph({ ...loaded.source, lessons: [lesson('B2', 'B', 2), lesson('A9', 'A', 5), lesson('B9', 'B', 1), lesson('A1', 'A', 7)] });
+  expect(graph.lessons.map((item) => item.id)).toEqual(['A9', 'A1', 'B9', 'B2']);
+  expect(graph.lessonNeighbors('B9').previous?.id).toBe('A1');
+  expect(graph.lessonNeighbors('B9').next?.id).toBe('B2');
+  expect(graph.lessonNeighbors('B2').next).toBeUndefined();
+});
+
+test('location, role and data-flow lessons keep a system map', () => {
+  // Editorial decision (VISUAL_STYLE priority 1): these concepts are shown as lanes of places and roles.
+  const required = ['A1', 'B3', 'B9', 'C1', 'C2', 'C3', 'C5', 'C7', 'D2', 'D3', 'D7', 'E7', 'F4'];
+  for (const id of required) expect(content.lesson(id).visual?.type, id).toBe('system-map');
+});
+
 test('path steps carry step titles, intros and in-path neighbours', () => {
   for (const path of content.paths) {
     const steps = content.pathSteps(path);

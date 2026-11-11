@@ -13,11 +13,22 @@ const plain = (value: string) => value.replace(/[*`_]/g, '');
 
 errors.push(...createContentGraph(source).problems());
 
-/** `guard.keep` phrases must stay on the page; `guard.avoid` phrases must not come back. */
+/** Frontmatter fields that never reach the rendered page. */
+const unrendered = new Set(['guard', 'notTeach', 'searchTerms', 'prerequisites', 'id', 'slug', 'order', 'section', 'archetype', 'role', 'audience', 'mode', 'capability', 'tone', 'type', 'lesson', 'guide', 'featured']);
+function renderedStrings(value: unknown): string[] {
+  if (Array.isArray(value)) return value.flatMap(renderedStrings);
+  if (value && typeof value === 'object') return Object.entries(value).flatMap(([key, item]) => unrendered.has(key) ? [] : renderedStrings(item));
+  return typeof value === 'string' ? [value] : [];
+}
+
+/**
+ * `guard.keep` phrases must stay on the page; `guard.avoid` phrases must not come back.
+ * This is the fast source-level check; tests/site.spec.ts repeats it on the rendered page.
+ */
 function checkGuard(entry: Loaded<{ guard?: { keep: string[]; avoid: string[] } | undefined }>) {
-  if (!entry.data.guard) return;
-  const { guard, ...rest } = entry.data;
-  const page = plain([...strings(rest), entry.body].join('\n'));
+  const { guard } = entry.data;
+  if (!guard) return;
+  const page = plain([...renderedStrings(entry.data), entry.body].join('\n'));
   for (const phrase of guard.keep) if (!page.includes(phrase)) errors.push(`${entry.file}: guard.keep 「${phrase}」已不在頁面上`);
   for (const phrase of guard.avoid) if (page.includes(phrase)) errors.push(`${entry.file}: guard.avoid 「${phrase}」又出現在頁面上`);
 }

@@ -18,8 +18,8 @@ Educational editorial illustration. Low visual density. Friendly but not childis
 ## Priority
 
 1. 精確關係：code-generated ConceptDiagram。
-2. 操作示範：TerminalExample、AgentAction、FileExplorer、PermissionPrompt。
-3. 生活化情境：GeneratedIllustration。
+2. 操作示範：TerminalExample、FileExplorer、PermissionPrompt；路徑層的流程示意用 FlowDiagram。
+3. 生活化情境：目前不採用生成圖（見下）。
 
 沒有降低理解成本的圖就不放。V1 illustration pilot 經評估後不採用生成圖：vertical slice 的概念都以語意化 diagram 或操作元件表達得更精確，也避免裝飾噪音。未使用的 illustration manifest、元件與驗證腳本已移除；日後若要採用經審查的圖像，再以新的 `visual` type 與對應 renderer 一起加入。
 

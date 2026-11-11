@@ -14,7 +14,7 @@ Frontmatter 必填：`id`、`slug`、`section`、`order`、`archetype`、`questi
 
 `scenario` 必須包含讀者可能說出的 `request`、Agent 可能採取的 2–5 個 `actions`、讀者會看到的 `result`，以及不應從例子過度推論的 `boundary`。動作要具體到能看出讀取、寫入、執行程式或連接外部服務的差別；但不能把 Agent 的理想行為寫成必然。
 
-若 request 是用來警示的危險要求，加入 `scenario.warning`，在要求之前說明不應照做及原因。警示不是複製用的 Prompt，也不能只靠顏色區分；一般安全操作不需要這個標記。
+若 request 是用來警示的危險要求，標示 `scenario.cautionary: true` 並加入 `scenario.warning`，在要求之前說明不應照做及原因；schema 要求兩者同時存在，避免警示被單獨刪掉。警示不是複製用的 Prompt，也不能只靠顏色區分；一般安全操作不需要這個標記。
 
 `prompt` 是可直接複製的問題或任務限制，必須保留 `＿＿` 替換欄位，並標示 `audience`、`mode`、`capability`。只有對當下工作有幫助時才提供；不要只把 lesson 問句換個說法。
 

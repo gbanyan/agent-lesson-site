@@ -22,6 +22,7 @@ visual:
   summary: 把登入密碼放進共同文件，看到文件的人也可能使用你的帳號。給程式用的私密金鑰也需要保護。
 scenario:
   appliesBeyondCodingAgent: true
+  cautionary: true
   warning: 這個例子示範密碼如何外流，不是建議的分享方式；不要把真實密碼貼進對話或共同文件。
   request: "把登入密碼貼進大家都能看的文件，讓同事直接使用我的帳號。"
   actions:

@@ -15,7 +15,7 @@ export default defineConfig({
     env: { ...process.env, GITHUB_ACTIONS: 'false' },
   },
   projects: [
-    // Content graph unit tests: no browser, no build output needed.
+    // Content graph unit tests: no browser. (Playwright still starts webServer for every run.)
     { name: 'content', testMatch: 'content.spec.ts' },
     { name: 'desktop', testIgnore: 'content.spec.ts', use: { ...devices['Desktop Chrome'] } },
     { name: 'mobile', testIgnore: 'content.spec.ts', use: { ...devices['Pixel 7'] } },
