@@ -20,7 +20,7 @@ const light = {
   amber: '#b56b22',
   blue: '#285e79',
   focus: '#8e3f21',
-  shadow: '0 18px 50px rgb(31 50 42 / 9%)',
+  shadow: '0 1px 2px rgb(24 35 31 / 6%), 0 8px 24px rgb(24 35 31 / 6%)',
 };
 
 const dark: typeof light = {
@@ -36,7 +36,8 @@ const dark: typeof light = {
   amber: '#e3a563',
   blue: '#7bbbd4',
   focus: '#ffb590',
-  shadow: '0 18px 50px rgb(0 0 0 / 28%)',
+  // Dark depth comes from surface steps and hairlines, not shadows.
+  shadow: 'none',
 };
 
 export const palette = { light, dark };

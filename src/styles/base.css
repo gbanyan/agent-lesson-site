@@ -6,9 +6,7 @@ html { background: var(--paper); scroll-behavior: smooth; }
 body {
   margin: 0;
   color: var(--ink);
-  background:
-    radial-gradient(circle at 85% 5%, color-mix(in srgb, var(--leaf) 7%, transparent), transparent 27rem),
-    var(--paper);
+  background: var(--paper);
   font-family: var(--font-sans);
   font-size: var(--step-0);
   line-height: 1.75;
@@ -16,10 +14,12 @@ body {
 }
 a { color: var(--leaf-dark); text-underline-offset: 0.2em; text-decoration-thickness: 0.08em; }
 a:hover { color: var(--focus); }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; border-radius: 0.2rem; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; border-radius: .25rem; }
 img, svg { max-width: 100%; }
 button, input { font: inherit; }
-h1, h2, h3 { line-height: 1.22; letter-spacing: -.025em; text-wrap: balance; }
+h1, h2, h3 { font-weight: var(--weight-strong); line-height: 1.22; text-wrap: balance; }
+h1 { letter-spacing: -.02em; }
+strong, b { font-weight: var(--weight-strong); }
 h1 { font-size: var(--step-3); }
 h2 { font-size: var(--step-2); }
 p { text-wrap: pretty; }
@@ -27,7 +27,7 @@ mark { padding: .05em .18em; border-radius: .2em; background: color-mix(in srgb,
 
 .skip-link {
   position: fixed; z-index: 20; left: 1rem; top: 1rem; transform: translateY(-200%);
-  padding: .7rem 1rem; background: var(--ink); color: var(--paper); border-radius: var(--radius-sm);
+  padding: .75rem 1rem; background: var(--ink); color: var(--paper); border-radius: var(--radius-sm);
 }
 .skip-link:focus { transform: none; }
 .muted { color: var(--ink-soft); }

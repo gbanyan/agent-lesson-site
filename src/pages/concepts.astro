@@ -46,14 +46,14 @@ const base = import.meta.env.BASE_URL;
 <style>
   .search-area { padding-bottom: 2rem; }
   .search-area label { display:block; margin-bottom:.5rem; }
-  .search-area input { width:min(100%,38rem); min-height:3.2rem; padding:.7rem 1rem; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface); color:var(--ink); }
+  .search-area input { width:min(100%,38rem); min-height:3.25rem; padding:.75rem 1rem; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface); color:var(--ink); }
   .search-results { width:min(100%,44rem); padding:0; list-style:none; }
   .search-results li { padding:1rem 0; border-bottom:1px solid var(--line); }
-  .search-results a { font-weight:750; }
-  .search-results p { margin:.3rem 0; color:var(--ink-soft); }
+  .search-results a { font-weight:var(--weight-strong); }
+  .search-results p { margin:.25rem 0; color:var(--ink-soft); }
   .concept-groups { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.25rem; padding-block:2rem 5rem; }
   .concept-group h2 { margin-top:0; font-size:var(--step-1); }
-  .concept-group ul { margin:0; padding-left:1.2rem; }
-  .concept-group li + li { margin-top:.55rem; }
+  .concept-group ul { margin:0; padding-left:1.25rem; }
+  .concept-group li + li { margin-top:.5rem; }
   @media (max-width:44rem){.concept-groups{grid-template-columns:1fr}}
 </style>

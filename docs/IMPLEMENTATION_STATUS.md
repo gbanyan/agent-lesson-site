@@ -14,6 +14,8 @@ No reader-facing content changed except one promised feature: canonical lesson p
 
 Independent review (Fable 5.2) found no blockers; follow-ups applied in the same branch: all content schemas are strict (misspelled keys fail), cautionary scenarios require `cautionary: true` together with `warning`, the system-map requirement for location/role/data-flow lessons is pinned in `tests/content.spec.ts`, `guard` ignores unrendered fields and is re-checked on the rendered page, a synthetic fixture tests that reading order ignores numeric IDs, the theme toggle keeps working for the current page when storage is blocked, `.button` keeps its pill radius, and the homepage step count follows the featured path.
 
+Craft polish (unslop audit, polish mode): spacing and radii moved onto the 4px grid, the page-background colour wash removed, shadows made small and neutral (none in dark mode), weights reduced to 400/500/600, uppercase tracked eyebrows and small-text negative tracking removed, emoji file icons replaced with line icons, buttons given a 10px control radius (pills kept for tags only), card hover changed from a 2px jump to a colour step, system-map lane titles changed from solid ink blocks to a tinted surface, and a hero rule that enlarged the homepage eyebrow fixed. Rules recorded in `VISUAL_STYLE.md` under Craft rules.
+
 Verification: `npm run lint`, `npm run check` (0 diagnostics), 108 Playwright tests, `npm run build`, and the smoke script against a local static server all passed. Rendered `<main>` text was diffed against the previous build: identical apart from the prerequisite links. Light/dark screenshots of 13 page types were compared side by side.
 
 ## Content revision — 2026-09-11

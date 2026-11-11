@@ -11,7 +11,7 @@ const { files, consequence } = Astro.props;
     <div class="permission-files">{files.join('、')}</div>
     <p>{consequence}</p>
     <div class="permission-actions">
-      <span class="mock-button pill">取消</span><span class="mock-button pill primary">允許</span>
+      <span class="mock-button">取消</span><span class="mock-button primary">允許</span>
     </div>
   </div>
   <p class="visually-equivalent sr-only">權限提示列出 Agent 想修改的 {files.join('、')}。{consequence}使用者可以允許或取消。</p>

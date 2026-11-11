@@ -1,21 +1,21 @@
 /* Lesson and preflight-guide articles. */
 .lesson { padding-top: clamp(2.5rem, 6vw, 5rem); }
-.lesson-meta { display: flex; gap: .65rem; align-items: center; color: var(--ink-soft); font-size: var(--step--1); }
-.lesson-role { display: inline-flex; margin-top: .4rem; padding: .12rem .6rem; background: var(--leaf-pale); color: var(--leaf-dark); font-size: var(--step--3); font-weight: 800; letter-spacing: .05em; }
+.lesson-meta { display: flex; gap: .75rem; align-items: center; color: var(--ink-soft); font-size: var(--step--1); }
+.lesson-role { display: inline-flex; margin-top: .5rem; padding: .125rem .5rem; background: var(--leaf-pale); color: var(--leaf-dark); font-size: var(--step--3); font-weight: var(--weight-medium); letter-spacing: .02em; }
 .lesson h1 { margin: .5rem 0 1rem; }
 .lesson-context { margin: 0 0 .8rem; color: var(--ink-soft); font-size: var(--step-0); }
 .lesson-prerequisites { margin: 1rem 0 0; }
 .search-alias { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-.path-context { margin-bottom: 2rem; padding: 1rem 1.2rem; }
+.path-context { margin-bottom: 2rem; padding: 1rem 1.25rem; }
 .path-context p { margin: 0; }
-.path-context > p:first-child { margin-bottom: .65rem; font-size: var(--step--1); }
+.path-context > p:first-child { margin-bottom: .75rem; font-size: var(--step--1); }
 .path-progress { display: flex; justify-content: space-between; gap: 1rem; }
 .path-progress span { color: var(--ink-soft); }
 .path-context-links { display: flex; justify-content: space-between; gap: 1rem; margin-top: .8rem; padding-top: .8rem; border-top: 1px solid var(--line); }
 
-.lesson details { margin-block: 1rem; padding: 0 1.15rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-soft); }
-.lesson summary { display: flex; align-items: center; min-height: var(--tap); padding-block: .45rem; list-style: none; cursor: pointer; font-weight: 750; color: var(--leaf-dark); }
+.lesson details { margin-block: 1rem; padding: 0 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-soft); }
+.lesson summary { display: flex; align-items: center; min-height: var(--tap); padding-block: .5rem; list-style: none; cursor: pointer; font-weight: var(--weight-strong); color: var(--leaf-dark); }
 .lesson summary::-webkit-details-marker { display: none; }
 .lesson summary::before { content: '▸'; content: '▸' / ''; margin-right: .5rem; }
 .lesson details[open] summary::before { content: '▾'; content: '▾' / ''; }
@@ -23,27 +23,27 @@
 .lesson-body { margin-block: 2rem; color: var(--ink-soft); }
 .lesson-next { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
 .term-list { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; list-style: none; }
-.term-list li { padding: .25rem .65rem; border: 1px solid var(--line); color: var(--ink-soft); font-size: var(--step--2); }
+.term-list li { padding: .25rem .75rem; border: 1px solid var(--line); color: var(--ink-soft); font-size: var(--step--2); }
 .takeaway { margin-block: 2rem; }
-.takeaway p { margin: .2rem 0 0; font-weight: 700; }
+.takeaway p { margin: .25rem 0 0; font-weight: var(--weight-strong); }
 .follow-up { margin-block: 2rem; }
 
 .path-steps { padding: 0; list-style: none; counter-reset: path; }
 .path-steps li { counter-increment: path; display: grid; grid-template-columns: 2.5rem 1fr; gap: 1rem; padding-block: 1.25rem; border-bottom: 1px solid var(--line); }
-.path-steps li::before { content: counter(path); display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--leaf-pale); color: var(--leaf-dark); font-weight: 800; }
-.path-steps a { font-weight: 750; }
-.path-steps p { margin: .4rem 0 0; }
+.path-steps li::before { content: counter(path); display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--leaf-pale); color: var(--leaf-dark); font-weight: var(--weight-strong); }
+.path-steps a { font-weight: var(--weight-strong); }
+.path-steps p { margin: .5rem 0 0; }
 
 .scenario { width: min(100%, var(--scenario)); margin: 2.5rem auto; padding: clamp(1.25rem, 4vw, 2rem); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); }
-.scenario-kicker { margin: 0 0 .35rem; color: var(--leaf-dark); }
+.scenario-kicker { margin: 0 0 .25rem; color: var(--leaf-dark); }
 .scenario h2 { margin: 0 0 1rem; font-size: var(--step-2); }
 .scenario h3 { margin-top: 1.5rem; font-size: var(--step-1); }
-.scenario blockquote { margin: 0; padding: 1rem 1.2rem; border-left: 4px solid var(--leaf); background: var(--surface-soft); font-weight: 650; }
-.scenario ol, .scenario ul { padding-left: 1.4rem; }
-.scenario li + li, .example-prose p + p { margin-top: .65rem; }
-.scenario-result { font-weight: 700; }
-.scenario .scenario-boundary { margin-top: 1.35rem; }
-.other-agent-note { font-weight: 700; }
+.scenario blockquote { margin: 0; padding: 1rem 1.25rem; border-left: 4px solid var(--leaf); background: var(--surface-soft); font-weight: var(--weight-medium); }
+.scenario ol, .scenario ul { padding-left: 1.5rem; }
+.scenario li + li, .example-prose p + p { margin-top: .75rem; }
+.scenario-result { font-weight: var(--weight-strong); }
+.scenario .scenario-boundary { margin-top: 1.5rem; }
+.other-agent-note { font-weight: var(--weight-strong); }
 .lesson-contrast .scenario { border-inline: 0; border-radius: 0; background: transparent; }
 .lesson-contrast .scenario blockquote { border-left-color: var(--blue); }
 

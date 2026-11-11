@@ -3,7 +3,7 @@
  * the same box each time.
  *
  *   .kicker   small label above a heading (.eyebrow adds the accent colour)
- *   .pill     fully rounded ends
+ *   .pill     fully rounded ends (tags and chips only; controls use --radius-control)
  *   .tap      inline link or control with the minimum touch height
  *   .note     secondary small text
  *   .lede     the one-sentence answer under a page title
@@ -15,24 +15,25 @@
  * data-tone="leaf | amber | blue" sets --tone (accent) and --tone-bg (tint)
  * for whichever primitive carries it; without it they stay neutral.
  */
-:is(.kicker, .eyebrow, .visual-label) { font-size: var(--step--3); font-weight: 750; letter-spacing: .08em; }
-.eyebrow { color: var(--leaf); text-transform: uppercase; }
+:is(.kicker, .eyebrow, .visual-label) { font-size: var(--step--3); font-weight: var(--weight-medium); letter-spacing: .02em; }
+.eyebrow { color: var(--leaf-dark); }
 .pill { border-radius: var(--radius-pill); }
 .tap { display: inline-flex; align-items: center; min-height: var(--tap); }
 .note { color: var(--ink-soft); font-size: var(--step--1); }
-.lede { margin: 0; padding-left: 1rem; border-left: 3px solid var(--leaf); color: var(--leaf-dark); font-size: var(--step-1); font-weight: 720; }
+.lede { margin: 0; padding-left: 1rem; border-left: 3px solid var(--leaf); color: var(--leaf-dark); font-size: var(--step-1); font-weight: var(--weight-strong); }
 
 .button {
   display: inline-flex; min-height: var(--tap); align-items: center; justify-content: center; gap: .5rem;
-  padding: .65rem 1.05rem; border: 1px solid var(--leaf); border-radius: var(--radius-pill);
-  background: var(--leaf); color: var(--paper); font-weight: 700; text-decoration: none;
+  padding: .75rem 1.25rem; border: 1px solid var(--leaf); border-radius: var(--radius-control);
+  background: var(--leaf); color: var(--paper); font-weight: var(--weight-strong); text-decoration: none;
+  transition: background-color var(--fast) var(--ease), border-color var(--fast) var(--ease);
 }
 .button:hover { background: var(--leaf-dark); color: var(--paper); }
 .button.secondary { background: transparent; color: var(--leaf-dark); }
 .button.secondary:hover { background: var(--leaf-pale); }
 
-.card { display: block; min-height: 10rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); text-decoration: none; box-shadow: 0 1px 0 color-mix(in srgb, var(--ink) 3%, transparent); }
-.card:hover { border-color: var(--leaf); color: var(--ink); box-shadow: var(--shadow); transform: translateY(-2px); }
+.card { display: block; min-height: 10rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); text-decoration: none; transition: border-color var(--fast) var(--ease), background-color var(--fast) var(--ease); }
+.card:hover { border-color: var(--leaf); background: color-mix(in srgb, var(--leaf) 4%, var(--surface)); color: var(--ink); }
 .card :is(h2, h3) { margin: .25rem 0 .5rem; font-size: var(--step-1); }
 .card p { margin: 0; color: var(--ink-soft); }
 
@@ -42,13 +43,13 @@
 [data-tone="blue"] { --tone: var(--blue); }
 
 .panel {
-  padding: 1.35rem 1.5rem; border: 1px solid color-mix(in srgb, var(--tone) 70%, var(--line));
+  padding: 1.25rem 1.5rem; border: 1px solid color-mix(in srgb, var(--tone) 70%, var(--line));
   border-radius: var(--radius); background: var(--tone-bg, var(--surface));
 }
 .panel[data-surface="soft"] { background: var(--surface-soft); }
 .panel > :is(h2, h3):first-child { margin-top: 0; }
 
 .callout {
-  padding: 1.15rem 1.35rem; border-left: 4px solid var(--tone);
+  padding: 1rem 1.25rem; border-left: 4px solid var(--tone);
   border-radius: 0 var(--radius) var(--radius) 0; background: var(--tone-bg, var(--surface-soft));
 }

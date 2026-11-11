@@ -30,3 +30,12 @@ Educational editorial illustration. Low visual density. Friendly but not childis
 Light 與 dark mode 共用相同資訊階層。預設跟隨系統 `prefers-color-scheme`（不需要 JavaScript）；頁首按鈕可改為固定淺色或深色，選擇存在 `localStorage`，由 `<head>` 內的小段 script 在繪製前套用。兩種配色只定義在 `src/lib/palette.ts` 一處；跟隨系統與手動深色兩種情況都必須通過對比檢查，且顏色不是唯一資訊來源。
 
 色調只有三種語意：`leaf`（重點、完成、本機）、`amber`（注意、修改、外部）、`blue`（Agent、查詢）。元件以 `data-tone` 表達，不各自寫顏色。
+
+## Craft rules
+
+- 間距、內距與圓角都落在 4px 格線上（以 16px 為 1rem）。圓角：控制項 `--radius-control` 10px、小框 12px、外框 16px、圖解 24px；膠囊形只用在標籤類（名詞、影響、核心徽章），按鈕不用。
+- 字重只有三種：`--weight-regular` 400、`--weight-medium` 500（介面標籤、導覽）、`--weight-strong` 600（標題、重點句、連結強調）。小標不用全大寫，字距 .02em；只有 h1 保留輕微負字距。
+- 頁面背景是純紙色，不加色彩光暈。淺色模式的陰影小而中性，深色模式不用陰影，以表面明暗與細線分層。
+- 互動只改顏色或底色，使用 `--ease` 與 `--fast`；卡片 hover 不位移。
+- 圖示用線條圖示（16px、1.5 線寬、次要文字色），不用 emoji。
+- 色彩與層次留給圖解：外框、按鈕與導覽保持安靜。系統圖的 lane 標題是淡底墨字，不是實心色塊。

@@ -18,7 +18,7 @@ const stepCount = featuredPath ? '零一二三四五六七八九'[featuredPath.l
       <Fragment set:html={aboutExcerpt} />
       <a href={url('/about/')}>關於本站 →</a>
     </div>
-    <p class="hero-actions"><a class="button pill" href="#prepare">先準備前置觀念 ↓</a></p>
+    <p class="hero-actions"><a class="button" href="#prepare">先準備前置觀念 ↓</a></p>
   </section>
   <section class="section prepare-section" id="prepare" aria-labelledby="prepare-title">
     <div class="shell">
@@ -31,7 +31,7 @@ const stepCount = featuredPath ? '零一二三四五六七八九'[featuredPath.l
         {content.guides.map((guide) => <GuideCard guide={guide} />)}
       </div>
       <p class="prepare-more"><a href={url('/prepare/')}>前置觀念總覽 →</a></p>
-      {stepCount && <p class="next-step"><a class="button pill" href="#first-use">下一步：跟{stepCount}步路徑，看 Agent 怎麼工作 ↓</a></p>}
+      {stepCount && <p class="next-step"><a class="button" href="#first-use">下一步：跟{stepCount}步路徑，看 Agent 怎麼工作 ↓</a></p>}
     </div>
   </section>
   <section class="section" id="first-use">
@@ -56,7 +56,7 @@ const stepCount = featuredPath ? '零一二三四五六七八九'[featuredPath.l
     </div>
   </section>
   <section class="section">
-    <div class="shell section-heading search-cta"><p class="eyebrow kicker">找一個概念</p><h2>直接查不熟的詞</h2><p>搜尋 Git、Permission、Terminal、Command 等概念。</p><a class="button pill secondary" href={url('/concepts/')}>找概念</a></div>
+    <div class="shell section-heading search-cta"><p class="eyebrow kicker">找一個概念</p><h2>直接查不熟的詞</h2><p>搜尋 Git、Permission、Terminal、Command 等概念。</p><a class="button secondary" href={url('/concepts/')}>找概念</a></div>
   </section>
 </BaseLayout>
 <style>
@@ -69,5 +69,5 @@ const stepCount = featuredPath ? '零一二三四五六七八九'[featuredPath.l
   .search-cta { margin-bottom: 0; }
   .core-row { margin-top: 1.25rem; color: var(--ink-soft); }
   .core-row strong { color: var(--ink); }
-  .core-row a { font-weight: 650; }
+  .core-row a { font-weight: var(--weight-medium); }
 </style>

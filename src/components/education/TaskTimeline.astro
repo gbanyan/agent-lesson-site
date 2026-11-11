@@ -10,7 +10,7 @@ const tone = (step: Step) => step.actor === 'checkpoint' ? 'leaf' : step.kind ==
 <ol class="task-flow">
   {steps.map((step) => (
     <li class:list={['task-step', 'step', `task-${step.actor}`, step.kind && `task-kind-${step.kind}`]} data-tone={tone(step)}>
-      <span class="task-actor kicker">{actorLabels[step.actor]}{step.kind && <em class="task-kind">{kindLabels[step.kind]}</em>}</span>
+      <span class="task-actor kicker">{actorLabels[step.actor]}{step.kind && <span class="task-kind">{kindLabels[step.kind]}</span>}</span>
       <div class="task-step-body">
         <p>{step.text}</p>
         {step.refs.length > 0 && <p class="task-refs">用到：<>{step.refs.map((ref, index) => <>{index > 0 && '、'}<a href={ref.href}>{ref.label}</a></>)}</></p>}

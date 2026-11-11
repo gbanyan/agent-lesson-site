@@ -80,7 +80,7 @@ test('every lesson renders the visual its frontmatter declares, with a text equi
       await expect(figure.locator('.terminal code')).toContainText(visual.command);
       await expect(figure.locator('.terminal samp')).toHaveText(visual.output);
     }
-    if (visual.type === 'file-explorer') await expect(figure.locator('.tree-entry'), lesson.slug).toHaveCount(visual.entries.length);
+    if (visual.type === 'file-explorer') await expect(figure.locator('.tree-entry:not(.tree-root)'), lesson.slug).toHaveCount(visual.entries.length);
     if (visual.type === 'permission') await expect(figure.locator('.permission-files')).toHaveText(visual.files.join('、'));
     const summary = visual.type === 'permission' ? visual.consequence : visual.summary;
     await expect(figure.locator('.visually-equivalent'), lesson.slug).toContainText(summary);
