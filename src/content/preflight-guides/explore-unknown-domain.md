@@ -3,7 +3,7 @@ id: P6
 slug: explore-unknown-domain
 order: 6
 title: 遇到不熟的領域，怎麼跟 AI 請教？
-summary: 完全不懂時別急著要標準答案；先讓它幫你畫出輪廓，再順著它往深處問，並核對來源。
+summary: 完全不懂時別急著要標準答案；先讓它幫你畫出輪廓，再順著這個輪廓往深處問，並核對來源。
 principle: 陌生領域先請 AI 說明整體輪廓、關鍵名詞與常見誤解；它說的要看來源與前後一致，不能照單全收。
 visual:
   label: 把 AI 當成陌生領域的嚮導

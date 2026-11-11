@@ -7,7 +7,7 @@ archetype: contrast
 question: Agent 和聊天 AI 有什麼不同？
 context: 你想把照片縮小後寄給朋友。同樣在聊天視窗提出要求，有些 AI 只能說明做法，有些能用工具處理你選好的照片。
 answer: 聊天是一種互動介面；Agent 是會使用工具、把事情實際做完的那種工作方式。
-takeaway: 想知道它能不能替你動手，就問它目前有哪些工具和權限。
+takeaway: 想知道它能不能替你動手，就確認它目前有哪些工具和權限。
 newTerms: [Agent, 工具]
 prerequisites: []
 visual:

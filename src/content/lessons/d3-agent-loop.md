@@ -7,7 +7,7 @@ archetype: definition
 question: Agent 是一次把所有事情想完嗎？
 context: 你請 Agent 把三張照片各縮小一份，原圖保留。工具另存新圖後，Agent 還要讀取新圖資訊，把檢查結果用在下一輪判斷。
 answer: 通常不是。它會取得資訊、採取行動、查看結果，再根據結果繼續。
-takeaway: Agent 多半會反覆查看資訊、採取行動、讀取結果，再決定下一步。
+takeaway: 它說「完成」之前，可能已經來回試過好幾輪；你要檢查的是最後的實際結果。
 newTerms: []
 prerequisites:
   - D1

@@ -3,7 +3,7 @@ id: P2
 slug: install-and-interfaces
 order: 3
 title: Agent 怎麼安裝？CLI 和桌面版差在哪？
-summary: 安裝方法怎麼改都一樣：裝之前先查程式來源、安裝位置，以及它能存取哪些資料。
+summary: 安裝方法會變，要查的事不變：程式來源、安裝位置，以及它能存取哪些資料。
 principle: 介面不同，能力和權限也可能不同。登入同一個帳號，不保證各版本完全一樣。
 visual:
   label: 帳號相同，位置與能力未必相同
