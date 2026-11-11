@@ -43,16 +43,12 @@ jobs:
         run: npm run build
 
   # Independent of quality-build: the redirect is static and must not wait on browser installs.
-  redirect:
+  redirect-build:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      pages: read
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -62,6 +58,18 @@ jobs:
         uses: actions/upload-pages-artifact@v5
         with:
           path: redirect
+
+  redirect:
+    if: github.event_name != 'pull_request'
+    needs: redirect-build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
