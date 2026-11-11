@@ -10,7 +10,27 @@ answer: 它也可能改到共享行事曆、已公開的內容，或讓另一個
 takeaway: 審核動作時也要往電腦外面看：別人的系統、通知、公開內容或帳單都可能跟著改變。
 newTerms: []
 prerequisites: [D2, C7]
-visual: { type: system-map, preset: external-effects }
+visual:
+  type: system-map
+  label: 動作可能落在哪裡
+  lanes:
+    - title: 你的裝置
+      steps:
+        - place: 本機
+          title: 檔案或資料庫
+          detail: 內容可能改變
+          tone: local
+    - title: 外部世界
+      steps:
+        - place: 共享服務
+          title: 行事曆或文件
+          detail: 同事可能立刻看見
+          tone: remote
+        - place: 其他系統
+          title: 通知或帳單
+          detail: 可能產生後續影響
+          tone: remote
+  summary: Agent 的動作可能留在本機，也可能修改共享文件、送出通知或產生帳單。
 scenario:
   appliesBeyondCodingAgent: true
   warning: 測試活動若放進正式行事曆，也可能真的寄出邀請；應先停下確認對象，改用不會通知他人的測試方式。

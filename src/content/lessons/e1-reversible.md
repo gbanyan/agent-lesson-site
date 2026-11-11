@@ -17,7 +17,17 @@ prompt:
 newTerms: [復原]
 searchTerms: [復原, 恢復來源, 可恢復狀態, recovery]
 prerequisites: [B1]
-visual: { type: concept, preset: recovery-before-change }
+visual:
+  type: concept
+  label: 先保留能重做的原圖
+  items:
+    - title: 保留
+      detail: 完整原圖
+    - title: 確認
+      detail: 能開啟、不被覆蓋
+    - title: 才處理
+      detail: 另存縮小版
+  summary: 新圖不合用時，從保留的原圖重做。若原圖已覆蓋且沒有舊版本，就不能保證恢復。
 scenario:
   request: 先確認原圖會保留、新圖不會覆蓋它們，再把照片各縮小一份。
   actions:

@@ -1,17 +1,21 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import OfficialInfoNotice from '../../components/education/OfficialInfoNotice.astro';
-import { url } from '../../lib/urls';
-export async function getStaticPaths(){ const entries=await getCollection('productBridges'); return entries.map(entry=>({params:{slug:entry.data.slug},props:{entry}})); }
-const { entry }=Astro.props; const lessons=await getCollection('lessons'); const byId=new Map(lessons.map(l=>[l.data.id,l]));
+import { getContent, href } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const content = await getContent();
+  return content.productBridges.map((bridge) => ({ params: { slug: bridge.slug }, props: { bridge } }));
+}
+const { bridge } = Astro.props;
+const content = await getContent();
 ---
-<BaseLayout title={entry.data.product} description={entry.data.intro}>
+<BaseLayout title={bridge.product} description={bridge.intro}>
   <article class="reading page-header">
-    <p class="eyebrow">產品橋接</p><h1>使用 {entry.data.product} 前</h1><p class="lesson-answer">{entry.data.intro}</p>
+    <p class="eyebrow kicker">產品橋接</p><h1>使用 {bridge.product} 前</h1><p class="lede">{bridge.intro}</p>
     <h2>相關基本觀念</h2>
-    <ol class="path-steps">{entry.data.concepts.map((id:string)=>{const lesson=byId.get(id);return lesson && <li><div><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></div></li>})}</ol>
+    <ol class="path-steps">{bridge.concepts.map(content.lesson).map((lesson) => <li><div><a href={href.lesson(lesson)}>{lesson.question}</a></div></li>)}</ol>
     <p>實際安裝方式、支援平台、方案與功能可能隨時間改變。</p>
-    <OfficialInfoNotice url={entry.data.officialUrl} items={entry.data.check} />
+    <OfficialInfoNotice url={bridge.officialUrl} items={bridge.check} />
   </article>
 </BaseLayout>

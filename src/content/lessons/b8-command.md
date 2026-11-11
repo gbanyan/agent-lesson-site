@@ -16,7 +16,13 @@ prompt:
 newTerms: [動作, 結果]
 searchTerms: [Terminal, Command, 指令, 終端機, 動作, 結果]
 prerequisites: [B3]
-visual: { type: terminal, preset: list-photos }
+visual:
+  type: terminal
+  purpose: 列出「照片」資料夾裡的項目
+  command: ls 照片
+  output: photo-1.jpg　photo-2.jpg　photo-3.jpg
+  impact: read
+  summary: 這行指令列出照片資料夾裡的項目，不會修改照片內容。這是畫面示例，不需要照著輸入。
 scenario:
   request: 先看看「照片」資料夾裡有哪些檔案，不要修改。
   actions:
@@ -25,6 +31,14 @@ scenario:
   result: 多了一份檔案清單，三張原圖沒有被修改。
   boundary: 其他動作可能改檔或連線。看不懂時，先請 Agent 說明動作與目標位置。
 notTeach: [Bash, zsh, PowerShell, 指令語法教學]
+# 編輯保護：keep 的句子必須留在頁面上，avoid 的不得再出現（npm run lint 檢查）。
+guard:
+  keep:
+    - "畫面上不一定會真的出現 Terminal"
+    - "三張原圖沒有被修改"
+  avoid:
+    - "&&"
+    - "|"
 ---
 有些 Agent 在終端機裡做，有些在桌面程式的活動紀錄裡顯示；不管哪一種，你通常不需要自己輸入，只要看得懂：哪一項是它要求電腦做的動作，哪一項是回傳的結果。
 

@@ -1,38 +1,85 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Lesson from './Lesson.astro';
 import LessonVisual from './LessonVisual.astro';
+import FollowUpQuestion from './FollowUpQuestion.astro';
+import type { PathStep } from '../../lib/content-graph';
+import { getContent, href } from '../../lib/content';
+import { uid } from '../../lib/uid';
 import { url } from '../../lib/urls';
 
-interface PathContext {
-  slug: string;
-  title: string;
-  step: number;
-  total: number;
-  introduction?: string | undefined;
-  previous?: { href: string; label: string } | undefined;
-  next?: { href: string; label: string } | undefined;
-  returnHref: string;
-}
-interface Props { entry: CollectionEntry<'lessons'>; pathContext?: PathContext | undefined; }
-const { entry, pathContext } = Astro.props;
+/**
+ * One lesson page. Rendered on its canonical URL, or inside a situation path
+ * when `pathStep` is given (path progress and path-order navigation replace
+ * the canonical previous/next and prerequisite links).
+ */
+interface Props { entry: CollectionEntry<'lessons'>; pathStep?: PathStep | undefined; }
+const { entry, pathStep } = Astro.props;
+const lesson = entry.data;
+const { id, archetype, scenario } = lesson;
 const { Content } = await render(entry);
-const all = (await getCollection('lessons')).sort((a,b) => a.data.section.localeCompare(b.data.section) || a.data.order-b.data.order);
-const index = all.findIndex((item) => item.data.id === entry.data.id);
-const previousEntry = all[index - 1];
-const nextEntry = all[index + 1];
-const canonicalPrevious = previousEntry ? { href:url(`/lessons/${previousEntry.data.slug}/`), label:previousEntry.data.question } : undefined;
-const canonicalNext = nextEntry ? { href:url(`/lessons/${nextEntry.data.slug}/`), label:nextEntry.data.question } : { href:url('/start/'), label:'選另一條路徑' };
-const previous = pathContext ? pathContext.previous : canonicalPrevious;
-const next = pathContext ? pathContext.next : canonicalNext;
+const content = await getContent();
+
+type Link = { href: string; label: string };
+let previous: Link | undefined;
+let next: Link | undefined;
+if (pathStep) {
+  previous = pathStep.previous && { href: href.pathStep(pathStep.path, pathStep.previous.lesson), label: pathStep.previous.title };
+  next = pathStep.next && { href: href.pathStep(pathStep.path, pathStep.next.lesson), label: pathStep.next.title };
+} else {
+  const around = content.lessonNeighbors(id);
+  previous = around.previous && { href: href.lesson(around.previous), label: around.previous.question };
+  next = around.next ? { href: href.lesson(around.next), label: around.next.question } : { href: url('/start/'), label: '選另一條路徑' };
+}
+const prerequisites = pathStep ? [] : lesson.prerequisites.map(content.lesson);
+const takeawayId = uid('takeaway-', `${Astro.url.pathname}|${lesson.takeaway}`);
 ---
-<BaseLayout title={entry.data.question} description={entry.data.answer} canonicalPath={`/lessons/${entry.data.slug}/`}>
-  <div class="shell">
-    <Lesson id={entry.data.id} archetype={entry.data.archetype} role={entry.data.role} question={entry.data.question} context={entry.data.context} answer={entry.data.answer} takeaway={entry.data.takeaway} prompt={entry.data.prompt} newTerms={entry.data.newTerms} searchTerms={entry.data.searchTerms} scenario={entry.data.scenario} pathContext={pathContext} indexInSearch={!pathContext} previous={previous} next={next}>
-      {entry.data.visual && <LessonVisual slot="visual" lessonId={entry.data.id} type={entry.data.visual.type} preset={entry.data.visual.preset} />}
-      <Content />
-    </Lesson>
-  </div>
+<BaseLayout title={lesson.question} description={lesson.answer} canonicalPath={`/lessons/${lesson.slug}/`}>
+  <article class:list={['lesson', 'article', 'reading', `lesson-${archetype}`]} data-pagefind-body={pathStep ? undefined : true}>
+    {pathStep && <nav class="path-context wide panel" data-surface="soft" aria-label="目前情境路徑">
+      <p><a href={href.path(pathStep.path)}>返回「{pathStep.path.title}」</a></p>
+      <p class="path-progress"><strong>{pathStep.path.title}</strong><span>第 {pathStep.step} / {pathStep.total} 步</span></p>
+      <div class="path-context-links">
+        <span>{previous && <a class="tap" href={previous.href}>← 上一步：{previous.label}</a>}</span>
+        <span>{next && <a class="tap" href={next.href}>下一步：{next.label} →</a>}</span>
+      </div>
+    </nav>}
+    {pathStep?.intro && <p class="path-step-introduction wide">{pathStep.intro}</p>}
+    <header>
+      {lesson.searchTerms && lesson.searchTerms.length > 0 && <span class="search-alias" aria-hidden="true" data-pagefind-weight="0.5">{lesson.searchTerms.join(' ')}</span>}
+      <div class="lesson-meta"><span>概念短讀</span></div>
+      {lesson.role === 'core' && <span class="lesson-role pill">核心觀念</span>}
+      <h1 data-pagefind-meta="title">{lesson.question}</h1>
+      <p class="lesson-context">{lesson.context}</p>
+      <p class="lede">{lesson.answer}</p>
+      {prerequisites.length > 0 && <p class="lesson-prerequisites note" data-pagefind-ignore>需要時先看：{prerequisites.map((item, index) => <>{index > 0 && '、'}<a href={href.lesson(item)}>{item.question}</a></>)}</p>}
+    </header>
+    {lesson.visual && <LessonVisual visual={lesson.visual} />}
+    <div class="lesson-body"><Content /></div>
+    {lesson.newTerms.length > 0 && <ul class="term-list" aria-label="文中名稱">{lesson.newTerms.map((term) => <li class="pill">{term}</li>)}</ul>}
+    <section class="scenario" aria-labelledby={`scenario-${id}`}>
+      <p class="scenario-kicker kicker">{archetype === 'safety_action' ? '執行前確認' : archetype === 'contrast' ? '放進同一個案例比較' : '例子'}</p>
+      <h2 id={`scenario-${id}`}>{archetype === 'safety_action' ? '這次可能發生什麼' : '放到實際情況裡'}</h2>
+      {scenario.appliesBeyondCodingAgent && <p class="other-agent-note note">同樣的概念也適用於其他 Agent。</p>}
+      {scenario.warning && <aside class="scenario-warning scenario-boundary callout" data-tone="amber" id={`warning-${id}`}><strong>警示案例：以下要求不應直接照做。</strong><p>{scenario.warning}</p></aside>}
+      <blockquote aria-describedby={scenario.warning ? `warning-${id}` : undefined}>{scenario.request}</blockquote>
+      {archetype === 'definition'
+        ? <div class="example-prose">{scenario.actions.map((action) => <p>{action}</p>)}</div>
+        : <ul>{scenario.actions.map((action) => <li>{action}</li>)}</ul>}
+      <p class="scenario-result">{scenario.result}</p>
+      {archetype === 'safety_action'
+        ? <aside class="scenario-boundary callout" data-tone="amber"><strong>要確認：</strong>{scenario.boundary}</aside>
+        : <p class="scenario-note note">{scenario.boundary}</p>}
+    </section>
+    {archetype === 'definition' && <aside class="takeaway callout" data-tone="leaf" aria-labelledby={takeawayId}>
+      <strong id={takeawayId}>這頁重點</strong>
+      <p>{lesson.takeaway}</p>
+    </aside>}
+    {lesson.prompt && <FollowUpQuestion prompt={lesson.prompt} />}
+    <nav class="lesson-next" aria-label="課程前後導覽">
+      <span>{previous && <a class="tap" href={previous.href}>← {previous.label}</a>}</span>
+      <span>{next && <a class="tap" href={next.href}>{next.label} →</a>}</span>
+    </nav>
+  </article>
 </BaseLayout>

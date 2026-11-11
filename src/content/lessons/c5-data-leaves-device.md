@@ -14,7 +14,22 @@ prerequisites:
   - C1
 visual:
   type: system-map
-  preset: data-movement
+  label: 圖片何時離開這台電腦
+  lanes:
+    - title: 獲准之後
+      steps:
+        - place: 拿到
+          title: 三張本機原圖
+          detail: 先查看實際內容
+          tone: local
+        - place: 操作
+          title: 工具上傳
+          detail: 經過網路
+        - place: 結果
+          title: 服務收到圖片
+          detail: 原圖仍在也算已送出
+          tone: remote
+  summary: 工具獲准後上傳三張原圖，線上服務收到內容；原圖仍在本機不表示資料沒有離開。
 scenario:
   request: 若需要線上縮圖，先讓我確認會上傳哪些圖片，再決定是否送出。
   actions:

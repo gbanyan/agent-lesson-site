@@ -1,0 +1,32 @@
+---
+/**
+ * A prompt readers can copy. Owns the code box, copy button, live status and
+ * the data-copy-* hooks that the shared copy handler in BaseLayout relies on.
+ * Slots: `before` (above the heading row), `heading`, default (between heading
+ * and code), `after` (below the code).
+ */
+interface Props { text: string; buttonLabel: string; ariaLabel?: string; }
+const { text, buttonLabel, ariaLabel = buttonLabel } = Astro.props;
+---
+<div class="copyable" data-copy-root>
+  <slot name="before" />
+  <div class="copyable-heading">
+    <slot name="heading" />
+    <button type="button" class="copy-prompt pill" data-copy-prompt data-copy-label={buttonLabel} aria-label={ariaLabel}>{buttonLabel}</button>
+  </div>
+  <slot />
+  <pre class="copyable-code"><code data-copy-source>{text}</code></pre>
+  <slot name="after" />
+  <p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
+</div>
+
+<style>
+  .copyable-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .copyable-heading :global(:is(h2, h3)) { margin: 0; font-size: var(--step-1); }
+  .copy-prompt { flex: 0 0 auto; min-height: var(--tap); padding: .5rem .85rem; border: 1px solid var(--leaf); background: transparent; color: var(--leaf-dark); font-weight: 750; cursor: pointer; }
+  .copy-prompt:hover { background: var(--leaf-pale); }
+  .copyable-code { overflow-x: auto; margin: 1rem 0 0; padding: 1rem; border-left: 4px solid var(--blue); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; background: var(--surface-soft); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .copyable-code code { font: 500 .94rem/1.7 var(--font-mono); }
+  .copy-status { min-height: 1.5em; margin: .5rem 0 0; color: var(--ink-soft); font-size: var(--step--2); }
+  @media (max-width: 36rem) { .copyable-heading { align-items: flex-start; flex-direction: column; } }
+</style>

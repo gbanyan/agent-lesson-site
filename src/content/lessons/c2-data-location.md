@@ -14,7 +14,49 @@ prerequisites:
   - C1
 visual:
   type: system-map
-  preset: data-location
+  label: 三張圖片存在哪裡
+  lanes:
+    - title: 原圖
+      steps:
+        - place: 這台電腦
+          title: 照片
+          detail: 三張原圖保留
+          tone: local
+    - title: 新圖
+      steps:
+        - place: 預定位置
+          title: 縮小照片
+          detail: 確認三張新圖已保存
+          tone: result
+        - place: 若只有線上結果
+          title: 還要下載
+          detail: 看得到不表示已存在本機
+          tone: remote
+  summary: 三張原圖保留在本機的「照片」資料夾，新圖要確認已保存到「縮小照片」。線上看得到的結果若尚未下載，本機仍沒有那份新圖。
+  more:
+    label: 另外看文件的例子
+    map:
+      label: 畫面與儲存位置
+      lanes:
+        - title: 本機檔案
+          steps:
+            - place: 瀏覽器或應用程式
+              title: 畫面顯示內容
+              detail: 從硬碟讀取
+            - place: 你的裝置
+              title: 企劃書.docx
+              detail: 實際存放位置
+              tone: local
+        - title: 遠端文件
+          steps:
+            - place: 瀏覽器或應用程式
+              title: 畫面顯示內容
+              detail: 看起來可能相同
+            - place: 服務商系統
+              title: 線上企劃書
+              detail: 實際存放位置
+              tone: remote
+      summary: 同樣在螢幕上看到文件，資料可能存在本機，也可能只存在遠端服務。
 scenario:
   request: 先確認這三張原圖與縮小後的圖片各存在哪裡。
   actions:

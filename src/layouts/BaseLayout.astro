@@ -2,9 +2,11 @@
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import { url } from '../lib/urls';
+import { palette, paletteCss } from '../lib/palette';
 import '../styles/base.css';
 import '../styles/layout.css';
-import '../styles/components.css';
+import '../styles/primitives.css';
+import '../styles/diagrams.css';
 import '../styles/lesson.css';
 
 interface Props { title: string; description?: string; canonicalPath?: string; }
@@ -19,17 +21,36 @@ const canonical = new URL(canonicalPath ? url(canonicalPath) : Astro.url.pathnam
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta id="theme-color" name="theme-color" content="#f7f5ee" />
+    <meta name="theme-color" content={palette.light.paper} />
     <title>{fullTitle}</title>
+    <Fragment set:html={`<style>${paletteCss()}</style>`} />
     <script is:inline>
+      // Theme state lives here so the page paints in the right theme before body renders.
+      // window.siteTheme is shared with the toggle wiring at the end of <body>.
       (() => {
-        try {
-          const saved = localStorage.getItem('theme');
-          const systemDark = matchMedia('(prefers-color-scheme: dark)').matches;
-          const actual = saved === 'light' || saved === 'dark' ? saved : (systemDark ? 'dark' : 'light');
-          if (saved === 'light' || saved === 'dark') document.documentElement.dataset.theme = saved;
-          document.querySelector('#theme-color')?.setAttribute('content', actual === 'dark' ? '#111815' : '#f7f5ee');
-        } catch (_) {}
+        const system = matchMedia('(prefers-color-scheme: dark)');
+        const saved = () => {
+          try {
+            const value = localStorage.getItem('theme');
+            return value === 'light' || value === 'dark' ? value : 'system';
+          } catch (_) { return 'system'; }
+        };
+        const apply = () => {
+          const choice = saved();
+          const root = document.documentElement;
+          if (choice === 'system') delete root.dataset.theme; else root.dataset.theme = choice;
+          const paper = getComputedStyle(root).getPropertyValue('--paper').trim();
+          if (paper) document.querySelector('meta[name="theme-color"]')?.setAttribute('content', paper);
+          return { choice, actual: choice === 'system' ? (system.matches ? 'dark' : 'light') : choice };
+        };
+        const set = (choice) => {
+          try {
+            if (choice === 'system') localStorage.removeItem('theme'); else localStorage.setItem('theme', choice);
+          } catch (_) {}
+          return apply();
+        };
+        window.siteTheme = { apply, set, system };
+        apply();
       })();
     </script>
   </head>
@@ -40,60 +61,43 @@ const canonical = new URL(canonicalPath ? url(canonicalPath) : Astro.url.pathnam
     <Footer />
     <script is:inline>
       (() => {
+        // Theme toggle: markup in Header.astro, state in window.siteTheme (see <head>).
         const button = document.querySelector('[data-theme-toggle]');
-        if (!(button instanceof HTMLButtonElement)) return;
-        const choices = ['system', 'light', 'dark'];
-        const labels = { system: '跟隨系統', light: '淺色', dark: '深色' };
-        const systemDark = matchMedia('(prefers-color-scheme: dark)');
-
-        const savedTheme = () => {
-          try {
-            const value = localStorage.getItem('theme');
-            return value === 'light' || value === 'dark' ? value : 'system';
-          } catch (_) { return 'system'; }
-        };
-        const paint = () => {
-          const choice = savedTheme();
-          const actual = choice === 'system' ? (systemDark.matches ? 'dark' : 'light') : choice;
-          button.dataset.choice = choice;
-          button.setAttribute('aria-label', `外觀：${labels[choice]}；目前為${labels[actual]}模式。按下可切換。`);
-          const label = button.querySelector('[data-theme-label]');
-          if (label) label.textContent = `外觀：${labels[choice]}`;
-          document.querySelector('#theme-color')?.setAttribute('content', actual === 'dark' ? '#111815' : '#f7f5ee');
-        };
-        button.addEventListener('click', () => {
-          const current = savedTheme();
-          const next = choices[(choices.indexOf(current) + 1) % choices.length];
-          try {
-            if (next === 'system') localStorage.removeItem('theme');
-            else localStorage.setItem('theme', next);
-          } catch (_) {}
-          if (next === 'system') delete document.documentElement.dataset.theme;
-          else document.documentElement.dataset.theme = next;
-          paint();
-        });
-        systemDark.addEventListener('change', paint);
-        paint();
-      })();
-      (() => {
-        document.querySelectorAll('[data-copy-prompt]').forEach((candidate) => {
-          if (!(candidate instanceof HTMLButtonElement)) return;
-          candidate.addEventListener('click', async () => {
-            const container = candidate.closest('.prompt-card, .follow-up');
-            const text = container?.querySelector('code')?.textContent ?? '';
-            const status = container?.querySelector('.copy-status');
-            try {
-              if (!navigator.clipboard) throw new Error('clipboard unavailable');
-              await navigator.clipboard.writeText(text);
-              candidate.textContent = '已複製';
-              if (status) status.textContent = '文字已複製到剪貼簿。';
-              window.setTimeout(() => { candidate.textContent = candidate.dataset.copyLabel ?? '複製'; }, 1800);
-            } catch {
-              if (status) status.textContent = '無法自動複製，請選取文字後手動複製。';
-            }
+        const theme = window.siteTheme;
+        if (button instanceof HTMLButtonElement && theme) {
+          const choices = ['system', 'light', 'dark'];
+          const labels = { system: '跟隨系統', light: '淺色', dark: '深色' };
+          const paint = ({ choice, actual }) => {
+            button.dataset.choice = choice;
+            button.setAttribute('aria-label', `外觀：${labels[choice]}；目前為${labels[actual]}模式。按下可切換。`);
+            const label = button.querySelector('[data-theme-label]');
+            if (label) label.textContent = `外觀：${labels[choice]}`;
+          };
+          button.addEventListener('click', () => {
+            const current = button.dataset.choice ?? 'system';
+            paint(theme.set(choices[(choices.indexOf(current) + 1) % choices.length]));
           });
-        });
+          theme.system.addEventListener('change', () => paint(theme.apply()));
+          paint(theme.apply());
+        }
       })();
+      // Copy buttons: see CopyablePrompt.astro for the data-copy-* contract.
+      document.addEventListener('click', async (event) => {
+        const button = event.target instanceof Element ? event.target.closest('[data-copy-prompt]') : null;
+        if (!(button instanceof HTMLButtonElement)) return;
+        const root = button.closest('[data-copy-root]');
+        const text = root?.querySelector('[data-copy-source]')?.textContent ?? '';
+        const status = root?.querySelector('[data-copy-status]');
+        try {
+          if (!navigator.clipboard) throw new Error('clipboard unavailable');
+          await navigator.clipboard.writeText(text);
+          button.textContent = '已複製';
+          if (status) status.textContent = '文字已複製到剪貼簿。';
+          window.setTimeout(() => { button.textContent = button.dataset.copyLabel ?? '複製'; }, 1800);
+        } catch {
+          if (status) status.textContent = '無法自動複製，請選取文字後手動複製。';
+        }
+      });
     </script>
   </body>
 </html>

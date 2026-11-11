@@ -2,9 +2,41 @@
 id: P5
 slug: what-still-works
 order: 0
+badge: 先讀這篇
 title: 學 Agent，哪些會過期、哪些不會？
 summary: 產品名稱、介面與價格會變；資料位置、授權、結果檢查與復原這類問題，換了產品仍是同一組。
 principle: 學的時候分兩堆：跟著產品走的，查一下就補得回來；跟著工作走的，才值得慢慢練。
+visual:
+  label: 跟著產品變的，與跟著工作不變的
+  lanes:
+    - title: 會換的部分
+      steps:
+        - place: 產品名稱與介面
+          title: 按鈕與版面
+          detail: 會隨版本或公司變動
+          tone: agent
+        - place: 方案與排行
+          title: 價格、額度、排行榜
+          detail: 查目前官方即可
+        - place: 安裝與帳號
+          title: 位置與權限方式
+          detail: 每套可能不同
+          tone: remote
+    - title: 不變的部分
+      steps:
+        - place: 你的資料
+          title: 在哪裡、它拿了哪些
+          detail: 換產品仍是同一組問題
+          tone: local
+        - place: 你的決定
+          title: 准了什麼、怎麼檢查
+          detail: 結果要核對，不只看描述
+          tone: result
+        - place: 你的後路
+          title: 改壞了怎麼救
+          detail: 先保留舊版或副本
+          tone: result
+  summary: 產品名稱、介面、方案與排行榜會變；資料位置、授權、結果檢查與復原，換了產品仍是同一組問題。
 prompts:
   - label: 區分會變與不變的學習
     audience: research_chat

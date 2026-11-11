@@ -20,7 +20,9 @@ prerequisites:
   - D2
 visual:
   type: permission
-  preset: modify-files
+  files:
+    - 縮小照片/
+  consequence: 允許工具在這裡另存新圖；原圖不動，不寄信或分享。
 scenario:
   request: 把選好的三張照片縮小後另存到「縮小照片」，原圖不動，先不寄出。
   actions:

@@ -1,0 +1,13 @@
+---
+import type { FlowDiagramData } from '../../lib/schemas';
+type Props = FlowDiagramData;
+const { label, steps, summary, note } = Astro.props;
+---
+<figure class="visual flow-diagram">
+  <figcaption class="visual-label">{label}</figcaption>
+  <div class="flow" aria-hidden="true" data-pagefind-ignore>
+    {steps.map((step, index) => <><span class="flow-step">{step}</span>{index < steps.length - 1 && <b class="flow-arrow">↓</b>}</>)}
+  </div>
+  <p class="visually-equivalent sr-only">{summary}</p>
+  {note && <p class="flow-note callout" data-tone="blue">{note}</p>}
+</figure>

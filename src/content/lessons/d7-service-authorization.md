@@ -20,7 +20,37 @@ prerequisites:
   - D4
 visual:
   type: system-map
-  preset: service-authorization
+  label: 每個外部服務都要各自開門
+  lanes:
+    - title: Agent 想碰的服務
+      steps:
+        - place: 行事曆
+          title: 讀取空檔、建立活動
+          detail: 可能是不同公司
+          tone: remote
+        - place: 郵件
+          title: 寄出邀請
+          detail: 另一家公司
+          tone: remote
+        - place: 雲端資料夾
+          title: 上傳議程
+          detail: 又一家公司
+          tone: remote
+    - title: 你的授權
+      steps:
+        - place: 逐一同意
+          title: 開放哪些存取
+          detail: 不是一次通包
+          tone: agent
+        - place: 範圍與期限
+          title: 能碰多久、多廣
+          detail: 各服務不同
+          tone: agent
+        - place: 撤銷
+          title: 回原服務設定
+          detail: 不在 Agent 端關掉
+          tone: result
+  summary: 行事曆、郵件與雲端資料夾多半由不同公司提供；Agent 要存取，就得各自取得授權，並確認範圍、期限，以及如何回到原服務撤銷。
 scenario:
   request: 幫我把週五下午兩點的會議排進我的行事曆、邀請三位同事，並把議程上傳到我的雲端資料夾。
   actions:

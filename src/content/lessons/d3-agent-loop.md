@@ -14,7 +14,23 @@ prerequisites:
   - D2
 visual:
   type: system-map
-  preset: inspect-folder
+  label: 檢查結果進入下一輪
+  lanes:
+    - title: 縮小照片
+      steps:
+        - place: 拿到
+          title: 原圖與要求
+          detail: 保留原圖
+        - place: 操作
+          title: 工具另存新圖
+          detail: 按約定方式縮小
+        - place: 結果
+          title: 一張仍然太大
+          detail: 未達原要求
+        - place: 下一輪
+          title: 提出調整方式
+          detail: 更多畫質取捨先詢問
+  summary: 另存後檢查發現一張仍太大，Agent 根據結果提出下一步。不能擅自覆蓋原圖或改用外部服務。
 scenario:
   request: 把三張照片各縮小一份，原圖保留；若新圖仍太大或看不清楚，先回報，不要寄出。
   actions:
@@ -26,6 +42,10 @@ scenario:
 notTeach:
   - private chain-of-thought
   - agent framework
+# 編輯保護：keep 的句子必須留在頁面上，avoid 的不得再出現（npm run lint 檢查）。
+guard:
+  keep:
+    - "新圖仍太大或看不清楚"
 ---
 Agent 取得資訊、決定並執行下一步，再把工具回報納入下一輪。一次操作的結果，可能是下一次操作的起點。
 

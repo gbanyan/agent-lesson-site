@@ -11,7 +11,37 @@ takeaway: Agent 能從網路取得內容，也能把資料送出去；它讀到�
 newTerms: [網路存取]
 searchTerms: [Internet access]
 prerequisites: [C5, D2]
-visual: { type: system-map, preset: internet-access }
+visual:
+  type: system-map
+  label: 網路是雙向的
+  lanes:
+    - title: 取得資料
+      steps:
+        - place: 外部網站
+          title: 目前公告
+          detail: 來源可能可靠或有誤
+          tone: remote
+        - place: 網路
+          title: 下載內容
+          detail: 送進 Agent
+        - place: Agent
+          title: 讀取與判斷
+          detail: 不能自動當成指令
+          tone: agent
+    - title: 送出資料
+      steps:
+        - place: 你的裝置
+          title: 檔案或問題
+          detail: 檢查送出內容
+          tone: local
+        - place: 網路
+          title: 上傳內容
+          detail: 離開裝置
+        - place: 外部服務
+          title: 接收資料
+          detail: 依服務規則處理
+          tone: remote
+  summary: 網路工具可以把資料帶進來，也可以把本機內容送出去；兩個方向都要檢查。
 scenario:
   request: 查詢我使用的寄件服務能接受多大的附件，回報來源，不要上傳照片或寄信。
   actions:

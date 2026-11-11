@@ -15,7 +15,14 @@ prerequisites:
   - B3
 visual:
   type: concept
-  preset: install-run
+  label: 安裝不等於執行
+  items:
+    - title: 安裝
+      detail: 把需要的內容準備好
+    - title: 執行
+      detail: 讓程式開始工作
+  relation: ≠
+  summary: 安裝是把程式準備在環境裡；執行才是讓它開始工作。
 scenario:
   request: 安裝圖片縮小工具，再把「照片」的三張原圖各縮小一份到「縮小照片」，原圖保留。
   actions:

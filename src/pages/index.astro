@@ -1,82 +1,72 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import GuideCard from '../components/education/GuideCard.astro';
 import { url } from '../lib/urls';
+import { getContent, href } from '../lib/content';
 import { compiledContent } from '../content/introduction.md';
 const aboutExcerpt = (await compiledContent()).match(/<p>[\s\S]*?<\/p>/)?.[0] ?? '';
-const paths = (await getCollection('paths')).sort((a, b) => a.data.id.localeCompare(b.data.id));
-const guides = (await getCollection('preflightGuides')).sort((a, b) => a.data.order - b.data.order);
-const lessons = await getCollection('lessons');
-const coreLessons = lessons.filter((lesson) => lesson.data.role === 'core').sort((a, b) => a.data.section.localeCompare(b.data.section) || a.data.order - b.data.order);
-const tasks = (await getCollection('tasks')).sort((a, b) => a.data.id.localeCompare(b.data.id));
-const firstPath = paths.find((path) => path.data.slug === 'first-coding-agent');
-const situationPaths = paths.filter((path) => path.data.slug !== 'first-coding-agent');
+const content = await getContent();
+const featuredPath = content.featuredPath;
+const situationPaths = content.paths.filter((path) => path !== featuredPath);
 ---
 <BaseLayout title="看懂 Agent">
   <section class="hero shell">
-    <p class="eyebrow">AI Agent 入門</p>
+    <p class="eyebrow kicker">AI Agent 入門</p>
     <h1>AI Agent 動手時，電腦發生了什麼？</h1>
     <div class="introduction-copy">
       <Fragment set:html={aboutExcerpt} />
       <a href={url('/about/')}>關於本站 →</a>
     </div>
-    <p class="hero-actions"><a class="button" href="#prepare">先準備前置觀念 ↓</a></p>
+    <p class="hero-actions"><a class="button pill" href="#prepare">先準備前置觀念 ↓</a></p>
   </section>
   <section class="section prepare-section" id="prepare" aria-labelledby="prepare-title">
     <div class="shell">
       <div class="section-heading">
-        <p class="eyebrow">前置觀念</p>
+        <p class="eyebrow kicker">前置觀念</p>
         <h2 id="prepare-title">前置準備</h2>
         <p>先盤點你能交出去的事，再確認費用、安裝方式、產品差異與資料規則。這些細節會隨產品改變，請以目前的官方資訊為準。</p>
       </div>
       <div class="card-grid prepare-grid">
-        {guides.map((guide) => (
-          <a class="card prepare-card" href={url(`/prepare/${guide.data.slug}/`)}>
-            {guide.data.order === 0 && <span class="eyebrow">先讀這篇</span>}{guide.data.id === 'P3' && <span class="eyebrow">延伸參考</span>}
-            <h3>{guide.data.title}</h3>
-            <p>{guide.data.summary}</p>
-          </a>
-        ))}
+        {content.guides.map((guide) => <GuideCard guide={guide} />)}
       </div>
       <p class="prepare-more"><a href={url('/prepare/')}>前置觀念總覽 →</a></p>
-      <p class="next-step"><a class="button" href="#first-use">下一步：跟六步路徑，看 Agent 怎麼工作 ↓</a></p>
+      <p class="next-step"><a class="button pill" href="#first-use">下一步：跟六步路徑，看 Agent 怎麼工作 ↓</a></p>
     </div>
   </section>
   <section class="section" id="first-use">
     <div class="shell">
-      <div class="section-heading"><p class="eyebrow">第一次使用 Agent</p><h2>Agent 怎麼工作</h2><p>想寄照片給朋友，檔案卻太大？從保留原圖、另存縮小版這件事，看 Agent 怎麼工作。不需要準備檔案或跟著操作。</p></div>
-      {firstPath && <a class="card featured-card" href={url(`/paths/${firstPath.data.slug}/`)}><h3>{firstPath.data.title}</h3><p>{firstPath.data.description}</p></a>}
-      {coreLessons.length > 0 && <p class="core-row"><strong>通用核心</strong>：{coreLessons.map((lesson, index) => <>{index > 0 && '、'}<a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></>)}</p>}
+      <div class="section-heading"><p class="eyebrow kicker">第一次使用 Agent</p><h2>Agent 怎麼工作</h2><p>想寄照片給朋友，檔案卻太大？從保留原圖、另存縮小版這件事，看 Agent 怎麼工作。不需要準備檔案或跟著操作。</p></div>
+      {featuredPath && <a class="card featured-card" href={href.path(featuredPath)}><h3>{featuredPath.title}</h3><p>{featuredPath.description}</p></a>}
+      {content.coreLessons.length > 0 && <p class="core-row"><strong>通用核心</strong>：{content.coreLessons.map((lesson, index) => <>{index > 0 && '、'}<a href={href.lesson(lesson)}>{lesson.question}</a></>)}</p>}
     </div>
   </section>
   <section class="section">
     <div class="shell">
-      <div class="section-heading"><p class="eyebrow">依情境閱讀</p><h2>目前遇到哪種狀況？</h2></div>
+      <div class="section-heading"><p class="eyebrow kicker">依情境閱讀</p><h2>目前遇到哪種狀況？</h2></div>
       <div class="card-grid">
-        {situationPaths.map((path) => <a class="card" href={url(`/paths/${path.data.slug}/`)}><h3>{path.data.title}</h3><p>{path.data.description}</p></a>)}
+        {situationPaths.map((path) => <a class="card" href={href.path(path)}><h3>{path.title}</h3><p>{path.description}</p></a>)}
       </div>
     </div>
   </section>
   <section class="section" aria-labelledby="tasks-title">
     <div class="shell">
-      <div class="section-heading"><p class="eyebrow">任務示例</p><h2 id="tasks-title">一件完整的任務怎麼跑</h2><p>從提出要求到檢查結果，多個觀念在同一件工作裡輪番上陣。這是說明用的例子，不需要跟著操作。</p></div>
-      <div class="card-grid">{tasks.map((task) => <a class="card" href={url(`/tasks/${task.data.slug}/`)}><h3>{task.data.title}</h3><p>{task.data.situation}</p></a>)}</div>
+      <div class="section-heading"><p class="eyebrow kicker">任務示例</p><h2 id="tasks-title">一件完整的任務怎麼跑</h2><p>從提出要求到檢查結果，多個觀念在同一件工作裡輪番上陣。這是說明用的例子，不需要跟著操作。</p></div>
+      <div class="card-grid">{content.tasks.map((task) => <a class="card" href={href.task(task)}><h3>{task.title}</h3><p>{task.situation}</p></a>)}</div>
     </div>
   </section>
   <section class="section">
-    <div class="shell section-heading search-cta"><p class="eyebrow">找一個概念</p><h2>直接查不熟的詞</h2><p>搜尋 Git、Permission、Terminal、Command 等概念。</p><a class="button secondary" href={url('/concepts/')}>找概念</a></div>
+    <div class="shell section-heading search-cta"><p class="eyebrow kicker">找一個概念</p><h2>直接查不熟的詞</h2><p>搜尋 Git、Permission、Terminal、Command 等概念。</p><a class="button pill secondary" href={url('/concepts/')}>找概念</a></div>
   </section>
 </BaseLayout>
 <style>
-  .hero-actions{margin-top:1.75rem}
-  .next-step{margin-top:1.5rem}
-  #prepare,#first-use{scroll-margin-top:1rem}
-  .featured-card{max-width:38rem}
-  .introduction-copy{max-width:42rem;font-size:var(--step-1);line-height:1.75}
-  .introduction-copy p{margin:0 0 1rem}
-  .prepare-more{margin-top:1.5rem}
-  .search-cta{margin-bottom:0}
-  .core-row{margin-top:1.25rem;color:var(--ink-soft)}
-  .core-row strong{color:var(--ink)}
-  .core-row a{font-weight:650}
+  .hero-actions { margin-top: 1.75rem; }
+  .next-step { margin-top: 1.5rem; }
+  #prepare, #first-use { scroll-margin-top: 1rem; }
+  .featured-card { max-width: 38rem; }
+  .introduction-copy { max-width: 42rem; font-size: var(--step-1); line-height: 1.75; }
+  .prepare-more { margin-top: 1.5rem; }
+  .search-cta { margin-bottom: 0; }
+  .core-row { margin-top: 1.25rem; color: var(--ink-soft); }
+  .core-row strong { color: var(--ink); }
+  .core-row a { font-weight: 650; }
 </style>

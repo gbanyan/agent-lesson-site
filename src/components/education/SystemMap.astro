@@ -1,7 +1,6 @@
 ---
-interface Step { place: string; title: string; detail: string; tone?: 'local' | 'agent' | 'remote' | 'result'; }
-interface Lane { title: string; steps: Step[]; }
-interface Props { label: string; lanes: Lane[]; summary: string; }
+import type { SystemMapData } from '../../lib/schemas';
+type Props = SystemMapData;
 const { label, lanes, summary } = Astro.props;
 ---
 <figure class="visual system-map">
@@ -14,7 +13,7 @@ const { label, lanes, summary } = Astro.props;
           {lane.steps.map((step, index) => (
             <>
               <div class:list={['system-node', step.tone]}>
-                <small>{step.place}</small>
+                <small class="kicker">{step.place}</small>
                 <strong>{step.title}</strong>
                 <span>{step.detail}</span>
               </div>

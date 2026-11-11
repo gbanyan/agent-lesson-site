@@ -1,36 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
 import LessonPage from '../../../components/education/LessonPage.astro';
-import { url } from '../../../lib/urls';
+import { getContent } from '../../../lib/content';
 
+// Each path step is a static page that keeps the lesson's canonical URL.
 export async function getStaticPaths() {
-  const [paths, lessons] = await Promise.all([getCollection('paths'), getCollection('lessons')]);
-  const byId = new Map(lessons.map((lesson) => [lesson.data.id, lesson]));
-  const current = paths.flatMap((path) => path.data.lessons.flatMap((id, index) => {
-    const entry = byId.get(id);
-    if (!entry) return [];
-    const previousLesson = index > 0 ? byId.get(path.data.lessons[index - 1]!) : undefined;
-    const nextLesson = index < path.data.lessons.length - 1 ? byId.get(path.data.lessons[index + 1]!) : undefined;
-    const wrapperHref = (slug:string) => url(`/paths/${path.data.slug}/${slug}/`);
-    return [{
-      params: { path:path.data.slug, lesson:entry.data.slug },
-      props: {
-        entry,
-        pathContext: {
-          slug:path.data.slug,
-          title:path.data.title,
-          step:index + 1,
-          total:path.data.lessons.length,
-          introduction:path.data.stepIntros?.[id],
-          previous:previousLesson ? { href:wrapperHref(previousLesson.data.slug), label:path.data.stepTitles?.[previousLesson.data.id] ?? previousLesson.data.question } : undefined,
-          next:nextLesson ? { href:wrapperHref(nextLesson.data.slug), label:path.data.stepTitles?.[nextLesson.data.id] ?? nextLesson.data.question } : undefined,
-          returnHref:url(`/paths/${path.data.slug}/`),
-        },
-      },
-    }];
-  }));
-  return current;
+  const [content, entries] = await Promise.all([getContent(), getCollection('lessons')]);
+  const entryById = new Map(entries.map((entry) => [entry.data.id, entry]));
+  return content.paths.flatMap((path) => content.pathSteps(path).map((pathStep) => ({
+    params: { path: path.slug, lesson: pathStep.lesson.slug },
+    props: { entry: entryById.get(pathStep.lesson.id)!, pathStep },
+  })));
 }
-const { entry, pathContext } = Astro.props;
+const { entry, pathStep } = Astro.props;
 ---
-<LessonPage entry={entry} pathContext={pathContext} />
+<LessonPage entry={entry} pathStep={pathStep} />

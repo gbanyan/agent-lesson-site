@@ -5,6 +5,30 @@ order: 1
 title: Agent 能幫我做的事，從哪裡想？
 summary: 已有程式與工作已有的做法，就是想像的來源。
 principle: 能力從既成事物出發——先從「已經有人這樣做過、之前專業的人怎麼做」想，再問它想不想得到步驟、計劃。
+visual:
+  label: 電腦早就會的事，加上你的判斷
+  lanes:
+    - title: 已經做得到
+      steps:
+        - place: 你的程式
+          title: 彙總、比對、批次改
+          detail: 每個動作都有人先實作過
+          tone: local
+        - place: 現成做法
+          title: 報表、對帳、檢查表
+          detail: 你領域裡的固定套路
+          tone: agent
+    - title: 過去要人判斷
+      steps:
+        - place: 你的標準
+          title: 哪幾張算選好的
+          detail: 模糊的取捨只能你自己來
+          tone: remote
+        - place: Agent 接上
+          title: 依描述決定步驟
+          detail: 會做也可能錯，做完要檢查
+          tone: result
+  summary: Agent 用的手都是電腦早就會的事；新增的是它聽你描述去決定順序，這一步會錯，所以要檢查。
 prompts:
   - label: 盤點你的可委託工作
     audience: research_chat

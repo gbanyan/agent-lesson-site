@@ -12,7 +12,18 @@ takeaway: 想不起流程時就追蹤資料：它拿到了什麼、動到了什�
 newTerms: [輸入, 處理, 輸出]
 searchTerms: [Input, Process, Output, 輸入, 處理, 輸出, 資料流]
 prerequisites: []
-visual: { type: concept, preset: ipo }
+visual:
+  type: concept
+  label: 任何一件事，都走這三段
+  items:
+    - title: 輸入
+      detail: 你的要求，加上檔案或搜到的資料
+    - title: 處理
+      detail: 統整文字，或執行程式真正動手
+    - title: 輸出
+      detail: 文字、新檔案，加一段回報
+  relation: →
+  summary: 輸入是你給的東西，處理是它做的工作，輸出是你收的成果。照片的例子就是這張圖：三張原圖與要求進去，圖片程式執行縮小，交出三張新圖和一聲「完成」。
 prompt:
   audience: research_chat
   mode: ask_only
@@ -27,6 +38,10 @@ scenario:
   result: "多出三張縮小版照片，原圖保留；回報『完成』不代表照片已寄給朋友。"
   boundary: "指令再清楚，輸出仍可能不合用；要檢查的還是實際檔案，不是描述。"
 notTeach: [作業系統程序, 演算法]
+# 編輯保護：keep 的句子必須留在頁面上，avoid 的不得再出現（npm run lint 檢查）。
+guard:
+  keep:
+    - "照片的例子就是這張圖"
 ---
 三種請求，同一個看法：
 

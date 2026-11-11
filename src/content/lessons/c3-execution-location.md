@@ -14,7 +14,33 @@ prerequisites:
   - C1
 visual:
   type: system-map
-  preset: execution-model-resources
+  label: 一次工作，可能牽涉不同電腦
+  lanes:
+    - title: 你的裝置
+      steps:
+        - place: 這台電腦
+          title: 檔案與本機工具
+          detail: 縮圖程式可能在本機
+          tone: local
+        - place: 本機資源
+          title: 運算與儲存空間
+          detail: 本機執行的工具會用到
+          tone: local
+    - title: 另一邊
+      steps:
+        - place: 遠端電腦
+          title: 或外部服務
+          detail: 縮圖可能在那裡
+          tone: remote
+        - place: 雲端模型
+          title: 決定操作方式
+          detail: 通常在雲端
+          tone: remote
+        - place: 送出內容
+          title: 文字或圖片
+          detail: 離開你的裝置
+          tone: result
+  summary: 檔案、縮圖程式與決定操作的模型可能在不同電腦。本機工具會用本機資源；模型或遠端工具可能要送出資料。要分開確認資料位置、執行位置與模型位置。
 scenario:
   request: 幫我把「照片」的三張原圖各縮小一份到「縮小照片」，原圖保留，先別寄出。
   actions:

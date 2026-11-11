@@ -10,7 +10,16 @@ answer: 密碼或給程式用的存取金鑰，可能讓持有者使用你的帳
 takeaway: 密碼或金鑰（secrets）不應出現在一般檔案、對話或外部系統中；只在必要的最小範圍提供。
 newTerms: [API Key, secrets]
 prerequisites: [C5]
-visual: { type: concept, preset: secrets }
+visual:
+  type: concept
+  label: 密碼不能當一般文字分享
+  items:
+    - title: 登入密碼
+      detail: 可能讓別人使用你的帳號
+    - title: 一般說明
+      detail: 不應包含登入秘密
+  relation: ≠
+  summary: 把登入密碼放進共同文件，看到文件的人也可能使用你的帳號。給程式用的私密金鑰也需要保護。
 scenario:
   appliesBeyondCodingAgent: true
   warning: 這個例子示範密碼如何外流，不是建議的分享方式；不要把真實密碼貼進對話或共同文件。
@@ -22,6 +31,12 @@ scenario:
   result: "共同文件不應留下密碼；看到文件不該等於拿到你的帳號。"
   boundary: "把欄位命名為『密碼』或設成隱藏，不代表金鑰已受到保護。若金鑰已外洩，應立刻依官方方式撤銷並換新。"
 notTeach: [Vault architecture, 金鑰輪替系統]
+# 編輯保護：keep 的句子必須留在頁面上，avoid 的不得再出現（npm run lint 檢查）。
+guard:
+  keep:
+    - "登入密碼"
+  avoid:
+    - "自動排程"
 ---
 密碼能讓人登入帳號；有些服務也會給程式一串用來存取資料的金鑰，常叫 API Key。這些秘密資料統稱 secrets，不需要先會寫程式，也能判斷它們不適合放進大家都能看的文件。
 

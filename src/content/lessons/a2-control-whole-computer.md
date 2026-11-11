@@ -15,7 +15,18 @@ prompt:
   text: "請根據目前開啟的＿＿＿＿，列出你能存取的位置、需要另外詢問的權限，以及無法操作的範圍。只回報現況，不要嘗試擴大權限。"
 newTerms: [工作範圍, 權限]
 prerequisites: [A1]
-visual: { type: concept, preset: boundaries }
+visual:
+  type: concept
+  label: 行動邊界
+  items:
+    - title: 工具
+      detail: 能用什麼
+    - title: 工作範圍
+      detail: 能碰哪裡
+    - title: 權限
+      detail: 能做到多少
+  relation: ＋
+  summary: Agent 的行動由可用工具、目前工作範圍與被授予的權限共同限制。
 scenario:
   request: "幫我整理 Downloads 裡昨天下載的 PDF。"
   actions:

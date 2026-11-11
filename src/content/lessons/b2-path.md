@@ -14,7 +14,15 @@ prerequisites:
   - B1
 visual:
   type: file-explorer
-  preset: path-tree
+  root: 照片
+  entries:
+    - kind: file
+      name: photo-1.jpg
+    - kind: file
+      name: photo-2.jpg
+    - kind: file
+      name: photo-3.jpg
+  summary: 照片資料夾裡有三張原圖，照片/photo-1.jpg 指向其中第一張。縮小版另存到另一個資料夾，不覆蓋這些原圖。
 scenario:
   request: 查看 照片/photo-1.jpg 的大小，先不要修改。
   actions:

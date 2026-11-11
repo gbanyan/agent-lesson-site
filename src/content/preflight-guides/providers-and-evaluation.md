@@ -2,9 +2,32 @@
 id: P3
 slug: providers-and-evaluation
 order: 4
+badge: 延伸參考
 title: 模型這麼多，怎麼知道哪個適合我？
 summary: 供應商、模型名稱和排行榜一直在變。要比較，就讓候選模型做你平常真的會做的事。
 principle: 「最強模型」沒有統一答案。寫下自己的任務、能容忍的錯誤和預算，再用同一套案例測試。
+visual:
+  label: 公司、模型與 Agent 是三個層次
+  lanes:
+    - title: 供應商
+      steps:
+        - place: 公司
+          title: 提供模型與服務
+          detail: 決定方案和資料規則
+          tone: remote
+    - title: 模型
+      steps:
+        - place: AI 模型
+          title: 處理輸入
+          detail: 能力會隨版本改變
+          tone: agent
+    - title: Agent 產品
+      steps:
+        - place: 你使用的介面
+          title: 組合模型與工具
+          detail: 實際體驗還受權限影響
+          tone: result
+  summary: 供應商、AI 模型與 Agent 產品是三個不同層次；評估時要分開看。
 prompts:
   - label: 建立自己的評估題目
     audience: research_chat

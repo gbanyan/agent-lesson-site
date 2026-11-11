@@ -1,0 +1,26 @@
+# /concepts/ 的六個讀者問題分組。每張課文必須剛好出現在一組（lint 檢查）。
+# 組內順序即顯示順序；標為 role: core 的課文會排到組內最前面。
+- id: what-agent-does
+  order: 1
+  title: Agent 在做什麼？
+  lessons: [A1, D1, D2, D3]
+- id: what-is-in-the-computer
+  order: 2
+  title: 電腦裡有哪些東西？
+  lessons: [B1, B2, B3, B4, B5, B6, B8]
+- id: where-work-happens
+  order: 3
+  title: 工作發生在哪裡？
+  lessons: [B9, C1, C2, C3, C5, C7]
+- id: how-agent-acts
+  order: 4
+  title: Agent 怎麼採取行動？
+  lessons: [A2, D4, D5, D7, E7, F3, F4]
+- id: avoid-breaking
+  order: 5
+  title: 怎麼避免改壞？
+  lessons: [E1, E2, E3, E4]
+- id: check-results
+  order: 6
+  title: 怎麼確認結果？
+  lessons: [F1, F2]

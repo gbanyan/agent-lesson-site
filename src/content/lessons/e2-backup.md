@@ -19,7 +19,13 @@ prerequisites:
   - E1
 visual:
   type: concept
-  preset: backup-copy
+  label: 另外保留原圖副本
+  items:
+    - title: 原圖
+      detail: 保留完整內容
+    - title: 備份
+      detail: 另一份可取回的副本
+  summary: 縮小版不能當成完整原圖的備份。同磁碟副本也不能防整顆磁碟損壞。
 scenario:
   request: 先把這三張重要原圖備份到我指定的位置，確認可用後停下。
   actions:

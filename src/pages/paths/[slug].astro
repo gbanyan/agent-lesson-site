@@ -1,34 +1,37 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SafetyGate from '../../components/education/SafetyGate.astro';
-import AgentCommandMap from '../../components/education/AgentCommandMap.astro';
-import { url } from '../../lib/urls';
-export async function getStaticPaths(){ const paths=await getCollection('paths'); return paths.map(entry=>({params:{slug:entry.data.slug},props:{entry}})); }
-const { entry } = Astro.props;
-const lessons = await getCollection('lessons');
-const byId = new Map(lessons.map((lesson) => [lesson.data.id, lesson]));
-const steps = entry.data.lessons.map((id:string) => byId.get(id)).filter(Boolean);
-const optionalSteps = (entry.data.optionalLessons ?? []).map((id:string) => byId.get(id)).filter(Boolean);
-const safetyItems = [
-  {href:url('/lessons/working-scope/'),label:'Agent 正在哪個範圍工作'},
-  {href:url('/lessons/read-vs-write/'),label:'這個動作會不會修改資料'},
-  {href:url('/lessons/are-changes-reversible/'),label:'如果結果不好，要從哪裡恢復'},
-  {href:url('/lessons/beyond-files/'),label:'它是否可能影響外部系統'},
-];
+import FlowDiagram from '../../components/education/FlowDiagram.astro';
+import { getContent, href } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const content = await getContent();
+  return content.paths.map((path) => ({ params: { slug: path.slug }, props: { path } }));
+}
+const { path } = Astro.props;
+const content = await getContent();
+const steps = content.pathSteps(path);
+const optional = (path.optionalLessons ?? []).map(content.lesson);
+const safetyItems = path.safetyGate?.map((item) => ({ href: href.lesson(content.lesson(item.lesson)), label: item.label }));
+const exitGuide = path.exit && content.guide(path.exit.guide);
 ---
-<BaseLayout title={entry.data.title} description={entry.data.description}>
+<BaseLayout title={path.title} description={path.description}>
   <article class="reading page-header">
-    <p class="eyebrow">情境路徑 · {steps.length} 個概念</p><h1>{entry.data.title}</h1><p class="lesson-answer">{entry.data.description}</p>
-    {entry.data.safetyGate && <SafetyGate items={safetyItems} />}
-    {entry.data.slug === 'agent-runs-command' && <AgentCommandMap />}
-    <ol class="path-steps">{steps.map((lesson) => lesson && <li><div><a href={url(`/paths/${entry.data.slug}/${lesson.data.slug}/`)}>{entry.data.stepTitles?.[lesson.data.id] ?? lesson.data.question}</a><p class="muted">{entry.data.stepIntros?.[lesson.data.id] ?? lesson.data.answer}</p></div></li>)}</ol>
-    {optionalSteps.length > 0 && <aside class="optional-step"><h2>需要時再看</h2>{optionalSteps.map((lesson) => lesson && <p><a href={url(`/lessons/${lesson.data.slug}/`)}>{lesson.data.question}</a></p>)}</aside>}
-    {entry.data.slug === 'first-coding-agent' && <aside class="path-exit">
-      <h2>換你的事了</h2>
-      <p>這六步用的是示範照片。要找出哪些工作可以交給 Agent，先從「前置觀念」的盤點方法開始。</p>
-      <p><a href={url('/prepare/what-can-it-do/')}>Agent 能幫我做的事，從哪裡想？ →</a></p>
+    <p class="eyebrow kicker">情境路徑 · {steps.length} 個概念</p><h1>{path.title}</h1><p class="lede">{path.description}</p>
+    {safetyItems && <SafetyGate items={safetyItems} />}
+    {path.diagram && <FlowDiagram {...path.diagram} />}
+    <ol class="path-steps">{steps.map((step) => <li><div><a href={href.pathStep(path, step.lesson)}>{step.title}</a><p class="muted">{step.intro}</p></div></li>)}</ol>
+    {optional.length > 0 && <aside class="optional-step callout"><h2>需要時再看</h2>{optional.map((lesson) => <p><a href={href.lesson(lesson)}>{lesson.question}</a></p>)}</aside>}
+    {path.exit && exitGuide && <aside class="path-exit panel" data-tone="leaf">
+      <h2>{path.exit.title}</h2>
+      <p>{path.exit.text}</p>
+      <p><a href={href.guide(exitGuide)}>{exitGuide.title} →</a></p>
     </aside>}
   </article>
 </BaseLayout>
-<style>.optional-step { margin-top:2rem; padding:1.25rem; border-left:4px solid var(--line); background:var(--surface-soft); }.optional-step h2 { margin-top:0; font-size:var(--step-1); } .path-exit { margin-top:2rem; padding:1.5rem; border:1px solid var(--leaf); border-radius:var(--radius); background:var(--leaf-pale); } .path-exit h2 { margin-top:0; font-size:var(--step-1); } .path-exit p { margin:.6rem 0 0; } .path-exit a { font-weight:700; }</style>
+<style>
+  .optional-step, .path-exit { margin-top: 2rem; }
+  .optional-step h2, .path-exit h2 { margin-top: 0; font-size: var(--step-1); }
+  .path-exit p { margin: .6rem 0 0; }
+  .path-exit a { font-weight: 700; }
+</style>

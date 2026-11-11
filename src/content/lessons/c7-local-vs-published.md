@@ -15,7 +15,20 @@ prerequisites:
   - B6
 visual:
   type: system-map
-  preset: local-published
+  label: 做好與寄出是兩個動作
+  lanes:
+    - title: 先做好，再另決定
+      steps:
+        - place: 這台電腦
+          title: 三張新照片
+          detail: 已另存，尚未寄出
+        - place: 確認後
+          title: 寄出或分享
+          detail: 先確認對象與照片
+        - place: 朋友那端
+          title: 確認收到
+          detail: 查看實際送出結果
+  summary: 本機另存照片不等於已寄出。寄信或分享要另外確認；自動同步的資料夾也可能把照片送出去。
 scenario:
   request: 先把照片縮小並另存，讓我檢查，不要寄出或分享。
   actions:

@@ -1,15 +1,7 @@
 ---
-interface Entry { kind: 'folder' | 'file'; name: string; depth?: number; }
-interface Props { root?: string; entries?: Entry[]; summary?: string; }
-const {
-  root = '家庭支出',
-  entries = [
-    { kind: 'folder', name: '2025' },
-    { kind: 'folder', name: '2026' },
-    { kind: 'file', name: 'notes.txt' },
-  ],
-  summary = '家庭支出資料夾裡有 2025、2026 兩個資料夾，以及一份 notes.txt。',
-} = Astro.props;
+import type { Visual } from '../../lib/schemas';
+type Props = Omit<Extract<Visual, { type: 'file-explorer' }>, 'type'>;
+const { root, entries, summary } = Astro.props;
 ---
 <figure class="visual">
   <figcaption class="visual-label">檔案結構示意</figcaption>
@@ -17,6 +9,5 @@ const {
     <div>📁 {root}</div>
     {entries.map((entry, index) => <div class:list={['tree-entry', { nested: entry.depth === 1 }]}>　{index === entries.length - 1 ? '└──' : '├──'} {entry.kind === 'folder' ? '📁' : '📄'} {entry.name}</div>)}
   </div>
-  <p class="sr-only">{summary}</p>
+  <p class="visually-equivalent sr-only">{summary}</p>
 </figure>
-<style>.tree-entry.nested { padding-left: 1.5rem; }</style>

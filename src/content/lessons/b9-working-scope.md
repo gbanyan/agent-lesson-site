@@ -20,7 +20,28 @@ prerequisites:
   - A2
 visual:
   type: system-map
-  preset: working-scope
+  label: 工作範圍
+  lanes:
+    - title: 已開放
+      steps:
+        - place: 目前資料夾
+          title: 照片與縮小照片
+          detail: 讀原圖、另存新圖
+          tone: agent
+        - place: 範圍內
+          title: 選好的三張照片
+          detail: 這次任務會處理
+          tone: result
+    - title: 未開放
+      steps:
+        - place: 其他位置
+          title: 相簿與郵件
+          detail: 不在目前工作範圍
+        - place: 需要時
+          title: 另行確認
+          detail: 不能自行擴大範圍
+          tone: remote
+  summary: Agent 只應在目前開放的工作範圍內處理資料；其他位置要另外確認。
 scenario:
   request: 只處理選好的三張照片，另存縮小版；不要改原圖，也不要寄信。
   actions:
@@ -31,5 +52,10 @@ scenario:
 notTeach:
   - 工作目錄切換指令
   - workspace 管理
+# 編輯保護：keep 的句子必須留在頁面上，avoid 的不得再出現（npm run lint 檢查）。
+guard:
+  keep:
+    - "只處理選好的三張照片"
+    - "當下環境顯示的範圍"
 ---
 有些環境允許範圍外的動作，但可能需要另外授權。當下環境顯示的範圍，比 Agent 的產品名稱更能說明它可以碰哪些資料。這類 App 通常會要你先選一個資料夾作為工作範圍；選好之後，Agent 主要只在那個範圍內動手。

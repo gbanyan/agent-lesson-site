@@ -1,32 +1,42 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { readFile } from 'node:fs/promises';
+import { content, reachableRoutes, routes } from './content';
 
-const keyPages = ['/', '/prepare/', '/prepare/what-can-it-do/', '/prepare/what-still-works/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/input-process-output/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/', '/lessons/command/', '/lessons/are-changes-reversible/', '/lessons/version-history/'];
+// Browser tests cover behaviour: routing, rendering, accessibility, theme, copy and search.
+// Counts and orders come from the content graph; protected wording is checked by `guard` in lint.
+
+const wcag = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
+const lessonBySlug = (slug: string) => content.lessons.find((lesson) => lesson.slug === slug)!;
+const pathBySlug = (slug: string) => content.paths.find((path) => path.slug === slug)!;
+const noOverflow = () => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1;
+
+const keyPages = ['/', '/prepare/', '/prepare/what-can-it-do/', '/prepare/what-still-works/', '/prepare/privacy-and-data/', '/start/', '/concepts/', '/paths/first-agent-change/', '/paths/first-coding-agent/input-process-output/', '/lessons/agent-vs-chat/', '/lessons/agent-work-loop/', '/lessons/command/', '/lessons/are-changes-reversible/', '/lessons/version-history/', '/lessons/where-is-my-data/', '/tasks/expense-summary/'];
 
 for (const route of keyPages) {
   test(`${route} has no detectable WCAG A/AA violations`, async ({page}) => {
     await page.goto(route);
     await expect(page.locator('main')).toBeVisible();
-    const results = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
+    const results = await new AxeBuilder({page}).withTags(wcag).analyze();
     expect(results.violations).toEqual([]);
   });
 }
 
-test('lesson page only ships the small shared theme scripts', async ({page}) => {
-  await page.goto('/lessons/command/');
-  await expect(page.locator('h1')).toHaveText('它報的那一行，是它做的動作，還是回傳的結果？');
+test('lesson page only ships the small shared inline scripts', async ({page}) => {
+  const lesson = lessonBySlug('command');
+  await page.goto(routes.lesson(lesson));
+  await expect(page.locator('h1')).toHaveText(lesson.question);
   await expect(page.locator('script')).toHaveCount(2);
   await expect(page.locator('script[src]')).toHaveCount(0);
 });
 
 test('diagram meaning remains in the accessibility tree', async ({page}) => {
-  await page.goto('/lessons/where-program-runs/');
-  const equivalent = page.locator('.visually-equivalent');
-  await expect(equivalent).toContainText('檔案、縮圖程式與決定操作的模型可能在不同電腦');
-  await expect(equivalent).toContainText('本機工具會用本機資源');
+  const lesson = lessonBySlug('where-program-runs');
+  await page.goto(routes.lesson(lesson));
+  await expect(page.locator('.visually-equivalent')).toContainText(lesson.visual!.type === 'system-map' ? lesson.visual!.summary : '');
   const snapshot = await page.locator('main').ariaSnapshot();
-  expect(snapshot).toContain('Agent 做事，會用到不只一台電腦？');
-  expect(snapshot).toContain('檔案、縮圖程式與決定操作的模型可能在不同電腦');
+  expect(snapshot).toContain(lesson.question);
+  expect(snapshot).toContain(lesson.visual!.type === 'system-map' ? lesson.visual!.summary : '');
 });
 
 test('system maps use the wider article canvas on desktop', async ({page}) => {
@@ -39,66 +49,87 @@ test('system maps use the wider article canvas on desktop', async ({page}) => {
   expect(Math.min(...nodeWidths)).toBeGreaterThan(150);
 });
 
-test('role, location, and data-flow lessons use concrete system maps', async ({page}) => {
-  const routes = [
-    '/lessons/agent-vs-chat/', '/lessons/working-scope/', '/lessons/local-and-remote/',
-    '/lessons/where-is-my-data/', '/lessons/where-program-runs/',
-    '/lessons/data-leaves-device/', '/lessons/local-vs-published/', '/lessons/tool/',
-    '/lessons/agent-work-loop/', '/lessons/beyond-files/', '/lessons/internet-access/',
-  ];
-  for (const route of routes) {
-    await page.goto(route);
-    await expect(page.locator('.system-map').first(), route).toBeVisible();
-    await expect(page.locator('.system-map .visually-equivalent').first(), route).not.toBeEmpty();
+test('every lesson renders the visual its frontmatter declares, with a text equivalent', async ({page}) => {
+  const selectors = { 'system-map': '.system-map', concept: '.concept-row', terminal: '.terminal', 'file-explorer': '.tree', permission: '.permission-box' };
+  for (const lesson of content.lessons) {
+    if (!lesson.visual) continue;
+    await page.goto(routes.lesson(lesson));
+    await expect(page.locator(selectors[lesson.visual.type]).first(), lesson.slug).toBeVisible();
+    const visual = lesson.visual;
+    const figure = page.locator('.lesson-visual > figure');
+    if (visual.type === 'system-map') await expect(figure.locator('.system-lane'), lesson.slug).toHaveCount(visual.lanes.length);
+    if (visual.type === 'concept') await expect(figure.locator('.concept-node'), lesson.slug).toHaveCount(visual.items.length);
+    if (visual.type === 'terminal') {
+      await expect(figure.locator('.terminal code')).toContainText(visual.command);
+      await expect(figure.locator('.terminal samp')).toHaveText(visual.output);
+    }
+    if (visual.type === 'file-explorer') await expect(figure.locator('.tree-entry'), lesson.slug).toHaveCount(visual.entries.length);
+    if (visual.type === 'permission') await expect(figure.locator('.permission-files')).toHaveText(visual.files.join('、'));
+    const summary = visual.type === 'permission' ? visual.consequence : visual.summary;
+    await expect(figure.locator('.visually-equivalent'), lesson.slug).toContainText(summary);
   }
 });
 
-test('situation path links to the expected minimum lessons', async ({page}) => {
-  await page.goto('/paths/first-agent-change/');
-  await expect(page.locator('.path-steps li')).toHaveCount(6);
+test('situation path links to its lessons and opens them in path context', async ({page}) => {
+  const path = pathBySlug('first-agent-change');
+  const first = content.pathSteps(path)[0]!;
+  await page.goto(routes.path(path));
+  await expect(page.locator('.path-steps li')).toHaveCount(path.lessons.length);
   await page.locator('.path-steps a').first().click();
   await expect(page.locator('article.lesson')).toBeVisible();
-  await expect(page.locator('.path-context')).toBeVisible();
-  await expect(page.locator('.path-context')).toContainText('第 1 / 6 步');
-  await expect(page).toHaveURL(/\/paths\/first-agent-change\/working-scope\/$/);
+  await expect(page.locator('.path-context')).toContainText(`第 1 / ${path.lessons.length} 步`);
+  await expect(page).toHaveURL(new RegExp(`${routes.pathStep(path, first.lesson)}$`));
 });
 
 test('path context is built into HTML and keeps the canonical lesson URL', async ({page, request}) => {
-  const route = '/paths/first-coding-agent/input-process-output/';
-  const response = await request.get(route);
-  const html = await response.text();
-  expect(html).toContain('第一次使用 Agent');
-  expect(html).toContain('第 1 / 6 步');
-  expect(html).toContain('下一步：這些資料原本放在哪裡？');
-  expect(html).not.toContain('data-path-option');
+  const path = content.featuredPath!;
+  const [first, second] = content.pathSteps(path);
+  const route = routes.pathStep(path, first!.lesson);
+  const html = await (await request.get(route)).text();
+  expect(html).toContain(path.title);
+  expect(html).toContain(`第 1 / ${path.lessons.length} 步`);
+  expect(html).toContain(`下一步：${second!.title}`);
   expect(html).not.toContain('data-pagefind-body');
 
   await page.goto(route);
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'http://localhost:4321/lessons/input-process-output/');
-  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/paths/first-coding-agent/files-and-folders/');
-  await expect(page.locator('.path-context')).toContainText('返回「第一次使用 Agent」');
-
-  await page.goto('/lessons/agent-vs-chat/');
-  await expect(page.locator('.path-context')).toHaveCount(0);
-  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/lessons/control-whole-computer/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `http://localhost:4321${routes.lesson(first!.lesson)}`);
+  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', routes.pathStep(path, second!.lesson));
+  await expect(page.locator('.path-context')).toContainText(`返回「${path.title}」`);
+  await expect(page.locator('.lesson-prerequisites')).toHaveCount(0);
 });
 
-test('first-time path prepares recovery before tool execution and keeps A2 optional', async ({page}) => {
-  await page.goto('/paths/first-coding-agent/');
-  await expect(page.locator('.path-steps li')).toHaveCount(6);
-  expect(await page.locator('.path-steps a').allTextContents()).toEqual([
-    '它怎麼把你給的資訊變成結果？', '這些資料原本放在哪裡？', 'AI 這次有拿到哪些資訊？',
-    '動手前，原圖保留在哪裡？', '它怎麼讓電腦真的動手？', '做完之後，哪些地方改變了？',
-  ]);
-  await expect(page.locator('.path-steps')).toContainText('這是動手前就要做的事');
-  await expect(page.locator('.optional-step')).toContainText('Agent 可以直接控制整台電腦嗎？');
+test('canonical lesson pages link to the next lesson in reading order and to prerequisites', async ({page}) => {
+  for (const lesson of content.lessons) {
+    const { next } = content.lessonNeighbors(lesson.id);
+    await page.goto(routes.lesson(lesson));
+    await expect(page.locator('.path-context'), lesson.slug).toHaveCount(0);
+    await expect(page.locator('.lesson-next a').last(), lesson.slug).toHaveAttribute('href', next ? routes.lesson(next) : '/start/');
+    const prerequisites = page.locator('.lesson-prerequisites a');
+    await expect(prerequisites, lesson.slug).toHaveCount(lesson.prerequisites.length);
+    for (const [index, id] of lesson.prerequisites.entries()) {
+      await expect(prerequisites.nth(index)).toHaveAttribute('href', routes.lesson(content.lesson(id)));
+    }
+  }
 });
 
-test('command path introduces the cross-concept relationship map', async ({page}) => {
-  await page.goto('/paths/agent-runs-command/');
-  await expect(page.locator('.relation-map')).toContainText('AI 模型根據目前資訊決定下一步');
-  await expect(page.locator('.relation-map')).toContainText('程式實際工作');
-  await expect(page.locator('.terminal-note')).toContainText('不是 Agent 本身');
+test('situation paths list their steps in authored order with optional lessons apart', async ({page}) => {
+  for (const path of content.paths) {
+    await page.goto(routes.path(path));
+    const steps = content.pathSteps(path);
+    expect(await page.locator('.path-steps a').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')))).toEqual(steps.map((step) => routes.pathStep(path, step.lesson)));
+    expect(await page.locator('.path-steps a').allTextContents()).toEqual(steps.map((step) => step.title));
+    for (const id of path.optionalLessons ?? []) await expect(page.locator('.optional-step')).toContainText(content.lesson(id).question);
+    await expect(page.locator('.safety-gate li')).toHaveCount(path.safetyGate?.length ?? 0);
+    await expect(page.locator('.flow-diagram')).toHaveCount(path.diagram ? 1 : 0);
+    await expect(page.locator('.path-exit')).toHaveCount(path.exit ? 1 : 0);
+  }
+});
+
+test('command path shows its relationship diagram with the interface note', async ({page}) => {
+  const path = content.paths.find((item) => item.diagram)!;
+  await page.goto(routes.path(path));
+  for (const step of path.diagram!.steps) await expect(page.locator('.flow-diagram .flow')).toContainText(step);
+  await expect(page.locator('.flow-note')).toHaveText(path.diagram!.note!);
 });
 
 test('homepage opens with the authored preface then preparation concepts before first use', async ({page}) => {
@@ -110,15 +141,17 @@ test('homepage opens with the authored preface then preparation concepts before 
   await expect(page.locator('.introduction-copy')).toContainText('本站的緣起，是為了周邊朋友');
   await expect(page.locator('.introduction-copy')).not.toContainText('知識平權的創舉');
   await expect(page.getByRole('link', {name: '關於本站 →'})).toHaveAttribute('href', '/about/');
-  expect(await page.locator('.prepare-card').count()).toBeGreaterThanOrEqual(5);
+  await expect(page.locator('.prepare-card')).toHaveCount(content.guides.length);
+  await expect(page.locator('.featured-card')).toHaveAttribute('href', routes.path(content.featuredPath!));
   expect(mainText).not.toContain('先看懂它怎麼工作');
   expect(await page.locator('header .nav-links a').allTextContents()).toEqual(['開始', '找概念', '關於本站']);
 });
 
 test('about page shows the authored preface and matches the homepage excerpt', async ({page}) => {
+  const preface = (await readFile('src/content/introduction.md', 'utf8')).replace(/<!--[\s\S]*?-->/g, '').trim().split(/\n\s*\n/).filter((block) => !block.startsWith('#'));
   await page.goto('/about/');
   await expect(page.locator('h1')).toHaveText('關於本站');
-  await expect(page.locator('.introduction-body > p')).toHaveCount(5);
+  await expect(page.locator('.introduction-body > p')).toHaveCount(preface.length);
   await expect(page.locator('.introduction-body')).toContainText('AI 的興起，本該是知識平權的創舉');
   await expect(page.locator('.introduction-body')).toContainText('沒有一份教材能替這個決定簽名');
   await expect(page.locator('header a[aria-current="page"]')).toHaveText('關於本站');
@@ -129,12 +162,14 @@ test('about page shows the authored preface and matches the homepage excerpt', a
   expect(await page.locator('.introduction-body > p').first().textContent()).toBe(excerpt);
 });
 
-test('concept index uses six human-question groups without lesson IDs', async ({page}) => {
+test('concept index shows every lesson under human-question groups without lesson IDs', async ({page}) => {
   await page.goto('/concepts/');
-  await expect(page.locator('.concept-group')).toHaveCount(6);
-  await expect(page.locator('.concept-groups a')).toHaveCount(30);
-  await expect(page.locator('.concept-groups')).toContainText('Agent 在做什麼？');
-  await expect(page.locator('.concept-groups')).toContainText('怎麼確認結果？');
+  await expect(page.locator('.concept-group')).toHaveCount(content.conceptGroups.length);
+  for (const [index, { group, lessons }] of content.conceptGroups.entries()) {
+    const section = page.locator('.concept-group').nth(index);
+    await expect(section.locator('h2')).toHaveText(group.title);
+    expect(await section.locator('a').evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')))).toEqual(lessons.map(routes.lesson));
+  }
   expect(await page.locator('.concept-groups').innerText()).not.toMatch(/\b[ABCDEF]\d\b/);
 });
 
@@ -142,7 +177,7 @@ test('Pagefind finds Git', async ({page}) => {
   await page.goto('/concepts/');
   await page.getByLabel('搜尋概念').fill('Git');
   await expect(page.locator('#search-status')).toContainText('找到', {timeout: 15_000});
-  await expect(page.locator('#search-results')).toContainText('能找到修改以前的版本嗎？');
+  await expect(page.locator('#search-results')).toContainText(lessonBySlug('version-history').question);
   await expect(page.locator('#search-results a[href$="/git/"]')).toHaveCount(0);
 });
 
@@ -158,76 +193,57 @@ test('English search aliases lead to the question-led canonical lessons', async 
   }
 });
 
-test('beginner path can be followed as six connected steps without changing the task', async ({page}) => {
-  await page.goto('/paths/first-coding-agent/');
-  await expect(page.locator('main')).toContainText('想寄照片給朋友');
-  await expect(page.locator('main')).toContainText('不需要準備檔案或跟著操作');
+test('beginner path can be followed step by step without changing the task', async ({page}) => {
+  const path = content.featuredPath!;
+  const steps = content.pathSteps(path);
+  await page.goto(routes.path(path));
   await page.locator('.path-steps a').first().click();
-  for (let step = 1; step <= 6; step++) {
-    await expect(page.locator('.path-progress')).toContainText(`第 ${step} / 6 步`);
-    await expect(page.locator('.path-step-introduction')).not.toBeEmpty();
+  for (const step of steps) {
+    await expect(page.locator('.path-progress')).toContainText(`第 ${step.step} / ${step.total} 步`);
+    await expect(page.locator('.path-step-introduction')).toHaveText(step.intro);
     await expect(page.locator('.scenario')).toContainText(/照片|原圖/);
     await expect(page.locator('main')).not.toContainText('練習網頁');
     await expect(page.locator('main')).not.toContainText('9 月 27 日');
-    if (step < 6) await page.locator('.lesson-next a').last().click();
+    if (step.next) await page.locator('.lesson-next a').last().click();
   }
-  await expect(page).toHaveURL(/\/inspect-changes\/$/);
-  await page.goto('/paths/first-coding-agent/are-changes-reversible/');
-  await expect(page.locator('.path-progress')).toContainText('第 4 / 6 步');
-  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/paths/first-coding-agent/tool/');
+  await expect(page).toHaveURL(new RegExp(`${routes.pathStep(path, steps.at(-1)!.lesson)}$`));
 });
 
-test('every situation step supplies context and explains changes of example', async ({page}) => {
-  for (const path of ['first-coding-agent', 'first-agent-change', 'agent-runs-command', 'fear-of-breaking-things', 'local-cloud-confusion']) {
-    await page.goto(`/paths/${path}/`);
-    const links = await page.locator('.path-steps a').evaluateAll(nodes => nodes.map(node => (node as HTMLAnchorElement).pathname));
-    for (const href of links) {
-      await page.goto(href);
-      await expect(page.locator('.path-step-introduction')).not.toBeEmpty();
+test('every situation step supplies its path introduction', async ({page}) => {
+  for (const path of content.paths) {
+    for (const step of content.pathSteps(path)) {
+      await page.goto(routes.pathStep(path, step.lesson));
+      await expect(page.locator('.path-step-introduction'), routes.pathStep(path, step.lesson)).toHaveText(step.intro);
     }
   }
-  await page.goto('/paths/first-agent-change/read-vs-write/');
-  await expect(page.locator('.path-step-introduction')).toContainText('換成文件');
-  await page.goto('/paths/first-agent-change/permission/');
-  await expect(page.locator('.path-step-introduction')).toContainText('回到照片');
-  await page.goto('/paths/fear-of-breaking-things/version-history/');
-  await expect(page.locator('.path-step-introduction')).toContainText('換成反覆修改文章');
-  await page.goto('/paths/fear-of-breaking-things/claim-vs-verification/');
-  await expect(page.locator('.path-step-introduction')).toContainText('回到照片');
 });
 
 test('cautionary requests are labelled before the request and ordinary examples are not', async ({page}) => {
-  for (const slug of ['secrets', 'beyond-files']) {
-    await page.goto(`/lessons/${slug}/`);
+  for (const lesson of content.lessons) {
+    await page.goto(routes.lesson(lesson));
+    if (!lesson.scenario.warning) {
+      await expect(page.locator('.scenario-warning'), lesson.slug).toHaveCount(0);
+      continue;
+    }
     await expect(page.locator('.scenario-warning')).toContainText('以下要求不應直接照做');
     expect(await page.locator('.scenario').evaluate(section => {
       const warning = section.querySelector('.scenario-warning')!;
       const request = section.querySelector('blockquote')!;
       return Boolean(warning.compareDocumentPosition(request) & Node.DOCUMENT_POSITION_FOLLOWING)
         && request.getAttribute('aria-describedby') === warning.id;
-    })).toBe(true);
+    }), lesson.slug).toBe(true);
     await expect(page.locator('.scenario .copy-prompt')).toHaveCount(0);
     const results = await new AxeBuilder({page}).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
     expect(results.violations).toEqual([]);
   }
-  await page.goto('/lessons/backup/');
-  await expect(page.locator('.scenario-warning')).toHaveCount(0);
 });
 
-test('direct lesson entry introduces the task and keeps the scope example consistent', async ({page}) => {
-  for (const slug of ['files-and-folders', 'where-program-runs', 'tool', 'agent-work-loop', 'claim-vs-verification']) {
+test('direct lesson entry introduces the photo task in the context line', async ({page}) => {
+  for (const slug of ['files-and-folders', 'where-program-runs', 'tool', 'agent-work-loop', 'claim-vs-verification', 'working-scope']) {
     await page.goto(`/lessons/${slug}/`);
     await expect(page.locator('.lesson-context')).toContainText('照片');
-    await expect(page.locator('.lesson-context')).toContainText('縮小');
     await expect(page.locator('.lesson-context')).not.toContainText('同樣三張');
   }
-  await page.goto('/lessons/secrets/');
-  await expect(page.locator('.scenario blockquote')).toContainText('登入密碼');
-  await expect(page.locator('.scenario')).not.toContainText('自動排程');
-  await page.goto('/lessons/working-scope/');
-  await expect(page.locator('.lesson-context')).toContainText('照片');
-  await expect(page.locator('.scenario blockquote')).toContainText('只處理選好的三張照片');
-  await expect(page.locator('.lesson-body')).toContainText('當下環境顯示的範圍');
 });
 
 test('keyboard focus and 200% zoom preserve access', async ({page}) => {
@@ -236,15 +252,21 @@ test('keyboard focus and 200% zoom preserve access', async ({page}) => {
   await expect(page.locator('.skip-link')).toBeFocused();
   await page.evaluate(() => { document.documentElement.style.zoom = '2'; });
   await expect(page.locator('h1')).toBeVisible();
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBeTruthy();
+  expect(await page.evaluate(noOverflow)).toBeTruthy();
 });
 
 test('320px lesson, path progress, prompt and search reflow without horizontal overflow', async ({page}) => {
   await page.setViewportSize({width: 320, height: 720});
-  for (const route of ['/paths/agent-runs-command/command/', '/lessons/backup/', '/concepts/']) {
+  for (const route of ['/paths/agent-runs-command/command/', '/lessons/backup/', '/concepts/', '/prepare/plans-and-costs/', '/tasks/expense-summary/']) {
     await page.goto(route);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1), route).toBeTruthy();
+    expect(await page.evaluate(noOverflow), route).toBeTruthy();
   }
+});
+
+test('expandable details and in-text navigation keep practical touch targets', async ({page}) => {
+  await page.goto('/lessons/where-is-my-data/');
+  expect((await page.locator('.lesson summary').boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  for (const link of await page.locator('.lesson-next a').all()) expect((await link.boundingBox())!.height).toBeGreaterThanOrEqual(44);
 });
 
 test('dark mode follows the system preference and keeps AA contrast', async ({page}) => {
@@ -252,194 +274,126 @@ test('dark mode follows the system preference and keeps AA contrast', async ({pa
   await page.goto('/lessons/permission/');
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toContain('dark');
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(17, 24, 21)');
-  const results = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#111815');
+  const results = await new AxeBuilder({page}).withTags(wcag).analyze();
   expect(results.violations).toEqual([]);
+});
+
+test('a forced dark theme on a light system keeps AA contrast on every diagram kind', async ({page}) => {
+  await page.emulateMedia({colorScheme: 'light'});
+  await page.addInitScript(() => localStorage.setItem('theme', 'dark'));
+  for (const route of ['/lessons/command/', '/lessons/where-is-my-data/', '/lessons/input-process-output/', '/lessons/permission/', '/paths/agent-runs-command/', '/prepare/privacy-and-data/', '/tasks/expense-summary/']) {
+    await page.goto(route);
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), route).toBe('rgb(17, 24, 21)');
+    const results = await new AxeBuilder({page}).withTags(wcag).analyze();
+    expect(results.violations, route).toEqual([]);
+  }
 });
 
 test('theme control overrides, remembers, and returns to live system preference', async ({page}) => {
   await page.emulateMedia({colorScheme: 'light'});
   await page.goto('/');
   const toggle = page.locator('[data-theme-toggle]');
-  await expect(toggle).toContainText('跟隨系統');
+  await expect(toggle).toContainText('外觀：跟隨系統');
   await toggle.click();
   await expect(toggle).toContainText('淺色');
   await toggle.click();
   await expect(toggle).toContainText('深色');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#111815');
   await page.reload();
   await expect(toggle).toContainText('深色');
   await toggle.click();
   await expect(toggle).toContainText('跟隨系統');
   await expect(page.locator('html')).not.toHaveAttribute('data-theme');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f7f5ee');
   await page.emulateMedia({colorScheme: 'dark'});
   await expect.poll(() => page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(17, 24, 21)');
 });
 
-test('every lesson uses one of three archetypes and preserves actionable prompts', async ({page}) => {
-  await page.goto('/concepts/');
-  const links = await page.locator('.concept-groups a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')!));
-  expect(links).toHaveLength(30);
-  let promptCount = 0;
-  for (const href of links) {
-    await page.goto(href);
-    await expect(page.locator('.lesson-context')).not.toBeEmpty();
-    await expect(page.locator('.scenario blockquote')).not.toBeEmpty();
-    await expect(page.locator('article.lesson')).toHaveClass(/lesson-(definition|contrast|safety_action)/);
-    if (await page.locator('.follow-up').count()) {
-      promptCount += 1;
-      await expect(page.locator('.follow-up code')).toContainText('＿＿');
-    }
+test('every lesson renders its archetype, scenario and copyable prompt', async ({page}) => {
+  for (const lesson of content.lessons) {
+    await page.goto(routes.lesson(lesson));
+    await expect(page.locator('h1')).toHaveText(lesson.question);
+    await expect(page.locator('.lesson-meta')).toHaveText('概念短讀');
+    await expect(page.locator('main')).not.toContainText(new RegExp(`\\b${lesson.id}\\b`));
+    await expect(page.locator('.lesson-context')).toHaveText(lesson.context);
+    await expect(page.locator('.scenario blockquote')).toHaveText(lesson.scenario.request);
+    await expect(page.locator('article.lesson')).toHaveClass(new RegExp(`lesson-${lesson.archetype}`));
+    await expect(page.locator('.lesson-role')).toHaveCount(lesson.role === 'core' ? 1 : 0);
+    await expect(page.locator('.follow-up')).toHaveCount(lesson.prompt ? 1 : 0);
+    if (lesson.prompt) await expect(page.locator('.follow-up code')).toHaveText(lesson.prompt.text);
   }
-  expect(promptCount).toBe(10);
 });
 
-test('canonical beginner sequence ignores the numeric order of stable IDs', async ({page}) => {
-  await page.goto('/lessons/path/');
-  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/lessons/working-scope/');
-  await page.goto('/lessons/where-program-runs/');
-  await expect(page.locator('.lesson-next a').last()).toHaveAttribute('href', '/lessons/data-leaves-device/');
-});
-
-test('situation paths follow task-driven concept order', async ({page}) => {
-  await page.goto('/paths/agent-runs-command/');
-  expect(await page.locator('.path-steps a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')))).toEqual([
-    '/paths/agent-runs-command/program/',
-    '/paths/agent-runs-command/command/',
-    '/paths/agent-runs-command/read-vs-write/',
-    '/paths/agent-runs-command/permission/',
-  ]);
-
-  await page.goto('/paths/local-cloud-confusion/');
-  expect(await page.locator('.path-steps a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')))).toEqual([
-    '/paths/local-cloud-confusion/local-and-remote/',
-    '/paths/local-cloud-confusion/where-is-my-data/',
-    '/paths/local-cloud-confusion/where-program-runs/',
-    '/paths/local-cloud-confusion/data-leaves-device/',
-  ]);
-});
-
-test('core role pages keep one distinct mental model each', async ({page}) => {
-  await page.goto('/lessons/program/');
-  await expect(page.locator('h1')).toHaveText('Agent 靠什麼實際完成工作？');
-  await expect(page.locator('.system-lane')).toHaveCount(3);
-  await expect(page.locator('main')).toContainText('程式碼或程式檔案只是保存下來的指示');
-
-  await page.goto('/lessons/input-process-output/');
-  await expect(page.locator('h1')).toHaveText('它怎麼把你給的資訊變成結果？');
-  await expect(page.locator('.concept-node')).toHaveCount(3);
-  await expect(page.locator('.visual')).toContainText('照片的例子就是這張圖');
-
-  await page.goto('/lessons/command/');
-  await expect(page.locator('.terminal')).toBeVisible();
-  await expect(page.locator('.terminal code')).toContainText('ls 照片');
-  await expect(page.locator('.terminal samp')).toContainText('photo-1.jpg');
-
-  await page.goto('/lessons/command/');
-  await expect(page.locator('.scenario-note')).not.toContainText('&&');
-  await expect(page.locator('.scenario-note')).not.toContainText('|');
-});
-
-test('A1, Terminal, Tool, Context, Local Remote and Git keep corrected boundaries', async ({page}) => {
-  await page.goto('/lessons/agent-vs-chat/');
-  await expect(page.locator('main')).toContainText('聊天是一種互動介面');
-  await expect(page.locator('main')).toContainText('差別在可用能力，不在畫面是不是聊天視窗');
-  await expect(page.locator('.lesson-body')).not.toContainText('Research Agent');
-  await expect(page.locator('.lesson-body')).not.toContainText('Actionable Agent');
-  await page.goto('/lessons/command/');
-  await expect(page.locator('main')).toContainText('畫面上不一定會真的出現 Terminal');
-  await expect(page.locator('.scenario')).toContainText('三張原圖沒有被修改');
-  await page.goto('/lessons/tool/');
-  await expect(page.locator('main')).toContainText('不一定是一個獨立程式');
-  await page.goto('/lessons/context/');
-  await expect(page.locator('main')).toContainText('不表示 Agent 具有和人一樣的持續長期記憶');
-  await expect(page.locator('.scenario')).toContainText('原圖保留，新圖另存');
-  await page.goto('/lessons/agent-work-loop/');
-  await expect(page.locator('.scenario')).toContainText('新圖仍太大或看不清楚');
-  await page.goto('/lessons/local-and-remote/');
-  await expect(page.locator('main')).toContainText('資料是否被傳送、複製或保存，需要另外確認');
-  await page.goto('/lessons/version-history/');
-  await expect(page.locator('main')).not.toContainText('git status');
-  await expect(page.locator('main')).not.toContainText('git diff');
-});
-
-test('lesson IDs stay internal and protected DOCX copy remains intact', async ({page}) => {
-  await page.goto('/lessons/program/');
-  await expect(page.locator('.lesson-meta')).toHaveText('概念短讀');
-  await expect(page.locator('.lesson-meta')).not.toContainText('B3');
-  await expect(page.locator('main')).not.toContainText('約 1 分鐘');
-
-  await page.goto('/lessons/read-vs-write/');
-  await expect(page.locator('main')).toContainText('讀一下這份文件，告訴我第二章在說什麼；先不要修改。');
-  await expect(page.locator('main')).toContainText('有些資料要靠另外的程式才讀得懂');
-  await expect(page.locator('main')).toContainText('這一步才會真的改變內容');
-  await page.goto('/lessons/where-is-my-data/');
-  await page.getByText('另外看文件的例子', {exact:true}).click();
+test('protected DOCX example stays behind the expandable details on its lesson', async ({page}) => {
+  const lesson = lessonBySlug('where-is-my-data');
+  const more = lesson.visual!.type === 'system-map' ? lesson.visual!.more! : undefined;
+  await page.goto(routes.lesson(lesson));
+  await page.getByText(more!.label, {exact:true}).click();
   await expect(page.locator('details .system-map')).toBeVisible();
   await expect(page.locator('details')).toContainText('企劃書.docx');
 });
 
-test('theme control names the controlled setting', async ({page}) => {
-  await page.goto('/');
-  await expect(page.locator('[data-theme-toggle]')).toContainText('外觀：跟隨系統');
-});
-
-test('prompt types identify the audience and execution risk', async ({page, context}) => {
+test('prompt types identify the audience and execution risk, and copy their text', async ({page, context}) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], {origin: 'http://127.0.0.1:4321'});
-  await page.goto('/lessons/command/');
+  const agentPrompt = content.lessons.find((lesson) => lesson.prompt?.audience === 'active_agent' && lesson.prompt.mode !== 'execute_after_confirmation')!;
+  await page.goto(routes.lesson(agentPrompt));
   await expect(page.locator('.follow-up')).toContainText('問目前正在工作的 Agent');
-  const expectedPrompt = await page.locator('.follow-up code').textContent();
   await page.locator('.follow-up [data-copy-prompt]').click();
   await expect(page.locator('.follow-up .copy-status')).toHaveText('文字已複製到剪貼簿。');
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(expectedPrompt);
-  await page.goto('/lessons/backup/');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(agentPrompt.prompt!.text);
+
+  const taskPrompt = content.lessons.find((lesson) => lesson.prompt?.mode === 'execute_after_confirmation')!;
+  await page.goto(routes.lesson(taskPrompt));
   await expect(page.locator('.follow-up')).toContainText('加入任務要求');
   await expect(page.locator('.follow-up [data-copy-prompt]')).toHaveText('複製任務限制');
-  await page.goto('/lessons/program/');
-  await expect(page.locator('.follow-up')).toHaveCount(0);
+
+  const researchPrompt = content.lessons.find((lesson) => lesson.prompt?.audience === 'research_chat');
+  if (researchPrompt) {
+    await page.goto(routes.lesson(researchPrompt));
+    await expect(page.locator('.follow-up')).toContainText('問能查官方資料的 AI');
+  }
 });
 
-test('preflight guides provide reusable prompts and explicit privacy framing', async ({page, context}) => {
+test('preflight guides provide principle, map and copyable research prompts', async ({page, context}) => {
   await page.goto('/prepare/');
   const links = await page.locator('section[aria-label="前置觀念說明"] a').evaluateAll((nodes) => nodes.map((node) => (node as HTMLAnchorElement).getAttribute('href')!));
-  expect(links.length).toBeGreaterThanOrEqual(5);
-  for (const href of links) {
-    await page.goto(href);
-    await expect(page.locator('.guide-principle')).toBeVisible();
-    await expect(page.locator('.system-map')).toBeVisible();
+  expect(links).toEqual(content.guides.map(routes.guide));
+  for (const guide of content.guides) {
+    await page.goto(routes.guide(guide));
+    await expect(page.locator('.guide-principle')).toContainText(guide.principle);
+    await expect(page.locator('.system-map .visually-equivalent')).toHaveText(guide.visual.summary);
     await expect(page.locator('.prompt-shelf h2')).toContainText(/問能查官方資料的 AI|問你手邊的 AI 就好/);
-    const cardCount = await page.locator('.prompt-card').count();
-    expect(cardCount).toBeGreaterThanOrEqual(2);
-    expect(cardCount).toBeLessThanOrEqual(3);
-    await expect(page.locator('.prompt-card code').first()).toContainText('＿＿');
+    expect(await page.locator('.prompt-card code').allTextContents()).toEqual(guide.prompts.map((prompt) => prompt.text));
+    for (const [index, prompt] of guide.prompts.entries()) {
+      await expect(page.locator('.prompt-capability').nth(index)).toHaveText(prompt.capability === 'requires_web' ? '需要網路查詢' : '不需特殊存取');
+    }
   }
 
-  await page.goto('/prepare/privacy-and-data/');
-  await expect(page.locator('.guide-body')).toContainText('凡是你看不到過程的，就當作已經離開你的裝置');
-  await expect(page.locator('.guide-body')).toContainText('附加的檔案與工具結果都會經過網路');
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], {origin: 'http://127.0.0.1:4321'});
-  const expectedPrompt = await page.locator('.prompt-card code').first().textContent();
-  await page.locator('[data-copy-prompt]').first().click();
-  await expect(page.locator('.copy-status').first()).toHaveText('文字已複製到剪貼簿。');
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(expectedPrompt);
+  const guide = content.guides[0]!;
+  await page.goto(routes.guide(guide));
+  await page.locator('[data-copy-prompt]').nth(1).click();
+  await expect(page.locator('.copy-status').nth(1)).toHaveText('文字已複製到剪貼簿。');
+  await expect(page.locator('.copy-status').first()).toHaveText('');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(guide.prompts[1]!.text);
 
-  await page.goto('/prepare/plans-and-costs/');
-  const estimateCard = page.locator('.prompt-card').filter({hasText:'估算自己的使用情境'});
-  await expect(estimateCard).toContainText('需要網路查詢');
-  await expect(estimateCard.locator('code')).toContainText('目前官方費率');
-
-  await page.goto('/products/codex/');
-  await expect(page.getByRole('link', {name:/查看官方資訊/})).toHaveAttribute('href', 'https://learn.chatgpt.com/docs/quickstart');
+  const bridge = content.productBridges[0]!;
+  await page.goto(`/products/${bridge.slug}/`);
+  await expect(page.getByRole('link', {name:/查看官方資訊/})).toHaveAttribute('href', bridge.officialUrl);
 });
 
-test('all rendered internal links resolve', async ({page, request}) => {
+test('all rendered internal links resolve and reach every content page', async ({page, request}) => {
   await page.goto('/');
   const visited = new Set<string>(); const queue = ['/'];
-  while(queue.length && visited.size < 120){
+  while(queue.length && visited.size < 200){
     const route=queue.shift()!; if(visited.has(route)) continue; visited.add(route);
     await page.goto(route); await expect(page, route).toHaveTitle(/.+/);
     const links=await page.locator('a[href]').evaluateAll((nodes)=>nodes.map(node=>(node as HTMLAnchorElement).getAttribute('href')!).filter(Boolean));
     for(const href of links){ if(href.startsWith('/') && !visited.has(href)) queue.push(href); }
   }
   for(const route of visited){ const response=await request.get(route); expect(response.status(), route).toBeLessThan(400); }
-  expect(visited.size).toBeGreaterThanOrEqual(73);
+  expect([...visited].sort()).toEqual([...new Set(reachableRoutes)].sort());
 });

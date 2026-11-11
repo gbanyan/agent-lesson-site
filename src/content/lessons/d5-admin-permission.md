@@ -14,7 +14,13 @@ prerequisites:
   - D4
 visual:
   type: concept
-  preset: admin-scope
+  label: 影響範圍
+  items:
+    - title: 一般權限
+      detail: 較有限的範圍
+    - title: 管理員權限
+      detail: 可能影響更多系統區域
+  summary: 管理員權限可能讓同一個動作影響更大的系統範圍。
 scenario:
   request: 安裝一個需要更高系統權限的工具。
   actions:

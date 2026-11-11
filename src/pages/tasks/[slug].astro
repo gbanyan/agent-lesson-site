@@ -1,36 +1,36 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TaskTimeline from '../../components/education/TaskTimeline.astro';
 import { url } from '../../lib/urls';
+import { getContent, href } from '../../lib/content';
+
 export async function getStaticPaths() {
-  const [tasks, lessons] = await Promise.all([getCollection('tasks'), getCollection('lessons')]);
-  const byId = new Map(lessons.map((lesson) => [lesson.data.id, lesson]));
-  return tasks.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry, byId } }));
+  const content = await getContent();
+  return content.tasks.map((task) => ({ params: { slug: task.slug }, props: { task } }));
 }
-const { entry, byId } = Astro.props;
-const steps = entry.data.steps.map((step) => ({
+const { task } = Astro.props;
+const content = await getContent();
+const steps = task.steps.map((step) => ({
   actor: step.actor,
   kind: step.kind,
   text: step.text,
-  refs: step.lessons.map((id) => byId.get(id)).filter((lesson) => Boolean(lesson)).map((lesson) => ({ label: lesson!.data.question, href: url(`/lessons/${lesson!.data.slug}/`) })),
+  refs: step.lessons.map(content.lesson).map((lesson) => ({ label: lesson.question, href: href.lesson(lesson) })),
 }));
 ---
-<BaseLayout title={`任務示例｜${entry.data.title}`} description={entry.data.situation}>
+<BaseLayout title={`任務示例｜${task.title}`} description={task.situation}>
   <article class="reading page-header task-page" data-pagefind-body>
-    <p class="eyebrow">任務示例 · 說明用的例子，不需要跟著操作</p>
-    <h1 data-pagefind-meta={`title=${entry.data.title}`}>{entry.data.title}</h1>
-    <p class="lesson-answer">{entry.data.situation}</p>
+    <p class="eyebrow kicker">任務示例 · 說明用的例子，不需要跟著操作</p>
+    <h1 data-pagefind-meta={`title=${task.title}`}>{task.title}</h1>
+    <p class="lede">{task.situation}</p>
     <TaskTimeline steps={steps} />
-    <aside class="task-outcome"><strong>實際結果會像這樣</strong><p>{entry.data.outcome}</p></aside>
-    <aside class="scenario-boundary"><strong>邊界：</strong>{entry.data.boundary}</aside>
-    <p class="scenario-note">不同產品的步驟與提示詞會不一樣。想先理解背後的觀念，可以從<a href={url('/start/')}>依情境開始</a>，或直接<a href={url('/concepts/')}>找概念</a>。</p>
+    <aside class="task-outcome callout" data-tone="leaf"><strong>實際結果會像這樣</strong><p>{task.outcome}</p></aside>
+    <aside class="task-boundary callout" data-tone="amber"><strong>邊界：</strong>{task.boundary}</aside>
+    <p class="task-note note">不同產品的步驟與提示詞會不一樣。想先理解背後的觀念，可以從<a href={url('/start/')}>依情境開始</a>，或直接<a href={url('/concepts/')}>找概念</a>。</p>
   </article>
 </BaseLayout>
 
 <style>
   .task-page { padding-bottom: 4rem; }
-  .task-outcome { margin-top: 1.35rem; padding: 1.35rem 1.5rem; border-left: 5px solid var(--leaf); border-radius: 0 var(--radius) var(--radius) 0; background: var(--leaf-pale); }
+  .task-outcome, .task-boundary, .task-note { margin-top: 1.35rem; }
   .task-outcome p { margin: .2rem 0 0; font-weight: 700; }
-  .task-page .scenario-note { margin-top: 1.35rem; }
 </style>

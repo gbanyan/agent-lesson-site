@@ -1,6 +1,6 @@
 ---
-interface Item { title: string; detail: string; }
-interface Props { label: string; items: Item[]; relation?: string; summary: string; }
+import type { Visual } from '../../lib/schemas';
+type Props = Omit<Extract<Visual, { type: 'concept' }>, 'type'>;
 const { label, items, relation = '→', summary } = Astro.props;
 ---
 <figure class="visual">

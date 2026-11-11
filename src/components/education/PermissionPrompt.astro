@@ -1,16 +1,17 @@
 ---
-interface Props { files?: string[]; consequence?: string; }
-const { files = ['index.html', 'styles.css', 'about.html'], consequence = '允許後，Agent 會直接改寫這些檔案。' } = Astro.props;
+import type { Visual } from '../../lib/schemas';
+type Props = Omit<Extract<Visual, { type: 'permission' }>, 'type'>;
+const { files, consequence } = Astro.props;
 ---
 <figure class="visual">
   <figcaption class="visual-label">權限要求示意（不是特定產品畫面）</figcaption>
-  <div class="permission-box" aria-hidden="true" data-pagefind-ignore>
+  <div class="permission-box panel" aria-hidden="true" data-pagefind-ignore>
     <h3>Agent 要求權限</h3>
     <p>Agent 想修改：</p>
     <div class="permission-files">{files.join('、')}</div>
     <p>{consequence}</p>
-    <div class="permission-actions" aria-label="示意選項">
-      <span class="mock-button">取消</span><span class="mock-button primary">允許</span>
+    <div class="permission-actions">
+      <span class="mock-button pill">取消</span><span class="mock-button pill primary">允許</span>
     </div>
   </div>
   <p class="visually-equivalent sr-only">權限提示列出 Agent 想修改的 {files.join('、')}。{consequence}使用者可以允許或取消。</p>

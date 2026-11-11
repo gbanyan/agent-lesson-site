@@ -14,7 +14,21 @@ newTerms:
 prerequisites: []
 visual:
   type: system-map
-  preset: local-remote
+  label: 縮圖工作的位置
+  lanes:
+    - title: 本機
+      steps:
+        - place: 這台電腦
+          title: 執行圖片程式
+          detail: 讀原圖，另存新圖
+          tone: local
+    - title: 遠端
+      steps:
+        - place: 網路另一端
+          title: 執行圖片程式
+          detail: 傳送前另行確認
+          tone: remote
+  summary: 同樣三張圖片，可以由這台電腦或網路另一端的圖片程式縮小。本機與遠端描述位置，不能單靠名稱判斷有沒有傳送資料。
 scenario:
   request: 把三張照片各縮小一份，原圖保留；先說明要在哪台電腦處理。
   actions:
@@ -30,5 +44,9 @@ searchTerms:
   - Remote
   - Cloud
   - 雲端
+# 編輯保護：keep 的句子必須留在頁面上，avoid 的不得再出現（npm run lint 檢查）。
+guard:
+  keep:
+    - "資料是否被傳送、複製或保存，需要另外確認"
 ---
 本機與遠端也常寫成 Local 與 Remote；雲端通常指透過網路使用的服務。這些詞描述位置，不能單靠它們判斷有沒有上傳圖片。

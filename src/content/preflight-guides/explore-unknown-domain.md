@@ -5,6 +5,40 @@ order: 6
 title: 遇到不熟的領域，怎麼跟 AI 請教？
 summary: 完全不懂時別急著要標準答案；先讓它幫你畫出輪廓，再依其框架往深處問，並核對來源。
 principle: 陌生領域先請 AI 說明整體輪廓、關鍵名詞與常見誤解；它說的要看來源與前後一致，不能照單全收。
+visual:
+  label: 把 AI 當成陌生領域的嚮導
+  lanes:
+    - title: 先畫輪廓
+      steps:
+        - place: 你
+          title: 說清楚程度與困惑
+          detail: 先別假設它懂你
+          tone: local
+        - place: AI
+          title: 給整體輪廓與名詞
+          detail: 也講常見誤解
+          tone: agent
+    - title: 逐層深挖
+      steps:
+        - place: 你
+          title: 挑一兩點往下問
+          detail: 結合你的工作或興趣
+          tone: local
+        - place: AI
+          title: 用類比或小例子
+          detail: 並指出你可能誤解
+          tone: agent
+    - title: 核對再相信
+      steps:
+        - place: AI
+          title: 標出處與不確定處
+          detail: 區分共識與爭論
+          tone: remote
+        - place: 你
+          title: 判斷來源與一致性
+          detail: 不一致就追問
+          tone: result
+  summary: 陌生領域先請 AI 幫你畫出輪廓，再逐層往深處問；它給的內容要看來源與前後是否一致，不能照單全收。
 prompts:
   - label: 從零了解一個領域
     audience: research_chat

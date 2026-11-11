@@ -1,0 +1,69 @@
+/* Lesson and guide diagrams: every figure that carries a .visual-label. */
+.visual {
+  margin-block: 2.25rem; padding: clamp(1rem, 4vw, 2rem); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow);
+}
+.visual-label { margin: 0 0 1rem; color: var(--ink-soft); }
+
+.concept-row { display: flex; gap: .65rem; align-items: stretch; }
+.concept-node { flex: 1 1 0; display: grid; place-items: center; min-height: 7.5rem; padding: 1rem; border-radius: var(--radius); background: var(--surface-soft); text-align: center; }
+.concept-node strong { display: block; }
+.concept-node small { color: var(--ink-soft); }
+.concept-arrow { align-self: center; text-align: center; color: var(--leaf); font-size: 1.5rem; }
+
+.system-lanes { display: grid; gap: 1rem; }
+.system-lane { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 1rem; align-items: stretch; }
+.lane-title { display: grid; place-items: center; padding: .8rem; border-radius: var(--radius-sm); background: var(--ink); color: var(--paper); text-align: center; }
+.lane-flow { display: flex; align-items: stretch; gap: .5rem; min-width: 0; }
+.system-node { flex: 1 1 9rem; display: flex; flex-direction: column; justify-content: center; min-width: 0; min-height: 6.5rem; padding: 1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-soft); }
+.system-node small { color: var(--ink-soft); }
+.system-node strong { margin-block: .2rem; }
+.system-node span { color: var(--ink-soft); font-size: var(--step--2); }
+.system-node.local { border-color: color-mix(in srgb, var(--leaf) 55%, var(--line)); }
+.system-node.agent { border-color: color-mix(in srgb, var(--blue) 60%, var(--line)); background: color-mix(in srgb, var(--blue) 7%, var(--surface)); }
+.system-node.remote { border-color: color-mix(in srgb, var(--amber) 65%, var(--line)); background: color-mix(in srgb, var(--amber) 8%, var(--surface)); }
+.system-node.result { border-color: color-mix(in srgb, var(--leaf) 70%, var(--line)); background: var(--leaf-pale); }
+.system-arrow { align-self: center; flex: 0 0 auto; color: var(--leaf); font-size: 1.35rem; }
+
+.terminal { overflow: hidden; border: 1px solid var(--terminal-border); border-radius: var(--radius); background: var(--terminal-bg); color: var(--terminal-ink); }
+.terminal-title { padding: .65rem 1rem; border-bottom: 1px solid var(--terminal-rule); color: var(--terminal-muted); }
+.terminal-label { margin: 0; padding: .65rem 1rem; border-bottom: 1px solid var(--terminal-rule); color: var(--terminal-muted); }
+.terminal pre { overflow-x: auto; margin: 0; padding: 1rem; font: 500 .95rem/1.7 var(--font-mono); white-space: pre-wrap; }
+.impact { display: inline-flex; margin-top: 1rem; padding: .35rem .7rem; background: var(--leaf-pale); color: var(--leaf-dark); font-size: var(--step--2); font-weight: 750; }
+
+.tree { padding: 1rem; border-radius: var(--radius); background: var(--surface-soft); font-family: var(--font-mono); line-height: 1.9; }
+.tree-entry.nested { padding-left: 1.5rem; }
+
+.permission-box { max-width: 32rem; margin-inline: auto; }
+.permission-files { padding: .75rem 1rem; background: var(--surface-soft); border-radius: var(--radius-sm); }
+.permission-actions { display: flex; justify-content: flex-end; gap: .65rem; margin-top: 1rem; }
+.mock-button { padding: .55rem 1rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.mock-button.primary { border-color: var(--leaf); background: var(--leaf); color: var(--paper); }
+
+.flow { display: grid; justify-items: center; gap: .45rem; max-width: 34rem; margin: auto; text-align: center; }
+.flow-step { width: 100%; padding: .7rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface-soft); }
+.flow-arrow { color: var(--ink-soft); }
+.flow-note { margin: 1rem 0 0; }
+
+.task-flow { display: grid; gap: .6rem; margin-block: 2rem; padding: 0; list-style: none; }
+.task-step { --tone: var(--line); display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 1rem; align-items: start; padding: .85rem 1rem; border-left: 4px solid var(--tone); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; background: var(--surface-soft); }
+.task-step[data-tone="leaf"] { --tone: var(--leaf); }
+.task-step[data-tone="amber"] { --tone: var(--amber); }
+.task-step[data-tone="blue"] { --tone: var(--blue); }
+.task-actor { padding-top: .2rem; color: var(--ink-soft); }
+.task-kind { display: block; margin-top: .15rem; font-style: normal; }
+.task-step-body p { margin: 0; }
+.task-step-body .task-refs { margin-top: .45rem; color: var(--ink-soft); font-size: var(--step--1); }
+.task-refs a { font-weight: 650; }
+
+@media (max-width: 52rem) {
+  .system-lane { grid-template-columns: 1fr; }
+  .lane-title { place-items: start; text-align: left; }
+  .lane-flow { flex-direction: column; }
+  .system-arrow { transform: rotate(90deg); }
+}
+@media (max-width: 36rem) {
+  .concept-row { flex-direction: column; }
+  .concept-arrow { transform: rotate(90deg); }
+  .task-step { grid-template-columns: 1fr; gap: .3rem; }
+}

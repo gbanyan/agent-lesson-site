@@ -5,6 +5,39 @@ order: 3
 title: Agent 怎麼安裝？CLI 和桌面版差在哪？
 summary: 安裝方法會變；程式來源、安裝位置與可存取資料仍是固定的檢查項目。
 principle: 介面不同，能力和權限也可能不同。登入同一個帳號，不保證各版本完全一樣。
+visual:
+  label: 介面相同，位置與能力未必相同
+  lanes:
+    - title: 桌面版
+      steps:
+        - place: 你的裝置
+          title: 應用程式視窗
+          detail: 用按鈕選資料夾
+          tone: local
+        - place: 權限提示
+          title: 開放檔案或網路
+          detail: 依系統與產品設定
+          tone: agent
+    - title: CLI
+      steps:
+        - place: 終端機
+          title: 輸入文字指令
+          detail: 從目前資料夾開始
+          tone: local
+        - place: 工具所在位置
+          title: 使用工具
+          detail: 可用範圍要另外確認
+          tone: agent
+    - title: 網頁版
+      steps:
+        - place: 瀏覽器
+          title: 開啟服務
+          detail: 本機只顯示介面
+        - place: 遠端系統
+          title: 保存或處理資料
+          detail: 依服務規則
+          tone: remote
+  summary: 桌面版、CLI 與網頁版可能登入同一帳號，但工作位置、工具與權限不一定相同。
 prompts:
   - label: 查詢適合自己的安裝方式
     audience: research_chat

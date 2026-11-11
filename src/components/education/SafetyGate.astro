@@ -5,8 +5,11 @@ interface Props { items: Item[]; }
 const { items } = Astro.props;
 const titleId = uid('safety-gate-', `${Astro.url.pathname}|${items.map((item) => item.href).join('|')}`);
 ---
-<aside class="safety-gate" aria-labelledby={titleId}>
+<aside class="safety-gate panel" data-tone="amber" aria-labelledby={titleId}>
   <h2 id={titleId}>動手修改前，花一分鐘確認</h2>
   <ul>{items.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ul>
   <p>這份清單不會擋下操作，用來確認影響範圍與恢復方式。</p>
 </aside>
+<style>
+  ul { padding-left: 1.4rem; }
+</style>

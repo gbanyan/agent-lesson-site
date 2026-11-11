@@ -4,7 +4,13 @@
 
 每張 lesson 固定為：一個 question、一個 short answer、至多一個 visual、極短 explanation、一個具體 scenario、takeaway、next。不可加入 FAQ、頁內目錄或延伸閱讀牆。
 
-Frontmatter 必填：`id`、`slug`、`section`、`order`、`archetype`、`question`、`context`、`answer`、`takeaway`、`newTerms`、`prerequisites`、`visual`、`scenario`、`notTeach`。`prompt` 與 `searchTerms` 選填。
+Frontmatter 必填：`id`、`slug`、`section`、`order`、`archetype`、`question`、`context`、`answer`、`takeaway`、`newTerms`、`visual`、`scenario`、`notTeach`。`prompt`、`searchTerms`、`prerequisites` 與 `guard` 選填。所有結構規則定義在 `src/lib/schemas.ts`，build 與 `npm run lint` 共用。
+
+`visual` 直接寫入圖解資料，依 `type` 決定欄位：`system-map`（`label`、`lanes`、`summary`，可加 `more` 作為讀者展開的第二張圖）、`concept`（`label`、`items`、`relation`、`summary`）、`terminal`（`purpose`、`command`、`output`、`impact`、`summary`）、`file-explorer`（`root`、`entries`、`summary`）、`permission`（`files`、`consequence`）。圖解文字和正文一樣接受用語檢查；`summary` 是給螢幕閱讀器的完整文字等價。
+
+`prerequisites` 列出建議先讀的課文 ID，課文頁（非路徑內）會顯示「需要時先看」連結。
+
+`guard` 保護經過編修確認的句子：`keep` 的片語必須留在這一頁，`avoid` 的片語不得再出現；lint 會比對整頁文字。用在修正過的觀念邊界或受保護原文，不要拿來凍結一般文案。路徑與使用前說明也可使用 `guard`。
 
 `scenario` 必須包含讀者可能說出的 `request`、Agent 可能採取的 2–5 個 `actions`、讀者會看到的 `result`，以及不應從例子過度推論的 `boundary`。動作要具體到能看出讀取、寫入、執行程式或連接外部服務的差別；但不能把 Agent 的理想行為寫成必然。
 
@@ -25,10 +31,10 @@ Frontmatter 必填：`id`、`slug`、`section`、`order`、`archetype`、`questi
 ## Hard rules
 
 - `question`、`answer`、`takeaway` 各只能有一個非空值。
-- 若有 `prompt`，文字必須非空且包含 `＿＿`，責任與能力欄位必須符合 schema。
+- 若有 `prompt`，文字必須非空且包含 `＿＿`，責任與能力欄位必須符合 schema；`research_chat` 只能 `ask_only`，`execute_after_confirmation` 只能交給 `active_agent`。
 - `question` 必須只含一個問句結尾。
 - `newTerms` 最多三個；`notTeach` 必填且至少一項。
-- `visual` 為一個物件或 `null`，不得為陣列。
+- `visual` 為一個物件或 `null`，不得為陣列；資料欄位依 `type` 而定。
 - `scenario` 必須包含完整的 request、actions、result 與 boundary；actions 為 2–5 個具體步驟。
 - prerequisite 必須指向存在的 lesson ID，且不能自我引用。
 - 核心 Markdown 禁止表格、H2/H3、HTML table、超過一個指令的 code block。
@@ -62,7 +68,15 @@ Frontmatter 必填：`id`、`slug`、`section`、`order`、`archetype`、`questi
 - `kind` 選填，標示 agent 行動的影響層級：`read`、`modify`、`external`；檢查點是語意節點，不是步驟備註。
 - 產品中立：不得出現特定產品名稱、價格或模型版本；說明用，不暗示有待下載的練習素材。
 - 文法承自 lesson 的 scenario（request → actions → result → boundary），放大到整件任務；outcome 建議保留一次「檢查後修正」，呼應「聲稱完成不等於驗證成功」。
-- `scripts/lint-tasks.ts` 執行上述檢查；任務只從首頁與 `/tasks/<slug>/` 曝光，不進 header 導覽。
+- 結構規則在 schema，產品中立與數量檢查在 `scripts/lint.ts`；任務只從首頁與 `/tasks/<slug>/` 曝光，不進 header 導覽。
+
+## Paths and concept groups
+
+路徑 YAML 用 `order` 決定在首頁與 `/start/` 的順序，`featured: true`（最多一條）成為首頁的第一次使用路徑。`stepIntros` 每一步必填。頁面上的附加區塊都寫在路徑資料裡：`safetyGate`（動手前確認清單，列出課文 ID 與標籤）、`diagram`（流程示意）、`exit`（讀完後導向某篇使用前說明）。
+
+`/concepts/` 的分組寫在 `src/content/concept-groups.yaml`；每張課文必須剛好出現在一組，新增課文時 lint 會提醒。
+
+使用前說明可加 `badge`（卡片上的小標，例如「先讀這篇」），並以 `visual` 提供一張 system map。
 
 ## Core role
 

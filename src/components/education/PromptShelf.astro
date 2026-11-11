@@ -1,25 +1,24 @@
 ---
+import type { GuidePrompt } from '../../lib/schemas';
 import { uid } from '../../lib/uid';
-interface Prompt { label: string; text: string; audience: 'research_chat' | 'active_agent' | 'human'; mode: 'ask_only' | 'explain_before_action' | 'execute_after_confirmation'; capability: 'requires_web' | 'requires_workspace_access' | 'no_special_access'; }
-interface Props { prompts: Prompt[]; }
+import CopyablePrompt from './CopyablePrompt.astro';
+
+interface Props { prompts: GuidePrompt[]; }
 const { prompts } = Astro.props;
 const titleId = uid('prompt-shelf-', `${Astro.url.pathname}|${prompts.map((prompt) => prompt.label).join('|')}`);
 const needsWeb = prompts.some((prompt) => prompt.capability === 'requires_web');
 ---
 <section class="prompt-shelf" aria-labelledby={titleId}>
-  <p class="eyebrow">{needsWeb ? '查詢目前資訊' : '先想，再查'}</p>
+  <p class="eyebrow kicker">{needsWeb ? '查詢目前資訊' : '先想，再查'}</p>
   <h2 id={titleId}>{needsWeb ? '問能查官方資料的 AI' : '問你手邊的 AI 就好'}</h2>
   <p>{needsWeb ? '這些查詢適合能瀏覽官方網頁或公開資訊的 AI。它不一定能看到你目前電腦裡的檔案、設定或權限。' : '這些問題不需要網路，把你的狀況描述給它就夠。貼上內容以前，先移除密碼、金鑰、個資與公司機密。'}</p>
   <div class="prompt-list">
     {prompts.map((prompt) => (
-      <article class="prompt-card">
-        <div class="prompt-heading">
-          <h3>{prompt.label}</h3>
-          <button type="button" class="copy-prompt" data-copy-prompt data-copy-label="複製查詢" aria-label={`複製「${prompt.label}」查詢`}>複製查詢</button>
-        </div>
-        <pre><code>{prompt.text}</code></pre>
-        <p class="prompt-capability">{prompt.capability === 'requires_web' ? '需要網路查詢' : '不需特殊存取'}</p>
-        <p class="copy-status" role="status" aria-live="polite"></p>
+      <article class="prompt-card panel">
+        <CopyablePrompt text={prompt.text} buttonLabel="複製查詢" ariaLabel={`複製「${prompt.label}」查詢`}>
+          <h3 slot="heading">{prompt.label}</h3>
+          <p slot="after" class="prompt-capability note">{prompt.capability === 'requires_web' ? '需要網路查詢' : '不需特殊存取'}</p>
+        </CopyablePrompt>
       </article>
     ))}
   </div>
@@ -29,14 +28,5 @@ const needsWeb = prompts.some((prompt) => prompt.capability === 'requires_web');
   .prompt-shelf { margin-block: 4rem 2rem; padding-top: 2.5rem; border-top: 1px solid var(--line); }
   .prompt-shelf > h2 { margin-top: .3rem; }
   .prompt-list { display: grid; gap: 1rem; margin-top: 1.5rem; }
-  .prompt-card { padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
-  .prompt-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-  .prompt-heading h3 { margin: 0; font-size: var(--step-1); }
-  .copy-prompt { min-height: 2.75rem; flex: 0 0 auto; padding: .5rem .85rem; border: 1px solid var(--leaf); border-radius: 999px; background: transparent; color: var(--leaf-dark); font: inherit; font-weight: 750; cursor: pointer; }
-  .copy-prompt:hover { background: var(--leaf-pale); }
-  .prompt-card pre { overflow-x: auto; margin: 1rem 0 0; padding: 1rem; border-radius: var(--radius-sm); background: var(--surface-soft); white-space: pre-wrap; overflow-wrap: anywhere; }
-  .prompt-card code { font: 500 .94rem/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; }
-  .prompt-capability { margin: .7rem 0 0; color: var(--ink-soft); font-size: .85rem; }
-  .copy-status { min-height: 1.5em; margin: .5rem 0 0; color: var(--ink-soft); font-size: .85rem; }
-  @media (max-width: 34rem) { .prompt-heading { align-items: flex-start; flex-direction: column; } }
+  .prompt-capability { margin: .7rem 0 0; }
 </style>

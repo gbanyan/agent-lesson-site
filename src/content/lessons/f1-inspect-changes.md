@@ -20,7 +20,15 @@ prerequisites:
   - B6
 visual:
   type: concept
-  preset: inspect-diff
+  label: 哪些檔案真的改了
+  items:
+    - title: 拿到
+      detail: 處理前後的檔案
+    - title: 操作
+      detail: 查看新增與原圖變化
+    - title: 結果
+      detail: 變更清單，尚待驗證
+  summary: 確認新增三張照片且原圖未改，仍要開啟新圖檢查大小與清晰度。
 scenario:
   request: 列出這次新增、修改或刪除的檔案，讓我確認原圖有沒有被動到。
   actions:

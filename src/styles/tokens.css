@@ -1,60 +1,42 @@
+/*
+ * Non-colour design tokens. Colours (both themes) live in src/lib/palette.ts
+ * and are inlined by BaseLayout.
+ *
+ * Breakpoints are literal because media queries cannot read custom properties.
+ * Use only these three:
+ *   36rem  small phones: stack heading rows, diagram rows and step columns
+ *   44rem  single column: navigation wraps, card grids collapse
+ *   52rem  system-map lanes stack
+ */
 :root {
-  --ink: #18231f;
-  --ink-soft: #52605a;
-  --paper: #f7f5ee;
-  --surface: #fffdf8;
-  --surface-soft: #eeeee5;
-  --line: #d7d9ce;
-  --leaf: #245e49;
-  --leaf-dark: #174333;
-  --leaf-pale: #dcebe2;
-  --amber: #b56b22;
-  --blue: #285e79;
-  --focus: #8e3f21;
-  --shadow: 0 18px 50px rgb(31 50 42 / 9%);
-  --radius-sm: 0.65rem;
-  --radius: 1.1rem;
-  --radius-lg: 1.6rem;
-  --content: 70rem;
-  --reading: 48rem;
-  --reading-wide: 66rem;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --step--3: .76rem;
+  --step--2: .84rem;
   --step--1: clamp(0.92rem, 0.88rem + 0.16vw, 1rem);
   --step-0: clamp(1rem, 0.95rem + 0.22vw, 1.125rem);
   --step-1: clamp(1.25rem, 1.12rem + 0.5vw, 1.55rem);
   --step-2: clamp(1.6rem, 1.35rem + 0.9vw, 2.15rem);
   --step-3: clamp(2.15rem, 1.7rem + 1.8vw, 3.45rem);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --ink: #e6eee9;
-    --ink-soft: #b7c4bd;
-    --paper: #111815;
-    --surface: #18221e;
-    --surface-soft: #222d28;
-    --line: #435149;
-    --leaf: #83caa7;
-    --leaf-dark: #afe2c7;
-    --leaf-pale: #244035;
-    --amber: #e3a563;
-    --blue: #7bbbd4;
-    --focus: #ffb590;
-    --shadow: 0 18px 50px rgb(0 0 0 / 28%);
-  }
-}
+  --radius-sm: 0.65rem;
+  --radius: 1.1rem;
+  --radius-lg: 1.6rem;
+  --radius-pill: 999px;
 
-:root[data-theme="dark"] {
-  --ink: #e6eee9;
-  --ink-soft: #b7c4bd;
-  --paper: #111815;
-  --surface: #18221e;
-  --surface-soft: #222d28;
-  --line: #435149;
-  --leaf: #83caa7;
-  --leaf-dark: #afe2c7;
-  --leaf-pale: #244035;
-  --amber: #e3a563;
-  --blue: #7bbbd4;
-  --focus: #ffb590;
-  --shadow: 0 18px 50px rgb(0 0 0 / 28%);
+  --content: 70rem;
+  --reading: 48rem;
+  --reading-wide: 66rem;
+  --scenario: 54rem;
+
+  /* Minimum practical touch target (ARCHITECTURE accessibility baseline). */
+  --tap: 2.75rem;
+
+  /* The terminal mock stays dark in both themes. */
+  --terminal-bg: #1c2723;
+  --terminal-border: #33413b;
+  --terminal-rule: #415049;
+  --terminal-ink: #f2f5ed;
+  --terminal-muted: #c9d7ce;
 }

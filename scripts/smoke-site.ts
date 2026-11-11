@@ -1,6 +1,8 @@
 import { chromium, expect } from '@playwright/test';
 import fg from 'fast-glob';
 import { readFile } from 'node:fs/promises';
+import { createContentGraph, routes as contentRoutes } from '../src/lib/content-graph';
+import { loadContent } from './content-source';
 
 const argument = process.argv[2];
 if (!argument) throw new Error('Usage: npm run smoke -- https://host/site/ (run npm run build first)');
@@ -8,6 +10,8 @@ const base = new URL(argument.endsWith('/') ? argument : `${argument}/`);
 const files = await fg('dist/**/index.html');
 if (!files.length) throw new Error('Missing static build');
 const routes = files.map((file) => file.slice('dist/'.length).replace(/index\.html$/, ''));
+const content = createContentGraph((await loadContent()).source);
+const relative = (route: string) => route.replace(/^\//, '');
 const browser = await chromium.launch();
 const errors: string[] = [];
 try {
@@ -43,21 +47,17 @@ try {
       expect(await page.locator('img').evaluateAll((nodes) => nodes.every((node) => node instanceof HTMLImageElement && node.complete && node.naturalWidth > 0))).toBeTruthy();
     }
   }
-  await page.goto(new URL('concepts/', base).href, {waitUntil:'networkidle'});
   // Check the currently published teaching sequence, not only route availability.
-  await page.goto(new URL('paths/first-coding-agent/', base).href);
+  const featured = content.featuredPath!;
+  await page.goto(new URL(relative(contentRoutes.path(featured)), base).href);
   const steps = await page.locator('.path-steps a').evaluateAll(nodes => nodes.map(node => (node as HTMLAnchorElement).href));
-  expect(steps.map(href => href.replace(base.href, ''))).toEqual([
-    'paths/first-coding-agent/input-process-output/', 'paths/first-coding-agent/files-and-folders/',
-    'paths/first-coding-agent/context/', 'paths/first-coding-agent/are-changes-reversible/',
-    'paths/first-coding-agent/tool/', 'paths/first-coding-agent/inspect-changes/',
-  ]);
-  for (const slug of ['secrets', 'beyond-files']) {
-    await page.goto(new URL(`lessons/${slug}/`, base).href);
+  expect(steps.map(href => href.replace(base.href, ''))).toEqual(content.pathSteps(featured).map((step) => relative(contentRoutes.pathStep(featured, step.lesson))));
+  for (const lesson of content.lessons.filter((item) => item.scenario.warning)) {
+    await page.goto(new URL(relative(contentRoutes.lesson(lesson)), base).href);
     await expect(page.locator('.scenario-warning')).toContainText('以下要求不應直接照做');
   }
   await page.goto(new URL('concepts/', base).href, {waitUntil:'networkidle'});
-  await expect(page.locator('.concept-groups a')).toHaveCount(30);
+  await expect(page.locator('.concept-groups a')).toHaveCount(content.lessons.length);
   for (const [term, slug] of [['Git','version-history'], ['Terminal','command'], ['Context','context'], ['Tool','tool'], ['Backup','backup'], ['Input','input-process-output']]) {
     await page.getByLabel('搜尋概念').fill(term!);
     await expect(page.locator(`#search-results a[href$="/lessons/${slug}/"]`)).toBeVisible({timeout:15000});
@@ -70,7 +70,7 @@ try {
   await page.emulateMedia({colorScheme:'dark'});
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toContain('dark');
   expect(errors).toEqual([]);
-  console.log(`Smoke passed: ${routes.length} static routes; desktop/light and 320px/dark; redirects, canonical/base paths, assets, search and author text.`);
+  console.log(`Smoke passed: ${routes.length} static routes; desktop/light and 320px/dark; canonical/base paths, assets, the published path order, cautionary labels, the full concept index, search and author text.`);
 } finally {
   await browser.close();
 }

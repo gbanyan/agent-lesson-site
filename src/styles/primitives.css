@@ -1,0 +1,54 @@
+/*
+ * Shared visual primitives. Components compose these instead of restyling
+ * the same box each time.
+ *
+ *   .kicker   small label above a heading (.eyebrow adds the accent colour)
+ *   .pill     fully rounded ends
+ *   .tap      inline link or control with the minimum touch height
+ *   .note     secondary small text
+ *   .lede     the one-sentence answer under a page title
+ *   .button   primary / .secondary action link
+ *   .card     a whole-card link
+ *   .panel    a bordered static box   (data-surface="soft", data-tone)
+ *   .callout  a left-ruled aside      (data-tone)
+ *
+ * data-tone="leaf | amber | blue" sets --tone (accent) and --tone-bg (tint)
+ * for whichever primitive carries it; without it they stay neutral.
+ */
+:is(.kicker, .eyebrow, .visual-label) { font-size: var(--step--3); font-weight: 750; letter-spacing: .08em; }
+.eyebrow { color: var(--leaf); text-transform: uppercase; }
+.pill { border-radius: var(--radius-pill); }
+.tap { display: inline-flex; align-items: center; min-height: var(--tap); }
+.note { color: var(--ink-soft); font-size: var(--step--1); }
+.lede { margin: 0; padding-left: 1rem; border-left: 3px solid var(--leaf); color: var(--leaf-dark); font-size: var(--step-1); font-weight: 720; }
+
+.button {
+  display: inline-flex; min-height: var(--tap); align-items: center; justify-content: center; gap: .5rem;
+  padding: .65rem 1.05rem; border: 1px solid var(--leaf);
+  background: var(--leaf); color: var(--paper); font-weight: 700; text-decoration: none;
+}
+.button:hover { background: var(--leaf-dark); color: var(--paper); }
+.button.secondary { background: transparent; color: var(--leaf-dark); }
+.button.secondary:hover { background: var(--leaf-pale); }
+
+.card { display: block; min-height: 10rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); text-decoration: none; box-shadow: 0 1px 0 color-mix(in srgb, var(--ink) 3%, transparent); }
+.card:hover { border-color: var(--leaf); color: var(--ink); box-shadow: var(--shadow); transform: translateY(-2px); }
+.card :is(h2, h3) { margin: .25rem 0 .5rem; font-size: var(--step-1); }
+.card p { margin: 0; color: var(--ink-soft); }
+
+:is(.panel, .callout) { --tone: var(--line); --tone-bg: initial; }
+[data-tone="leaf"] { --tone: var(--leaf); --tone-bg: var(--leaf-pale); }
+[data-tone="amber"] { --tone: var(--amber); --tone-bg: color-mix(in srgb, var(--amber) 9%, var(--surface)); }
+[data-tone="blue"] { --tone: var(--blue); }
+
+.panel {
+  padding: 1.35rem 1.5rem; border: 1px solid color-mix(in srgb, var(--tone) 70%, var(--line));
+  border-radius: var(--radius); background: var(--tone-bg, var(--surface));
+}
+.panel[data-surface="soft"] { background: var(--surface-soft); }
+.panel > :is(h2, h3):first-child { margin-top: 0; }
+
+.callout {
+  padding: 1.15rem 1.35rem; border-left: 4px solid var(--tone);
+  border-radius: 0 var(--radius) var(--radius) 0; background: var(--tone-bg, var(--surface-soft));
+}

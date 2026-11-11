@@ -15,7 +15,9 @@ export default defineConfig({
     env: { ...process.env, GITHUB_ACTIONS: 'false' },
   },
   projects: [
-    { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
-    { name: 'mobile', use: { ...devices['Pixel 7'] } },
+    // Content graph unit tests: no browser, no build output needed.
+    { name: 'content', testMatch: 'content.spec.ts' },
+    { name: 'desktop', testIgnore: 'content.spec.ts', use: { ...devices['Desktop Chrome'] } },
+    { name: 'mobile', testIgnore: 'content.spec.ts', use: { ...devices['Pixel 7'] } },
   ],
 });

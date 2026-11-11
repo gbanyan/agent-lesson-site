@@ -16,7 +16,14 @@ prerequisites:
   - C1
 visual:
   type: concept
-  preset: sync-backup
+  label: 刪除也可能傳過去
+  items:
+    - title: 同步
+      detail: 各處一起更新或刪除
+    - title: 備份
+      detail: 另外保留可取回的副本
+  relation: ／
+  summary: 同步可能把刪除傳到其他地方；是否仍有可恢復的副本，要另外確認。
 scenario:
   request: 如果存放照片的資料夾另外開了雲端同步，刪錯本機檔案能靠雲端救回嗎？
   actions:

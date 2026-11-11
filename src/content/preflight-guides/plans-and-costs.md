@@ -5,6 +5,30 @@ order: 2
 title: 方案與費用怎麼判斷？
 summary: 價目表會改。購買前要分清楚固定訂閱、點數與用量計費。
 principle: 價格常變，收費方法比較固定。比較數字前，找出哪些動作會產生費用。
+visual:
+  label: 兩張帳單可能分開計算
+  lanes:
+    - title: App
+      steps:
+        - place: 你的帳號
+          title: 固定訂閱
+          detail: 可能含每月額度
+          tone: agent
+        - place: 超過限制
+          title: 停用或另計
+          detail: 依目前方案規則
+          tone: result
+    - title: API
+      steps:
+        - place: 開發者帳戶
+          title: 用量計費
+          detail: 依輸入、輸出或工具使用
+          tone: remote
+        - place: 帳單
+          title: 另外結算
+          detail: 不一定包含在 App 訂閱
+          tone: result
+  summary: 同一家公司的 App 訂閱與 API 用量可能分開計費，需要各自查看帳單與限制。
 prompts:
   - label: 查詢目前方案
     audience: research_chat
@@ -21,6 +45,10 @@ prompts:
     mode: ask_only
     capability: requires_web
     text: 請用一般使用者聽得懂的方式，逐項檢查＿＿＿＿計費規則裡容易忽略的地方：自動續訂怎麼取消、額度何時到期、輸入與輸出是否分開計費、快取或工具呼叫是否另計、稅金與匯率。每項附目前官方來源；查不到的請明說，不要猜。
+# 編輯保護：keep 的句子必須留在頁面上，avoid 的不得再出現（npm run lint 檢查）。
+guard:
+  keep:
+    - "目前官方費率"
 ---
 
 常見計費有三種：固定訂閱、點數、用量（用多少扣多少）。同一家公司的聊天產品和開發者 API（讓程式串接的入口）也可能分開收費。比較時確認三件事：什麼動作會扣額度、額度用完會停止還是繼續收費、以及在哪裡查看用量。

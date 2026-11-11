@@ -1,0 +1,12 @@
+---
+import type { Guide } from '../../lib/schemas';
+import { href } from '../../lib/content';
+
+interface Props { guide: Guide; heading?: 'h2' | 'h3'; }
+const { guide, heading: Heading = 'h3' } = Astro.props;
+---
+<a class="card prepare-card" href={href.guide(guide)}>
+  {guide.badge && <span class="eyebrow kicker">{guide.badge}</span>}
+  <Heading>{guide.title}</Heading>
+  <p>{guide.summary}</p>
+</a>

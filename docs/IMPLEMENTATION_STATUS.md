@@ -2,7 +2,19 @@
 
 This file is updated at each phase gate. Evidence commands are listed under each phase; final outcomes are recorded after execution.
 
-## Current content revision — 2026-09-11
+## Architecture deepening — 2026-11-11
+
+No reader-facing content changed except one promised feature: canonical lesson pages now show their `prerequisites` as 「需要時先看」 links, which the `/concepts/` intro already promised.
+
+- Lesson and guide diagram data moved from `LessonVisual.astro` / `PreflightVisual.astro` into frontmatter (`visual` discriminated union). `LessonVisual` dispatches on `type` only; the unused `preset` field, the `agent-action` and `illustration` types, `AgentAction.astro`, `GeneratedIllustration.astro`, the illustration manifest and `validate-visuals.ts` were removed. The protected DOCX map on C2 moved verbatim into `visual.more`.
+- Schemas moved to `src/lib/schemas.ts`, shared by `content.config.ts` and a single `scripts/lint.ts` that replaces `lint-content`, `lint-tasks`, `lint-preflight-guides`, `validate-links` and `validate-visuals`. Hard-coded lesson and section counts were dropped; `stepIntros` is now required by the schema.
+- New `src/lib/content-graph.ts` (pure) and `src/lib/content.ts` (Astro adapter) own ordering, lookups (unknown IDs throw), path steps and cross-reference checks. Page-level special cases became content: path `order`, `featured`, `safetyGate`, `diagram`, `exit`; guide `badge`; `src/content/concept-groups.yaml`.
+- Styles: palette in `src/lib/palette.ts` (one definition for system-dark and forced-dark), missing tokens added, stylesheets split by role with `.panel`, `.callout` and `data-tone` primitives, `.article` reading layout replacing the hard-coded width list, three breakpoints. `CopyablePrompt.astro` owns the copy UI; the copy script uses `data-copy-*` attributes only.
+- Tests: new `content` Playwright project (no browser) for the content graph; browser tests derive counts and orders from content; wording pins moved to per-entry `guard` fields checked by lint; added forced-dark axe scans and touch-target checks. Smoke script derives its expectations from content.
+
+Verification: `npm run lint`, `npm run check` (0 diagnostics), 102 Playwright tests, `npm run build`, and the smoke script against a local static server all passed. Rendered `<main>` text was diffed against the previous build: identical apart from the prerequisite links. Light/dark screenshots of 13 page types were compared side by side.
+
+## Content revision — 2026-09-11
 
 Structure continues the previous revision and is now 30 lessons, with the legacy/backward-compatibility layer removed:
 

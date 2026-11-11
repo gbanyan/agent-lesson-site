@@ -1,5 +1,6 @@
 id: path-e
 slug: fear-of-breaking-things
+order: 5
 title: 我怕 Agent 把東西改壞
 description: 保留可用的恢復方式，確認授權範圍，完成後再檢查實際結果。
 lessons: [B6, E1, E2, E3, E4, F2]
@@ -10,4 +11,17 @@ stepIntros:
   E3: 如果照片資料夾還開了雲端同步，刪除也可能傳到另一端；同步與另外保留備份要分開看。
   E4: 換成反覆修改文章，會更容易看出版本紀錄的用途：想找回刪掉的一段話，先確認較早內容有被保存。
   F2: 回到照片，最後驗收：檔案有留下來之外，還要確認縮小版符合大小要求、畫面也清楚。
-safetyGate: true
+safetyGate:
+  - lesson: B9
+    label: Agent 正在哪個範圍工作
+  - lesson: B6
+    label: 這個動作會不會修改資料
+  - lesson: E1
+    label: 如果結果不好，要從哪裡恢復
+  - lesson: E7
+    label: 它是否可能影響外部系統
+# 編輯保護：keep 的句子必須留在頁面上，avoid 的不得再出現（npm run lint 檢查）。
+guard:
+  keep:
+    - "換成反覆修改文章"
+    - "回到照片"

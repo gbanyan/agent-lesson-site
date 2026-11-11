@@ -1,91 +1,22 @@
 ---
+import type { Visual } from '../../lib/schemas';
 import ConceptDiagram from './ConceptDiagram.astro';
-import TerminalExample from './TerminalExample.astro';
-import AgentAction from './AgentAction.astro';
 import FileExplorer from './FileExplorer.astro';
 import PermissionPrompt from './PermissionPrompt.astro';
 import SystemMap from './SystemMap.astro';
+import TerminalExample from './TerminalExample.astro';
 
-interface Props { lessonId: string; type: string; preset: string; }
-const { lessonId, type } = Astro.props;
-
-// User-protected DOCX example remains available on its original lesson.
-const protectedDocumentMap = { label:'畫面與儲存位置', lanes:[
-  { title:'本機檔案', steps:[{place:'瀏覽器或應用程式',title:'畫面顯示內容',detail:'從硬碟讀取'},{place:'你的裝置',title:'企劃書.docx',detail:'實際存放位置',tone:'local' as const}]},
-  { title:'遠端文件', steps:[{place:'瀏覽器或應用程式',title:'畫面顯示內容',detail:'看起來可能相同'},{place:'服務商系統',title:'線上企劃書',detail:'實際存放位置',tone:'remote' as const}]},
-], summary:'同樣在螢幕上看到文件，資料可能存在本機，也可能只存在遠端服務。' };
-
-type SystemStep = { place:string; title:string; detail:string; tone?:'local'|'agent'|'remote'|'result' };
-type SystemLane = { title:string; steps:SystemStep[] };
-const systemMaps: Record<string, {label:string;lanes:SystemLane[];summary:string}> = {
-  A1: { label:'同一種聊天介面，可能有不同能力', lanes:[
-    { title:'主要回覆內容', steps:[{place:'你',title:'在聊天視窗提出要求',detail:'詢問做法'},{place:'AI',title:'回覆內容',detail:'由你決定後續操作',tone:'result'}]},
-    { title:'Agent 工作方式', steps:[{place:'你',title:'在聊天視窗提出目標',detail:'說明範圍'},{place:'Agent',title:'使用可用工具',detail:'取得資訊或採取行動',tone:'agent'},{place:'結果',title:'回到聊天介面',detail:'供你檢查',tone:'result'}]},
-  ], summary:'聊天視窗只是一種互動介面。Agent 會在指定環境中使用可用的工具 完成任務，再把結果帶回介面。' },
-  B3: { label:'程式從哪裡來', lanes:[
-    { title:'原本就有', steps:[{place:'Agent',title:'選擇現有程式',detail:'使用電腦已有的工具',tone:'agent'},{place:'電腦',title:'執行程式',detail:'開始實際工作',tone:'result'}]},
-    { title:'需要安裝', steps:[{place:'Agent',title:'提出安裝',detail:'說明來源與影響',tone:'agent'},{place:'電腦',title:'執行新程式',detail:'安裝後另行啟動',tone:'result'}]},
-    { title:'這次產生', steps:[{place:'Agent',title:'建立程式內容',detail:'留下程式檔案',tone:'agent'},{place:'電腦',title:'執行程式',detail:'檔案不會自行工作',tone:'result'}]},
-  ], summary:'Agent 可能選擇既有程式、提出安裝，或建立這次需要的程式內容；電腦執行程式後才會開始實際工作。' },
-  B9: { label:'工作範圍', lanes:[
-    { title:'已開放', steps:[{place:'目前資料夾',title:'照片與縮小照片',detail:'讀原圖、另存新圖',tone:'agent'},{place:'範圍內',title:'選好的三張照片',detail:'這次任務會處理',tone:'result'}]},
-    { title:'未開放', steps:[{place:'其他位置',title:'相簿與郵件',detail:'不在目前工作範圍'},{place:'需要時',title:'另行確認',detail:'不能自行擴大範圍',tone:'remote'}]},
-  ], summary:'Agent 只應在目前開放的工作範圍內處理資料；其他位置要另外確認。' },
-  C1: {"label":"縮圖工作的位置","lanes":[{"title":"本機","steps":[{"place":"這台電腦","title":"執行圖片程式","detail":"讀原圖，另存新圖","tone":"local"}]},{"title":"遠端","steps":[{"place":"網路另一端","title":"執行圖片程式","detail":"傳送前另行確認","tone":"remote"}]}],"summary":"同樣三張圖片，可以由這台電腦或網路另一端的圖片程式縮小。本機與遠端描述位置，不能單靠名稱判斷有沒有傳送資料。"},
-  C2: {"label":"三張圖片存在哪裡","lanes":[{"title":"原圖","steps":[{"place":"這台電腦","title":"照片","detail":"三張原圖保留","tone":"local"}]},{"title":"新圖","steps":[{"place":"預定位置","title":"縮小照片","detail":"確認三張新圖已保存","tone":"result"},{"place":"若只有線上結果","title":"還要下載","detail":"看得到不表示已存在本機","tone":"remote"}]}],"summary":"三張原圖保留在本機的「照片」資料夾，新圖要確認已保存到「縮小照片」。線上看得到的結果若尚未下載，本機仍沒有那份新圖。"},
-  C3: { label:'一次工作，可能牽涉不同電腦', lanes:[
-    { title:'你的裝置', steps:[{place:'這台電腦',title:'檔案與本機工具',detail:'縮圖程式可能在本機',tone:'local'},{place:'本機資源',title:'運算與儲存空間',detail:'本機執行的工具會用到',tone:'local'}]},
-    { title:'另一邊', steps:[{place:'遠端電腦',title:'或外部服務',detail:'縮圖可能在那裡',tone:'remote'},{place:'雲端模型',title:'決定操作方式',detail:'通常在雲端',tone:'remote'},{place:'送出內容',title:'文字或圖片',detail:'離開你的裝置',tone:'result'}]},
-  ], summary:'檔案、縮圖程式與決定操作的模型可能在不同電腦。本機工具會用本機資源；模型或遠端工具可能要送出資料。要分開確認資料位置、執行位置與模型位置。' },
-  C5: {"label":"圖片何時離開這台電腦","lanes":[{"title":"獲准之後","steps":[{"place":"拿到","title":"三張本機原圖","detail":"先查看實際內容","tone":"local"},{"place":"操作","title":"工具上傳","detail":"經過網路"},{"place":"結果","title":"服務收到圖片","detail":"原圖仍在也算已送出","tone":"remote"}]}],"summary":"工具獲准後上傳三張原圖，線上服務收到內容；原圖仍在本機不表示資料沒有離開。"},
-  C7: {"label":"做好與寄出是兩個動作","lanes":[{"title":"先做好，再另決定","steps":[{"place":"這台電腦","title":"三張新照片","detail":"已另存，尚未寄出"},{"place":"確認後","title":"寄出或分享","detail":"先確認對象與照片"},{"place":"朋友那端","title":"確認收到","detail":"查看實際送出結果"}]}],"summary":"本機另存照片不等於已寄出。寄信或分享要另外確認；自動同步的資料夾也可能把照片送出去。"},
-  D2: {"label":"縮圖要求如何成為新檔案","lanes":[{"title":"一次操作","steps":[{"place":"拿到","title":"原圖位置與要求","detail":"原圖不動"},{"place":"操作","title":"工具縮小並另存","detail":"要求之後實際執行"},{"place":"結果","title":"新圖與工具回報","detail":"仍須檢查檔案"}]}],"summary":"AI 提出操作要求，工具執行才會產生新圖。工具回報成為下一輪資訊，仍要核對實際檔案。"},
-  D3: {"label":"檢查結果進入下一輪","lanes":[{"title":"縮小照片","steps":[{"place":"拿到","title":"原圖與要求","detail":"保留原圖"},{"place":"操作","title":"工具另存新圖","detail":"按約定方式縮小"},{"place":"結果","title":"一張仍然太大","detail":"未達原要求"},{"place":"下一輪","title":"提出調整方式","detail":"更多畫質取捨先詢問"}]}],"summary":"另存後檢查發現一張仍太大，Agent 根據結果提出下一步。不能擅自覆蓋原圖或改用外部服務。"},
-  E7: { label:'動作可能落在哪裡', lanes:[
-    { title:'你的裝置', steps:[{place:'本機',title:'檔案或資料庫',detail:'內容可能改變',tone:'local'}]},
-    { title:'外部世界', steps:[{place:'共享服務',title:'行事曆或文件',detail:'同事可能立刻看見',tone:'remote'},{place:'其他系統',title:'通知或帳單',detail:'可能產生後續影響',tone:'remote'}]},
-  ], summary:'Agent 的動作可能留在本機，也可能修改共享文件、送出通知或產生帳單。' },
-  F4: { label:'網路是雙向的', lanes:[
-    { title:'取得資料', steps:[{place:'外部網站',title:'目前公告',detail:'來源可能可靠或有誤',tone:'remote'},{place:'網路',title:'下載內容',detail:'送進 Agent'},{place:'Agent',title:'讀取與判斷',detail:'不能自動當成指令',tone:'agent'}]},
-    { title:'送出資料', steps:[{place:'你的裝置',title:'檔案或問題',detail:'檢查送出內容',tone:'local'},{place:'網路',title:'上傳內容',detail:'離開裝置'},{place:'外部服務',title:'接收資料',detail:'依服務規則處理',tone:'remote'}]},
-  ], summary:'網路工具可以把資料帶進來，也可以把本機內容送出去；兩個方向都要檢查。' },
-  D7: { label:'每個外部服務都要各自開門', lanes:[
-    { title:'Agent 想碰的服務', steps:[{place:'行事曆',title:'讀取空檔、建立活動',detail:'可能是不同公司',tone:'remote'},{place:'郵件',title:'寄出邀請',detail:'另一家公司',tone:'remote'},{place:'雲端資料夾',title:'上傳議程',detail:'又一家公司',tone:'remote'}]},
-    { title:'你的授權', steps:[{place:'逐一同意',title:'開放哪些存取',detail:'不是一次通包',tone:'agent'},{place:'範圍與期限',title:'能碰多久、多廣',detail:'各服務不同',tone:'agent'},{place:'撤銷',title:'回原服務設定',detail:'不在 Agent 端關掉',tone:'result'}]},
-  ], summary:'行事曆、郵件與雲端資料夾多半由不同公司提供；Agent 要存取，就得各自取得授權，並確認範圍、期限，以及如何回到原服務撤銷。' },
-};
-
-const concepts: Record<string, {label:string;items:{title:string;detail:string}[];relation?:string;summary:string}> = {
-  A2: { label:'行動邊界', items:[{title:'工具',detail:'能用什麼'},{title:'工作範圍',detail:'能碰哪裡'},{title:'權限',detail:'能做到多少'}], relation:'＋', summary:'Agent 的行動由可用工具、目前工作範圍與被授予的權限共同限制。' },
-  B4: { label:'任何一件事，都走這三段', items:[{title:'輸入',detail:'你的要求，加上檔案或搜到的資料'},{title:'處理',detail:'統整文字，或執行程式真正動手'},{title:'輸出',detail:'文字、新檔案，加一段回報'}], relation:'→', summary:'輸入是你給的東西，處理是它做的工作，輸出是你收的成果。照片的例子就是這張圖：三張原圖與要求進去，圖片程式執行縮小，交出三張新圖和一聲「完成」。' },
-  B5: { label:'安裝不等於執行', items:[{title:'安裝',detail:'把需要的內容準備好'},{title:'執行',detail:'讓程式開始工作'}], relation:'≠', summary:'安裝是把程式準備在環境裡；執行才是讓它開始工作。' },
-  B6: { label:'兩種影響', items:[{title:'讀取',detail:'取得資訊'},{title:'修改',detail:'改變狀態'}], relation:'≠', summary:'讀取只取得資訊；修改會讓檔案或系統狀態發生變化。' },
-  D1: {"label":"提出操作前拿到的資訊","items":[{"title":"已取得","detail":"照片資訊、要求與限制"},{"title":"還沒讀到","detail":"不能當成已知"}],"summary":"AI 需要取得指定照片的資訊與縮圖要求；照片存在電腦上，不表示 AI 已拿到內容。"},
-  D5: { label:'影響範圍', items:[{title:'一般權限',detail:'較有限的範圍'},{title:'管理員權限',detail:'可能影響更多系統區域'}], summary:'管理員權限可能讓同一個動作影響更大的系統範圍。' },
-  E1: {"label":"先保留能重做的原圖","items":[{"title":"保留","detail":"完整原圖"},{"title":"確認","detail":"能開啟、不被覆蓋"},{"title":"才處理","detail":"另存縮小版"}],"summary":"新圖不合用時，從保留的原圖重做。若原圖已覆蓋且沒有舊版本，就不能保證恢復。"},
-  E2: {"label":"另外保留原圖副本","items":[{"title":"原圖","detail":"保留完整內容"},{"title":"備份","detail":"另一份可取回的副本"}],"summary":"縮小版不能當成完整原圖的備份。同磁碟副本也不能防整顆磁碟損壞。"},
-  E3: {"label":"刪除也可能傳過去","items":[{"title":"同步","detail":"各處一起更新或刪除"},{"title":"備份","detail":"另外保留可取回的副本"}],"relation":"／","summary":"同步可能把刪除傳到其他地方；是否仍有可恢復的副本，要另外確認。"},
-  E4: {"label":"文章的較早版本","items":[{"title":"拿到","detail":"兩份已保存的文章"},{"title":"操作","detail":"比較刪掉的段落"},{"title":"結果","detail":"看見差異，尚未恢復"}],"summary":"查看已保存的文章版本可以找出刪掉的段落；查看不會還原目前內容。Git 是版本工具的一個例子。"},
-  F1: {"label":"哪些檔案真的改了","items":[{"title":"拿到","detail":"處理前後的檔案"},{"title":"操作","detail":"查看新增與原圖變化"},{"title":"結果","detail":"變更清單，尚待驗證"}],"summary":"確認新增三張照片且原圖未改，仍要開啟新圖檢查大小與清晰度。"},
-  F2: {"label":"新照片符合要求嗎","items":[{"title":"拿到","detail":"新圖與原要求"},{"title":"操作","detail":"核對大小、內容與清晰度"},{"title":"結果","detail":"符合或不符合要求"}],"summary":"開啟新照片，對照約定的檔案大小並比較畫面，取得實際檢查結果。"},
-  F3: { label:'密碼不能當一般文字分享', items:[{title:'登入密碼',detail:'可能讓別人使用你的帳號'},{title:'一般說明',detail:'不應包含登入秘密'}], relation:'≠', summary:'把登入密碼放進共同文件，看到文件的人也可能使用你的帳號。給程式用的私密金鑰也需要保護。' },
-};
+// Renders a lesson's `visual` frontmatter; all diagram data lives in the lesson file.
+interface Props { visual: Visual; }
+const { visual } = Astro.props;
 ---
-{systemMaps[lessonId] ? (
-  <SystemMap {...systemMaps[lessonId]} />
-) : type === 'terminal' ? (
-  lessonId === 'B8'
-    ? <TerminalExample purpose="列出「照片」資料夾裡的項目" command="ls 照片" output="photo-1.jpg　photo-2.jpg　photo-3.jpg" impact="read" summary="這行指令列出照片資料夾裡的項目，不會修改照片內容。這是畫面示例，不需要照著輸入。" />
-    : <TerminalExample purpose="查看目前的位置" command="pwd" output="/Users/you/工作" impact="read" summary="這行指令只讀取目前位置。指令的目的與影響是判斷重點。" />
-) : type === 'agent-action' ? (
-  lessonId === 'B7'
-    ? <AgentAction request="看看照片資料夾裡有什麼。" intent="查看資料夾內容" actionLabel="執行文字指令" tool="要求電腦列出照片資料夾" result="顯示三張照片的檔名" next="讀取結果，再決定下一步" summary="工具列出照片的檔名，Agent 讀取清單後決定下一步；原圖未改。" />
-    : <AgentAction request="看看這個資料夾裡有什麼。" intent="查看資料夾內容" tool="終端機：ls" result="找到 報表、照片、notes.txt" next="根據結果決定是否還需要下一步" />
-) : type === 'file-explorer' ? (
-  <FileExplorer root="照片" entries={[{kind:'file',name:'photo-1.jpg'},{kind:'file',name:'photo-2.jpg'},{kind:'file',name:'photo-3.jpg'}]} summary="照片資料夾裡有三張原圖，照片/photo-1.jpg 指向其中第一張。縮小版另存到另一個資料夾，不覆蓋這些原圖。" />
-) : type === 'permission' ? (
-  <PermissionPrompt files={['縮小照片/']} consequence="允許工具在這裡另存新圖；原圖不動，不寄信或分享。" />
-) : concepts[lessonId] ? (
-  <ConceptDiagram {...concepts[lessonId]} />
-) : null}
-{lessonId === 'C2' && <details><summary>另外看文件的例子</summary><SystemMap {...protectedDocumentMap} /></details>}
+<div class="wide lesson-visual">
+  {visual.type === 'system-map' ? <SystemMap {...visual} />
+    : visual.type === 'concept' ? <ConceptDiagram {...visual} />
+    : visual.type === 'terminal' ? <TerminalExample {...visual} />
+    : visual.type === 'file-explorer' ? <FileExplorer {...visual} />
+    : <PermissionPrompt {...visual} />}
+  {visual.type === 'system-map' && visual.more && (
+    <details><summary>{visual.more.label}</summary><SystemMap {...visual.more.map} /></details>
+  )}
+</div>

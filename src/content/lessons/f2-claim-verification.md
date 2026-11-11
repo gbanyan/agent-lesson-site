@@ -20,7 +20,15 @@ prerequisites:
   - F1
 visual:
   type: concept
-  preset: claim-verification
+  label: 新照片符合要求嗎
+  items:
+    - title: 拿到
+      detail: 新圖與原要求
+    - title: 操作
+      detail: 核對大小、內容與清晰度
+    - title: 結果
+      detail: 符合或不符合要求
+  summary: 開啟新照片，對照約定的檔案大小並比較畫面，取得實際檢查結果。
 scenario:
   request: 確認新照片符合約定的檔案大小、內容完整且清楚，原圖保留；先不要寄出。
   actions:
