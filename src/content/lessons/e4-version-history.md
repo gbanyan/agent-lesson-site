@@ -6,7 +6,7 @@ order: 4
 archetype: definition
 question: 能找到修改以前的版本嗎？
 context: 照片另存很容易分辨原圖與新圖。換成反覆修改一篇文章：想找回刪掉的一段話，就要查看是否保存過較早版本。
-answer: 版本紀錄保存較早的內容；先確認哪些檔案有被記錄，再選擇要查看或恢復的版本。
+answer: 版本紀錄保存較早的內容；先確認哪些檔案納入紀錄，再選擇要查看或恢復的版本。
 takeaway: 能取回哪些內容，取決於實際保存的版本；重要資料的獨立副本仍要另外準備。
 newTerms: [版本紀錄, Git]
 searchTerms: [Version history, Git, 版本歷史, 版本管理]

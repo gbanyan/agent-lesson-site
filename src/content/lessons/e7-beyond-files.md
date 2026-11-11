@@ -39,7 +39,7 @@ scenario:
   actions:
     - "Agent 透過行事曆工具連接遠端服務，建立有時間與受邀者的活動。"
     - "服務可能立刻寄出邀請，並把活動寫進其他人的行事曆。"
-  result: "即使本機沒有檔案改動，外部世界已經發生可見變化。"
+  result: "本機沒有檔案改動，同事的行事曆卻可能已經出現活動。"
   boundary: "外部動作可能通知別人、產生費用或難以完全撤回。正式送出前應預覽對象與內容。"
 notTeach: [database administration, deployment, cloud billing]
 ---

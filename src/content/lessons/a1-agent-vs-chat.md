@@ -7,7 +7,7 @@ archetype: contrast
 question: Agent 和聊天 AI 有什麼不同？
 context: 你想把照片縮小後寄給朋友。同樣在聊天視窗提出要求，有些 AI 只能說明做法，有些能用工具處理你選好的照片。
 answer: 聊天是一種互動介面；Agent 是會使用工具、把事情實際做完的那種工作方式。
-takeaway: 是不是 Agent，不能只看畫面是不是聊天視窗。
+takeaway: 想知道它能不能替你動手，就問它目前有哪些工具和權限。
 newTerms: [Agent, 工具]
 prerequisites: []
 visual:
@@ -36,7 +36,7 @@ visual:
           title: 回到聊天介面
           detail: 供你檢查
           tone: result
-  summary: 聊天視窗只是一種互動介面。Agent 會在指定環境中使用可用的工具 完成任務，再把結果帶回介面。
+  summary: 聊天視窗只是一種互動介面。Agent 會在指定環境中使用可用的工具完成任務，再把結果帶回介面。
 scenario:
   request: 先看看我選好的三張照片有多大，不要修改。
   actions:

@@ -6,7 +6,7 @@ order: 2
 archetype: safety_action
 question: Agent 可以直接控制整台電腦嗎？
 context: Agent 要查看下載資料夾（Downloads）時，畫面可能跳出權限要求，也可能直接回報無法存取。
-answer: 不一定。Agent 能做什麼，取決於可用工具、目前工作範圍與被授予的權限。
+answer: 不一定。Agent 能做什麼，取決於可用工具、目前工作範圍與獲准的權限。
 takeaway: Agent 一啟動，並不會自動看見整顆硬碟；工具、工作範圍與授權共同限制它的行動。
 prompt:
   audience: active_agent
@@ -26,7 +26,7 @@ visual:
     - title: 權限
       detail: 能做到多少
   relation: ＋
-  summary: Agent 的行動由可用工具、目前工作範圍與被授予的權限共同限制。
+  summary: Agent 的行動由可用工具、目前工作範圍與獲准的權限共同限制。
 scenario:
   request: "幫我整理 Downloads 裡昨天下載的 PDF。"
   actions:

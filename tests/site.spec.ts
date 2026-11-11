@@ -153,8 +153,8 @@ test('homepage opens with the authored preface then preparation concepts before 
   await page.goto('/');
   const mainText = await page.locator('main').innerText();
   expect(mainText.indexOf('本站的緣起')).toBeGreaterThanOrEqual(0);
-  expect(mainText.indexOf('本站的緣起')).toBeLessThan(mainText.indexOf('前置準備'));
-  expect(mainText.indexOf('前置準備')).toBeLessThan(mainText.indexOf('Agent 怎麼工作'));
+  expect(mainText.indexOf('本站的緣起')).toBeLessThan(mainText.indexOf('開始前先想清楚的事'));
+  expect(mainText.indexOf('開始前先想清楚的事')).toBeLessThan(mainText.indexOf('Agent 怎麼工作'));
   await expect(page.locator('.introduction-copy')).toContainText('本站的緣起，是為了周邊朋友');
   await expect(page.locator('.introduction-copy')).not.toContainText('知識平權的創舉');
   await expect(page.getByRole('link', {name: '關於本站 →'})).toHaveAttribute('href', '/about/');

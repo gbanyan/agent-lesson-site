@@ -8,7 +8,7 @@ role: core
 question: 我怎麼知道 Agent 改了什麼？
 context: 假設你請 Agent 把三張照片各縮小一份，原圖保留；它現在回報完成。先查看哪些檔案真的改變，不能只看這句回覆。
 answer: 查看修改前後的差異，並確認受影響的檔案或系統。
-takeaway: 重要修改應該能被檢視；Agent 的摘要不能代替實際差異。
+takeaway: 重要修改要能逐項查看；Agent 的摘要不能代替實際差異。
 prompt:
   audience: active_agent
   mode: execute_after_confirmation
@@ -34,10 +34,10 @@ scenario:
   actions:
     - Agent 列出「縮小照片」新增的三張檔案，並比較原圖前後內容。
     - 若原圖被覆蓋或其他檔案也改了，它應回報並停止後續操作。
-  result: 你知道新增了什麼、原圖是否保持不變；這還不能證明新照片夠小或看得清楚。
+  result: 你知道新增了什麼、原圖是否保持不變；新照片夠不夠小、看不看得清楚，還要另外檢查。
   boundary: 看過變更清單後，仍要打開新圖，核對檔案大小與畫面。
 notTeach:
   - git diff syntax
   - code review workflow
 ---
-檢視變更回答「改了哪些地方」。驗證成果回答「結果是否符合要求」。只有新增三張檔案，也可能是存錯照片，或縮得太模糊。
+檢視變更能看出改了哪些地方，結果是否符合要求則要另外驗證。只有新增三張檔案，也可能是存錯照片，或縮得太模糊。

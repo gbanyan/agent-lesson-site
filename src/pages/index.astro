@@ -24,7 +24,7 @@ const stepCount = featuredPath ? '零一二三四五六七八九'[featuredPath.l
     <div class="shell">
       <div class="section-heading">
         <p class="eyebrow kicker">前置觀念</p>
-        <h2 id="prepare-title">前置準備</h2>
+        <h2 id="prepare-title">開始前先想清楚的事</h2>
         <p>先盤點你能交出去的事，再確認費用、安裝方式、產品差異與資料規則。這些細節會隨產品改變，請以目前的官方資訊為準。</p>
       </div>
       <div class="card-grid prepare-grid">
@@ -51,7 +51,7 @@ const stepCount = featuredPath ? '零一二三四五六七八九'[featuredPath.l
   </section>
   <section class="section" aria-labelledby="tasks-title">
     <div class="shell">
-      <div class="section-heading"><p class="eyebrow kicker">任務示例</p><h2 id="tasks-title">一件完整的任務怎麼跑</h2><p>從提出要求到檢查結果，多個觀念在同一件工作裡輪番上陣。這是說明用的例子，不需要跟著操作。</p></div>
+      <div class="section-heading"><p class="eyebrow kicker">任務示例</p><h2 id="tasks-title">一件完整的任務怎麼跑</h2><p>從提出要求到檢查結果，看幾個觀念怎麼用在同一件工作裡。這是說明用的例子，不需要跟著操作。</p></div>
       <div class="card-grid">{content.tasks.map((task) => <a class="card" href={href.task(task)}><h3>{task.title}</h3><p>{task.situation}</p></a>)}</div>
     </div>
   </section>

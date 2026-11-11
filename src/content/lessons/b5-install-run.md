@@ -7,7 +7,7 @@ archetype: contrast
 question: 安裝和執行是同一件事嗎？
 context: Agent 發現電腦缺少圖片處理工具，於是提出安裝。裝好只表示工具已備妥，還沒有開始改圖片。
 answer: 不是。安裝把程式準備到環境裡；執行才讓程式開始工作。
-takeaway: 安裝是把程式準備好；執行則會讓它開始工作。
+takeaway: 看到「安裝完成」，還要確認它之後有沒有真的執行。
 newTerms:
   - 安裝
   - 執行
@@ -15,7 +15,7 @@ prerequisites:
   - B3
 visual:
   type: concept
-  label: 安裝不等於執行
+  label: 安裝和執行是兩步
   items:
     - title: 安裝
       detail: 把需要的內容準備好

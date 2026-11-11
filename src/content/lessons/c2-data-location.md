@@ -30,7 +30,7 @@ visual:
           tone: result
         - place: 若只有線上結果
           title: 還要下載
-          detail: 看得到不表示已存在本機
+          detail: 下載後本機才有一份
           tone: remote
   summary: 三張原圖保留在本機的「照片」資料夾，新圖要確認已保存到「縮小照片」。線上看得到的結果若尚未下載，本機仍沒有那份新圖。
   more:
